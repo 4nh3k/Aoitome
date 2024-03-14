@@ -8,10 +8,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ["Inter", "sans-serif"],
       },
       colors: {
-        // this to workaround the fact that flowbite react 
+        // this to workaround the fact that flowbite react
         // dóes not support customizing the primary color
         // cyan is used in all components as the default "primary" color
         // here we are actually overriding it to some purple color
@@ -29,19 +29,19 @@ export default {
           800: "#1E429F",
           900: "#233876",
         },
-        'background': '#F3F4F6',
-        'textColor': '#1F2A37',
-        'primary': '#1A56DB',
-        'secondary': '#8FA8DE',
-        'accent': '#6189DF',
-        'error': '#E02424',
-        'success': '#0E9F6E',
-        'textSub': '#6B7280',
-      }
+        background: "#F3F4F6",
+        textColor: "#1F2A37",
+        primary: "#1A56DB",
+        secondary: "#8FA8DE",
+        accent: "#6189DF",
+        error: "#E02424",
+        success: "#0E9F6E",
+        textSub: "#6B7280",
+      },
+      borderWidth: {
+        1: "1px",
+      },
     },
   },
-  plugins: [
-    require('flowbite/plugin'),
-  ],
-}
-
+  plugins: [require("flowbite/plugin")],
+};

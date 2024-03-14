@@ -1,55 +1,61 @@
-import React from 'react'
+import { Dropdown, Navbar } from "flowbite-react";
+import { PiBellSimple, PiList, PiShoppingCart, PiUser } from "react-icons/pi";
+import Button from "../Button/Button";
+import SearchInput from "../SearchInput";
+import { StickyHeader } from "../StickyHeader/StickyHeader";
 
 export default function Header() {
-    return (
-        <>
-            <div className="w-96 h-24 py-6 bg-white border-t border-b border-gray-200 flex-col justify-center items-center inline-flex">
-                <div className="w-96 justify-start items-center gap-8 inline-flex">
-                    <div className="justify-start items-center gap-1.5 flex">
-                        <div className="w-8 h-8 relative">
-                            <div className="w-4 h-5 left-[10.83px] top-[4.45px] absolute">
-                            </div>
-                            <div className="w-7 h-7 left-[0.79px] top-[4.59px] absolute">
-                            </div>
-                        </div>
-                        <div><span className="text-blue-700 text-2xl font-semibold font-['Inter'] leading-9">Aoi</span><span className="text-gray-900 text-2xl font-semibold font-['Inter'] leading-9">tome</span></div>
-                    </div>
-                    <div className="grow shrink basis-0 h-9 justify-start items-start flex">
-                        <div className="px-5 py-2 bg-gray-100 rounded-tl-lg rounded-bl-lg border border-gray-300 justify-center items-center gap-2 flex">
-                            <div className="text-gray-900 text-sm font-medium font-['Inter'] leading-tight">All categories</div>
-                            <div className="w-5 h-5 relative" />
-                        </div>
-                        <div className="grow shrink basis-0 h-9 px-2.5 py-2 bg-gray-50 border border-gray-300 justify-start items-start flex">
-                            <div className="justify-start items-start flex">
-                                <div className="grow shrink basis-0 text-gray-500 text-sm font-normal font-['Inter'] leading-tight">Search Mockups, Logos, Design Themes...</div>
-                            </div>
-                        </div>
-                        <div className="w-10 self-stretch p-2 bg-blue-700 rounded-tr-lg rounded-br-lg border border-blue-700 justify-center items-center flex">
-                            <div className="w-5 h-5 relative" />
-                        </div>
-                    </div>
-                    <div className="justify-start items-center gap-4 flex">
-                        <div className="w-28 h-10 relative">
-                            <div className="w-28 h-10 py-2.5 left-0 top-0 absolute bg-white rounded-lg justify-center items-center gap-2 inline-flex">
-                                <div className="w-5 h-5 relative bg-white" />
-                                <div className="text-gray-800 text-sm font-medium font-['Inter'] leading-tight">Notification</div>
-                            </div>
-                            <div className="w-1.5 h-1.5 left-[14px] top-[12px] absolute bg-red-500 rounded-full" />
-                        </div>
-                        <div className="py-0.5 flex-col justify-start items-start gap-3.5 inline-flex">
-                            <div className="py-2.5 bg-white rounded-lg justify-center items-center gap-2 inline-flex">
-                                <div className="w-5 h-5 relative bg-white" />
-                                <div className="text-gray-800 text-sm font-medium font-['Inter'] leading-tight">My Cart</div>
-                            </div>
-                        </div>
-                        <div className="py-2.5 bg-white rounded-lg justify-center items-center gap-2 flex">
-                            <div className="w-5 h-5 relative" />
-                            <div className="text-gray-800 text-sm font-medium font-['Inter'] leading-tight">Account</div>
-                            <div className="w-5 h-5 relative" />
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div>
+      <StickyHeader />
+      <Navbar
+        className="py-4 lg:px-32 sm:px-4 border-t-1 border-b-1"
+        fluid
+        rounded
+      >
+        <Navbar.Brand href="https://flowbite-react.com">
+          <img
+            className="mr-3 h-6 sm:h-9"
+            src="/src/assets/icon/Logo.svg"
+            alt="Aoitome Logo"
+          />
+        </Navbar.Brand>
+        <SearchInput
+          placeholder={"Enter a search term"}
+          dropdownList={["Option 1", "Option 2", "Option 3"]}
+          dropdownLabel={"Select an option"}
+        />
+        <div className="flex space-x-4">
+          <Button
+            icon={PiBellSimple}
+            text={"Notification"}
+            onClick={() => {}}
+          />
+          <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
+          <Button icon={PiUser} text={"Account"} onClick={() => {}} />
+        </div>
+      </Navbar>
+      <div className="border-b-1 border-gray-200 py-3 px-32 text-black text-sm font-medium flex gap-11">
+        <Dropdown
+          label={
+            <div className="flex space-x-1">
+              <PiList size={18} />
+              <span>All categories</span>
             </div>
-        </>
-    )
+          }
+          inline
+        >
+          <Dropdown.Item href="#">Option 1</Dropdown.Item>
+          <Dropdown.Item href="#">Option 2</Dropdown.Item>
+          <Dropdown.Item href="#">Option 3</Dropdown.Item>
+        </Dropdown>
+        <button>Best Sellers</button>
+        <button>Gift Cards</button>
+        <button>Gift Ideas</button>
+        <button>Deal of the day</button>
+        <button>Top Deals</button>
+        <button>New Releases</button>
+      </div>
+    </div>
+  );
 }
