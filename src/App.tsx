@@ -12,7 +12,7 @@ const customTheme: CustomFlowbiteTheme = {
 export default function App() {
   return (
     <Flowbite theme={{ theme: customTheme }}>
-      <SearchInput />
+      <SearchInput placeholder={"Enter a search term"} dropdownList={["Option 1", "Option 2", "Option 3"]} dropdownLabel={"Select an option"} />
     </Flowbite>
   )
 }
