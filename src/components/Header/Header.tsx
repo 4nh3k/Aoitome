@@ -4,9 +4,13 @@ import Button from "../Button/Button";
 import SearchInput from "../SearchInput";
 import { StickyHeader } from "../StickyHeader/StickyHeader";
 
-export default function Header() {
+interface HeaderProps {
+  className?: string;
+}
+
+export default function Header(props: HeaderProps) {
   return (
-    <div>
+    <div className={props.className}>
       <StickyHeader />
       <Navbar
         className="py-4 lg:px-32 sm:px-4 border-t-1 border-b-1"

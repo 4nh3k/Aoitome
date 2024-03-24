@@ -1,9 +1,13 @@
-import Header from "./components/Header";
+import { ToastContainer } from "react-toastify";
+import useRouteElement from "./useRouteElement";
 
-export default function App() {
+function App() {
+  const routeElement = useRouteElement();
   return (
-    <div className="text-gray-800">
-      <Header />
+    <div className="overflow-x-hidden overflow-y-hidden">
+      {routeElement}
+      <ToastContainer />
     </div>
   );
 }
+export default App;
