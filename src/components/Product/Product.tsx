@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import RatingStar from "../RatingStar";
 
 interface ProductProps {
@@ -11,12 +12,19 @@ interface ProductProps {
 
 export function Product(props: ProductProps) {
   return (
-    <div className="w-52 h-[22rem] pb-1 bg-white rounded-xl shadow border border-gray-200 flex-col justify-start items-center gap-2.5 inline-flex">
-      <img className="w-52 h-52 rounded-xl" src={props.imageURL} />
+    <div className="w-52 h-[22rem] pb-1 bg-white rounded-xl shadow border border-gray-200 flex-col justify-start items-center gap-2.5 hover:shadow-lg inline-flex">
+      <Link to="/product">
+        <img
+          className="w-52 h-52 rounded-xl cursor-pointer"
+          src={props.imageURL}
+        />
+      </Link>
       <div className="px-1">
-        <div className="line-clamp-2 h-12 text-black text-base font-normal leading-normal">
-          {props.title}
-        </div>
+        <Link to="/product">
+          <div className="line-clamp-2 cursor-pointer h-12 text-black text-base font-normal leading-normal">
+            {props.title}
+          </div>
+        </Link>
         <div className="flex items-center">
           <div className=" text-blue-700 text-base font-bold leading-loose">
             {!props.discount
