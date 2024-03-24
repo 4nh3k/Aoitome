@@ -1,9 +1,47 @@
-import { CategoryList, couponList } from "../../assets/mockdata";
+import { Button } from "flowbite-react";
+import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import { CategoryList, ProductList, couponList } from "../../assets/mockdata";
 import Category from "../../components/Category";
 import Container from "../../components/Container";
 import Product from "../../components/Product";
 
-export default function Homepage(props) {
+function NextArrow(props) {
+  const { className, onClick } = props;
+  return (
+    <PiCaretRight
+      className={className}
+      fill="black"
+      onClick={onClick}
+      size={20}
+    />
+  );
+}
+
+function PrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <PiCaretLeft
+      className={className}
+      fill="black"
+      onClick={onClick}
+      size={20}
+    />
+  );
+}
+
+const settings = {
+  infinite: false,
+  speed: 500,
+  slidesToShow: 5,
+  slidesToScroll: 5,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+};
+
+export default function Homepage() {
   return (
     <>
       <img className="rounded-xl" src="/src/assets/img/banner.png" />
@@ -19,7 +57,43 @@ export default function Homepage(props) {
             <Category title={category.title} imageURL={category.imageURL} />
           ))}
         </div>
-        <Product />
+      </Container>
+      <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
+        <div className="heading-4">On Sale</div>
+        <Slider {...settings}>
+          {ProductList.map((product) => (
+            <Product
+              title={product.title}
+              imageURL={product.imageURL}
+              price={product.price}
+              rating={product.rating}
+              discount={product.discount}
+              totalRating={product.totalRating}
+            />
+          ))}
+        </Slider>
+      </Container>
+      <Container>
+        <div className="heading-4">Trending</div>
+        <div className="grid grid-cols-5 gap-4 px-4 mt-5">
+          {ProductList.map((product) => (
+            <Product
+              title={product.title}
+              imageURL={product.imageURL}
+              price={product.price}
+              rating={product.rating}
+              discount={product.discount}
+              totalRating={product.totalRating}
+            />
+          ))}
+        </div>
+        <Button
+          className="mt-5 border-blue-600 border-1 mx-auto"
+          outline
+          color="cyan"
+        >
+          <span className="text-blue-600">View More</span>
+        </Button>
       </Container>
     </>
   );
