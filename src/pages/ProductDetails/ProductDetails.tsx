@@ -1,4 +1,4 @@
-import { Button, Pagination, Rating, TextInput } from "flowbite-react";
+import { Button, Pagination, Rating } from "flowbite-react";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import ShowMoreText from "react-show-more-text";
@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css";
 import { ProductList } from "../../assets/mockdata";
 import Container from "../../components/Container";
 import Product from "../../components/Product";
+import QuantityInput from "../../components/QuantityInput";
 import RatingStar from "../../components/RatingStar";
 import Review from "../../components/Review";
 
@@ -132,7 +133,7 @@ export function ProductDetails() {
               <span className="text-black text-sm font-normal w-20">
                 Quantity
               </span>
-              <TextInput className="w-24" type="number" defaultValue={1} />
+              <QuantityInput />
             </div>
             <div className="flex mt-5 items-center justify-start ">
               <Button

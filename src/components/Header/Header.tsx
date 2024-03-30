@@ -1,5 +1,6 @@
 import { Dropdown, Navbar } from "flowbite-react";
 import { PiBellSimple, PiList, PiShoppingCart, PiUser } from "react-icons/pi";
+import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import SearchInput from "../SearchInput";
 import { StickyHeader } from "../StickyHeader/StickyHeader";
@@ -35,7 +36,9 @@ export default function Header(props: HeaderProps) {
             text={"Notification"}
             onClick={() => {}}
           />
-          <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
+          <Link to="/cart">
+            <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
+          </Link>
           <Button icon={PiUser} text={"Account"} onClick={() => {}} />
         </div>
       </Navbar>
