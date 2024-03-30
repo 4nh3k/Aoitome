@@ -9,7 +9,7 @@ export function CartProduct() {
       <div className="justify-start items-center gap-2.5 flex">
         <img src="https://via.placeholder.com/92x92" />
         <div>
-          <p className=" text-black text-lg font-medium">Product Name</p>
+          <p className=" text-black text-lg">Product Name</p>
           <div className="flex space-x-4 mt-1">
             <Button
               icon={PiHeart}

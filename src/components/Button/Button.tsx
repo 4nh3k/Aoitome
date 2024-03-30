@@ -17,10 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
 }) => {
   return (
-    <button
-      className="border-none text-sm font-medium flex space-x-1"
-      onClick={onClick}
-    >
+    <button className="border-none text-sm flex space-x-1" onClick={onClick}>
       <Icon size={18} className={iconClassName} />
       <span className={textClassName}>{text}</span>
     </button>

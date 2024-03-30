@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ['"Inter"', "sans-serif"],
       },
       colors: {
         // this to workaround the fact that flowbite react

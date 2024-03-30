@@ -1,6 +1,7 @@
 import { useRoutes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 import Homepage from "./pages/Homepage";
 import ProductDetails from "./pages/ProductDetails";
 
@@ -17,6 +18,10 @@ export default function useRouteElement() {
         {
           element: <Cart />,
           path: "/cart",
+        },
+        {
+          element: <Checkout />,
+          path: "/checkout",
         },
       ],
     },
