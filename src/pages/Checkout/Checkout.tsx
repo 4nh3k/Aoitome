@@ -1,6 +1,6 @@
 import { Label, Radio } from "flowbite-react";
 import DeliveryAddressForm from "../../components/DeliveryAddressFrom";
-import OrderSummary from "../../components/OrderSummary";
+import OrderPriceSummary from "../../components/OrderPriceSummary";
 import CartProduct from "../../components/Product/CartProduct";
 
 export function Checkout() {
@@ -58,7 +58,7 @@ export function Checkout() {
             <CartProduct />
             <CartProduct />
           </div>
-          <OrderSummary />
+          <OrderPriceSummary />
         </div>
       </div>
     </>

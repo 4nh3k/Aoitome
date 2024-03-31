@@ -1,9 +1,17 @@
 import { Button } from "flowbite-react";
 
-export function OrderSummary() {
+interface OrderPriceSummaryProps {
+  textOnly?: boolean;
+}
+
+export function OrderPriceSummary({
+  textOnly = false,
+}: OrderPriceSummaryProps) {
   return (
     <div className="w-full px-5 pt-5 pb-2.5 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
-      <div className="text-black text-xl font-bold">Order Summary</div>
+      {!textOnly && (
+        <div className="text-black text-xl font-bold">Order Summary</div>
+      )}{" "}
       <div className="w-full space-y-2 mt-2">
         <div className="flex w-full justify-between">
           <span className="text-black text-base font-normal">
@@ -29,16 +37,20 @@ export function OrderSummary() {
           <span className="text-black text-base font-bold">Total</span>
           <span className="text-black text-base font-bold">$2003</span>
         </div>
-        <Button className="w-full" size="sm">
-          Proceed to checkout
-        </Button>
-        <div className="text-center">
-          <span className="text-black text-xs font-medium">or </span>
-          <span className="text-blue-700 text-xs font-medium underline">
-            Continue Shopping
-          </span>
-          <span className="text-blue-700 text-xs font-medium">&rarr;</span>
-        </div>
+        {!textOnly && (
+          <>
+            <Button className="w-full" size="sm">
+              Proceed to checkout
+            </Button>
+            <div className="text-center">
+              <span className="text-black text-xs font-medium">or </span>
+              <span className="text-blue-700 text-xs font-medium underline">
+                Continue Shopping
+              </span>
+              <span className="text-blue-700 text-xs font-medium">&rarr;</span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

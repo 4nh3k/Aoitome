@@ -3,6 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Homepage from "./pages/Homepage";
+import OrderSummary from "./pages/OrderSummary";
 import ProductDetails from "./pages/ProductDetails";
 
 export default function useRouteElement() {
@@ -22,6 +23,10 @@ export default function useRouteElement() {
         {
           element: <Checkout />,
           path: "/checkout",
+        },
+        {
+          element: <OrderSummary />,
+          path: "/order-summary",
         },
       ],
     },

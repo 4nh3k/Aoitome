@@ -1,6 +1,6 @@
 import { Button, TextInput } from "flowbite-react";
 import { ProductList } from "../../assets/mockdata";
-import OrderSummary from "../../components/OrderSummary";
+import OrderPriceSummary from "../../components/OrderPriceSummary";
 import Product from "../../components/Product";
 import CartProduct from "../../components/Product/CartProduct";
 
@@ -18,7 +18,7 @@ export function Cart() {
           <CartProduct />
         </div>
         <div className="w-[25rem]">
-          <OrderSummary />
+          <OrderPriceSummary />
           <div className="w-full px-5 pt-5 pb-6 mt-8 space-y-4 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
             <span className="w-80 text-black text-sm">
               Do you have a voucher or gift card ?
