@@ -37,3 +37,36 @@
 .very-small {
   @apply text-xs font-normal;
 }
+
+.sidebar-content {
+  opacity: 1;
+  max-height: 500px;
+  transition: opacity 2s ease, max-height 2s ease;
+}
+
+.sidebar-content.collapsed {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.7s ease, max-height 0.7s ease;
+}
+
+.sidebar-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-content ul li {
+  animation: fadeIn 0.7s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+

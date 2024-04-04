@@ -10,6 +10,13 @@ export default {
       fontFamily: {
         sans: ['"Inter"', "sans-serif"],
       },
+      // that is actual animation
+      keyframes: () => ({
+        fadeOut: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1},
+        },
+      }),
       colors: {
         // this to workaround the fact that flowbite react
         // dóes not support customizing the primary color
