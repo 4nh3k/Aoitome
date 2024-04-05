@@ -6,6 +6,7 @@ import Homepage from "./pages/Homepage";
 import OrderSummary from "./pages/OrderSummary";
 import ProductDetails from "./pages/ProductDetails";
 import Sidebar from "./components/AdminComponents/Sidebar/Sidebar";
+import AdminHeader from "./components/AdminComponents/Header/AdminHeader";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -34,6 +35,10 @@ export default function useRouteElement() {
     {
       element: <Sidebar />,
       path: "/sidebar"
+    },
+    {
+      element: <AdminHeader />,
+      path: "/admin-header"
     }
   ]);
   return routeElement;
