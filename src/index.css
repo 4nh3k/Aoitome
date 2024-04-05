@@ -38,6 +38,10 @@
   @apply text-xs font-normal;
 }
 
+.sidebar-hover{
+  @apply hover:bg-gray-100 hover:rounded-xl px-2 py-2
+}
+
 .sidebar-content {
   opacity: 1;
   max-height: 500px;

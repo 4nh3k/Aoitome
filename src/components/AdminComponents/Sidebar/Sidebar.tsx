@@ -1,4 +1,3 @@
-import React from 'react';
 import PieChart from '../../../assets/icon/chart-pie-outline.svg';
 import User from '../../../assets/icon/user.svg';
 import Book from '../../../assets/icon/book-outline.svg';
@@ -17,7 +16,7 @@ const Sidebar = () => {
   return (
     <div className='flex w-[15.625rem] items-start bg-white'>
       <div className='flex flex-col min-h-screen items-start gap-6 flex-1'>
-        <div className='flex flex-col items-start gap-4 px-4 py-3 font-medium'>
+        <div className='flex flex-col items-stretch gap-1 px-4 py-3 font-medium flex-wrap'>
           <SidebarItem imageSrc={PieChart} label={'Dashboard'}></SidebarItem>
           <SidebarItem imageSrc={User} label={'Account'}></SidebarItem>
           <SidebarCollapse imageSrc={Book} label={'Book Management'} items={bookSidebarItems}></SidebarCollapse>

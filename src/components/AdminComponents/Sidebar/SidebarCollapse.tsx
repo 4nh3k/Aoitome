@@ -21,13 +21,13 @@ const SidebarCollapse: React.FC<SidebarCollapseProps> = ({ imageSrc, label, item
         else setRotation(180);
     };
     return (
-        <div className='flex flex-col items-start'>
-            <div className='flex flex-1 gap-3 items-center'>
+        <div className='flex flex-col items-strech'>
+            <div className='flex flex-1 gap-3 items-strech sidebar-hover'>
                 {imageSrc && <img src={imageSrc} width={24} height={24}></img>}
                 {label}
                 <img className={`align-middle rotate-${rotation} transition ease-in-out duration-700`} src={ChevronUp} width={16} height={16} onClick={toggleCollapse} ></img>
             </div>
-            <div className={`mt-1 flex flex-col gap-3 sidebar-content ml-[2.25rem] ${collapsed ? 'collapsed' : ''}`}>
+            <div className={`flex-nowrap items-strech mt-1 flex flex-col gap-3 sidebar-content pl-[2.25rem] ${collapsed ? 'collapsed' : ''}`}>
                     {items.map((item, i) => (
                         <SidebarItem key={i} label={item}></SidebarItem>
                     ))}
@@ -36,5 +36,4 @@ const SidebarCollapse: React.FC<SidebarCollapseProps> = ({ imageSrc, label, item
 
     )
 }
-
 export default SidebarCollapse
