@@ -7,15 +7,20 @@ import Voucher from '../../../assets/icon/inbox-full-outline.svg';
 import SidebarItem from './SidebarItem';
 import SidebarCollapse
  from './SidebarCollapse';
-const Sidebar = () => {
+
+interface AdminSidebarProps{
+  className?: string;
+}
+
+const Sidebar: React.FC<AdminSidebarProps> = ({className}) => {
   const bookSidebarItems = ['All books', 'Add book', 'All genres', 'All publishers', 'All athors'];
 
   const orderSidebarItems = ['Order list', 'Cancel order', 'Refund order'];
 
   const customerServiceSidebarItems = ['Chat log']
   return (
-    <div className='flex w-[15.625rem] items-start bg-white'>
-      <div className='flex flex-col min-h-screen items-start gap-6 flex-1'>
+    <div className={`${className} flex w-[15.625rem] items-start bg-white border-1 border-solid border-gray-200`}>
+      <div className='flex flex-col items-start gap-6 flex-1'>
         <div className='flex flex-col items-stretch gap-1 px-4 py-3 font-medium flex-wrap'>
           <SidebarItem imageSrc={PieChart} label={'Dashboard'}></SidebarItem>
           <SidebarItem imageSrc={User} label={'Account'}></SidebarItem>

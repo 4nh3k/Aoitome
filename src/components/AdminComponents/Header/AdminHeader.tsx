@@ -4,9 +4,13 @@ import GridIcon from '../../../assets/icon/grid-outline.svg'
 import NotificationIcon from '../../../assets/icon/bell-outline.svg'
 import React from 'react'
 
-const AdminHeader = () => {
+interface AdminHeaderProps{
+    className?: string
+}
+
+const AdminHeader: React.FC<AdminHeaderProps> = ({className}) => {
     return (
-        <div className='flex flex-col px-4 justify-center align-middle border-1 border-solid border-gray-200 bg-white'>
+        <div className={` ${className} flex flex-col px-4 justify-center align-middle border-1 border-solid border-gray-200 bg-white`}>
             <div id='navBar' className='flex py-4 justify-between items-center self-stretch'>
                 <div id='logo_role' className='flex items-center gap-[4.25rem]'>
                     <div id='logo' className='flex items-center gap-[1.5rem]'>
