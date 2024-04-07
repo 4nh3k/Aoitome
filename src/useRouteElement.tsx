@@ -6,6 +6,7 @@ import Homepage from "./pages/Homepage";
 import OrderSummary from "./pages/OrderSummary";
 import ProductDetails from "./pages/ProductDetails";
 import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/AdminPage/Dashboard";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -37,6 +38,10 @@ export default function useRouteElement() {
         {
           element: <Homepage />,
           path: "/admin-product"
+        },
+        {
+          element: <AdminDashboard/>,
+          path: "/admin-dashboard"
         }
       ]
     }
