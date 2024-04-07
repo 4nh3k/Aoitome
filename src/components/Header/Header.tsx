@@ -33,6 +33,7 @@ export default function Header(props: HeaderProps) {
           />
         </Navbar.Brand>
         <SearchInput
+          className="w-1/2"
           placeholder={"Enter a search term"}
           dropdownList={["Option 1", "Option 2", "Option 3"]}
           dropdownLabel={"Select an option"}
