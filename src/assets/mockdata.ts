@@ -1,3 +1,12 @@
+import {
+  PiArchive,
+  PiCreditCard,
+  PiHouse,
+  PiNewspaper,
+  PiPackage,
+  PiTruck,
+} from "react-icons/pi";
+
 export const couponList = [
   {
     imageURL: "/src/assets/img/coupon.png",
@@ -43,6 +52,40 @@ export const CategoryList = [
     title: "Poetry",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/a/n/an-nhi_n-gi_a-nh_ng-th_ng-tr_m---b_a-1.jpg",
+  },
+];
+
+export const TrackingList = [
+  {
+    icon: PiNewspaper,
+    title: "Order Placed",
+    time: "1 Jan 2024: 1:00 PM",
+  },
+  {
+    icon: PiCreditCard,
+    title: "Payment Accepted",
+    time: "1 Jan 2024: 1:00 AM",
+  },
+  {
+    icon: PiArchive,
+    title: "Products delivered to the courier - DHL",
+    time: "1 Jan 2024: 1:00 PM",
+  },
+  {
+    icon: PiHouse,
+    title: "Products in the courier’s warehouse",
+    time: "1 Jan 2024: 1:00",
+  },
+  {
+    icon: PiTruck,
+    title: "Products in delivery progress",
+    time: "1 Jan 2024: 1:00",
+  },
+
+  {
+    icon: PiPackage,
+    title: "Products delivered",
+    time: "1 Jan 2024: 1:00",
   },
 ];
 

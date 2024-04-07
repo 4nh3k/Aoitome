@@ -2,6 +2,7 @@ import { Select } from "flowbite-react";
 import customSelectTheme from "./SelectTheme";
 
 interface SearchInputProps {
+  className: string;
   placeholder: string;
   dropdownList: string[];
   dropdownLabel: string;
@@ -9,13 +10,14 @@ interface SearchInputProps {
 
 export function SearchInput(props: SearchInputProps) {
   return (
-    <form className="w-1/2">
+    <form className={props.className}>
       <div className="flex">
         <Select id="countries" theme={customSelectTheme} required>
-          <option>United States</option>
-          <option>Canada</option>
-          <option>France</option>
-          <option>Germany</option>
+          {props.dropdownList.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
+            </option>
+          ))}
         </Select>
         <div className="relative w-full">
           <input
