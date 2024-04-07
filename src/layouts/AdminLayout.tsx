@@ -6,7 +6,7 @@ export default function AdminLayout() {
     <div className="flex flex-col min-h-screen overflow-y-hidden item flex-wrap items-stretch">
       <AdminHeader className={"fixed top-0 z-50 items-stretch w-full"} />
       <Sidebar className="fixed top-[4.3125rem] bottom-0 z-55 overflow-y-scroll"></Sidebar>
-      <div className='bg-gray-50 w-[calc(100%-15.625rem)] ml-auto overflow-y-hidden h-full'>
+      <div className='bg-gray-50 mt-[4.3125rem] w-[calc(100%-15.625rem)] ml-auto overflow-y-hidden h-full px-3'>
         <Outlet/>
       </div>
     </div>
