@@ -1,11 +1,12 @@
 import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
-import { PiBellSimple, PiList, PiShoppingCart, PiUser } from "react-icons/pi";
+import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import ForgotPassModals from "../Modals/ForgotPassModals";
 import LoginModals from "../Modals/LoginModals";
 import { RegisterModals } from "../Modals/RegisterModals/RegisterModals";
+import Notification from "../Notification";
 import SearchInput from "../SearchInput";
 import { StickyHeader } from "../StickyHeader/StickyHeader";
 
@@ -39,11 +40,7 @@ export default function Header(props: HeaderProps) {
           dropdownLabel={"Select an option"}
         />
         <div className="flex space-x-4">
-          <Button
-            icon={PiBellSimple}
-            text={"Notification"}
-            onClick={() => {}}
-          />
+          <Notification />
           <Link to="/cart">
             <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
           </Link>
