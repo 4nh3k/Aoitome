@@ -1,7 +1,11 @@
 import { Dropdown, Navbar } from "flowbite-react";
+import { useState } from "react";
 import { PiBellSimple, PiList, PiShoppingCart, PiUser } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
+import ForgotPassModals from "../Modals/ForgotPassModals";
+import LoginModals from "../Modals/LoginModals";
+import { RegisterModals } from "../Modals/RegisterModals/RegisterModals";
 import SearchInput from "../SearchInput";
 import { StickyHeader } from "../StickyHeader/StickyHeader";
 
@@ -10,6 +14,9 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
+  const [toggleLoginModal, setToggleLoginModal] = useState(false);
+  const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
+  const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
   return (
     <div className={props.className}>
       <StickyHeader />
@@ -18,7 +25,7 @@ export default function Header(props: HeaderProps) {
         fluid
         rounded
       >
-        <Navbar.Brand href="https://flowbite-react.com">
+        <Navbar.Brand href="/">
           <img
             className="mr-3 h-6 sm:h-9"
             src="/src/assets/icon/Logo.svg"
@@ -39,7 +46,43 @@ export default function Header(props: HeaderProps) {
           <Link to="/cart">
             <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
           </Link>
-          <Button icon={PiUser} text={"Account"} onClick={() => {}} />
+          <Button
+            icon={PiUser}
+            text={"Account"}
+            onClick={() => {
+              setToggleLoginModal(true);
+            }}
+          />
+          <LoginModals
+            openModal={toggleLoginModal}
+            onCloseModal={() => {
+              setToggleLoginModal(false);
+            }}
+            onSignUpClick={() => {
+              setToggleLoginModal(false);
+              setToggleRegisterModal(true);
+            }}
+            onForgotPassClick={() => {
+              setToggleLoginModal(false);
+              setToggleForgotPassModal(true);
+            }}
+          />
+          <RegisterModals
+            openModal={toggleRegisterModal}
+            onCloseModal={() => {
+              setToggleRegisterModal(false);
+            }}
+            onSignInClick={() => {
+              setToggleRegisterModal(false);
+              setToggleLoginModal(true);
+            }}
+          />
+          <ForgotPassModals
+            openModal={toggleForgotPassModal}
+            onCloseModal={() => {
+              setToggleForgotPassModal(false);
+            }}
+          />
         </div>
       </Navbar>
       <div className="border-b-1 border-gray-200 py-3 px-32 text-black text-sm font-medium flex gap-11">

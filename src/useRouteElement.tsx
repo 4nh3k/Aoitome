@@ -1,11 +1,11 @@
 import { useRoutes } from "react-router-dom";
+import AdminLayout from "./layouts/AdminLayout";
 import MainLayout from "./layouts/MainLayout";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Homepage from "./pages/Homepage";
 import OrderSummary from "./pages/OrderSummary";
 import ProductDetails from "./pages/ProductDetails";
-import AdminLayout from "./layouts/AdminLayout";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -35,11 +35,11 @@ export default function useRouteElement() {
       element: <AdminLayout />,
       children: [
         {
-          element: <Homepage />,
-          path: "/admin-product"
-        }
-      ]
-    }
+          element: <ProductDetails />,
+          path: "/admin-product",
+        },
+      ],
+    },
   ]);
   return routeElement;
 }
