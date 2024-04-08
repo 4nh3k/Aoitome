@@ -10,7 +10,7 @@ interface AdminHeaderProps{
 
 const AdminHeader: React.FC<AdminHeaderProps> = ({className}) => {
     return (
-        <div className={` ${className} flex flex-col px-4 justify-center align-middle border-1 border-solid border-gray-200 bg-white`}>
+        <div className={` ${className} flex flex-col px-6 justify-center align-middle border-1 border-solid border-gray-200 bg-white`}>
             <div id='navBar' className='flex py-4 justify-between items-center self-stretch'>
                 <div id='logo_role' className='flex items-center gap-[4.25rem]'>
                     <div id='logo' className='flex items-center gap-[1.5rem]'>

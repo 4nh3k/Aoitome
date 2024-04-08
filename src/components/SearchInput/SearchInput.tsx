@@ -6,6 +6,7 @@ interface SearchInputProps {
   placeholder: string;
   dropdownList: string[];
   dropdownLabel: string;
+  enableDropdown?: boolean
 }
 
 export function SearchInput(props: SearchInputProps) {
@@ -13,11 +14,7 @@ export function SearchInput(props: SearchInputProps) {
     <form className={props.className}>
       <div className="flex">
         <Select id="countries" theme={customSelectTheme} required>
-          {props.dropdownList.map((item, index) => (
-            <option key={index} value={item}>
-              {item}
-            </option>
-          ))}
+           
         </Select>
         <div className="relative w-full">
           <input

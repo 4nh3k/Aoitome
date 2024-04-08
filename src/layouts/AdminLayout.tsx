@@ -3,11 +3,11 @@ import AdminHeader from "../components/AdminComponents/Header/AdminHeader";
 import Sidebar from "../components/AdminComponents/Sidebar/Sidebar";
 export default function AdminLayout() {
   return (
-    <div className="flex flex-col min-h-screen overflow-y-hidden item flex-wrap items-stretch">
-      <AdminHeader className={"fixed top-0 z-50 items-stretch w-full"} />
+    <div className="min-w-full flex flex-col min-h-screen overflow-y-hidden flex-wrap items-stretch">
+      <AdminHeader className={"w-screen fixed top-0 left-0 right-0 z-50"} />
       <Sidebar className="fixed top-[4.3125rem] bottom-0 z-55 overflow-y-scroll"></Sidebar>
-      <div className='bg-gray-50 mt-[4.3125rem] w-[calc(100%-15.625rem)] ml-auto overflow-y-hidden h-full px-3'>
-        <Outlet/>
+      <div className='bg-gray-50 pt-[4.3125rem] w-[calc(100%-15.625rem)] ml-auto overflow-x-hidden overflow-y-hidden h-full'>
+        <Outlet />
       </div>
     </div>
   );
