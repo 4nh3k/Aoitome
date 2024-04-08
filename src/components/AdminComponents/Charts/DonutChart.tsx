@@ -28,8 +28,7 @@ const DonutChart = () => {
   })
 
   return (
-    <div className="max-w-md w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 overflow-hidden">
-
+    <div className="flex flex-col justify-between max-w-xl  bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 overflow-hidden">
       <div className="flex justify-between mb-3">
         <div className="flex justify-center items-center">
           <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Website traffic</h5>

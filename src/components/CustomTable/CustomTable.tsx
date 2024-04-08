@@ -20,7 +20,7 @@ export function CustomTable(props: CustomTableProps) {
   const { headers, data } = props;
 
   return (
-    <Table className="mt-5 shadow rounded-lg">
+    <Table className="shadow rounded-lg">
       <Table.Head className="border-b">
         {headers.map((header, index) => (
           <Table.HeadCell key={index}>{header.label}</Table.HeadCell>

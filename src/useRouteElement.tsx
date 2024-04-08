@@ -6,8 +6,9 @@ import Homepage from "./pages/Homepage";
 import OrderSummary from "./pages/OrderSummary";
 import ProductDetails from "./pages/ProductDetails";
 import AdminLayout from "./layouts/AdminLayout";
-import AdminDashboard from "./pages/AdminPage/Dashboard";
-import BookGridPage from "./pages/AdminPage/BookGridPage";
+import AdminDashboard from "./pages/AdminPage/Dashboard/Dashboard";
+import BookGridPage from "./pages/AdminPage/BookList/BookGridPage";
+import BookDetail from "./pages/AdminPage/BookDetail/BookDetail";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -47,6 +48,10 @@ export default function useRouteElement() {
         {
           element: <BookGridPage />,
           path: "/admin-bookgrid"
+        },
+        {
+          element: <BookDetail />,
+          path: "/admin-bookdetail"
         }
       ]
     }

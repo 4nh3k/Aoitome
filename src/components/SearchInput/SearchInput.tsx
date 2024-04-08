@@ -13,9 +13,8 @@ export function SearchInput(props: SearchInputProps) {
   return (
     <form className={props.className}>
       <div className="flex">
-        <Select id="countries" theme={customSelectTheme} required>
-           
-        </Select>
+        {props.dropdownList.length > 0? <Select id="countries" theme={customSelectTheme} required>
+        </Select> : ''}
         <div className="relative w-full">
           <input
             type="search"
