@@ -88,19 +88,19 @@ const AdminAccount = () => {
             <span className="text-lg font-medium">Password requirements:</span>
             <span className="text-lg font-normal text-gray-500">Ensure that these requirements are met:</span>
             <div className="flex flex-end gap-3">
-              <img src={CheckCircle} width={12} height={12} />
+              <img src={CheckCircle} width={20} height={20} />
               <span className="text-sm font-normal">At least 8 characters (and up to 50 characters)</span>
             </div>
             <div className="flex flex-end gap-3">
-              <img src={CheckCircle} width={12} height={12} />
+              <img src={CheckCircle} width={20} height={20} />
               <span className="text-sm font-normal">At least one lowercase character</span>
             </div>
             <div className="flex flex-end gap-3">
-              <img src={XCircle} width={12} height={12} />
+              <img src={XCircle} width={20} height={20} />
               <span className="text-sm font-normal">Inclusion of at least one special character, e.g.,! @ # ?</span>
             </div>
             <div className="flex flex-end gap-3">
-              <img src={XCircle} width={12} height={12} />
+              <img src={XCircle} width={20} height={20} />
               <span className="text-sm font-normal">Different from your previous passwords</span>
             </div>
           </div>

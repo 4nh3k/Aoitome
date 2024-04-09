@@ -1,17 +1,19 @@
 import { ToggleSwitch } from 'flowbite-react';
-import React from 'react'
+import React, { useState } from 'react'
 
 interface LinkingAccountProps {
   logo: string;
 }
 
 const LinkingAccount: React.FC<LinkingAccountProps> = ({logo}) => {
+  const [linkingOn, setLinkingOn] = useState<boolean>(false);
+
   return (
     <div className='flex py-4 px-3 flex-col items-start gap-2 self-stretch rounded-md border-1 border-solid  border-gray-300 bg-white'>
       <div className='flex items-start basis-full self-stretch justify-between'>
         <img src={logo} width={60} height={30} />
-        <ToggleSwitch checked={false} onChange={function (checked: boolean): void {
-          throw new Error('Function not implemented.');
+        <ToggleSwitch checked={linkingOn} onChange={function (): void {
+          setLinkingOn(!linkingOn);
         } } />
         
       </div>

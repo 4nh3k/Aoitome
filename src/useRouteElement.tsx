@@ -10,6 +10,13 @@ import AdminDashboard from "./pages/AdminPage/Dashboard/Dashboard";
 import BookGridPage from "./pages/AdminPage/BookList/BookGridPage";
 import BookDetail from "./pages/AdminPage/BookDetail/BookDetail";
 import AdminAccount from "./pages/AdminPage/AccountPage/AdminAccount";
+import AddVoucher from "./pages/AdminPage/VoucherManagement/AddVoucher";
+import { NotificationPage } from "./pages/NotificationPage/NotificationPage";
+import OrderManagement from "./pages/OrderManagement";
+import OrderTracking from "./pages/OrderTracking";
+import { VoucherManagement } from "./pages/AdminPage/VoucherManagement/VoucherManagement";
+import UserAccount from "./pages/UserAccount/UserAccount";
+import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -32,6 +39,26 @@ export default function useRouteElement() {
         {
           element: <OrderSummary />,
           path: "/order-summary",
+        },
+        {
+          element: <NotificationPage />,
+          path: "/notification"
+        },
+        {
+          element: <OrderManagement />,
+          path: "/my-orders"
+        },
+        {
+          element: <OrderTracking />,
+          path: "/order-tracking"
+        },
+        {
+          element: <UserCouponManagement />,
+          path: "/my-coupons"
+        },
+        {
+          element: <UserAccount />,
+          path: "/my-account"
         },
       ],
     },
@@ -57,6 +84,14 @@ export default function useRouteElement() {
         {
           element: <AdminAccount />,
           path: "/admin-account"
+        },
+        {
+          element: <AddVoucher voucherType={""} />,
+          path: "/admin-add-voucher-fixed"
+        },
+        {
+          element: <VoucherManagement />,
+          path: "/admin-voucher-management"
         }
       ]
     }

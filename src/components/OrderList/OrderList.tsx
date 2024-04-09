@@ -134,7 +134,7 @@ export function OrderList() {
   //   ];
 
   return (
-    <>
+    <div className="flex flex-col justify-between gap-8">
       <div className="flex justify-between w-full">
         <div className="flex space-x-2 items-center">
           <span>Order Date</span>
@@ -152,6 +152,6 @@ export function OrderList() {
         </div>
       </div>
       <CustomTable headers={headers} data={data} />
-    </>
+    </div>
   );
 }

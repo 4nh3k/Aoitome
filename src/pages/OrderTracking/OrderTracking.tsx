@@ -2,6 +2,7 @@ import { Progress } from "flowbite-react";
 import { TrackingList } from "../../assets/mockdata";
 import OrderProduct from "../../components/Product/OrderProduct";
 import TrackingTimeline from "../../components/TrackingTimeline";
+import CustomButton from "../../components/AdminComponents/CustomButton/CustomButton";
 
 export function OrderTracking() {
   return (
@@ -22,7 +23,7 @@ export function OrderTracking() {
           <OrderProduct />
         </div>
         <div className="w-3/5 mt-6">
-          <span className="heading-5">Order Details</span>
+          <span className="heading-5">Order information</span>
           <div className="divide-y-1 mt-4">
             <div className="flex justify-between items-center py-4">
               <span className="font-bold">Order date</span>
@@ -48,6 +49,11 @@ export function OrderTracking() {
               <span className="heading-6">Total</span>
               <span className="heading-6">$5000</span>
             </div>
+            
+          </div>
+          <div className="flex mt-5 items-strech justify-center gap-10 self-stretch w-full" >
+            <CustomButton label={"Cancel order"} textColor={"white"} btnColor={"secondary"} />
+            <CustomButton label={"Order details"} textColor={"white"} btnColor={"primary"} borderColor={"primary"} />
           </div>
         </div>
       </div>

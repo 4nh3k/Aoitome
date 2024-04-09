@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.text-primary{
+  @apply text-[#1A56DB]
+}
+
+.bg-primary{
+  @apply bg-[#1A56DB]
+}
+
+.text-secondary{
+  @apply text-[#8FA8DE]
+}
+
+.bg-secondary{
+  @apply bg-[#8FA8DE]
+}
+
 .heading-1 {
   @apply text-5xl font-extrabold leading-10;
 }

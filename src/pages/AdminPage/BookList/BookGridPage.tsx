@@ -16,7 +16,6 @@ const BookGridPage = () => {
           className={""}
           placeholder={"Search book"}
           dropdownList={[]}
-          dropdownLabel={""}
           enableDropdown={false}
         ></SearchInput>
         <div className="flex justify-end items-center gap-3">
