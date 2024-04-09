@@ -9,6 +9,7 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/AdminPage/Dashboard/Dashboard";
 import BookGridPage from "./pages/AdminPage/BookList/BookGridPage";
 import BookDetail from "./pages/AdminPage/BookDetail/BookDetail";
+import AdminAccount from "./pages/AdminPage/AccountPage/AdminAccount";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -52,6 +53,10 @@ export default function useRouteElement() {
         {
           element: <BookDetail />,
           path: "/admin-bookdetail"
+        },
+        {
+          element: <AdminAccount />,
+          path: "/admin-account"
         }
       ]
     }

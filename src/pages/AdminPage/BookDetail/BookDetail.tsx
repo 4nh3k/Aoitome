@@ -17,7 +17,7 @@ const BookDetail = () => {
 	return (
 		<div className='bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm'>
 			<div className="flex items-stretch basis-full gap-4">
-				<div className="flex flex-col pt-4 pb-5 px-4 justify-between items-start gap-5">
+				<div className="flex flex-col pt-4 pb-5 px-4 justify-between items-start gap-5 rounded-2xl border-1 border-solid border-gray-300 bg-white">
 					<span className="heading-4">Book detail</span>
 					<div className="flex w-full flex-wrap items-stretch justify-between gap-8">
 						<AdminInput title={"Title"} placeholder={"Enter title"} />

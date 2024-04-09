@@ -1,5 +1,3 @@
-import React from 'react'
-import { Progress } from "flowbite-react";
 import CheckSuccess from "../../../assets/icon/check-success.svg"
 
 const FileLoadProgressBar = () => {
