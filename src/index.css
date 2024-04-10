@@ -2,19 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-.text-primary{
+.rounded-invert-right {
+  margin-top: auto;
+  margin-bottom: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-width: 1px;
+  border-top-style: solid;
+  border-left-style: solid;
+  border-bottom-style: solid;
+  border-right-style: dashed;
+  border-color: #C3DDFD;
+  background-color: #EBF5FF;
+
+  gap: 8px;
+  width: 150px;
+  height: 150px;
+  padding-left: 29px;
+  padding-right: 29px;
+
+  --mask: radial-gradient(16px at 100% 16px,#0000 98%,#000) 0 -16px;
+  -webkit-mask: var(--mask);
+          mask: var(--mask);
+}
+
+.rounded-invert-left {
+  margin-top: auto;
+  margin-bottom: auto;
+
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: none;
+  border-color: #C3DDFD;
+  background-color: #EBF5FF;
+
+  gap: 8px;
+  width: 150px;
+  height: 150px;
+  padding-left: 29px;
+  padding-right: 29px;
+
+  --mask: radial-gradient(16px at 0 16px,#0000 98%,#000) 0 -16px;
+  -webkit-mask: var(--mask);
+          mask: var(--mask);
+}
+
+.text-primary {
   @apply text-[#1A56DB]
 }
 
-.bg-primary{
+.bg-primary {
   @apply bg-[#1A56DB]
 }
 
-.text-secondary{
+.text-secondary {
   @apply text-[#8FA8DE]
 }
 
-.bg-secondary{
+.bg-secondary {
   @apply bg-[#8FA8DE]
 }
 
@@ -54,7 +113,7 @@
   @apply text-xs font-normal;
 }
 
-.sidebar-hover{
+.sidebar-hover {
   @apply hover:bg-gray-100 hover:rounded-xl px-2 py-2
 }
 
@@ -83,10 +142,10 @@
 
 @keyframes fadeIn {
   from {
-      opacity: 0;
+    opacity: 0;
   }
+
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
-
