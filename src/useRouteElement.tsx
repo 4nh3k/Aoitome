@@ -17,6 +17,7 @@ import OrderTracking from "./pages/OrderTracking";
 import { VoucherManagement } from "./pages/AdminPage/VoucherManagement/VoucherManagement";
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
+import { path } from "./constants/path";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -26,39 +27,39 @@ export default function useRouteElement() {
         { element: <Homepage />, path: "/" },
         {
           element: <ProductDetails />,
-          path: "/product",
+          path: path.product,
         },
         {
           element: <Cart />,
-          path: "/cart",
+          path: path.cart,
         },
         {
           element: <Checkout />,
-          path: "/checkout",
+          path: path.checkout,
         },
         {
           element: <OrderSummary />,
-          path: "/order-summary",
+          path: path.orderSummary,
         },
         {
           element: <NotificationPage />,
-          path: "/notification"
+          path: path.notificationPage
         },
         {
           element: <OrderManagement />,
-          path: "/my-orders"
+          path: path.customerOrder
         },
         {
           element: <OrderTracking />,
-          path: "/order-tracking"
+          path: path.customerOrderTracking
         },
         {
           element: <UserCouponManagement />,
-          path: "/my-coupons"
+          path: path.customerCoupon
         },
         {
           element: <UserAccount />,
-          path: "/my-account"
+          path: path.customerAccount
         },
       ],
     },
@@ -66,32 +67,28 @@ export default function useRouteElement() {
       element: <AdminLayout />,
       children: [
         {
-          element: <Homepage />,
-          path: "/admin-product"
-        },
-        {
           element: <AdminDashboard/>,
-          path: "/admin-dashboard"
+          path: path.adminDashboard
         },
         {
           element: <BookGridPage />,
-          path: "/admin-bookgrid"
+          path: path.adminProducts
         },
         {
           element: <BookDetail />,
-          path: "/admin-bookdetail"
+          path: path.adminBookDetail
         },
         {
           element: <AdminAccount />,
-          path: "/admin-account"
+          path: path.adminAccount
         },
         {
           element: <AddVoucher voucherType={""} />,
-          path: "/admin-add-voucher-fixed"
+          path: path.adminAddVoucher
         },
         {
           element: <VoucherManagement />,
-          path: "/admin-voucher-management"
+          path: path.adminVoucherManagement
         }
       ]
     }

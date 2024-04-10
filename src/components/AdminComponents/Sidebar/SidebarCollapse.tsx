@@ -5,7 +5,7 @@ import SidebarItem from './SidebarItem';
 interface SidebarCollapseProps {
     imageSrc?: string;
     label: string;
-    items: string[];
+    items: { label: string, link: string }[];
 }
 
 const SidebarCollapse: React.FC<SidebarCollapseProps> = ({ imageSrc, label, items }) => {
@@ -28,9 +28,9 @@ const SidebarCollapse: React.FC<SidebarCollapseProps> = ({ imageSrc, label, item
                 <img className={`align-middle rotate-${rotation} transition ease-in-out duration-700`} src={ChevronUp} width={16} height={16} onClick={toggleCollapse} ></img>
             </div>
             <div className={`flex-nowrap items-strech mt-1 flex flex-col gap-3 sidebar-content pl-[2.25rem] ${collapsed ? 'collapsed' : ''}`}>
-                    {items.map((item, i) => (
-                        <SidebarItem key={i} label={item}></SidebarItem>
-                    ))}
+                {items.map((item, i) => (
+                    <SidebarItem key={i} label={item.label} link={item.link}></SidebarItem>
+                ))}
             </div>
         </div>
 
