@@ -1,7 +1,9 @@
 import { Button, Checkbox, Label } from "flowbite-react";
+import { Link } from "react-router-dom";
 import OrderDetailsCard from "../../components/OrderDetailsCard";
 import OrderPriceSummary from "../../components/OrderPriceSummary";
 import OrderProduct from "../../components/Product/OrderProduct";
+import { path } from "../../constants/path";
 
 export function OrderSummary() {
   return (
@@ -47,7 +49,9 @@ export function OrderSummary() {
       </div>
       <div className="mt-6 flex space-x-5">
         <Button color="gray">Return to shipping</Button>
-        <Button>Send the order</Button>
+        <Link to={path.customerOrder}>
+          <Button>Send the order</Button>
+        </Link>
       </div>
     </>
   );

@@ -1,23 +1,23 @@
 import { useRoutes } from "react-router-dom";
+import { path } from "./constants/path";
+import AdminLayout from "./layouts/AdminLayout";
 import MainLayout from "./layouts/MainLayout";
+import AdminAccount from "./pages/AdminPage/AccountPage/AdminAccount";
+import BookDetail from "./pages/AdminPage/BookDetail/BookDetail";
+import BookGridPage from "./pages/AdminPage/BookList/BookGridPage";
+import AdminDashboard from "./pages/AdminPage/Dashboard/Dashboard";
+import AddVoucher from "./pages/AdminPage/VoucherManagement/AddVoucher";
+import { VoucherManagement } from "./pages/AdminPage/VoucherManagement/VoucherManagement";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Homepage from "./pages/Homepage";
-import OrderSummary from "./pages/OrderSummary";
-import ProductDetails from "./pages/ProductDetails";
-import AdminLayout from "./layouts/AdminLayout";
-import AdminDashboard from "./pages/AdminPage/Dashboard/Dashboard";
-import BookGridPage from "./pages/AdminPage/BookList/BookGridPage";
-import BookDetail from "./pages/AdminPage/BookDetail/BookDetail";
-import AdminAccount from "./pages/AdminPage/AccountPage/AdminAccount";
-import AddVoucher from "./pages/AdminPage/VoucherManagement/AddVoucher";
 import { NotificationPage } from "./pages/NotificationPage/NotificationPage";
 import OrderManagement from "./pages/OrderManagement";
+import OrderSummary from "./pages/OrderSummary";
 import OrderTracking from "./pages/OrderTracking";
-import { VoucherManagement } from "./pages/AdminPage/VoucherManagement/VoucherManagement";
+import ProductDetails from "./pages/ProductDetails";
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
-import { path } from "./constants/path";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -43,23 +43,23 @@ export default function useRouteElement() {
         },
         {
           element: <NotificationPage />,
-          path: path.notificationPage
+          path: path.notificationPage,
         },
         {
           element: <OrderManagement />,
-          path: path.customerOrder
+          path: path.customerOrder,
         },
         {
           element: <OrderTracking />,
-          path: path.customerOrderTracking
+          path: path.customerOrderTracking,
         },
         {
           element: <UserCouponManagement />,
-          path: path.customerCoupon
+          path: path.customerCoupon,
         },
         {
           element: <UserAccount />,
-          path: path.customerAccount
+          path: path.customerAccount,
         },
       ],
     },
@@ -67,31 +67,35 @@ export default function useRouteElement() {
       element: <AdminLayout />,
       children: [
         {
-          element: <AdminDashboard/>,
-          path: path.adminDashboard
+          element: <AdminDashboard />,
+          path: path.adminDashboard,
+        },
+        {
+          element: <OrderManagement />,
+          path: path.adminOrderManagement,
         },
         {
           element: <BookGridPage />,
-          path: path.adminProducts
+          path: path.adminProducts,
         },
         {
           element: <BookDetail />,
-          path: path.adminBookDetail
+          path: path.adminBookDetail,
         },
         {
           element: <AdminAccount />,
-          path: path.adminAccount
+          path: path.adminAccount,
         },
         {
           element: <AddVoucher voucherType={""} />,
-          path: path.adminAddVoucher
+          path: path.adminAddVoucher,
         },
         {
           element: <VoucherManagement />,
-          path: path.adminVoucherManagement
-        }
-      ]
-    }
+          path: path.adminVoucherManagement,
+        },
+      ],
+    },
   ]);
   return routeElement;
 }

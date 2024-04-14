@@ -1,11 +1,14 @@
 import { Button } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 interface OrderPriceSummaryProps {
   textOnly?: boolean;
+  path?: string;
 }
 
 export function OrderPriceSummary({
   textOnly = false,
+  path = "",
 }: OrderPriceSummaryProps) {
   return (
     <div className="w-full px-5 pt-5 pb-2.5 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
@@ -39,9 +42,11 @@ export function OrderPriceSummary({
         </div>
         {!textOnly && (
           <>
-            <Button className="w-full" size="sm">
-              Proceed to checkout
-            </Button>
+            <Link to={path}>
+              <Button className="w-full" size="sm">
+                Proceed to checkout
+              </Button>
+            </Link>
             <div className="text-center">
               <span className="text-black text-xs font-medium">or </span>
               <span className="text-blue-700 text-xs font-medium underline">

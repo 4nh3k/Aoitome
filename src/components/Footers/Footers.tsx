@@ -3,6 +3,7 @@
 import { Footer } from "flowbite-react";
 import { PiCreditCard, PiTruck } from "react-icons/pi";
 import { TbMailbox } from "react-icons/tb";
+import { path } from "../../constants/path";
 
 function Footers() {
   return (
@@ -23,7 +24,7 @@ function Footers() {
                 </span>
                 <Footer.Link
                   className="text-blue-700 text-xs font-medium underline hover:text-blue-900"
-                  href="#"
+                  href={path.customerOrderTracking}
                 >
                   Track Your Order
                 </Footer.Link>

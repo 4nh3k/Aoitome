@@ -7,6 +7,7 @@ export function Notification() {
     <>
       <Dropdown
         inline
+        className="w-[496px]"
         label={"Noti"}
         renderTrigger={() => (
           <div className="border-none text-sm cursor-pointer flex space-x-1">

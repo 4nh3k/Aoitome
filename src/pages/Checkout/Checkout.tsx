@@ -2,6 +2,7 @@ import { Label, Radio } from "flowbite-react";
 import DeliveryAddressForm from "../../components/DeliveryAddressFrom";
 import OrderPriceSummary from "../../components/OrderPriceSummary";
 import CartProduct from "../../components/Product/CartProduct";
+import { path } from "../../constants/path";
 
 export function Checkout() {
   return (
@@ -58,7 +59,7 @@ export function Checkout() {
             <CartProduct />
             <CartProduct />
           </div>
-          <OrderPriceSummary />
+          <OrderPriceSummary path={path.orderSummary} />
         </div>
       </div>
     </>
