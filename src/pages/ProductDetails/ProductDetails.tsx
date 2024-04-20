@@ -1,4 +1,5 @@
 import { Button, Pagination, Rating } from "flowbite-react";
+import { useState } from "react";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import ShowMoreText from "react-show-more-text";
@@ -7,10 +8,14 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { ProductList } from "../../assets/mockdata";
 import Container from "../../components/Container";
+import Gallery from "../../components/Gallery/Gallery";
 import Product from "../../components/Product";
 import QuantityInput from "../../components/QuantityInput";
 import RatingStar from "../../components/RatingStar";
 import Review from "../../components/Review";
+import SizeSelector, {
+  RingSize,
+} from "../../components/SizeSelector/SizeSelector";
 
 function NextArrow(props) {
   const { className, onClick } = props;
@@ -35,6 +40,12 @@ function PrevArrow(props) {
     />
   );
 }
+const sizes: RingSize[] = [
+  { size: 6, available: true },
+  { size: 7, available: false },
+  { size: 8, available: true },
+  { size: 9, available: true },
+];
 
 const settings = {
   infinite: false,
@@ -46,51 +57,35 @@ const settings = {
 };
 
 export function ProductDetails() {
+  const [selectedSize, setSelectedSize] = useState<number | null>(null);
+  const onSizeSelect = (size: number) => {
+    setSelectedSize(size);
+    console.log("test");
+  };
   return (
     <div>
       <Container>
         <div className="flex px-2">
           {/* gallery lamf sau*/}
-          <img
+          <Gallery />
+          {/* <img
             className="w-80 h-96"
             src="https://via.placeholder.com/336x465"
-          />
+          /> */}
           <div className="ml-8">
             <div className="text-2xl font-semibold">
-              Essential Grammar in Use Book with Answers Fahasa Reprint Edition:
-              A Self-Study Reference and Practice Book for Elementary Learners
-              of English
+              Diamond Wedding Ring crafted from 18K gold|PNJ Sleeping Beauty
+              DDDDC001273
             </div>
             <div className="flex mt-3">
               <div className="w-1/2">
-                <span className="text-black text-sm font-normal">
-                  Provider:{" "}
-                </span>
+                <span className="text-black text-sm font-normal">Code: </span>
                 <span className="text-black text-sm font-bold">
-                  Cambridge University Press
-                </span>
-              </div>
-              <div className="w-1/2">
-                <span className="text-black text-sm font-normal">Author: </span>
-                <span className="text-black text-sm font-bold">
-                  Raymond Murphy
+                  GNDDDDC001273
                 </span>
               </div>
             </div>
-            <div className="flex mt-1">
-              <div className="w-1/2">
-                <span className="text-black text-sm font-normal">
-                  Publisher:{" "}
-                </span>
-                <span className="text-black text-sm font-bold">
-                  Cambridge University
-                </span>
-              </div>
-              <div className="w-1/2">
-                <span className="text-black text-sm font-normal">Format: </span>
-                <span className="text-black text-sm font-bold">Hardcover</span>
-              </div>
-            </div>
+
             <div className="flex justify-start w-full mt-1">
               <RatingStar initialRating={5} readonly />
               <p className="ml-2 text-xs font-medium leading-5">(5)</p>
@@ -107,6 +102,17 @@ export function ProductDetails() {
                 <span className="text-white text-xs font-bold">-25%</span>
               </div>
             </div>
+            <div className="flex mt-3 justify-between w-full items-center">
+              <span className="text-black text-sm font-normal">Size: </span>
+              <button className="text-black text-xs underline font-normal">
+                How to measure your size
+              </button>
+            </div>
+            <SizeSelector
+              sizes={sizes}
+              selectedSize={selectedSize}
+              onSizeSelect={onSizeSelect}
+            />
             <div className=" flex mt-3 items-start justify-start ">
               <span className="text-black text-sm font-normal w-20">
                 Delivery
@@ -165,45 +171,44 @@ export function ProductDetails() {
             expanded={false}
             truncatedEndingComponent={"... "}
           >
-            Essential Grammar in Use is a self-study reference and practice book
-            for elementary-level learners (A1-B1), used by millions of people
-            around the world. With clear examples, easy-to-follow exercises and
-            answer key, the Fourth edition is perfect for independent study,
-            covering all the areas of grammar that you will need at this level.
-            The book has an easy-to-use format of two-page units with clear
-            explanations of grammar points on the left-hand page, and practice
-            exercises on the right. It also includes plenty of additional
-            exercises and a Study Guide to help you find the grammar units you
-            need to study.
+            Diamonds have always been a symbol of pride and endless fashion
+            inspiration. Owning a diamond jewelry piece is something everyone
+            desires. A ring crafted from 14K gold, adorned with a perfectly cut
+            diamond featuring 57 facets, creates a jewelry piece full of luxury
+            and sophistication. While diamonds are beautiful on their own,
+            diamond jewelry carries an irresistible allure. This fresh
+            combination is sure to make a mark in modern fashion and make the
+            wearer stand out, exuding confidence and attracting admiration from
+            all around.
           </ShowMoreText>
           <div className="space-y-2">
             <div className="flex">
-              <p className="min-w-44 text-gray-600">Author</p>
-              <p className="min-w-44 text-black">Raymond Murphy</p>
+              <p className="min-w-44 text-gray-600">Reference weight</p>
+              <p className="min-w-44 text-black">4.86674 carats</p>
             </div>
             <div className="flex">
-              <p className="min-w-44 text-gray-600">Publisher</p>
-              <p className="min-w-44 text-black">Cambridge University</p>
+              <p className="min-w-44 text-gray-600">Material purity</p>
+              <p className="min-w-44 text-black">5850</p>
             </div>
             <div className="flex">
-              <p className="min-w-44 text-gray-600">Publication date</p>
-              <p className="min-w-44 text-black">05/11/2017</p>
+              <p className="min-w-44 text-gray-600">Primary stone type</p>
+              <p className="min-w-44 text-black">Diamond</p>
             </div>
             <div className="flex">
-              <p className="min-w-44 text-gray-600">Weight</p>
-              <p className="min-w-44 text-black">500g</p>
+              <p className="min-w-44 text-gray-600">Primary stone size</p>
+              <p className="min-w-44 text-black">3.2mm</p>
             </div>
             <div className="flex">
-              <p className="min-w-44 text-gray-600">Language</p>
-              <p className="min-w-44 text-black">English</p>
+              <p className="min-w-44 text-gray-600">Number of stones</p>
+              <p className="min-w-44 text-black">1 stone</p>
             </div>
             <div className="flex">
-              <p className="min-w-44  text-gray-600">Format</p>
-              <p className="min-w-44 text-black">Hardcover</p>
+              <p className="min-w-44  text-gray-600">Cut</p>
+              <p className="min-w-44 text-black">Facet</p>
             </div>
             <div className="flex">
-              <p className="min-w-44 text-gray-600">Dimensions </p>
-              <p className="min-w-44 text-black">26.2 x 19.5</p>
+              <p className="min-w-44 text-gray-600">Gender </p>
+              <p className="min-w-44 text-black">Female</p>
             </div>
           </div>
         </div>
