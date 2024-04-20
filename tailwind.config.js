@@ -39,7 +39,7 @@ export default {
         background: "#F3F4F6",
         textColor: "#1F2A37",
         primary: "#c48c46",
-        secondary: "#8FA8DE",
+        secondary: "#fef08a",
         accent: "#6189DF",
         error: "#E02424",
         success: "#0E9F6E",

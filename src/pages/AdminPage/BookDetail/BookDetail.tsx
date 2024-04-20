@@ -1,19 +1,15 @@
-import AdminInput from "../../../components/AdminComponents/Input/AdminInput"
-import AdminTextArea from "../../../components/AdminComponents/Input/AdminTextArea"
-import AdminDropdown from "../../../components/AdminComponents/Input/AdminDropdown";
-import DatepickerInput from "../../../components/AdminComponents/Input/DatepickerInput";
-import HorizontalSeparator from "../../../assets/icon/horizontal-separator.svg"
+import HorizontalSeparator from "../../../assets/icon/horizontal-separator.svg";
 import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
-import DimensionInput from "../../../components/AdminComponents/Input/DimensionInput";
-import GenresInput from "../../../components/AdminComponents/Input/GenresInput";
-import DropzoneFileInput from "../../../components/AdminComponents/Input/DropzoneFileInput";
 import FileLoadProgressBar from "../../../components/AdminComponents/FileLoadProgressBar/FileLoadProgressBar";
+import AdminDropdown from "../../../components/AdminComponents/Input/AdminDropdown";
+import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
+import AdminTextArea from "../../../components/AdminComponents/Input/AdminTextArea";
+import DropzoneFileInput from "../../../components/AdminComponents/Input/DropzoneFileInput";
+import GenresInput from "../../../components/AdminComponents/Input/GenresInput";
 
 const jewelryDetail = () => {
 	const jewelryCategories = ['Rings', 'Bracelets', 'Necklaces', 'Earrings'];
-	const publishers = ['Lorem Ipsum'];
-	const formats = ['Hardcover', 'Paperback'];
-
+	
 	return (
 		<div className='bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm'>
 			<div className="flex items-stretch basis-full gap-4">
@@ -30,9 +26,12 @@ const jewelryDetail = () => {
 						<AdminInput title={"Discount percentage"} placeholder={"50%"} />
 					</div>
 
-					<div className="flex w-full flex-wrap items-stretch justify-between">
-						<AdminTextArea title={"Description"} placeholder={"Enter description here"} />
-					</div>
+          <div className="flex w-full flex-wrap items-stretch justify-between">
+            <AdminTextArea
+              title={"Description"}
+              placeholder={"Enter description here"}
+            />
+          </div>
 
 					<div className="flex w-full flex-wrap items-stretch justify-between gap-8">
 						<AdminInput title={"Price"} placeholder={"$4.99"} />
@@ -43,10 +42,10 @@ const jewelryDetail = () => {
 						<GenresInput />
 					</div>
 
-					<div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-						<AdminInput title={"Average rating"} placeholder={"7.0"} />
-						<AdminInput title={"Rating count"} placeholder={"1000"} />
-					</div>
+          <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+            <AdminInput title={"Average rating"} placeholder={"7.0"} />
+            <AdminInput title={"Rating count"} placeholder={"1000"} />
+          </div>
 
 					<img src={HorizontalSeparator} className="w-full" />
 					<div className="flex items-start justify-end gap-3 self-stretch w-full" >
