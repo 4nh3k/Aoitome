@@ -14,11 +14,11 @@ interface AdminSidebarProps {
 
 const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
   const bookSidebarItems = [
-    { label: "All books", link: path.adminProducts },
-    { label: "Add book", link: path.adminBookDetail },
-    { label: "All genres", link: "" },
-    { label: "All publishers", link: "" },
-    { label: "All authors", link: "" },
+    { label: "All products", link: path.adminProducts },
+    { label: "Add product", link: path.adminBookDetail },
+    // { label: "All genres", link: "" },
+    // { label: "All publishers", link: "" },
+    // { label: "All authors", link: "" },
   ];
 
   const orderSidebarItems = [
@@ -46,7 +46,7 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
           ></SidebarItem>
           <SidebarCollapse
             imageSrc={Book}
-            label={"Book Management"}
+            label={"Product Management"}
             items={bookSidebarItems}
           ></SidebarCollapse>
           <SidebarCollapse
