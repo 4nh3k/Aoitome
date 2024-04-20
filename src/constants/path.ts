@@ -1,4 +1,8 @@
 export const path = {
+  login: "login",
+  register: "register",
+  forgotPass: "forgot-password",
+
   product: "product",
   cart: "cart",
   checkout: "order-checkout",

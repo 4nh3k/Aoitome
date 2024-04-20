@@ -18,9 +18,38 @@ import { VoucherManagement } from "./pages/AdminPage/VoucherManagement/VoucherMa
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
 import { path } from "./constants/path";
+import LoginModals from "./components/Modals/LoginModals";
+import { RegisterModals } from "./components/Modals/RegisterModals/RegisterModals";
+import ForgotPassModals from "./components/Modals/ForgotPassModals";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
+    {
+      element: <LoginModals openModal={true} onCloseModal={function (): void {
+        throw new Error("Function not implemented.");
+      } } onSignUpClick={function (): void {
+        throw new Error("Function not implemented.");
+      } } onForgotPassClick={function (): void {
+        throw new Error("Function not implemented.");
+      } } />,
+      path: path.login
+    },
+    {
+      element: <RegisterModals openModal={true} onCloseModal={function (): void {
+        throw new Error("Function not implemented.");
+      } } onSignInClick={function (): void {
+        throw new Error("Function not implemented.");
+      } } />,
+      path: path.register
+    },
+
+    {
+      element: <ForgotPassModals openModal={true} onCloseModal={function (): void {
+        throw new Error("Function not implemented.");
+      } } />,
+      path: path.forgotPass
+    },
+
     {
       element: <MainLayout />,
       children: [
