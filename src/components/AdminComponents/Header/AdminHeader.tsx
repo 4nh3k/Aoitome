@@ -14,7 +14,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({className}) => {
             <div id='navBar' className='flex py-4 justify-between items-center self-stretch'>
                 <div id='logo_role' className='flex items-center gap-[4.25rem]'>
                     <div id='logo' className='flex items-center gap-[1.5rem]'>
-                        <img src={Logo} width={138} height={36}></img>
+                        <img src={Logo} width={60} height={36}></img>
                         <span className='text-2xl font-semibold text-cyan-600'>Admin</span>
                     </div>
                 </div>

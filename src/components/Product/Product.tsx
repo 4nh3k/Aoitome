@@ -12,7 +12,7 @@ interface ProductProps {
 
 export function Product(props: ProductProps) {
   return (
-    <div className="w-52 h-[22rem] pb-1 bg-white rounded-xl shadow border border-gray-200 flex-col justify-start items-center gap-2.5 hover:shadow-lg inline-flex">
+    <div className="w-52 h-[22rem] pb-1 bg-white rounded-xl shadow border border-gray-200 flex-col justify-start items-center gap-2.5 hover:shadow-lg inline-flex px-3 py-2">
       <Link to="/product">
         <img
           className="w-52 h-52 rounded-xl cursor-pointer"
@@ -21,7 +21,7 @@ export function Product(props: ProductProps) {
       </Link>
       <div className="px-1">
         <Link to="/product">
-          <div className="line-clamp-2 cursor-pointer h-12 text-black text-base font-normal leading-normal">
+          <div className="line-clamp-2 cursor-pointer h-12 text-black text-base font-semibold leading-normal">
             {props.title}
           </div>
         </Link>
@@ -29,7 +29,7 @@ export function Product(props: ProductProps) {
           <div className=" text-primary text-base font-bold leading-loose">
             {!props.discount
               ? props.price.toLocaleString()
-              : (props.price * (1 - props.discount / 100)).toLocaleString()}
+              : (props.price * (1 - props.discount / 100)).toLocaleString() + 'đ'}
           </div>
           {props.discount && (
             <div className="w-11 h-5 px-1.5 ml-3 bg-primary rounded justify-center items-center gap-2.5 inline-flex">
@@ -41,7 +41,7 @@ export function Product(props: ProductProps) {
         </div>
         {props.discount && (
           <div className="text-black text-sm font-normal line-through leading-tight">
-            {props.price.toLocaleString()}
+            {props.price.toLocaleString() + 'đ'}
           </div>
         )}
         {!props.discount && <div className="h-4"></div>}
