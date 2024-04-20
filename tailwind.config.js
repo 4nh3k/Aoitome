@@ -13,8 +13,8 @@ export default {
       // that is actual animation
       keyframes: () => ({
         fadeOut: {
-          '0%': { opacity: 0 },
-          '100%': { opacity: 1},
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
       }),
       colors: {
@@ -25,20 +25,20 @@ export default {
         // so practically, the cyan means primary
         // in this we use blue color as primary
         cyan: {
-          50: "#EBF5FF",
-          100: "#E1EFFE",
-          200: "#C3DDFD",
-          300: "#A4CAFE",
-          400: "#76A9FA",
-          500: "#3F83F8",
-          600: "#1C64F2",
-          700: "#1A56DB",
-          800: "#1E429F",
-          900: "#233876",
+          50: "#fefce8",
+          100: "#fef9c3",
+          200: "#fef08a",
+          300: "#fde047",
+          400: "#facc15",
+          500: "#eab308",
+          600: "#ca8a04",
+          700: "#c48c46",
+          800: "#854d0e",
+          900: "#713f12",
         },
         background: "#F3F4F6",
         textColor: "#1F2A37",
-        primary: "#1A56DB",
+        primary: "#c48c46",
         secondary: "#8FA8DE",
         accent: "#6189DF",
         error: "#E02424",

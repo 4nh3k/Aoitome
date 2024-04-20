@@ -44,15 +44,18 @@ const settings = {
 export default function Homepage() {
   return (
     <>
-      <img className="rounded-xl" src="/src/assets/img/banner.png" />
+      <img
+        className="rounded-xl"
+        src="https://cdn.pnj.io/images/promo/205/tabsale-chung-t4-24-1972x640CTA.jpg"
+      />
       <div className="flex justify-between items-center mt-8">
         {couponList.map((coupon) => (
-          <img src={coupon.imageURL} />
+          <img className="h-36 w-72" src={coupon.imageURL} />
         ))}
       </div>
       <Container>
         <div className="heading-4">Categories</div>
-        <div className="flex justify-between w-full items-center mt-5">
+        <div className="flex justify-between w-full items-center mt-5 mb-8">
           {CategoryList.map((category) => (
             <Category title={category.title} imageURL={category.imageURL} />
           ))}
@@ -88,11 +91,11 @@ export default function Homepage() {
           ))}
         </div>
         <Button
-          className="mt-5 border-blue-600 border-1 mx-auto"
+          className="mt-5 border-yellow-500 border-1 mx-auto"
           outline
           color="cyan"
         >
-          <span className="text-blue-600">View More</span>
+          <span className="text-yellow-500">View More</span>
         </Button>
       </Container>
     </>

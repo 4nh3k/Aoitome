@@ -26,7 +26,7 @@ export function OrderList() {
     {
       label: "Action",
       prop: "action",
-      className: "text-blue-700 text-xs font-medium hover:underline",
+      className: "text-primary text-xs font-medium hover:underline",
     },
   ];
   const data = [

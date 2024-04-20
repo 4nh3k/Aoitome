@@ -9,49 +9,53 @@ import {
 
 export const couponList = [
   {
-    imageURL: "/src/assets/img/coupon.png",
+    imageURL:
+      "https://cdn.pnj.io/images/promo/206/Banner_BST_Sakura-494x247_CTA.png",
   },
   {
-    imageURL: "/src/assets/img/coupon.png",
+    imageURL:
+      "https://cdn.pnj.io/images/promo/206/Banner_BST_Timeless_Diamond_Fixed_banner__494_x_247_CTA_.png",
   },
   {
-    imageURL: "/src/assets/img/coupon 2.png",
+    imageURL:
+      "https://cdn.pnj.io/images/promo/206/Banner_BST_Lucky_Me_BANNER-WEB_Style_LuckyMe_494x247_.png",
   },
   {
-    imageURL: "/src/assets/img/coupon 3.png",
+    imageURL:
+      "https://cdn.pnj.io/images/promo/206/Banner_BST_Sakura-494x247_CTA.png",
   },
 ];
 
 export const CategoryList = [
   {
-    title: "Fiction",
+    title: "Trang sức vàng",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/9/7/9786047764655.jpg",
+      "https://cdn.pnj.io/images/image-update/2022/hot-categories/trang-suc-vang.png",
   },
   {
-    title: "Non-fiction",
+    title: "Trang sức bạc",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/9/7/9786044009674.jpg",
+      "https://cdn.pnj.io/images/image-update/2022/hot-categories/trang-suc-bac.png",
   },
   {
-    title: "Romance",
+    title: "Nhẫn cưới",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244876154.jpg",
+      "https://cdn.pnj.io/images/image-update/2022/hot-categories/nhan-cuoi.png",
   },
   {
-    title: "History",
+    title: "Dây chuyền vàng",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-tr_c-ph_p-y-3.jpg",
+      "https://cdn.pnj.io/images/image-update/2022/hot-categories/day-chuyen-vang.png",
   },
   {
-    title: "Young Adult",
+    title: "Nhẫn kim cương",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-tr_c-nh_-x_c.jpg",
+      "https://cdn.pnj.io/images/image-update/2022/hot-categories/nhan-kim-cuong.png",
   },
   {
-    title: "Poetry",
+    title: "Bông tai vàng",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/a/n/an-nhi_n-gi_a-nh_ng-th_ng-tr_m---b_a-1.jpg",
+      "https://cdn.pnj.io/images/image-update/2022/hot-categories/bong-tai-vang.png",
   },
 ];
 
@@ -91,88 +95,89 @@ export const TrackingList = [
 
 export const ProductList = [
   {
-    title: "Tuổi Thơ Dữ Dội - Tập 1 (Tái Bản 2019)",
+    title: "Nhẫn Kim cương Vàng trắng 14K PNJ DDDDW060572 ",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/i/m/image_187162.jpg",
+      "https://cdn.pnj.io/images/thumbnails/300/300/detailed/182/sp-GNDD00W000395-nhan-kim-cuong-vang-trang-14k-pnj-1.png ",
     price: 58400,
     rating: 5.0,
     discount: 27,
     totalRating: 27,
   },
   {
-    title: "Trốn Lên Mái Nhà Để Khóc - Tặng Kèm Bookmark",
+    title: "Mặt dây chuyền Kim cương Vàng trắng 14K PNJ DD00W000124",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-1-tr_n-l_n-m_i-nh_-_-kh_c-2.jpg",
+      "https://cdn.pnj.io/images/detailed/99/gmdd00w000124-mat-day-chuyen-kim-cuong-vang-trang-14k-pnj-01.png",
     price: 72200,
     rating: 0,
     discount: 24,
     totalRating: 0,
   },
   {
-    title: "3 Step - Tiết Lộ Bí Quyết 3 Bước Đạt Điểm 8+ Toán Học",
+    title: "Dây chuyền Vàng trắng 10K PNJ 0000W000206",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_50143.jpg",
+      "https://cdn.pnj.io/images/detailed/102/gd0000w000206-day-chuyen-vang-trang-10k-pnj-001.png",
     price: 239000,
     rating: 4.0,
     discount: 20,
     totalRating: 20,
   },
   {
-    title: "Bài Tập Bổ Trợ Nâng Cao Kỹ Năng Hóa Học Lớp 10 - Tập 2",
+    title: "Bông tai vàng trắng 14k đính ngọc trai Freshwater PNJ GPMW000052",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8936214270262.jpg",
+      "https://cdn.pnj.io/images/thumbnails/300/300/detailed/131/gbpfxmw000052-bong-tai-vang-trang-14k-dinh-ngoc-trai-freshwater-pnj-1.png",
     price: 115000,
     rating: 4.6,
     totalRating: 2,
   },
   {
-    title:
-      "Nói Chuyện Là Bản Năng, Giữ Miệng Là Tu Dưỡng, Im Lặng Là Trí Tuệ (Tái Bản)",
+    title: "Nhẫn Kim cương Vàng 14K PNJ DDDDY060012",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694469.jpg",
+      "https://cdn.pnj.io/images/detailed/203/sp-gnddddy060012-nhan-kim-cuong-vang-14k-pnj-1.png",
     price: 110000,
     rating: 4.1,
     totalRating: 20,
   },
   {
-    title: "Đám Trẻ Ở Đại Dương Đen",
+    title: "Dây chuyền Vàng Ý 18K PNJ 0000Y012000",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg",
+      "https://cdn.pnj.io/images/detailed/204/sp-gd0000y012000-day-chuyen-vang-y-18k-pnj-1.png",
     price: 110000,
     rating: 4.1,
     totalRating: 20,
   },
   {
-    title: "Ghi Chép Pháp Y - Những Thi Thể Không Hoàn Chỉnh",
+    title: "Lắc tay Vàng trắng Ý 18K PNJ 0000W001275",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-tr_c-ph_p-y-3.jpg",
+      "https://cdn.pnj.io/images/detailed/203/sp-gl0000w001275-lac-tay-vang-trang-y-18k-pnj-1.png",
     price: 213400,
     discount: 15,
     rating: 2.3,
     totalRating: 20,
   },
   {
-    title: "3 Step - Tiết Lộ Bí Quyết 3 Bước Đạt Điểm 8+ Toán Học",
+    title:
+      "Bông tai Vàng 14K Đính đá synthetic Disney|PNJ Beauty & The Beast ZTXMX000008",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_50143.jpg",
+      "https://cdn.pnj.io/images/detailed/201/sp-gbztxmx000008-bong-tai-vang-14k-dinh-da-sythetic-disney-pnj-beauty-the-beast-1.png",
     price: 239000,
     rating: 4.0,
     discount: 20,
     totalRating: 20,
   },
   {
-    title: "Bài Tập Bổ Trợ Nâng Cao Kỹ Năng Hóa Học Lớp 10 - Tập 2",
+    title:
+      "Bông tai Vàng 14K Đính đá synthetic Disney|PNJ Snow White & the Seven Dwarfs ZTXMY001125",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8936214270262.jpg",
+      "https://cdn.pnj.io/images/detailed/199/sp-gbztxmy001125-bong-tai-vang-14k-dinh-da-sythetic-disney-pnj-snow-white-the-seven-dwarfs-1.png",
     price: 115000,
     rating: 4.6,
     totalRating: 2,
   },
   {
     title:
-      "Nói Chuyện Là Bản Năng, Giữ Miệng Là Tu Dưỡng, Im Lặng Là Trí Tuệ (Tái Bản)",
+      "Nhẫn Vàng 14K đính đá Synthetic Disney|PNJ Snow White & the Seven Dwarfs ZTXMY003037",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694469.jpg",
+      "https://cdn.pnj.io/images/thumbnails/300/300/detailed/202/sp-gnztxmy003038-nhan-vang-14k-dinh-da-sythetic-disney-pnj-the-little-mermaid-1.png",
     price: 110000,
     rating: 4.1,
     totalRating: 20,

@@ -1,11 +1,7 @@
-import { Button, Datepicker } from 'flowbite-react'
-import React from 'react'
-import CustomTable from '../../CustomTable'
-import SearchInput from '../../SearchInput'
-import { DiscountInput } from '../Input/DiscountInput'
+import CustomTable from "../../CustomTable";
+import { DiscountInput } from "../Input/DiscountInput";
 
 const VoucherList = () => {
-
   const headers = [
     {
       label: "Title",
@@ -44,7 +40,7 @@ const VoucherList = () => {
     {
       label: "Action",
       prop: "action",
-      className: "text-blue-700 text-xs font-medium hover:underline",
+      className: "text-primary text-xs font-medium hover:underline",
     },
   ];
 
@@ -57,7 +53,7 @@ const VoucherList = () => {
       used: 50,
       validity_period: "30 days",
       status: "Active",
-      action: "Edit"
+      action: "Edit",
     },
     {
       title: "Product B",
@@ -67,7 +63,7 @@ const VoucherList = () => {
       used: 150,
       validity_period: "60 days",
       status: "Expired",
-      action: "Delete"
+      action: "Delete",
     },
     {
       title: "Product C",
@@ -77,7 +73,7 @@ const VoucherList = () => {
       used: 100,
       validity_period: "45 days",
       status: "Active",
-      action: "View"
+      action: "View",
     },
     // Add more dummy data as needed
   ];
@@ -86,12 +82,18 @@ const VoucherList = () => {
     <div className="flex flex-col justify-between gap-8">
       <div className="flex justify-between w-full">
         <div className="flex w-1/2 space-x-2 items-center">
-          <DiscountInput className={'flex flex-col items-strech w-full flex-wrap justify-between'} placeholder={'Enter search input'} dropdownList={['Voucher title', 'Status']} />
+          <DiscountInput
+            className={
+              "flex flex-col items-strech w-full flex-wrap justify-between"
+            }
+            placeholder={"Enter search input"}
+            dropdownList={["Voucher title", "Status"]}
+          />
         </div>
       </div>
       <CustomTable headers={headers} data={dummyData} />
     </div>
-  )
-}
+  );
+};
 
-export default VoucherList
+export default VoucherList;

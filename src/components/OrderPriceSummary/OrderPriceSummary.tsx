@@ -49,10 +49,10 @@ export function OrderPriceSummary({
             </Link>
             <div className="text-center">
               <span className="text-black text-xs font-medium">or </span>
-              <span className="text-blue-700 text-xs font-medium underline">
+              <span className="text-primary text-xs font-medium underline">
                 Continue Shopping
               </span>
-              <span className="text-blue-700 text-xs font-medium">&rarr;</span>
+              <span className="text-primary text-xs font-medium">&rarr;</span>
             </div>
           </>
         )}

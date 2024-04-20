@@ -99,13 +99,11 @@ export function ProductDetails() {
               </p>
             </div>
             <div className="flex items-center">
-              <span className="text-blue-700 text-3xl font-bold">
-                151.300 đ
-              </span>
+              <span className="text-primary text-3xl font-bold">151.300 đ</span>
               <span className="text-black text-sm font-normal line-through ml-3">
                 178.000
               </span>
-              <div className="w-11 h-5 px-1.5 ml-3 bg-blue-700 rounded justify-center items-center gap-2.5 inline-flex">
+              <div className="w-11 h-5 px-1.5 ml-3 bg-primary rounded justify-center items-center gap-2.5 inline-flex">
                 <span className="text-white text-xs font-bold">-25%</span>
               </div>
             </div>
@@ -118,7 +116,7 @@ export function ProductDetails() {
                   Deliver to{" "}
                   <b>
                     Bonnie Green- Sacramento 23647{" "}
-                    <button className="text-blue-700 ">Change</button>
+                    <button className="text-primary ">Change</button>
                   </b>{" "}
                 </p>
                 <p className="text-black text-sm">
@@ -140,10 +138,13 @@ export function ProductDetails() {
                 size="sm"
                 outline
                 color="cyan"
-                className="w-36 border-1 border-blue-600"
+                className="w-36 border-1 border-yellow-500"
               >
-                <TbShoppingCartPlus size={16} className="mr-2 text-blue-600" />
-                <span className="text-blue-600">Add to cart</span>
+                <TbShoppingCartPlus
+                  size={16}
+                  className="mr-2 text-yellow-500"
+                />
+                <span className="text-yellow-500">Add to cart</span>
               </Button>
               <Button size="sm" className="ml-6 w-36">
                 Buy now
@@ -160,7 +161,7 @@ export function ProductDetails() {
             more="Show more"
             less="Show less"
             className="w-full text-black mr-24"
-            anchorClass="text-blue-700 text-base font-bold"
+            anchorClass="text-primary text-base font-bold"
             expanded={false}
             truncatedEndingComponent={"... "}
           >

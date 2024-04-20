@@ -14,7 +14,7 @@ export function Review() {
         more="Show more"
         less="Show less"
         className="w-full text-black"
-        anchorClass="text-blue-700 font-bold"
+        anchorClass="text-primary font-bold"
         expanded={false}
         truncatedEndingComponent={"... "}
       >

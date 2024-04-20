@@ -59,7 +59,7 @@ export function Notification() {
         </Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Item
-          className="mx-auto w-fit hover:underline text-center text-blue-700 text-xs font-medium"
+          className="mx-auto w-fit hover:underline text-center text-primary text-xs font-medium"
           href="#"
         >
           See more &rarr;

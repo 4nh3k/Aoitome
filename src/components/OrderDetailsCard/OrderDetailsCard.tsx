@@ -17,7 +17,7 @@ export function OrderDetailsCard({
       <span className=" text-black font-medium">{subTitle}</span>
       <span className=" text-gray-500">{description}</span>
       {isEditable && (
-        <button className=" text-blue-700 font-medium">Edit</button>
+        <button className=" text-primary font-medium">Edit</button>
       )}
     </div>
   );

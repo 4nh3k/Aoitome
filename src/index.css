@@ -17,8 +17,8 @@
   border-left-style: solid;
   border-bottom-style: solid;
   border-right-style: dashed;
-  border-color: #C3DDFD;
-  background-color: #EBF5FF;
+  border-color: #c3ddfd;
+  background-color: #ebf5ff;
 
   gap: 8px;
   width: 150px;
@@ -26,9 +26,9 @@
   padding-left: 29px;
   padding-right: 29px;
 
-  --mask: radial-gradient(16px at 100% 16px,#0000 98%,#000) 0 -16px;
+  --mask: radial-gradient(16px at 100% 16px, #0000 98%, #000) 0 -16px;
   -webkit-mask: var(--mask);
-          mask: var(--mask);
+  mask: var(--mask);
 }
 
 .rounded-invert-left {
@@ -47,8 +47,8 @@
   border-right-style: solid;
   border-bottom-style: solid;
   border-left-style: none;
-  border-color: #C3DDFD;
-  background-color: #EBF5FF;
+  border-color: #c3ddfd;
+  background-color: #ebf5ff;
 
   gap: 8px;
   width: 150px;
@@ -56,25 +56,25 @@
   padding-left: 29px;
   padding-right: 29px;
 
-  --mask: radial-gradient(16px at 0 16px,#0000 98%,#000) 0 -16px;
+  --mask: radial-gradient(16px at 0 16px, #0000 98%, #000) 0 -16px;
   -webkit-mask: var(--mask);
-          mask: var(--mask);
+  mask: var(--mask);
 }
 
 .text-primary {
-  @apply text-[#1A56DB]
+  @apply text-[#ca8a04];
 }
 
 .bg-primary {
-  @apply bg-[#1A56DB]
+  @apply bg-[#ca8a04];
 }
 
 .text-secondary {
-  @apply text-[#8FA8DE]
+  @apply text-[#8FA8DE];
 }
 
 .bg-secondary {
-  @apply bg-[#8FA8DE]
+  @apply bg-[#8FA8DE];
 }
 
 .heading-1 {
@@ -114,7 +114,7 @@
 }
 
 .sidebar-hover {
-  @apply hover:bg-gray-100 hover:rounded-xl px-2 py-2
+  @apply hover:bg-gray-100 hover:rounded-xl px-2 py-2;
 }
 
 .sidebar-content {

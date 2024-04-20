@@ -31,13 +31,13 @@ export function RegisterModals({
           </div>
           <div className="flex justify-center gap-4">
             <button className="w-9 h-9">
-              <FaLinkedin className="text-blue-700" size={36} />
+              <FaLinkedin className="text-primary" size={36} />
             </button>
             <button>
               <FcGoogle size={36} />
             </button>
             <button className="w-9 h-9">
-              <FaFacebook className="text-blue-600" size={36} />
+              <FaFacebook className="text-yellow-500" size={36} />
             </button>
           </div>
         </div>
@@ -49,7 +49,7 @@ export function RegisterModals({
           </span>
           <button
             onClick={onSignInClick}
-            className="text-blue-700 text-sm font-medium cursor-pointer hover:underline"
+            className="text-primary text-sm font-medium cursor-pointer hover:underline"
           >
             Sign in
           </button>

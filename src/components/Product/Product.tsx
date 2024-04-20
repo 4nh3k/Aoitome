@@ -26,13 +26,13 @@ export function Product(props: ProductProps) {
           </div>
         </Link>
         <div className="flex items-center">
-          <div className=" text-blue-700 text-base font-bold leading-loose">
+          <div className=" text-primary text-base font-bold leading-loose">
             {!props.discount
               ? props.price.toLocaleString()
               : (props.price * (1 - props.discount / 100)).toLocaleString()}
           </div>
           {props.discount && (
-            <div className="w-11 h-5 px-1.5 ml-3 bg-blue-700 rounded justify-center items-center gap-2.5 inline-flex">
+            <div className="w-11 h-5 px-1.5 ml-3 bg-primary rounded justify-center items-center gap-2.5 inline-flex">
               <div className="text-white text-xs font-bold">
                 -{props.discount}%
               </div>

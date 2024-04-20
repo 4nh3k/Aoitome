@@ -23,13 +23,13 @@ function Footers() {
                   delivery{" "}
                 </span>
                 <Footer.Link
-                  className="text-blue-700 text-xs font-medium underline hover:text-blue-900"
+                  className="text-primary text-xs font-medium underline hover:text-yellow-500"
                   href={path.customerOrderTracking}
                 >
                   Track Your Order
                 </Footer.Link>
                 <Footer.Link
-                  className="text-blue-700 text-xs font-medium underline hover:text-blue-900"
+                  className="text-primary text-xs font-medium underline hover:text-yellow-500"
                   href="#"
                 >
                   Schedule delivery
@@ -50,13 +50,13 @@ function Footers() {
                   special offers and events.
                 </span>
                 <Footer.Link
-                  className="text-blue-700 text-xs font-medium underline hover:text-blue-900"
+                  className="text-primary text-xs font-medium underline hover:text-yellow-500"
                   href="#"
                 >
                   Apply Now
                 </Footer.Link>
                 <Footer.Link
-                  className="text-blue-700 text-xs font-medium underline hover:text-blue-900"
+                  className="text-primary text-xs font-medium underline hover:text-yellow-500"
                   href="#"
                 >
                   Manage Your Account
