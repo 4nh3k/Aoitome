@@ -39,7 +39,7 @@ const AddVoucher: React.FC<VoucherTypeProps> = ({ voucherType }) => {
     <div className='bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm'>
       <div className="flex items-start basis-full gap-4 ">
         <div className="flex flex-col pt-4 pb-5 px-4 justify-between w-full gap-8 rounded-2xl border-1 border-solid border-gray-300 bg-white">
-          <span className="heading-4">Voucher Management</span>
+          <span className="heading-4">Voucher detail</span>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
             <AdminInput title={"Title"} placeholder={"Enter voucher title"} />

@@ -21,10 +21,9 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
     // { label: "All authors", link: "" },
   ];
 
-  const orderSidebarItems = [
-    { label: "Order list", link: path.adminOrderManagement },
-    { label: "Cancel order", link: "" },
-    { label: "Refund order", link: "" },
+  const voucherSidebarItems = [
+    {label: "All vouchers", link: path.adminVoucherManagement},
+    {label: "Add voucher", link: path.adminAddVoucher},
   ];
 
   const customerServiceSidebarItems = [{ label: "Chat log", link: "" }];
@@ -49,16 +48,12 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
             label={"Product Management"}
             items={bookSidebarItems}
           ></SidebarCollapse>
-          <SidebarCollapse
+          <SidebarItem
             imageSrc={Bag}
             label={"Order Management"}
-            items={orderSidebarItems}
-          ></SidebarCollapse>
-          <SidebarItem
-            imageSrc={Voucher}
-            label={"Voucher Management"}
-            link={path.adminVoucherManagement}
-          ></SidebarItem>
+            link={path.adminOrderManagement}
+          />
+          <SidebarCollapse label={"Voucher management"} items={voucherSidebarItems} imageSrc={Voucher} />
           <SidebarCollapse
             imageSrc={Message}
             label={"Customer Service"}

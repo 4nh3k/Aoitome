@@ -2,7 +2,7 @@ import { Pagination, Select } from "flowbite-react";
 import { ProductList } from "../../../assets/mockdata";
 import Product from "../../../components/Product";
 import SearchInput from "../../../components/SearchInput";
-const BookGridPage = () => {
+const JewelryGridPage = () => {
   const dropdownList = [
     "Price (Low to High)",
     "Price (High to Low)",
@@ -10,11 +10,11 @@ const BookGridPage = () => {
   ];
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
-      <span className="text-[1.5rem] font-bold">Book</span>
+      <span className="text-[1.5rem] font-bold">Jewelry</span>
       <div className="flex justify-between items-center self-stretch">
         <SearchInput
           className={""}
-          placeholder={"Search book"}
+          placeholder={"Search Jewelry"}
           dropdownList={[]}
           enableDropdown={false}
         ></SearchInput>
@@ -53,4 +53,4 @@ const BookGridPage = () => {
   );
 };
 
-export default BookGridPage;
+export default JewelryGridPage;
