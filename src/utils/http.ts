@@ -6,7 +6,7 @@ import {
   URL_LOGOUT,
   URL_REGISTER,
 } from "../constants/endpoint";
-import { AuthResponse } from "../types/AuthResponse";
+import { AuthResponse } from "../types/AuthResponse.type";
 import { clearLS, getAccessTokenFromLS } from "./auth";
 class Http {
   private accessToken: string;

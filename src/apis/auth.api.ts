@@ -1,5 +1,5 @@
 import { URL_LOGIN, URL_LOGOUT, URL_REGISTER } from "../constants/endpoint";
-import { AuthResponse } from "../types/AuthResponse";
+import { AuthResponse } from "../types/AuthResponse.type";
 import http from "../utils/http";
 
 const authApi = {
