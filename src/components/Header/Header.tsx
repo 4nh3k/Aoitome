@@ -2,6 +2,7 @@ import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
 import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../../contexts/app.context";
 import Button from "../Button/Button";
 import ForgotPassModals from "../Modals/ForgotPassModals";
 import LoginModals from "../Modals/LoginModals";
@@ -18,6 +19,7 @@ export default function Header(props: HeaderProps) {
   const [toggleLoginModal, setToggleLoginModal] = useState(false);
   const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
   const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
+  const { isAuthenticated } = useAppContext();
   return (
     <div className={props.className}>
       <StickyHeader />
@@ -37,7 +39,6 @@ export default function Header(props: HeaderProps) {
           className="w-1/2"
           placeholder={"Enter a search term"}
           dropdownList={["Option 1", "Option 2", "Option 3"]}
-          dropdownLabel={"Select an option"}
         />
         <div className="flex space-x-4">
           <Notification />
@@ -46,7 +47,7 @@ export default function Header(props: HeaderProps) {
           </Link>
           <Button
             icon={PiUser}
-            text={"Account"}
+            text={isAuthenticated ? "Account" : "Sign In"}
             onClick={() => {
               setToggleLoginModal(true);
             }}

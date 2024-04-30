@@ -18,7 +18,11 @@ export function SearchInput({
     <form className={className}>
       <div className="flex">
         {enableDropdown && dropdownList!.length > 0 ? (
-          <Select id="countries" theme={customSelectTheme} required></Select>
+          <Select id="countries" theme={customSelectTheme} required>
+            {dropdownList!.map((item, index) => (
+              <option key={index}>{item}</option>
+            ))}
+          </Select>
         ) : (
           <></>
         )}

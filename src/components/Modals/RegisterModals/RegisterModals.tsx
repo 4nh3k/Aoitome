@@ -21,6 +21,7 @@ export function RegisterModals({
           <div className="w-full text-black text-2xl font-bold text-center">
             Sign up
           </div>
+          <FloatingLabel variant="outlined" label="Username" />
           <FloatingLabel variant="outlined" label="Email" />
           <FloatingLabel variant="outlined" label="Password" />
           <FloatingLabel variant="outlined" label="Repeat Password" />
