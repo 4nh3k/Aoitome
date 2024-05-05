@@ -1,9 +1,11 @@
-import { Button } from "flowbite-react";
+import { useQuery } from "@tanstack/react-query";
+import { Button, Spinner } from "flowbite-react";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { CategoryList, ProductList, couponList } from "../../assets/mockdata";
+import { bookApi } from "../../apis/book.api";
+import { CategoryList, couponList } from "../../assets/mockdata";
 import Category from "../../components/Category";
 import Container from "../../components/Container";
 import Product from "../../components/Product";
@@ -42,33 +44,48 @@ const settings = {
 };
 
 export default function Homepage() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["books", 0, 10],
+    queryFn: async () => {
+      const res = await bookApi.getBookByPage(0, 10);
+      return res.data;
+    },
+  });
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <img className="rounded-xl" src="/src/assets/img/banner.png" />
       <div className="flex justify-between items-center mt-8">
-        {couponList.map((coupon) => (
-          <img src={coupon.imageURL} />
+        {couponList.map((coupon, index) => (
+          <img key={index} src={coupon.imageURL} />
         ))}
       </div>
       <Container>
         <div className="heading-4">Categories</div>
         <div className="flex justify-between w-full items-center mt-5">
-          {CategoryList.map((category) => (
-            <Category title={category.title} imageURL={category.imageURL} />
+          {CategoryList.map((category, index) => (
+            <Category
+              key={index}
+              title={category.title}
+              imageURL={category.imageURL}
+            />
           ))}
         </div>
       </Container>
       <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
         <div className="heading-4">On Sale</div>
         <Slider {...settings}>
-          {ProductList.map((product) => (
+          {data?.data.map((product, index) => (
             <Product
+              id={product.id}
+              key={product.id}
               title={product.title}
-              imageURL={product.imageURL}
+              imageURL={product.imageUrl}
               price={product.price}
-              rating={product.rating}
-              discount={product.discount}
-              totalRating={product.totalRating}
+              rating={product.averageRating}
+              discount={product.discountPercentage}
+              totalRating={product.ratingsCount}
             />
           ))}
         </Slider>
@@ -76,14 +93,16 @@ export default function Homepage() {
       <Container>
         <div className="heading-4">Trending</div>
         <div className="grid grid-cols-5 gap-4 px-4 mt-5">
-          {ProductList.map((product) => (
+          {data?.data.map((product, index) => (
             <Product
+              id={product.id}
+              key={product.id}
               title={product.title}
-              imageURL={product.imageURL}
+              imageURL={product.imageUrl}
               price={product.price}
-              rating={product.rating}
-              discount={product.discount}
-              totalRating={product.totalRating}
+              rating={product.averageRating}
+              discount={product.discountPercentage}
+              totalRating={product.ratingsCount}
             />
           ))}
         </div>

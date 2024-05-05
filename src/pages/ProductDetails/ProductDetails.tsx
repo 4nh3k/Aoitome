@@ -64,21 +64,11 @@ export function ProductDetails() {
             <div className="text-2xl font-semibold">{bookData?.title}</div>
             <div className="flex mt-3">
               <div className="w-1/2">
-                <span className="text-black text-sm font-normal">
-                  Provider:{" "}
-                </span>
-                <span className="text-black text-sm font-bold">
-                  Cambridge University Press
-                </span>
-              </div>
-              <div className="w-1/2">
                 <span className="text-black text-sm font-normal">Author: </span>
                 <span className="text-black text-sm font-bold">
                   {bookData?.authorName}
                 </span>
               </div>
-            </div>
-            <div className="flex mt-1">
               <div className="w-1/2">
                 <span className="text-black text-sm font-normal">
                   Publisher:{" "}
@@ -87,13 +77,27 @@ export function ProductDetails() {
                   {bookData?.publisherName}
                 </span>
               </div>
+            </div>
+            <div className="flex mt-1">
               <div className="w-1/2">
                 <span className="text-black text-sm font-normal">Format: </span>
                 <span className="text-black text-sm font-bold">
                   {bookData?.formatName}
                 </span>
               </div>
+              <div className="w-1/2">
+                <span className="text-black text-sm font-normal">
+                  Num of page:{" "}
+                </span>
+                <span className="text-black text-sm font-bold">
+                  {bookData?.numPages}
+                </span>
+              </div>
             </div>
+            <span className="text-black text-sm font-normal">Genres: </span>
+            <span className="text-black text-sm font-semibold">
+              {bookData?.bookGenres.map((genre) => genre.name).join(", ")}
+            </span>
             <div className="flex justify-start w-full mt-1">
               <RatingStar initialRating={bookData?.averageRating} readonly />
               <p className="ml-2 text-xs font-medium leading-5">
@@ -103,6 +107,7 @@ export function ProductDetails() {
                 {bookData?.ratingsCount} reviews
               </p>
             </div>
+
             <div className="flex items-center">
               <span className="text-blue-700 text-3xl font-bold">
                 {(bookData?.price * (1 - bookData?.discountPercentage)).toFixed(
