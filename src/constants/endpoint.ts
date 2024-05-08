@@ -1,6 +1,8 @@
-export const URL_BASE = "http://localhost:6001/api/v1";
-export const URL_REGISTER = "/identity/user/register";
-export const URL_LOGIN = "/identity/user/login";
-export const URL_LOGOUT = "/identity/user/logout";
-export const URL_BOOKS = "/catalog/book/item";
-export const URL_BOOKS_ITEM = "/catalog/book/items";
+export const URL_BASE = "http://localhost:6001";
+export const IDENTITY_PREFIX = "/identity.api/v1";
+export const CATALOG_PREFIX = "/catalog.api/v1";
+export const URL_REGISTER = "/user/register";
+export const URL_LOGIN = "/user/login";
+export const URL_LOGOUT = "/user/logout";
+export const URL_BOOKS = "/books";
+export const URL_GENRES = "/genres";
