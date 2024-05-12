@@ -1,7 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
 import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
 import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import authApi from "../../apis/auth.api";
 import { useAppContext } from "../../contexts/app.context";
 import Button from "../Button/Button";
 import ForgotPassModals from "../Modals/ForgotPassModals";
@@ -20,6 +22,11 @@ export default function Header(props: HeaderProps) {
   const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
   const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
   const { isAuthenticated } = useAppContext();
+
+  const logoutMutation = useMutation({
+    mutationFn: () => authApi.logout(),
+  });
+
   return (
     <div className={props.className}>
       <StickyHeader />
@@ -45,13 +52,31 @@ export default function Header(props: HeaderProps) {
           <Link to="/cart">
             <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
           </Link>
-          <Button
-            icon={PiUser}
-            text={isAuthenticated ? "Account" : "Sign In"}
-            onClick={() => {
-              setToggleLoginModal(true);
-            }}
-          />
+          {!isAuthenticated ? (
+            <Button
+              icon={PiUser}
+              text={"Sign In"}
+              onClick={() => {
+                setToggleLoginModal(true);
+              }}
+            />
+          ) : (
+            <Dropdown
+              label=""
+              renderTrigger={() => (
+                <span className="small font-medium flex">
+                  <PiUser className="mr-1" size={18} /> Account
+                </span>
+              )}
+            >
+              <Dropdown.Item>Dashboard</Dropdown.Item>
+              <Dropdown.Item>Settings</Dropdown.Item>
+              <Dropdown.Item>Earnings</Dropdown.Item>
+              <Dropdown.Item onClick={() => logoutMutation.mutate()}>
+                Sign out
+              </Dropdown.Item>
+            </Dropdown>
+          )}
           <LoginModals
             openModal={toggleLoginModal}
             onCloseModal={() => {

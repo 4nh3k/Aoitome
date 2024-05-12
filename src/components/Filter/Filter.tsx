@@ -24,7 +24,7 @@ export function Filter() {
   if (isLoading) return <Spinner />;
 
   return (
-    <Container className="w-72 px-6 py-6 my-8 bg-white rounded-xl shadow-sm divide-y space-y-3">
+    <Container className="w-72 px-6 py-6 my-8 h-fit bg-white rounded-xl shadow-sm divide-y space-y-3">
       <div>
         <div className="heading-5 mb-2">Genres</div>
         {data?.data.map((genre) => (
@@ -60,7 +60,7 @@ export function Filter() {
         </div>
       </fieldset>
       <div>
-        <div className="heading-5 mb-2">Rating</div>
+        <div className="heading-5 mb-2  mt-2">Rating</div>
         {data?.data.map((genre) => (
           <div key={genre.id} className="flex items-center gap-2 mt-1">
             <Checkbox id={genre.name} />

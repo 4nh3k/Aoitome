@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import authApi from "../../../apis/auth.api";
@@ -32,6 +33,7 @@ export function LoginModals({
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setIsAuthenticated } = useAppContext();
+  const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: (body: { username: string; password: string }) =>
@@ -55,6 +57,8 @@ export function LoginModals({
         toast.success("Successfully login!");
         setAccessTokenToLS(data.data?.token as string);
         setIsAuthenticated(true);
+        onCloseModal();
+        navigate("/");
       },
       onError: (error: unknown) => {
         toast.error("Login failed!");

@@ -120,7 +120,7 @@ export function ProductDetails() {
               </span>
               <div className="w-11 h-5 px-1.5 ml-3 bg-blue-700 rounded justify-center items-center gap-2.5 inline-flex">
                 <span className="text-white text-xs font-bold">
-                  -{bookData?.discountPercentage * 100}%
+                  -{(bookData?.discountPercentage * 100).toFixed()}%
                 </span>
               </div>
             </div>
