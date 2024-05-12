@@ -55,6 +55,7 @@ export function LoginModals({
     loginMutation.mutate(data, {
       onSuccess: (data) => {
         toast.success("Successfully login!");
+        console.log("data", data);
         setAccessTokenToLS(data.data?.token as string);
         setIsAuthenticated(true);
         onCloseModal();
