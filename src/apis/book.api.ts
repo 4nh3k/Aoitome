@@ -1,6 +1,6 @@
 import { CATALOG_PREFIX, URL_BOOKS, URL_GENRES } from "../constants/endpoint";
-import Book from "../types/Book.type";
-import Genre from "../types/Genre.type";
+import Book from "../types/Models/BookCatalog/Book.type";
+import Genre from "../types/Models/BookCatalog/Genre.type";
 import { PaginatedResponse } from "../types/PaginatedResponse.type";
 import http from "../utils/http";
 
@@ -23,4 +23,5 @@ export const bookApi = {
       `${CATALOG_PREFIX}${URL_GENRES}?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
   },
+  
 };

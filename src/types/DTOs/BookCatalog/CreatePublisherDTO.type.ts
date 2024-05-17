@@ -1,0 +1,3 @@
+interface CreatePublisherDTO {
+  name: string;
+}

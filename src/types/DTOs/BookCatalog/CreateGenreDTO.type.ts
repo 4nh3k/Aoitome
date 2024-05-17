@@ -1,0 +1,3 @@
+interface CreateGenreDTO {
+  name: string;
+}
