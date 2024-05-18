@@ -32,6 +32,7 @@ class Http {
       (config) => {
         if (this.accessToken && config.headers) {
           config.headers.Authorization = `Bearer ${this.accessToken}`;
+          console.log(config.headers);
         }
         return config;
       },

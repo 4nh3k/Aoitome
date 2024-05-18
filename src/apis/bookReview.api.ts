@@ -9,7 +9,7 @@ export const bookReviewApi = {
       `${CATALOG_PREFIX}${URL_BOOK_REVIEWS}/book/${bookId}?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
   },
-  getBookReviewByUser(userId: number, pageIndex: number, pageSize: number) {
+  getBookReviewByUser(userId: string, pageIndex: number, pageSize: number) {
     return http.get<PaginatedResponse<BookReviews>>(
       `${CATALOG_PREFIX}${URL_BOOK_REVIEWS}/user/${userId}?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
@@ -19,13 +19,10 @@ export const bookReviewApi = {
       `${CATALOG_PREFIX}${URL_BOOK_REVIEWS}?userId=${userId}&bookId=${bookId}`
     );
   },
-  createBookReview(review: BookReviews) {
-    return http.post<BookReviews>(
-      `${CATALOG_PREFIX}${URL_BOOK_REVIEWS}`,
-      review
-    );
+  createBookReview(review: BookReviewDTO) {
+    return http.post<string>(`${CATALOG_PREFIX}${URL_BOOK_REVIEWS}`, review);
   },
-  updateBookReview(review: BookReviews) {
+  updateBookReview(review: BookReviewDTO) {
     return http.patch<BookReviews>(
       `${CATALOG_PREFIX}${URL_BOOK_REVIEWS}`,
       review
