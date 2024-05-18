@@ -26,5 +26,5 @@ export const getAccessTokenFromLS = () =>
 
 export const clearLS = () => {
   localStorage.removeItem("access_token");
-  localStorage.removeItem("profile");
+  localStorage.removeItem("uid");
 };

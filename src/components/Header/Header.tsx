@@ -5,6 +5,7 @@ import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import authApi from "../../apis/auth.api";
 import { useAppContext } from "../../contexts/app.context";
+import { clearLS } from "../../utils/auth";
 import Button from "../Button/Button";
 import ForgotPassModals from "../Modals/ForgotPassModals";
 import LoginModals from "../Modals/LoginModals";
@@ -21,10 +22,14 @@ export default function Header(props: HeaderProps) {
   const [toggleLoginModal, setToggleLoginModal] = useState(false);
   const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
   const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
-  const { isAuthenticated } = useAppContext();
+  const { isAuthenticated, setIsAuthenticated } = useAppContext();
 
   const logoutMutation = useMutation({
-    mutationFn: () => authApi.logout(),
+    mutationFn: async () => {
+      clearLS();
+      setIsAuthenticated(false);
+      await authApi.logout();
+    },
   });
 
   return (
