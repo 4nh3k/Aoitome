@@ -1,34 +1,51 @@
 import { Pagination, Select } from "flowbite-react";
 import Product from "../../../components/Product";
 import SearchInput from "../../../components/SearchInput";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { bookApi } from "../../../apis/book.api";
 import { useEffect, useState } from "react";
 const BookGridPage = () => {
 
-  const [pageIndex, setPageIndex] = useState<number>(0);
+  const queryClient = useQueryClient();
+  const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
+  const [totalItems, setTotalItems] = useState<number>(0);
   const [booksInPage, setBooksInPage] = useState<BookGeneralInfoDTO[]>();
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const { data: booksData, isLoading: isLoadingBook } = useQuery({
     queryKey: ['books', { pageIndex, pageSize }],
     queryFn: ({ signal }) => {
-      return bookApi.getBookByPage(pageIndex, pageSize);
+      return bookApi.getBookByPage(pageIndex - 1, pageSize);
     }
   });
 
   const {data: searchBook, isLoading: isSearchBookLoading} = useQuery({
     queryKey: ['search_book', {pageIndex, pageSize}],
-    queryFn: () => bookApi.getSearchBookByPage(searchTerm, pageIndex, pageSize)
+    queryFn: () => {
+      return bookApi.getSearchBookByPage(searchTerm, pageIndex - 1, pageSize);
+    }
   });
 
   useEffect(() => {
-    if (!isLoadingBook){
+    if (!isLoadingBook && !isSearching){
       const data = booksData?.data.data;
-      setBooksInPage(data)
+      const totalItems = booksData?.data.totalItems;
+      setBooksInPage(data);
+      setTotalItems(totalItems);
+      console.log("Page index: " + pageIndex);
+      console.log("Total items: " + totalItems);
     }
-  }, [booksData, booksInPage, isLoadingBook]);
+    else if (!isSearchBookLoading && isSearching){
+      const booksInPage = searchBook?.data.data
+      setBooksInPage(booksInPage);
+      const totalItems = searchBook?.data.totalItems;
+      setTotalItems(totalItems);
+      console.log("Page index: " + pageIndex);
+      console.log("Total items: " + totalItems);
+    }
+  }, [booksData, booksInPage, isLoadingBook, isSearchBookLoading, isSearching, pageIndex, searchBook]);
 
   const sortChoices = [
     "Price (Low to High)",
@@ -59,12 +76,38 @@ const BookGridPage = () => {
   };
   
   const onChangeSearchTerm = (searchTerm: string) => {
-    setSearchTerm(searchTerm);
-  }
-  const onSearchSubmit = (searchTerm: string) => {
-    if (!isSearchBookLoading && searchBook){
-      setBooksInPage(searchBook.data.data);
+    const isSearchTermNull = searchTerm === "" ? true : false;
+    setIsSearching(!isSearchTermNull);
+    if (!isSearchTermNull){
+      setSearchTerm(searchTerm);
+      console.log("Search term set: " + searchTerm)
     }
+  }
+
+  const onSearchSubmit = () => {
+    conditionalInvalidateSearchBookQuery();
+    if (!isSearchBookLoading && isSearching && searchBook){
+      setBooksInPage(searchBook.data.data);
+      setPageIndex(1);
+      const totalItems = searchBook.data.totalItems;
+      setTotalItems(totalItems);
+      console.log("Page index: " + pageIndex);
+      console.log("Total items: " + totalItems);
+      console.log(searchBook.data.data);
+    }
+  }
+
+  const conditionalInvalidateSearchBookQuery = () => {
+    const cachedData = queryClient.getQueryData(['search_book', { pageIndex, pageSize }]);
+    if (cachedData) {
+      queryClient.invalidateQueries(['search_book', { pageIndex, pageSize }]);
+    }
+  };
+
+  const handlePageChange = (e : number) => {
+    const currentPage = e;
+    console.log("Current page: " + currentPage);
+    setPageIndex(currentPage);
   }
   
   return (
@@ -105,11 +148,9 @@ const BookGridPage = () => {
       </div>
       <Pagination
         className="m-auto"
-        currentPage={0}
-        onPageChange={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        totalPages={3}
+        currentPage={pageIndex}
+        onPageChange={handlePageChange}
+        totalPages={Math.ceil(totalItems / pageSize)}
       ></Pagination>
     </div>
   );

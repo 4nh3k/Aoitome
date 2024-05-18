@@ -1,6 +1,5 @@
 import { Select } from "flowbite-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import customSelectTheme from "./SelectTheme";
 
 interface SearchInputProps {
@@ -21,13 +20,11 @@ export function SearchInput({
   onSubmit,
 }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Search term: " + searchValue)
-    onSubmit(searchValue); // Call onSubmit function with current search value
-    navigate(`/search?q=${searchValue}`);
+    onSubmit("Search result:" + searchValue); // Call onSubmit function with current search value
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

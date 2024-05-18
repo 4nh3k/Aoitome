@@ -9,7 +9,8 @@ export const publisherApi = {
       `${CATALOG_PREFIX}${URL_PUBLISHERS}?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
   },
-  createPublisher(body: Publisher) {
+  createPublisher(name: string) {
+    const body = { name };
     return http.post<Publisher>(`${CATALOG_PREFIX}${URL_PUBLISHERS}`, body);
   },
   updatePublisher(body: Publisher) {
