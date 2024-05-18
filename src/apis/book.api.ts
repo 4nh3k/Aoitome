@@ -1,5 +1,5 @@
 import { CATALOG_PREFIX, URL_BOOKS } from "../constants/endpoint";
-import Book from "../types/Book.type";
+import Book from "../types/Models/BookCatalog/Book.type";
 import { PaginatedResponse } from "../types/PaginatedResponse.type";
 import http from "../utils/http";
 

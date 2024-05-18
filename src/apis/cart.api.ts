@@ -1,5 +1,5 @@
 import { CART_PREFIX, URL_CART } from "../constants/endpoint";
-import { Cart } from "../types/Cart.type";
+import { Cart } from "../types/Models/Cart/Cart.type";
 import http from "../utils/http";
 
 export const cartApi = {
