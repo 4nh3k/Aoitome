@@ -1,6 +1,5 @@
 import { Select } from "flowbite-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import customSelectTheme from "./SelectTheme";
 
 interface SearchInputProps {
@@ -8,6 +7,7 @@ interface SearchInputProps {
   placeholder: string;
   dropdownList?: string[];
   enableDropdown?: boolean;
+  handleSubmit: (searchValue: string) => void;
 }
 
 export function SearchInput({
@@ -15,17 +15,17 @@ export function SearchInput({
   dropdownList,
   placeholder,
   enableDropdown = true,
+  handleSubmit,
 }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState("");
-  const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    navigate(`/search?q=${searchValue}`);
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSubmit(searchValue);
   };
 
   return (
-    <form className={className} onSubmit={handleSubmit}>
+    <form className={className} onSubmit={onSubmit}>
       <div className="flex">
         {enableDropdown && dropdownList!.length > 0 ? (
           <Select id="countries" theme={customSelectTheme} required>

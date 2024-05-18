@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
 import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authApi from "../../apis/auth.api";
 import { useAppContext } from "../../contexts/app.context";
 import { clearLS } from "../../utils/auth";
@@ -23,6 +23,11 @@ export default function Header(props: HeaderProps) {
   const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
   const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
   const { isAuthenticated, setIsAuthenticated } = useAppContext();
+  const navigate = useNavigate();
+
+  const handleSubmit = (searchValue: string) => {
+    navigate(`/search?q=${searchValue}`);
+  };
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
@@ -49,6 +54,7 @@ export default function Header(props: HeaderProps) {
         </Navbar.Brand>
         <SearchInput
           className="w-1/2"
+          handleSubmit={handleSubmit}
           placeholder={"Enter a search term"}
           dropdownList={["Option 1", "Option 2", "Option 3"]}
         />

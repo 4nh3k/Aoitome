@@ -9,7 +9,8 @@ export const genresApi = {
       `${CATALOG_PREFIX}${URL_GENRES}?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
   },
-  createGenre(body: Genre) {
+  createGenre(name: string) {
+    const body = { name };
     return http.post<Genre>(`${CATALOG_PREFIX}${URL_GENRES}`, body);
   },
   updateGenre(body: Genre) {
