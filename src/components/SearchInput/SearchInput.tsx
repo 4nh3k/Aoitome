@@ -8,6 +8,8 @@ interface SearchInputProps {
   placeholder: string;
   dropdownList?: string[];
   enableDropdown?: boolean;
+  onSubmit: (searchValue: string) => void; // Function to handle form submission
+  onChange: (searchValue: string) => void; // Function to handle input change
 }
 
 export function SearchInput({
@@ -15,13 +17,24 @@ export function SearchInput({
   dropdownList,
   placeholder,
   enableDropdown = true,
+  onChange,
+  onSubmit,
 }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("Search term: " + searchValue)
+    onSubmit(searchValue); // Call onSubmit function with current search value
     navigate(`/search?q=${searchValue}`);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    console.log("Search term: " + newValue)
+    setSearchValue(newValue); // Update local state
+    onChange(newValue); // Call onChange function with new value
   };
 
   return (
@@ -46,7 +59,7 @@ export function SearchInput({
             placeholder={placeholder}
             required
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={handleChange}
           />
           <button
             type="submit"

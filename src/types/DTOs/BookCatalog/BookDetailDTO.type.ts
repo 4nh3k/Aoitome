@@ -1,6 +1,6 @@
 import Genre from "../../Models/BookCatalog/Genre.type";
 
-interface BookDetailDTO {
+export interface BookDetailDTO {
   id: number;
   languageCode?: string | null;
   averageRating?: number;
