@@ -20,6 +20,7 @@ import OrderSummary from "./pages/OrderSummary";
 import OrderTracking from "./pages/OrderTracking";
 import ProductDetails from "./pages/ProductDetails";
 import SearchPage from "./pages/SearchPage";
+import { Test } from "./pages/TestAPIPage/Test";
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
 
@@ -68,6 +69,7 @@ export default function useRouteElement() {
       ),
       path: path.forgotPass,
     },
+    { element: <Test />, path: "/Test" },
 
     {
       element: <MainLayout />,
