@@ -29,17 +29,39 @@ export function Cart() {
       {/* <p className="text-gray-500">Your cart is empty</p> */}
       <div className="flex w-full space-x-12 mt-4">
         <div className="w-full space-y-4">
-          {data?.items.map((product) => (
+          {!data?.items ||
+            (data.items.length === 0 && (
+              <div className="w-full px-5 pt-5 pb-6 space-y-4 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
+                <span className="w-80 text-black text-sm">
+                  Your cart is empty
+                </span>
+              </div>
+            ))}
+          {data?.items?.map((product) => (
             <CartProduct
+              id={product.id}
               key={product.id}
               imageURL={product.imageUrl}
               price={product.unitPrice}
               title={product.title}
+              defaultValue={product.quantity}
             />
           ))}
         </div>
         <div className="w-[25rem]">
-          <OrderPriceSummary path={path.checkout} />
+          <OrderPriceSummary
+            originalPrice={
+              data?.items?.reduce(
+                (acc, item) =>
+                  acc + parseFloat(item.unitPrice.toFixed(2)) * item.quantity,
+                0
+              ) || 0
+            }
+            savings={0}
+            tax={0}
+            storePickup={0}
+            path={path.checkout}
+          />
           <div className="w-full px-5 pt-5 pb-6 mt-8 space-y-4 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
             <span className="w-80 text-black text-sm">
               Do you have a voucher or gift card ?

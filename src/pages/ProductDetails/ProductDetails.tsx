@@ -1,11 +1,14 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Pagination, Rating } from "flowbite-react";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import { useParams } from "react-router-dom";
 import ShowMoreText from "react-show-more-text";
 import Slider from "react-slick";
+import { toast } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import { cartApi } from "../../apis/cart.api";
 import { ProductList } from "../../assets/mockdata";
 import Container from "../../components/Container";
 import Product from "../../components/Product";
@@ -13,6 +16,7 @@ import QuantityInput from "../../components/QuantityInput";
 import RatingStar from "../../components/RatingStar";
 import Review from "../../components/Review";
 import useBookDetails from "../../hooks/useBookDetails";
+import { getUIDFromLS } from "../../utils/auth";
 
 function NextArrow(props) {
   const { className, onClick } = props;
@@ -49,9 +53,63 @@ const settings = {
 
 export function ProductDetails() {
   const { id } = useParams();
-
+  const uid = getUIDFromLS();
   const { getBookDetails } = useBookDetails(id || "");
   const { data: bookData, isLoading } = getBookDetails;
+  const queryClient = useQueryClient();
+
+  const { data: cartData, isLoading: cartIsLoading } = useQuery({
+    queryKey: ["cart", uid],
+    queryFn: async () => {
+      if (!uid || uid === "") {
+        toast.error("User not found");
+        return;
+      }
+      console.log("userId", uid);
+      const data = await cartApi.getCart(uid);
+      console.log("data", data);
+
+      return data.data;
+    },
+  });
+  const addToCartMutation = useMutation({
+    mutationKey: ["addToCart", id],
+    mutationFn: async (id: string) => {
+      console.log("Add to cart", id);
+      if (!bookData) {
+        toast.error("Book not found");
+        return;
+      }
+      var items = cartData?.items ?? [];
+      if (items.find((item) => item.bookId === bookData.id)) {
+        console.log("test");
+        items = items.map((item) => {
+          if (item.bookId === bookData.id) {
+            item.quantity += 1;
+            item.totalUnitPrice = item.unitPrice * item.quantity;
+          }
+          return item;
+        });
+      } else {
+        console.log("test2");
+        items.push({
+          imageUrl: bookData?.imageUrl ?? "",
+          title: bookData?.title ?? "",
+          unitPrice: bookData?.price ?? 0,
+          quantity: 1,
+          bookId: bookData?.id,
+          oldUnitPrice: bookData?.price ?? 0,
+          totalUnitPrice:
+            bookData?.price ?? 0 * (1 - (bookData.discountPercentage ?? 0)),
+        });
+        console.log("cartData", cartData);
+      }
+      console.log("cartData", cartData);
+      await cartApi.updateCart(uid, items);
+      toast.success("Add to cart successfully");
+      queryClient.invalidateQueries(["cart", uid]);
+    },
+  });
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -156,6 +214,7 @@ export function ProductDetails() {
                 outline
                 color="cyan"
                 className="w-36 border-1 border-blue-600"
+                onClick={() => addToCartMutation.mutate(bookData?.id)}
               >
                 <TbShoppingCartPlus size={16} className="mr-2 text-blue-600" />
                 <span className="text-blue-600">Add to cart</span>

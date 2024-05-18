@@ -1,4 +1,4 @@
-export interface OrderItem{
+export interface OrderItem {
   id: number;
   bookId: number;
   title?: string;
@@ -7,5 +7,5 @@ export interface OrderItem{
   totalUnitPrice?: number;
   quantity?: number;
   imageUrl: string;
-  orderId: number;
+  orderId?: number;
 }

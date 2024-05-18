@@ -58,6 +58,8 @@ class Http {
         return response;
       },
       (error: AxiosError) => {
+        console.log("error", error);
+
         if (
           error.response?.status === HttpStatusCode.Unauthorized &&
           error.response?.config.url !== URL_LOGIN
