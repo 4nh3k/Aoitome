@@ -1,8 +1,27 @@
 import { Checkbox, Label, Select, TextInput, Textarea } from "flowbite-react";
+import { AddressDTO } from "../../types/DTOs/Ordering/AddressDTO.type";
 
-export function DeliveryAddressForm() {
+interface DeliveryAddressFormProps {
+  address: AddressDTO;
+  setAddress: React.Dispatch<React.SetStateAction<AddressDTO>>;
+}
+
+export function DeliveryAddressForm({
+  address,
+  setAddress,
+}: DeliveryAddressFormProps) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAddress((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAddress((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
-    <div className="w-full px-5 py-5 space-y-8 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
+    <form className="w-full px-5 py-5 space-y-8 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
       {/* <fieldset className="flex max-w-md gap-4">
         <div className="flex items-center gap-2">
           <Radio
@@ -55,8 +74,11 @@ export function DeliveryAddressForm() {
           <Label className="font-medium" value="Your Address*" />
         </div>
         <Textarea
-          id="comment"
+          id="street"
           placeholder="Write your address here..."
+          name="street"
+          onChange={handleTextAreaChange}
+          value={address.street}
           required
           rows={4}
         />
@@ -66,7 +88,12 @@ export function DeliveryAddressForm() {
           <div className="mb-2 block">
             <Label className="font-medium" value="Country*" />
           </div>
-          <Select id="countries" required>
+          <Select
+            id="countries"
+            name="country"
+            onChange={handleSelectChange}
+            required
+          >
             <option>United States</option>
             <option>Canada</option>
             <option>France</option>
@@ -77,11 +104,15 @@ export function DeliveryAddressForm() {
           <div className="mb-2 block">
             <Label className="font-medium" value="City*" />
           </div>
-          <Select id="countries" required>
-            <option>United States</option>
-            <option>Canada</option>
-            <option>France</option>
-            <option>Germany</option>
+          <Select
+            id="cities"
+            name="city"
+            onChange={handleSelectChange}
+            required
+          >
+            <option>HCM</option>
+            <option>QN</option>
+            <option>HN</option>
           </Select>
         </div>
       </div>
@@ -91,6 +122,6 @@ export function DeliveryAddressForm() {
           Save the data in the address list
         </Label>
       </div>
-    </div>
+    </form>
   );
 }

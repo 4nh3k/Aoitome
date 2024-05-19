@@ -8,7 +8,7 @@ import { path } from "../../constants/path";
 export function OrderSummary() {
   return (
     <>
-      <div className="heading-4">Shopping Cart</div>
+      <div className="heading-4">Order Summary</div>
       <div className="flex space-x-8 w-full">
         <OrderDetailsCard
           title="Billing information"

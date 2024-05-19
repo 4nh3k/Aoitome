@@ -1,14 +1,21 @@
 import { Button } from "flowbite-react";
-import { Link } from "react-router-dom";
 
 interface OrderPriceSummaryProps {
   textOnly?: boolean;
-  path?: string;
+  originalPrice?: number;
+  savings?: number;
+  tax?: number;
+  storePickup?: number;
+  onClick?: () => void;
 }
 
 export function OrderPriceSummary({
   textOnly = false,
-  path = "",
+  originalPrice = 2000,
+  savings = 200,
+  tax = 799,
+  storePickup = 99,
+  onClick,
 }: OrderPriceSummaryProps) {
   return (
     <div className="w-full px-5 pt-5 pb-2.5 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
@@ -20,33 +27,39 @@ export function OrderPriceSummary({
           <span className="text-black text-base font-normal">
             Original price
           </span>
-          <span className="text-black text-base font-medium">$1200.00</span>
+          <span className="text-black text-base font-medium">
+            ${originalPrice.toFixed(2)}
+          </span>
         </div>
         <div className="flex w-full justify-between">
           <span className="text-black text-base font-normal">Savings</span>
           <span className="text-emerald-600 text-base font-medium">
-            -$200.99
+            -${savings.toFixed(2)}
           </span>
         </div>
         <div className="flex w-full justify-between">
           <span className="text-black text-base font-normal">Store pickup</span>
-          <span className="text-black text-base font-medium">-$99</span>
+          <span className="text-black text-base font-medium">
+            -${storePickup.toFixed(2)}
+          </span>
         </div>
         <div className="flex w-full justify-between">
           <span className="text-black text-base font-normal">Tax</span>
-          <span className="text-black text-base font-medium">-$799 </span>
+          <span className="text-black text-base font-medium">
+            -${tax.toFixed(2)}{" "}
+          </span>
         </div>
         <div className="py-2.5 border-t border-gray-200 flex w-full justify-between">
           <span className="text-black text-base font-bold">Total</span>
-          <span className="text-black text-base font-bold">$2003</span>
+          <span className="text-black text-base font-bold">
+            ${(originalPrice - savings - storePickup - tax).toFixed(2)}
+          </span>
         </div>
         {!textOnly && (
           <>
-            <Link to={path}>
-              <Button className="w-full" size="sm">
-                Proceed to checkout
-              </Button>
-            </Link>
+            <Button className="w-full" size="sm" onClick={onClick}>
+              Proceed to checkout
+            </Button>
             <div className="text-center">
               <span className="text-black text-xs font-medium">or </span>
               <span className="text-blue-700 text-xs font-medium underline">

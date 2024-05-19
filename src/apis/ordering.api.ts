@@ -19,8 +19,8 @@ export const orderingApi = {
   getAllStatus() {
     return http.get<OrderStatus[]>(`${ORDERING_PREFIX}${URL_ORDERS}/status`);
   },
-  getCardType() {
-    return http.get<CardType[]>(`${ORDERING_PREFIX}${URL_ORDERS}/card-type`);
+  getCardTypes() {
+    return http.get<CardType[]>(`${ORDERING_PREFIX}${URL_ORDERS}/cardtypes`);
   },
   getOrderByUser(userId: number, pageIndex: number, pageSize: number) {
     return http.get<PaginatedResponse<Order>>(
