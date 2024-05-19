@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { bookApi } from "../../../apis/book.api";
 import { useEffect, useState } from "react";
 const BookGridPage = () => {
-
+  
   const queryClient = useQueryClient();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
@@ -115,7 +115,7 @@ const BookGridPage = () => {
       <span className="text-[1.5rem] font-bold">Book</span>
       <div className="flex justify-between items-center self-stretch">
         <SearchInput
-          className={""}
+          className={"min-w-64"}
           placeholder={"Search book"}
           dropdownList={[]}
           enableDropdown={false}

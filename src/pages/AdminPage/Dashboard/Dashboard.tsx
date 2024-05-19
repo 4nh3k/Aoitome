@@ -2,6 +2,9 @@ import AnalysisDataBox from '../../../components/AdminComponents/AnalysisDataBox
 import PieChart from '../../../components/AdminComponents/Charts/DonutChart'
 import BarChart from '../../../components/AdminComponents/Charts/BarChart'
 import CustomTable from '../../../components/CustomTable'
+import { useQuery } from '@tanstack/react-query'
+import { orderingApi } from '../../../apis/ordering.api'
+import { bookApi } from '../../../apis/book.api'
 
 const AdminDashboard = () => {
   const headers = [
@@ -58,24 +61,42 @@ const AdminDashboard = () => {
     }
   ]
 
+  const { data: reportData, isLoading: isLoadingReport } = useQuery({
+    queryKey: ['report'],
+    queryFn: () => {
+      return orderingApi.getReportMetrics();
+    }
+  });
+
+  const { data: booksData, isLoading: isLoadingBook } =
+    useQuery({
+      queryKey: ['books'],
+      queryFn: () => {
+        return bookApi.getBookByPage(0, 12);
+      }
+    })
+
+  const report = reportData?.data;
+  const totalBooks = booksData?.data.totalItems;
+
   return (
     <div className=' bg-background mt-5 flex w-full flex-col gap-4'>
 
       <span className='heading-4'>Key metrics</span>
 
       <div className='flex items-start gap-8 overflow-x-hidden'>
-        <AnalysisDataBox label={'Revenue'} value={'$10,000'}></AnalysisDataBox>
-        <AnalysisDataBox label={'Books'} value={'20,000'}></AnalysisDataBox>
-        <AnalysisDataBox label={'Orders'} value={'5,000'}></AnalysisDataBox>
-        <AnalysisDataBox label={'Customers'} value={'1,000'}></AnalysisDataBox>
+        <AnalysisDataBox label={'Books'} value={booksData !== undefined ? `${totalBooks}` : "0"}></AnalysisDataBox>
+        <AnalysisDataBox label={'Revenue'} value={report !== undefined ? `${report.totalRevenue}` : "0"}></AnalysisDataBox>
+        <AnalysisDataBox label={'Orders'} value={report !== undefined ? `${report.orderCount}` : "0"}></AnalysisDataBox>
+        <AnalysisDataBox label={'Customers'} value={report !== undefined ? `${report.customerCount}` : "0"}></AnalysisDataBox>
       </div>
 
-      <span className='heading-4'>Sale revenue & Demographic</span>
+      <span className='heading-4'>Sale revenue</span>
 
       <div className='w-full flex flex-row justify-between'>
 
         <BarChart></BarChart>
-        <PieChart></PieChart>
+        {/* <PieChart></PieChart> */}
       </div>
 
       <span className='heading-4'>Transaction history</span>
