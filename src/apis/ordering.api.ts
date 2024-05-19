@@ -1,4 +1,4 @@
-import { ORDERING_PREFIX, URL_ORDERS } from "../constants/endpoint";
+import { ORDERING_PREFIX, URL_ORDERS, URL_TRANSACTIONS } from "../constants/endpoint";
 import { CreateOrderDTO } from "../types/DTOs/Ordering/CreateOrderDTO.type";
 import { CardType } from "../types/Models/Ordering/BuyerModel/CardType.type";
 import { Order } from "../types/Models/Ordering/OrderModel/Order.type";
@@ -6,6 +6,9 @@ import { OrderStatus } from "../types/Models/Ordering/OrderModel/OrderStatus.typ
 import { PaginatedResponse } from "../types/PaginatedResponse.type";
 import { Report } from "../types/Models/Ordering/OrderModel/Report.type";
 import http from "../utils/http";
+import { WeeklyTransactionSummary } from "../types/Models/Ordering/WeeklyTransactionSummary.type";
+import { MonthlyTransactionSummary } from "../types/Models/Ordering/MonthlyTransactionSummary.type";
+import { Transaction } from "../types/Models/Ordering/OrderModel/Transaction.type";
 
 export const orderingApi = {
   getOrderingByPage(pageIndex: number, pageSize: number) {
@@ -50,5 +53,20 @@ export const orderingApi = {
     return http.get<Report>(
         `${ORDERING_PREFIX}${URL_ORDERS}/report`
     );
-  }
+  },
+  getTransactionByWeek(){
+    return http.get<WeeklyTransactionSummary[]>(
+        `${ORDERING_PREFIX}${URL_TRANSACTIONS}/week`
+    );
+  },
+  getTransactionByMonth(){
+    return http.get<MonthlyTransactionSummary[]>(
+        `${ORDERING_PREFIX}${URL_TRANSACTIONS}/month`
+    );
+  },
+  getTransactionByPage(pageIndex: number, pageSize: number) {
+    return http.get<PaginatedResponse<Transaction>>(
+      `${ORDERING_PREFIX}${URL_TRANSACTIONS}?pageIndex=${pageIndex}&pageSize=${pageSize}`
+    );
+  },
 };

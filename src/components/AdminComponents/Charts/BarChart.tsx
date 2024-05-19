@@ -1,24 +1,109 @@
 import Chart from 'react-apexcharts'
+import { orderingApi } from '../../../apis/ordering.api';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import AdminDropdown from '../Input/AdminDropdown';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { saveAs } from 'file-saver';
 
 const BarChart = () => {
 
-  const series = [
-    {
-      name: "Organic",
-      data: [
-        { x: "Mon", y: 231 },
-        { x: "Tue", y: 122 },
-        { x: "Wed", y: 63 },
-        { x: "Thu", y: 421 },
-        { x: "Fri", y: 122 },
-        { x: "Sat", y: 323 },
-        { x: "Sun", y: 111 },
-      ],
-    },
-  ];
+  const [period, setPeriod] = useState<string>();
+  const [label, setLabel] = useState('last 7 days');
+  const [totalAmount, setTotalAmount] = useState<number>();
+  const { data: weeklyData, isLoading: isLoadingWeek } = useQuery({
+    queryKey: ['weekly-transaction'],
+    queryFn: () => {
+      return orderingApi.getTransactionByWeek()
+    }
+  });
+
+  const { data: monthlyData, isLoading: isLoadingMonth } = useQuery({
+    queryKey: ['monthly-transaction'],
+    queryFn: () => {
+      return orderingApi.getTransactionByMonth()
+    }
+  });
+
+  const [first, setFirst] = useState(true);
+
+  const [series, setSeries] = useState();
+
+  useEffect(() => {
+    if (first && !isLoadingWeek && weeklyData) {
+      setFirst(false);
+      setSeries([
+        {
+          name: "Revenue in USD",
+          data: weeklyData?.data.map(row => ({ x: row.dayOfWeek, y: row.totalAmount }))
+        }
+      ])
+
+      setTotalAmount(weeklyData?.data.reduce((total, row) => total + row.totalAmount, 0))
+
+      setPeriod("week")
+
+      console.log("Total amount: " + weeklyData?.data.reduce((total, row) => total + row.totalAmount, 0))
+    }
+  }, [first, isLoadingWeek, weeklyData])
+
+  const onPeriodChange = (value: string) => {
+    if (value == "Last 7 days" && !isLoadingWeek && weeklyData) {
+
+      setSeries([
+        {
+          name: "Revenue in USD",
+          data: weeklyData.data.map(row => ({ x: row.dayOfWeek, y: row.totalAmount }))
+        }
+      ])
+
+      setLabel("last 7 days");
+
+      setPeriod("week")
+
+      setTotalAmount(weeklyData?.data.reduce((total, row) => total + row.totalAmount, 0))
+
+      console.log("Period changed to week")
+    }
+    else if (value == "Last month" && !isLoadingMonth && monthlyData) {
+      setSeries([
+        {
+          name: "Revenue in USD",
+          data: monthlyData.data.map(row => ({ x: row.monthOfYear, y: row.totalAmount }))
+        }
+      ])
+      
+      setTotalAmount(monthlyData?.data.reduce((total, row) => total + row.totalAmount, 0))
+
+      setLabel('Last month');
+
+      setPeriod('month')
+
+      console.log("Period changed to method")
+    }
+  }
+
+  const exportChartToPDF = () => {
+
+    const chartElement = document.querySelector('#chart');
+    console.log(chartElement)
+    if (chartElement) {
+      html2canvas(chartElement).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        const pdfBlob = pdf.output('blob');
+        saveAs(pdfBlob, 'chart.pdf');
+      });
+    }
+  };
 
   return (
-    <div className="w-full justify-self-strech bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 overflow-hidden">
+    <div id='chart-container' className="w-full justify-self-strech bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 overflow-hidden">
       <div className="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center">
           <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center me-3">
@@ -28,20 +113,34 @@ const BarChart = () => {
             </svg>
           </div>
           <div>
-            <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">3.4k</h5>
-            <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Leads generated per week</p>
+            <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">{totalAmount}$</h5>
+            <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Revenues generated per {period}</p>
           </div>
         </div>
         <div>
-          <span className="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
+          {/* <span className="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
             <svg className="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4" />
             </svg>
             42.5%
-          </span>
+          </span> */}
         </div>
       </div>
-      <Chart class='w-full' options={{
+      {series !== undefined && <Chart id='chart' class='w-full' options={{
+        title: {
+          text: 'Revenue chart ' + label + ' (in USD)',
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: '14px',
+            fontWeight: 'bold',
+            fontFamily: 'Inter',
+            color: '#263238'
+          },
+        },
         colors: ["#1A56DB", "#FDBA8C"],
         chart: {
           type: "bar",
@@ -54,7 +153,7 @@ const BarChart = () => {
         plotOptions: {
           bar: {
             horizontal: false,
-            columnWidth: "70%",
+            columnWidth: "20%",
             borderRadius: 8,
           },
         },
@@ -88,7 +187,7 @@ const BarChart = () => {
           },
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
         },
         legend: {
           show: false,
@@ -106,58 +205,30 @@ const BarChart = () => {
             show: false,
           },
           axisTicks: {
-            show: false,
+            show: true,
           },
         },
         yaxis: {
-          show: false,
+          show: true,
         },
         fill: {
           opacity: 1,
         },
-      }} type="bar" series={series} height={400} />
+      }} type="bar" series={series} height={400} />}
       <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
-      <div className="flex justify-between items-center pt-5">
-        <button
-          id="dropdownDefaultButton"
-          data-dropdown-toggle="lastDaysdropdown"
-          data-dropdown-placement="bottom"
-          className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-          type="button">
-          Last 7 days
-          <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-          </svg>
-        </button>
-        <div id="lastDaysdropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a>
-              </li>
-            </ul>
+        <div className="flex justify-between items-center pt-5">
+          <div className='w-64'>
+            <AdminDropdown title={''} items={['Last 7 days', 'Last month']} onChange={onPeriodChange} />
+          </div>
+          <button onClick={exportChartToPDF}
+            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
+            Leads Report
+            <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+            </svg>
+          </button>
         </div>
-        <a
-          href="#"
-          className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-          Leads Report
-          <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-          </svg>
-        </a>
       </div>
-    </div>
     </div>
   )
 }
