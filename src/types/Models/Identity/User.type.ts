@@ -1,4 +1,7 @@
 export interface User{
+  email?: string;
+  phoneNumber?: string;
+  userName?: string;
   cardFullName?: string;
   cardNumber?: string;
   cardCVC?: string;
@@ -10,6 +13,6 @@ export interface User{
   fullName: string;
   country: string;
   city: string;
-  timezone: string;
+  timezone?: string;
   role?: string;
 }

@@ -1,13 +1,21 @@
 import {
   IDENTITY_PREFIX,
+  URL_FILE_UPLOAD,
   URL_LOGIN,
   URL_LOGOUT,
+  URL_PROFILE,
   URL_REGISTER,
+  URL_RESETPASS,
+  URL_TOKEN,
+  URL_UPDATEPASS,
 } from "../constants/endpoint";
+import { ResetPasswordDTO } from "../types/DTOs/Identity/ResetPasswordDTO.type";
+import { UpdatePasswordDTO } from "../types/DTOs/Identity/UpdatePasswordDTO.type";
 import { AuthResponse } from "../types/Models/Identity/AuthResponse.type";
+import { User } from "../types/Models/Identity/User.type";
 import http from "../utils/http";
 
-const authApi = {
+export const authApi = {
   register(body: {
     email: string;
     password: string;
@@ -27,6 +35,35 @@ const authApi = {
       status: string;
     }>(`${IDENTITY_PREFIX}${URL_LOGOUT}`);
   },
+  uploadImage(body: {
+    image: File
+  }) {
+    const formData = new FormData();
+    console.log(body.image);
+    formData.append('image', body.image);
+
+    return http.post(`${IDENTITY_PREFIX}${URL_FILE_UPLOAD}`,
+      formData,
+      {
+        headers: 
+        {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+  },
+  getResetPassToken(body: {email: string}){
+      return http.post<string>(`${IDENTITY_PREFIX}${URL_TOKEN}`, body);
+  },
+  updatePassword(userId: string, body: UpdatePasswordDTO){
+      return http.post<string>(`${IDENTITY_PREFIX}/${userId}${URL_UPDATEPASS}`, body);
+  },
+  resetPassword(body: ResetPasswordDTO){
+    return http.post<string>(`${IDENTITY_PREFIX}${URL_RESETPASS}`, body);
+  },
+  getUserProfile(userId: string){
+    console.log(`${IDENTITY_PREFIX}${URL_PROFILE}${userId}`)
+    return http.get<User>(`${IDENTITY_PREFIX}${URL_PROFILE}${userId}`);
+  }
 };
 
 export default authApi;

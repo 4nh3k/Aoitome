@@ -35,7 +35,7 @@ const AdminDashboard = () => {
   ];
 
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(12);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [transactionsInPage, setTransactionInPage] = useState<Transaction[]>();
 

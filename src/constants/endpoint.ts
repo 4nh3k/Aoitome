@@ -4,6 +4,11 @@ export const IDENTITY_PREFIX = "/identity.api/v1";
 export const URL_REGISTER = "/users/register";
 export const URL_LOGIN = "/users/login";
 export const URL_LOGOUT = "/users/logout";
+export const URL_TOKEN = "/users/resetpass-token";
+export const URL_RESETPASS = "/users/resetpass";
+export const URL_FILE_UPLOAD = "/files/upload";
+export const URL_UPDATEPASS = "/update-password"
+export const URL_PROFILE = "/users/"
 
 // Catalog api
 export const CATALOG_PREFIX = "/catalog.api/v1";
