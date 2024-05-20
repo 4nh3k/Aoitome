@@ -9,17 +9,23 @@ import GoogleLogo from "../../../assets/icon/google-logo.svg"
 import GithubLogo from "../../../assets/icon/github-logo.svg"
 import XCircle from "../../../assets/icon/x-circle.svg"
 import CheckCircle from "../../../assets/icon/check-circle.svg"
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Select } from "flowbite-react";
 import { User } from "../../../types/Models/Identity/User.type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import authApi from "../../../apis/auth.api";
 import { getUIDFromLS } from "../../../utils/auth";
+import { toast } from "react-toastify";
+import AdminPassword from "../../../components/AdminComponents/Input/AdminPassword";
 
 const AdminAccount = () => {
 
   const userId = getUIDFromLS();
   const accountTypes = ['Admin', 'Customer']
+
+  const [currentPassword, setCurrentPassword] = useState<string>();
+  const [newPassword, setNewPassword] = useState<string>();
+  const [repeatNewPassword, setRepeatNewPassword] = useState<string>();
 
   const [adminProfile, setAdminProfile] = useState<User>();
   const [currentImg, setCurrentImg] = useState(ElysiaImg);
@@ -56,16 +62,16 @@ const AdminAccount = () => {
       return authApi.getUserProfile(userId)
     }
   });
-  
+
   useEffect(() => {
-    if (!isLoadingAdminData && adminData){
+    if (!isLoadingAdminData && adminData) {
       const admin = adminData?.data;
       setAdminProfile(admin);
       setCurrentImg(admin.profileImageLink);
       console.log(admin)
     }
   }, [isLoadingAdminData, adminData])
-  
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setAdminProfile({ ...adminProfile, [name]: value });
@@ -76,12 +82,106 @@ const AdminAccount = () => {
   }
 
   const onCancelUpdate = (e) => {
-    if (!isLoadingAdminData && adminData){
+    if (!isLoadingAdminData && adminData) {
       const admin = adminData?.data;
       setAdminProfile(admin);
       setCurrentImg(admin.profileImageLink);
       console.log(admin)
     }
+  }
+
+  const createImageUrlMutation = useMutation({
+    mutationKey: ['image', file],
+    mutationFn: async (file: File) => {
+      if (file === undefined || file === null) {
+        return currentImg;
+      }
+      console.log("Began uploading image");
+      const url = await authApi.uploadImage({ image: file });
+      console.log("Image url generated: " + url.data.imageUrls[0]);
+      setCurrentImg(url.data.imageUrls[0]);
+      return url.data.imageUrls[0]; // Return the image URL
+    },
+    onSuccess: (imageUrl) => {
+      // Trigger the second mutation after successfully uploading the image
+      toast.success("Save image successfully");
+      updateAccountMutation.mutate({ ...adminProfile, ['profileImageLink']: imageUrl });
+    }
+  })
+
+  const updateAccountMutation = useMutation({
+    mutationKey: ['update-account', adminProfile?.userName],
+    mutationFn: async (adminProfile: User) => {
+      console.log("Began updating user...");
+      setAdminProfile({ ...adminProfile, ['profileImageLink']: currentImg });
+      console.log(adminProfile);
+      await authApi.updateUserProfile(userId, adminProfile);
+    }
+  })
+
+  const handleSaveChanges = useCallback(async () => {
+    try {
+      await createImageUrlMutation.mutateAsync(file);
+      toast.success("Image uploaded and user profile updated successfully.");
+    } catch (error) {
+      toast.error("Error uploading image and updating user profile: " + error);
+    }
+  }, [createImageUrlMutation, updateAccountMutation]);
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'currentPassword':
+        setCurrentPassword(value);
+        return;
+      case 'newPassword':
+        setNewPassword(value);
+        return;
+      case 'repeatNewPassword':
+        setRepeatNewPassword(value);
+        return;
+    }
+  }
+
+  const onClickCancelChangePassword = (e) => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setRepeatNewPassword('');
+  }
+
+  const updatePasswordMutation = useMutation({
+    mutationKey: ['update-password', userId],
+    mutationFn: async () => {
+      console.log("Current password: " + currentPassword);
+      console.log("New password: " + newPassword);
+      console.log("Repeat new password :" + repeatNewPassword);
+
+      if (!currentPassword || !newPassword || !repeatNewPassword) {
+        toast.error("There is at least one field empty, please try again");
+        return;
+      }
+
+      if (newPassword !== repeatNewPassword) {
+        toast.error("New password and repeat new password not matched, please try again");
+        return;
+      }
+      const updatePassword = {
+        currentPassword: currentPassword,
+        newPassword: newPassword
+      }
+
+      const result = await authApi.updatePassword(userId, updatePassword);
+      if (result.status === 400) {
+        toast.error(result.data);
+        return;
+      }
+
+      toast.success("User's password has been updated");
+    }
+  });
+
+  const handleUpdateUserPassword = (e) => {
+    updatePasswordMutation.mutate();
   }
 
   return (
@@ -110,13 +210,13 @@ const AdminAccount = () => {
               />
             </button>
 
-            <CustomButton label={"Remove"} textColor={"black"} btnColor={"white"} onClick ={onRemoveImage} borderColor="gray-300" />
+            <CustomButton label={"Remove"} textColor={"black"} btnColor={"white"} onClick={onRemoveImage} borderColor="gray-300" />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput type="text" name={"userName"} value={adminProfile?.userName !== undefined ?adminProfile?.userName : ''} title={"Username*"} placeholder={"Enter username"} onChange={handleChange} />
+            <AdminInput type="text" name={"userName"} value={adminProfile?.userName !== undefined ? adminProfile?.userName : ''} title={"Username*"} placeholder={"Enter username"} onChange={handleChange} />
 
-            <AdminInput name={"fullName"} value={adminProfile?.fullName !== undefined ? adminProfile?.fullName : ''} title={"Full name*"} placeholder={"Enter full name"} onChange={handleChange} type={"text"}/>
+            <AdminInput name={"fullName"} value={adminProfile?.fullName !== undefined ? adminProfile?.fullName : ''} title={"Full name*"} placeholder={"Enter full name"} onChange={handleChange} type={"text"} />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
@@ -126,8 +226,8 @@ const AdminAccount = () => {
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput title={"Country"} placeholder={"Enter country"} onChange={handleChange} name={"country"} value={adminProfile?.country !== undefined ? adminProfile?.country : ''} type={"text"}/>
-            <AdminInput title={"City"} placeholder={"Enter city"} onChange={handleChange} name={"city"} value={adminProfile?.city !== undefined ? adminProfile?.city : ''} type={"text"}/>
+            <AdminInput title={"Country"} placeholder={"Enter country"} onChange={handleChange} name={"country"} value={adminProfile?.country !== undefined ? adminProfile?.country : ''} type={"text"} />
+            <AdminInput title={"City"} placeholder={"Enter city"} onChange={handleChange} name={"city"} value={adminProfile?.city !== undefined ? adminProfile?.city : ''} type={"text"} />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
@@ -154,8 +254,8 @@ const AdminAccount = () => {
           </div> */}
 
           <div className="flex items-start justify-end gap-3 self-stretch w-full" >
-            <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} />
-            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} onClick={onCancelUpdate}/>
+            <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} onClick={handleSaveChanges} />
+            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} onClick={onCancelUpdate} />
           </div>
         </div>
 
@@ -167,15 +267,17 @@ const AdminAccount = () => {
 
           <div className="flex flex-col items-start gap-5 self-stretch">
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminInput title={"Current password*"} placeholder={"Enter your current password"} />
+              <AdminPassword title={"Current password*"} placeholder={"Enter your current password"} onChange={handlePasswordChange} type={"password"} name={"currentPassword"} value={currentPassword} />
             </div>
 
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminInput title={"New password*"} placeholder={"Enter your new password"} />
+              <AdminPassword title={"New password*"} placeholder={"Enter your new password"}
+                onChange={handlePasswordChange} type={"newPassword"} name={"newPassword"} value={newPassword} />
             </div>
 
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminInput title={"Confirm password*"} placeholder={"Confirm your new password"} />
+              <AdminPassword title={"Confirm password*"} placeholder={"Confirm your new password"}
+                onChange={handlePasswordChange} type={"password"} name={"repeatNewPassword"} value={repeatNewPassword} />
             </div>
           </div>
 
@@ -200,8 +302,8 @@ const AdminAccount = () => {
             </div>
           </div>
           <div className="flex items-start justify-end gap-3 self-stretch w-full" >
-            <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} />
-            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} />
+            <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} onClick={handleUpdateUserPassword} />
+            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} onClick={onClickCancelChangePassword} />
           </div>
         </div>
       </div>

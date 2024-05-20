@@ -1,4 +1,5 @@
-interface UserUpdateDTO {
+export interface UserUpdateDTO {
+  userName: string;
   id: string;
   email?: string;
   phoneNumber?: string;

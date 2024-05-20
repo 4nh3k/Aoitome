@@ -8,11 +8,13 @@ import {
   URL_RESETPASS,
   URL_TOKEN,
   URL_UPDATEPASS,
+  URL_UPDATE_PROFILE,
 } from "../constants/endpoint";
 import { ResetPasswordDTO } from "../types/DTOs/Identity/ResetPasswordDTO.type";
 import { UpdatePasswordDTO } from "../types/DTOs/Identity/UpdatePasswordDTO.type";
 import { AuthResponse } from "../types/Models/Identity/AuthResponse.type";
 import { User } from "../types/Models/Identity/User.type";
+import { UploadImage } from "../types/Models/UploadImage.type";
 import http from "../utils/http";
 
 export const authApi = {
@@ -42,7 +44,7 @@ export const authApi = {
     console.log(body.image);
     formData.append('image', body.image);
 
-    return http.post(`${IDENTITY_PREFIX}${URL_FILE_UPLOAD}`,
+    return http.post<UploadImage>(`${IDENTITY_PREFIX}${URL_FILE_UPLOAD}`,
       formData,
       {
         headers: 
@@ -55,7 +57,7 @@ export const authApi = {
       return http.post<string>(`${IDENTITY_PREFIX}${URL_TOKEN}`, body);
   },
   updatePassword(userId: string, body: UpdatePasswordDTO){
-      return http.post<string>(`${IDENTITY_PREFIX}/${userId}${URL_UPDATEPASS}`, body);
+      return http.post<string>(`${IDENTITY_PREFIX}/users/${userId}${URL_UPDATEPASS}`, body);
   },
   resetPassword(body: ResetPasswordDTO){
     return http.post<string>(`${IDENTITY_PREFIX}${URL_RESETPASS}`, body);
@@ -63,6 +65,15 @@ export const authApi = {
   getUserProfile(userId: string){
     console.log(`${IDENTITY_PREFIX}${URL_PROFILE}/${userId}`)
     return http.get<User>(`${IDENTITY_PREFIX}${URL_PROFILE}/${userId}`);
+  },
+  updateUserProfile(userId: string, body: UserUpdateDTO){
+    return http.patch<string>(`${IDENTITY_PREFIX}${URL_UPDATE_PROFILE}/${userId}`, body, {
+      headers: 
+        {
+          'Content-Type': 'application/json'
+        }
+    }
+    );
   }
 };
 
