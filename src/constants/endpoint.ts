@@ -8,7 +8,7 @@ export const URL_TOKEN = "/users/resetpass-token";
 export const URL_RESETPASS = "/users/resetpass";
 export const URL_FILE_UPLOAD = "/files/upload";
 export const URL_UPDATEPASS = "/update-password"
-export const URL_PROFILE = "/users/"
+export const URL_PROFILE = "/users/profile"
 
 // Catalog api
 export const CATALOG_PREFIX = "/catalog.api/v1";

@@ -21,9 +21,11 @@ const AdminAccount = () => {
   const userId = getUIDFromLS();
   const accountTypes = ['Admin', 'Customer']
 
-  const [imageSrc, setImageSrc] = useState(ElysiaImg);
-  const inputRef = useRef(null);
+  const [adminProfile, setAdminProfile] = useState<User>();
+  const [currentImg, setCurrentImg] = useState(ElysiaImg);
+  const [oldImg, setOldImg] = useState();
   const [file, setFile] = useState<File>();
+  const inputRef = useRef(null);
 
   const handleLoadImage = () => {
     if (inputRef.current) {
@@ -39,15 +41,14 @@ const AdminAccount = () => {
       if (file.type.startsWith('image/')) {
         // Update the image source with the selected file
         const newImageSrc = URL.createObjectURL(file);
-        setImageSrc(newImageSrc);
+        setOldImg(currentImg);
+        setCurrentImg(newImageSrc);
         setFile(file);
       } else {
         console.error('Invalid file format. Please select an image.');
       }
     }
   };
-
-  const [adminProfile, setAdminProfile] = useState<User>();
 
   const { data: adminData, isLoading: isLoadingAdminData } = useQuery({
     queryKey: ['admin'],
@@ -60,13 +61,28 @@ const AdminAccount = () => {
     if (!isLoadingAdminData && adminData){
       const admin = adminData?.data;
       setAdminProfile(admin);
+      setCurrentImg(admin.profileImageLink);
+      console.log(admin)
     }
-  })
+  }, [isLoadingAdminData, adminData])
   
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setAdminProfile({ ...adminProfile, [name]: value });
   };
+
+  const onRemoveImage = (e) => {
+    setCurrentImg(adminProfile.profileImageLink);
+  }
+
+  const onCancelUpdate = (e) => {
+    if (!isLoadingAdminData && adminData){
+      const admin = adminData?.data;
+      setAdminProfile(admin);
+      setCurrentImg(admin.profileImageLink);
+      console.log(admin)
+    }
+  }
 
   return (
     <div className='bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm'>
@@ -78,7 +94,7 @@ const AdminAccount = () => {
           </div>
 
           <div className="flex w-[18.75rem] justify-between items-center gap-4">
-            <img src={imageSrc} className="flex-shrink-0 rounded-full border-rounded border-rounded h-[4.5rem] w-[4.5rem]" />
+            <img src={currentImg} className="flex-shrink-0 rounded-full border-rounded border-rounded h-[4.5rem] w-[4.5rem]" />
 
             <button className={`bg-primary flex w-[8rem] h-10 py-[23px] px-4 justify-center items-center gap-3 rounded-xl border-1 border-solid`} onClick={handleLoadImage}>
               {UploadIcon ? (
@@ -94,24 +110,24 @@ const AdminAccount = () => {
               />
             </button>
 
-            <CustomButton label={"Remove"} textColor={"black"} btnColor={"white"} borderColor="gray-300" />
+            <CustomButton label={"Remove"} textColor={"black"} btnColor={"white"} onClick ={onRemoveImage} borderColor="gray-300" />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput name={"userName"} value={adminProfile?.fullName} title={"Username*"} placeholder={"Enter username"} onChange={handleChange} />
+            <AdminInput type="text" name={"userName"} value={adminProfile?.userName !== undefined ?adminProfile?.userName : ''} title={"Username*"} placeholder={"Enter username"} onChange={handleChange} />
 
-            <AdminInput name={"fullName"} value={adminProfile?.fullName} title={"Full name*"} placeholder={"Enter full name"} onChange={handleChange}/>
+            <AdminInput name={"fullName"} value={adminProfile?.fullName !== undefined ? adminProfile?.fullName : ''} title={"Full name*"} placeholder={"Enter full name"} onChange={handleChange} type={"text"}/>
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput name={"email"} value={adminProfile?.email} title={"Your email*"} placeholder={"Enter email"} onChange={handleChange} />
+            <AdminInput name={"email"} value={adminProfile?.email !== undefined ? adminProfile?.email : ''} title={"Your email*"} placeholder={"Enter email"} onChange={handleChange} type={"text"} />
 
-            <AdminInput title={"Phone number*"} placeholder={"(+123) 456 789"} onChange={handleChange} name={"phoneNumber"} value={adminProfile?.phoneNumber} />
+            <AdminInput title={"Phone number*"} placeholder={"(+123) 456 789"} onChange={handleChange} name={"phoneNumber"} value={adminProfile?.phoneNumber !== undefined ? adminProfile?.phoneNumber : ''} type={"number"} />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput title={"Country"} placeholder={"Enter country"} onChange={handleChange} name={"country"} value={adminProfile?.country}/>
-            <AdminInput title={"City"} placeholder={"Enter city"} onChange={handleChange} name={"city"} value={adminProfile?.city}/>
+            <AdminInput title={"Country"} placeholder={"Enter country"} onChange={handleChange} name={"country"} value={adminProfile?.country !== undefined ? adminProfile?.country : ''} type={"text"}/>
+            <AdminInput title={"City"} placeholder={"Enter city"} onChange={handleChange} name={"city"} value={adminProfile?.city !== undefined ? adminProfile?.city : ''} type={"text"}/>
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
@@ -139,7 +155,7 @@ const AdminAccount = () => {
 
           <div className="flex items-start justify-end gap-3 self-stretch w-full" >
             <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} />
-            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} />
+            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} onClick={onCancelUpdate}/>
           </div>
         </div>
 

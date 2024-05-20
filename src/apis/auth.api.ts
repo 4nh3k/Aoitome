@@ -61,8 +61,8 @@ export const authApi = {
     return http.post<string>(`${IDENTITY_PREFIX}${URL_RESETPASS}`, body);
   },
   getUserProfile(userId: string){
-    console.log(`${IDENTITY_PREFIX}${URL_PROFILE}${userId}`)
-    return http.get<User>(`${IDENTITY_PREFIX}${URL_PROFILE}${userId}`);
+    console.log(`${IDENTITY_PREFIX}${URL_PROFILE}/${userId}`)
+    return http.get<User>(`${IDENTITY_PREFIX}${URL_PROFILE}/${userId}`);
   }
 };
 

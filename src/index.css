@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input{
+  @apply bg-gray-50 flex flex-1 text-sm font-normal leading-5 outline-none focus:outline-none
+}
+
 .rounded-invert-right {
   margin-top: auto;
   margin-bottom: auto;

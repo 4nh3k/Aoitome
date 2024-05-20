@@ -6,11 +6,12 @@ interface ButtonProps{
     btnColor: string;
     borderColor?: string;
     imgSrc?: string;
+    onClick: (event) => void;
 }
 
-const CustomButton: React.FC<ButtonProps> = ({label, textColor, btnColor, borderColor, imgSrc}) => {
+const CustomButton: React.FC<ButtonProps> = ({label, textColor, btnColor, borderColor, imgSrc, onClick}) => {
   return (
-    <button className={`bg-${btnColor} flex w-[8rem] h-10 py-[23px] px-4 justify-center items-center gap-3 rounded-xl border-1 border-solid border-${borderColor}`}>   
+    <button onClick={onClick} className={`bg-${btnColor} flex w-[8rem] h-10 py-[23px] px-4 justify-center items-center gap-3 rounded-xl border-1 border-solid border-${borderColor}`}>   
         {imgSrc ? (
           <img src={imgSrc} width={16} height={16}/>
         ) : ''}
