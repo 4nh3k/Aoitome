@@ -13,6 +13,7 @@ interface CartProductProps {
   title: string;
   price: number;
   defaultValue: number;
+  canEdit?: boolean;
 }
 
 export function CartProduct({
@@ -21,6 +22,7 @@ export function CartProduct({
   title,
   price,
   defaultValue,
+  canEdit = true,
 }: CartProductProps) {
   // TODO: Add checkbox for selecting product
   const uid = getUIDFromLS();
@@ -78,27 +80,39 @@ export function CartProduct({
         <img className="h-20" src={imageURL} />
         <div>
           <p className=" text-black text-lg w-60 truncate ">{title}</p>
-          <div className="flex space-x-4 mt-1">
-            <Button
-              icon={PiHeart}
-              iconClassName="text-slate-400"
-              text="Add to favorites"
-              textClassName="text-slate-400 text-sm"
-              onClick={() => {}}
-            />
-            <Button
-              icon={PiX}
-              iconClassName="text-red-600"
-              text="Remove"
-              textClassName="text-red-600 text-sm"
-              onClick={() => {
-                removeProductMutation.mutate();
-              }}
-            />
-          </div>
+          {canEdit && (
+            <div className="flex space-x-4 mt-1">
+              <Button
+                icon={PiHeart}
+                iconClassName="text-slate-400"
+                text="Add to favorites"
+                textClassName="text-slate-400 text-sm"
+                onClick={() => {}}
+              />
+              <Button
+                icon={PiX}
+                iconClassName="text-red-600"
+                text="Remove"
+                textClassName="text-red-600 text-sm"
+                onClick={() => {
+                  removeProductMutation.mutate();
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
-      <QuantityInput quantity={quantity} onQuantityChange={onQuantityChange} />
+      {canEdit && (
+        <QuantityInput
+          quantity={quantity}
+          onQuantityChange={onQuantityChange}
+        />
+      )}
+      {!canEdit && (
+        <div className="text-center w-20 text-black text-lg font-bold">
+          x{quantity}
+        </div>
+      )}
       <div className="text-center w-20 text-black text-lg font-bold">
         ${(price * quantity).toFixed(2)}
       </div>

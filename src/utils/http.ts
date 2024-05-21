@@ -70,7 +70,7 @@ class Http {
             "Your session has expired. Please log in again to continue."
           );
           clearLS();
-          window.location.reload();
+          //window.location.reload();
         }
         return Promise.reject(error);
       }

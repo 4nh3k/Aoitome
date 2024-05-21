@@ -15,14 +15,26 @@ interface ProductProps {
 export function Product(props: ProductProps) {
   return (
     <div className="w-52 h-[22rem] pb-1 bg-white rounded-xl shadow border border-gray-200 flex-col justify-start items-center gap-2.5 hover:shadow-lg inline-flex">
-      <Link to={props.isAdmin === true ? `product/${props.id}` : `/product/${props.id}`}>
+      <Link
+        to={
+          props.isAdmin === true
+            ? `product/${props.id}`
+            : `/product/${props.id}`
+        }
+      >
         <img
           className="w-48 h-52 rounded-xl cursor-pointer object-contain	"
           src={props.imageURL}
         />
       </Link>
       <div className="px-1">
-        <Link to={props.isAdmin === true ? `admin/product/${props.id}` : `/product/${props.id}`}>
+        <Link
+          to={
+            props.isAdmin === true
+              ? `admin/product/${props.id}`
+              : `/product/${props.id}`
+          }
+        >
           <div className="line-clamp-2 cursor-pointer h-12 text-black text-base font-normal leading-normal">
             {props.title}
           </div>

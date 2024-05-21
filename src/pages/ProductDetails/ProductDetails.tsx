@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Pagination, Rating } from "flowbite-react";
+import { useState } from "react";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import { useParams } from "react-router-dom";
@@ -57,6 +58,7 @@ export function ProductDetails() {
   const { getBookDetails } = useBookDetails(id || "");
   const { data: bookData, isLoading } = getBookDetails;
   const queryClient = useQueryClient();
+  const [quantity, setQuantity] = useState(1);
 
   const { data: cartData, isLoading: cartIsLoading } = useQuery({
     queryKey: ["cart", uid],
@@ -85,7 +87,7 @@ export function ProductDetails() {
         console.log("test");
         items = items.map((item) => {
           if (item.bookId === bookData.id) {
-            item.quantity += 1;
+            item.quantity += quantity;
             item.totalUnitPrice = item.unitPrice * item.quantity;
           }
           return item;
@@ -96,7 +98,7 @@ export function ProductDetails() {
           imageUrl: bookData?.imageUrl ?? "",
           title: bookData?.title ?? "",
           unitPrice: bookData?.price ?? 0,
-          quantity: 1,
+          quantity: quantity,
           bookId: bookData?.id,
           oldUnitPrice: bookData?.price ?? 0,
           totalUnitPrice:
@@ -206,7 +208,10 @@ export function ProductDetails() {
               <span className="text-black text-sm font-normal w-20">
                 Quantity
               </span>
-              <QuantityInput />
+              <QuantityInput
+                quantity={quantity}
+                onQuantityChange={(q) => setQuantity(q)}
+              />
             </div>
             <div className="flex mt-5 items-center justify-start ">
               <Button

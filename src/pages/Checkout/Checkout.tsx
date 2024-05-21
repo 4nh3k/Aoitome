@@ -123,8 +123,8 @@ export function Checkout() {
           <DeliveryAddressForm address={address} setAddress={setAddress} />
           <div className="w-full mt-6 px-5 py-5 space-y-2 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
             <span className="heading-5">Delivery Type</span>
-            <fieldset key={"delivery"} className="flex max-w-md flex-col gap-4">
-              <div className="flex items-center gap-2">
+            <fieldset className="flex flex-col gap-4">
+              <div className="space-x-2">
                 <Radio
                   id="united-state"
                   name="countries"
@@ -133,11 +133,11 @@ export function Checkout() {
                 />
                 <Label htmlFor="united-state">Fast delivery</Label>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="space-x-2">
                 <Radio id="germany" name="countries" value="Germany" />
                 <Label htmlFor="germany">Standard delivery</Label>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="space-x-2">
                 <Radio id="germany" name="countries" value="Germany" />
                 <Label htmlFor="germany">Store pickup</Label>
               </div>
@@ -150,7 +150,7 @@ export function Checkout() {
                 <div>Loading...</div>
               ) : (
                 paymentMethodsData?.map((method) => (
-                  <div className="flex items-center gap-2">
+                  <div className="space-x-2">
                     <Radio
                       key={method.id.toString()}
                       id={method.id.toString()}
@@ -171,6 +171,7 @@ export function Checkout() {
               <CartProduct
                 id={product.id}
                 key={product.id}
+                canEdit={false}
                 imageURL={product.imageUrl}
                 price={product.unitPrice}
                 title={product.title}
