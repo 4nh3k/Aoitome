@@ -48,9 +48,8 @@ const BarChart = () => {
     }
   }, [first, isLoadingWeek, weeklyData])
 
-  const onPeriodChange = (value: string) => {
-    if (value == "Last 7 days" && !isLoadingWeek && weeklyData) {
-
+  const onPeriodChange = (e, key: number) => {
+    if (key === 0 && !isLoadingWeek && weeklyData) {
       setSeries([
         {
           name: "Revenue in USD",
@@ -66,7 +65,7 @@ const BarChart = () => {
 
       console.log("Period changed to week")
     }
-    else if (value == "Last month" && !isLoadingMonth && monthlyData) {
+    else if (key === 1 && !isLoadingMonth && monthlyData) {
       setSeries([
         {
           name: "Revenue in USD",
@@ -218,7 +217,8 @@ const BarChart = () => {
       <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
         <div className="flex justify-between items-center pt-5">
           <div className='w-64'>
-            <AdminDropdown title={''} items={['Last 7 days', 'Last month']} onChange={onPeriodChange} />
+            <AdminDropdown title={''} items={[{ key: 0, value: 'Last 7 days' },
+            { key: 1, value: 'Last month' }]} onChange={onPeriodChange} name={'period'} />
           </div>
           <button onClick={exportChartToPDF}
             className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">

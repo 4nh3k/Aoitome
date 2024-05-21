@@ -1,8 +1,9 @@
-import { CATALOG_PREFIX, URL_BOOKS } from "../constants/endpoint";
+import { CATALOG_PREFIX, SUFFIX_LANG_CODES, URL_BOOKS } from "../constants/endpoint";
 import Book from "../types/Models/BookCatalog/Book.type";
 import { BookDetailDTO } from "../types/DTOs/BookCatalog/BookDetailDTO.type";
 import { PaginatedResponse } from "../types/PaginatedResponse.type";
 import http from "../utils/http";
+import { CreateBookDTO } from "../types/DTOs/BookCatalog/CreateBookDTO.type";
 
 export const bookApi = {
   getBook(id: string) {
@@ -22,9 +23,14 @@ export const bookApi = {
     return http.post<Book>(`${CATALOG_PREFIX}${URL_BOOKS}`, body);
   },
   updateBook(body: BookDetailDTO) {
+    console.log("Body update: ")
+    console.log(body)
     return http.patch<Book>(`${CATALOG_PREFIX}${URL_BOOKS}`, body);
   },
   deleteBook(id: number) {
     return http.delete<Book>(`${CATALOG_PREFIX}${URL_BOOKS}/${id}`);
   },
+  getAllLanguageCodes(){
+    return http.get<string[]>(`${CATALOG_PREFIX}${URL_BOOKS}${SUFFIX_LANG_CODES}`);
+  }
 };

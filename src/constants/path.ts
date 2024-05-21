@@ -4,6 +4,8 @@ export const path = {
   forgotPass: "forgot-password",
 
   product: "product/:id",
+  adminAddProduct: "admin-bookgrid/add-product",
+  adminProduct: "admin-bookgrid/product/:id",
   cart: "cart",
   search: "search",
   checkout: "/order-checkout",

@@ -1,4 +1,6 @@
-interface CreateBookDTO {
+import Genre from "../../Models/BookCatalog/Genre.type";
+
+export interface CreateBookDTO {
   languageCode: string;
   averageRating: number | null;
   description: string | null;

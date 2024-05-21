@@ -137,12 +137,14 @@ const BookGridPage = () => {
        {!isLoadingBook && booksInPage && booksInPage.map((product) => {
           return (
             <Product key={product.id}
+              id={product.id}
               title={product.title}
               imageURL={product.imageUrl}
               price={product.price}
               rating={product.averageRating}
               discount={product.discountPercentage}
-              totalRating={product.ratingsCount} />
+              totalRating={product.ratingsCount}
+              isAdmin={true} />
           );
         })}
       </div>

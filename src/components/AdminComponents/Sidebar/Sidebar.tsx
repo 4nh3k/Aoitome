@@ -15,11 +15,18 @@ interface AdminSidebarProps {
 const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
   const bookSidebarItems = [
     { label: "All books", link: path.adminProducts },
-    { label: "Add book", link: path.adminBookDetail },
-    { label: "All genres", link: "" },
-    { label: "All publishers", link: "" },
-    { label: "All authors", link: "" },
+    { label: "Add book", link: path.adminAddProduct },
   ];
+
+  const genresItems = [
+    { label: "All genres", link: "" },
+    { label: "Add genre", link: ""}
+  ]
+  
+  const publisherItems = [
+    { label: "All publishers", link: ""},
+    { label: "Add publisher", link: ""}
+  ]
 
   const orderSidebarItems = [
     { label: "Order list", link: path.adminOrderManagement },
@@ -46,8 +53,18 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
           ></SidebarItem>
           <SidebarCollapse
             imageSrc={Book}
-            label={"Book Management"}
+            label={"Books"}
             items={bookSidebarItems}
+          ></SidebarCollapse>
+          <SidebarCollapse
+            imageSrc={Book}
+            label={"Genres"}
+            items={genresItems}
+          ></SidebarCollapse>
+          <SidebarCollapse
+            imageSrc={Book}
+            label={"Publishers"}
+            items={publisherItems}
           ></SidebarCollapse>
           <SidebarCollapse
             imageSrc={Bag}
@@ -59,11 +76,11 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
             label={"Voucher Management"}
             link={path.adminVoucherManagement}
           ></SidebarItem>
-          <SidebarCollapse
+          {/* <SidebarCollapse
             imageSrc={Message}
             label={"Customer Service"}
             items={customerServiceSidebarItems}
-          ></SidebarCollapse>
+          ></SidebarCollapse> */}
         </div>
       </div>
     </div>

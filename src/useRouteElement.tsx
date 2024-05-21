@@ -23,6 +23,8 @@ import SearchPage from "./pages/SearchPage";
 import { Test } from "./pages/TestAPIPage/Test";
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
+import AddBook from "./pages/AdminPage/BookList/AddBook";
+import EditBook from "./pages/AdminPage/BookList/EditBook";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -133,8 +135,12 @@ export default function useRouteElement() {
           path: path.adminProducts,
         },
         {
-          element: <BookDetail />,
-          path: path.adminBookDetail,
+          element: <AddBook />,
+          path: path.adminAddProduct,
+        },
+        {
+          element: <EditBook />,
+          path: path.adminProduct,
         },
         {
           element: <AdminAccount />,

@@ -117,7 +117,7 @@ const AdminAccount = () => {
       console.log(adminProfile);
       await authApi.updateUserProfile(userId, adminProfile);
     }
-  })
+  });
 
   const handleSaveChanges = useCallback(async () => {
     try {

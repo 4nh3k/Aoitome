@@ -18,6 +18,7 @@ export const URL_GENRES = "/genres";
 export const URL_BOOK_REVIEWS = "/book-reviews"
 export const URL_FORMATS = "/formats"
 export const URL_PUBLISHERS = "/publishers"
+export const SUFFIX_LANG_CODES = "/lang-codes"
 
 // Basket api
 export const CART_PREFIX = "/basket.api/v1";
