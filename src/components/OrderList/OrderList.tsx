@@ -1,8 +1,19 @@
-import { Badge, Button, Datepicker } from "flowbite-react";
+import { Button, Datepicker } from "flowbite-react";
 import CustomTable from "../CustomTable";
 import SearchInput from "../SearchInput";
 
-export function OrderList() {
+export interface RowData {
+  order_id: number;
+  customer_name: string;
+  total: number;
+  status: JSX.Element;
+  action: string;
+}
+interface OrderListProps {
+  data: RowData[];
+}
+
+export function OrderList({ data }: OrderListProps) {
   const headers = [
     {
       label: "Order ID",
@@ -29,110 +40,6 @@ export function OrderList() {
       className: "text-blue-700 text-xs font-medium hover:underline",
     },
   ];
-  const data = [
-    {
-      order_id: "220608A1FNXWGT",
-      customer_name: "John Smith",
-      total: "$999",
-      status: (
-        <Badge className="w-fit" color="success">
-          Completed
-        </Badge>
-      ),
-      action: "See details",
-    },
-    {
-      order_id: "220608C2JMKPQV",
-      customer_name: "Emily Johnson",
-      total: "$670",
-      status: (
-        <Badge className="w-fit" color="success">
-          Completed
-        </Badge>
-      ),
-      action: "See details",
-    },
-    {
-      order_id: "220608D4RSLXYH",
-      customer_name: "Michael Brown",
-      total: "$234",
-      status: (
-        <Badge className="w-fit" color="failure">
-          Cancelled
-        </Badge>
-      ),
-      action: "See details",
-    },
-    {
-      order_id: "220608E5VBTUZS",
-      customer_name: "Sarah Davis",
-      total: "$200",
-      status: (
-        <Badge className="w-fit" color="indigo">
-          In progress
-        </Badge>
-      ),
-      action: "See details",
-    },
-    {
-      order_id: "220608F6KGQOWP",
-      customer_name: "David Wilson",
-      total: "$22.2",
-      status: (
-        <Badge className="w-fit" color="success">
-          Completed
-        </Badge>
-      ),
-      action: "See details",
-    },
-    {
-      order_id: "220608D4RSLXYH",
-      customer_name: "Tien Anh",
-      total: "$20",
-      status: (
-        <Badge className="w-fit" color="success">
-          Completed
-        </Badge>
-      ),
-      action: "See details",
-    },
-  ];
-  //   const data = [
-  //     [
-  //       "220608A1FNXWGT",
-  //       "220608C2JMKPQV",
-  //       "220608D4RSLXYH",
-  //       "220608E5VBTUZS",
-  //       "220608F6KGQOWP",
-  //       "220608D4RSLXYH",
-  //     ],
-  //     [
-  //       "John Smith",
-  //       "Emily Johnson",
-  //       "Michael Brown",
-  //       "Sarah Davis",
-  //       "David Wilson",
-  //       "Tien Anh",
-  //     ],
-  //     ["$999", "$670", "$234", "$200", "$22.2", "$20"],
-  //     [
-  //       "Completed",
-  //       "Completed",
-  //       "Cancelled",
-  //       "In progress",
-  //       "Completed",
-  //       "Completed",
-  //     ],
-  //     [
-  //       "See details",
-  //       "See details",
-  //       "See details",
-  //       "See details",
-  //       "See details",
-  //       "See details",
-  //     ],
-  //   ];
-
   return (
     <div className="flex flex-col justify-between gap-8">
       <div className="flex justify-between w-full">
@@ -146,7 +53,12 @@ export function OrderList() {
             className="w-full"
             placeholder={"Order ID"}
             dropdownList={["Order ID"]}
-            dropdownLabel={"Order ID"}
+            onSubmit={function (searchValue: string): void {
+              throw new Error("Function not implemented.");
+            }}
+            onChange={function (searchValue: string): void {
+              throw new Error("Function not implemented.");
+            }}
           />
           <Button>Reset</Button>
         </div>

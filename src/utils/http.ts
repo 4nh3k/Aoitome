@@ -33,6 +33,7 @@ class Http {
         if (this.accessToken && config.headers) {
           config.headers.Authorization = `Bearer ${this.accessToken}`;
           console.log(config.headers);
+          console.log(config.data);
         }
         return config;
       },
@@ -46,6 +47,7 @@ class Http {
 
     this.instance.interceptors.response.use(
       (response) => {
+        console.log("response", response);
         const { url } = response.config;
         if (url === URL_LOGIN || url === URL_REGISTER) {
           const data = response.data as AuthResponse;

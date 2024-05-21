@@ -95,6 +95,7 @@ export function LoginModals({
               </div>
               <button
                 onClick={onForgotPassClick}
+                type="button"
                 className="text-sm text-cyan-700 hover:underline dark:text-cyan-500"
               >
                 Forgot Password?

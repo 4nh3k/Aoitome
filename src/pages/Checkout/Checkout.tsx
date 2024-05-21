@@ -22,6 +22,14 @@ export function Checkout() {
     zipCode: "ab",
     country: "United States",
   } as AddressDTO);
+  function formatDate(date: Date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
   const { data, isLoading } = useQuery({
     queryKey: ["cart", userId],
     queryFn: async () => {
@@ -48,8 +56,8 @@ export function Checkout() {
     mutationKey: ["createOrder", userId],
     mutationFn: async () => {
       console.log("createOrderMutation");
-
       if (!data) {
+        toast.error("Cart is empty");
         return;
       }
       if (userId === undefined || userId === null) {
@@ -61,7 +69,6 @@ export function Checkout() {
         return;
       }
       const orderItems: OrderItem[] = data.items.map((item) => ({
-        id: item.id ?? 0,
         bookId: item.bookId,
         title: item.title,
         unitPrice: item.unitPrice,
@@ -79,12 +86,13 @@ export function Checkout() {
           cardNumber: "string",
           securityNumber: "string",
           cardHoldername: "string",
-          expiration: new Date("2024-05-18"), // Convert string to Date object
+          expiration: formatDate(new Date()), // Convert string to Date object
           cardTypeId: cardType.id,
         },
         userName: "",
         description: "",
       };
+      console.log("order", order);
       await orderingApi.createOrdering(order);
     },
   });
@@ -115,7 +123,7 @@ export function Checkout() {
           <DeliveryAddressForm address={address} setAddress={setAddress} />
           <div className="w-full mt-6 px-5 py-5 space-y-2 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
             <span className="heading-5">Delivery Type</span>
-            <fieldset className="flex max-w-md flex-col gap-4">
+            <fieldset key={"delivery"} className="flex max-w-md flex-col gap-4">
               <div className="flex items-center gap-2">
                 <Radio
                   id="united-state"
@@ -137,7 +145,7 @@ export function Checkout() {
           </div>
           <div className="w-full mt-6 px-5 py-5 space-y-2 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
             <span className="heading-5">Payment details</span>
-            <fieldset className="flex max-w-md flex-col gap-4">
+            <fieldset key={"payment"} className="flex max-w-md flex-col gap-4">
               {isPaymentLoading ? (
                 <div>Loading...</div>
               ) : (
