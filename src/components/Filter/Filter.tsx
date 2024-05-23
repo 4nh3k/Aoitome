@@ -1,7 +1,7 @@
+import { genresApi } from "@/apis/genres.api";
 import { useQuery } from "@tanstack/react-query";
 import { Checkbox, Label, Radio, Spinner, TextInput } from "flowbite-react";
 import { PiArrowRight, PiCaretLeft } from "react-icons/pi";
-import { bookApi } from "../../apis/book.api";
 import Container from "../Container";
 
 const priceRanges = [
@@ -16,7 +16,7 @@ export function Filter() {
   const { data, isLoading } = useQuery({
     queryKey: ["genres", 0, 10],
     queryFn: async () => {
-      const res = await bookApi.getGenresByPage(0, 10);
+      const res = await genresApi.getGenresByPage(0, 10);
       console.log(res.data);
       return res.data;
     },
@@ -28,7 +28,7 @@ export function Filter() {
       <div>
         <div className="heading-5 mb-2">Genres</div>
         {data?.data.map((genre) => (
-          <div key={genre.id} className="flex items-center gap-2 mt-1">
+          <div key={genre.id} className="space-x-2 mt-1">
             <Checkbox id={genre.name} />
             <Label htmlFor={genre.name}>{genre.name}</Label>
           </div>
@@ -43,7 +43,7 @@ export function Filter() {
           <PiCaretLeft className="mr-1" /> Any price
         </button>
         {priceRanges.map((priceRange) => (
-          <div key={priceRange.id} className="flex items-center gap-2 mt-1">
+          <div key={priceRange.id} className=" space-x-2 mt-1">
             <Radio id={priceRange.id} name="Price" value={priceRange.name} />
             <Label htmlFor={priceRange.name}>{priceRange.name}</Label>
           </div>
@@ -59,18 +59,6 @@ export function Filter() {
           </div>
         </div>
       </fieldset>
-      <div>
-        <div className="heading-5 mb-2  mt-2">Rating</div>
-        {data?.data.map((genre) => (
-          <div key={genre.id} className="flex items-center gap-2 mt-1">
-            <Checkbox id={genre.name} />
-            <Label htmlFor={genre.name}>{genre.name}</Label>
-          </div>
-        ))}
-        <button className="text-blue-700 mt-1.5 text-sm flex items-center hover:text-blue-800 font-medium font-['Inter'] leading-none">
-          View all <PiArrowRight className="ml-1" />
-        </button>
-      </div>
     </Container>
   );
 }

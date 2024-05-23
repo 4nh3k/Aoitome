@@ -6,8 +6,11 @@ import { path } from "./constants/path";
 import AdminLayout from "./layouts/AdminLayout";
 import MainLayout from "./layouts/MainLayout";
 import AdminAccount from "./pages/AdminPage/AccountPage/AdminAccount";
-import BookDetail from "./pages/AdminPage/BookDetail/BookDetail";
+import AddBook from "./pages/AdminPage/BookList/AddBook";
 import BookGridPage from "./pages/AdminPage/BookList/BookGridPage";
+import BookReviewList from "./pages/AdminPage/BookList/BookReviewList";
+import EditBook from "./pages/AdminPage/BookList/EditBook";
+import CustomerList from "./pages/AdminPage/CustomerList/CustomerList";
 import AdminDashboard from "./pages/AdminPage/Dashboard/Dashboard";
 import AddVoucher from "./pages/AdminPage/VoucherManagement/AddVoucher";
 import { VoucherManagement } from "./pages/AdminPage/VoucherManagement/VoucherManagement";
@@ -18,15 +21,12 @@ import { NotificationPage } from "./pages/NotificationPage/NotificationPage";
 import OrderManagement from "./pages/OrderManagement";
 import OrderSummary from "./pages/OrderSummary";
 import OrderTracking from "./pages/OrderTracking";
+import PaymentSuccess from "./pages/PaymentSuccess/PaymentSuccess";
 import ProductDetails from "./pages/ProductDetails";
 import SearchPage from "./pages/SearchPage";
 import { Test } from "./pages/TestAPIPage/Test";
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
-import AddBook from "./pages/AdminPage/BookList/AddBook";
-import EditBook from "./pages/AdminPage/BookList/EditBook";
-import BookReviewList from "./pages/AdminPage/BookList/BookReviewList";
-import CustomerList from "./pages/AdminPage/CustomerList/CustomerList";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -100,6 +100,10 @@ export default function useRouteElement() {
           path: path.notificationPage,
         },
         {
+          element: <PaymentSuccess />,
+          path: path.payment_success,
+        },
+        {
           element: <OrderManagement />,
           path: path.customerOrder,
         },
@@ -119,7 +123,6 @@ export default function useRouteElement() {
           element: <UserAccount />,
           path: path.customerAccount,
         },
-
       ],
     },
     {

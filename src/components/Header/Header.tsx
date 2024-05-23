@@ -1,3 +1,4 @@
+import SearchInput from "@/components/SearchInput/SearchInput";
 import { useMutation } from "@tanstack/react-query";
 import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
@@ -11,7 +12,6 @@ import ForgotPassModals from "../Modals/ForgotPassModals";
 import LoginModals from "../Modals/LoginModals";
 import { RegisterModals } from "../Modals/RegisterModals/RegisterModals";
 import Notification from "../Notification";
-import SearchInput from "@/components/SearchInput/SearchInput";
 import { StickyHeader } from "../StickyHeader/StickyHeader";
 
 interface HeaderProps {
@@ -23,9 +23,11 @@ export default function Header(props: HeaderProps) {
   const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
   const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
   const { isAuthenticated, setIsAuthenticated } = useAppContext();
+  const [searchValue, setSearchValue] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = (searchValue: string) => {
+  const handleSubmit = (search: string) => {
     navigate(`/search?q=${searchValue}`);
   };
 
@@ -54,9 +56,15 @@ export default function Header(props: HeaderProps) {
         </Navbar.Brand>
         <SearchInput
           className="w-1/2"
-          handleSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           placeholder={"Enter a search term"}
-          dropdownList={["Option 1", "Option 2", "Option 3"]}
+          dropdownList={["By name", "By author"]}
+          onChange={function (searchValue: string): void {
+            setSearchValue(searchValue);
+          }}
+          onDropdownChange={function (type: string): void {
+            throw new Error("Function not implemented.");
+          }}
         />
         <div className="flex space-x-4">
           <Notification />

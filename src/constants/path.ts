@@ -10,6 +10,7 @@ export const path = {
   adminCustomers: "admin/customers",
   cart: "cart",
   search: "search",
+  payment_success: "/payment-success",
   checkout: "/order-checkout",
   orderSummary: "order-summary",
   notificationPage: "notification-page",

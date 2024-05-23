@@ -1,3 +1,5 @@
+import { bookReviewApi } from "@/apis/bookReview.api";
+import { ReviewForm } from "@/components/ReviewForm/ReviewForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Pagination, Rating } from "flowbite-react";
 import { useState } from "react";
@@ -57,8 +59,27 @@ export function ProductDetails() {
   const uid = getUIDFromLS();
   const { getBookDetails } = useBookDetails(id || "");
   const { data: bookData, isLoading } = getBookDetails;
+  const [reviewPage, setReviewPage] = useState(1);
   const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState(1);
+  const { data: reviewData, isLoading: reviewIsLoading } = useQuery({
+    queryKey: ["reviews", id],
+    queryFn: async () => {
+      if (!id || id === "") {
+        toast.error("Book not found");
+        return;
+      }
+      console.log("bookId", id);
+      const data = await bookReviewApi.getBookReviewByBook(
+        parseInt(id),
+        reviewPage - 1,
+        10
+      );
+      console.log("data", data);
+
+      return data.data;
+    },
+  });
 
   const { data: cartData, isLoading: cartIsLoading } = useQuery({
     queryKey: ["cart", uid],
@@ -286,46 +307,59 @@ export function ProductDetails() {
         <p className="heading-4">Product Rating</p>
         <div className=" border-b-1 border-gray-200 pb-4 mb-4">
           <div className="flex">
-            <RatingStar initialRating={5} readonly />
+            <RatingStar initialRating={bookData?.averageRating} readonly />
             <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-              5 out of 5
+              {bookData?.averageRating} out of 5
             </p>
           </div>
-          <p className="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-            1,745 global ratings
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            {bookData?.ratingsCount} global ratings
           </p>
-          {/* Todo change this shit to yellow 300 */}
-          <Rating.Advanced percentFilled={70} className="mb-2">
-            5 star
-          </Rating.Advanced>
-          <Rating.Advanced percentFilled={17} className="mb-2">
-            4 star
-          </Rating.Advanced>
-          <Rating.Advanced percentFilled={8} className="mb-2">
-            3 star
-          </Rating.Advanced>
-          <Rating.Advanced percentFilled={4} className="mb-2">
-            2 star
-          </Rating.Advanced>
-          <Rating.Advanced percentFilled={1} className="">
-            1 star
-          </Rating.Advanced>
+          {reviewData?.data && (
+            <div className="mt-4">
+              <Rating.Advanced percentFilled={70} className="mb-2">
+                5 star
+              </Rating.Advanced>
+              <Rating.Advanced percentFilled={17} className="mb-2">
+                4 star
+              </Rating.Advanced>
+              <Rating.Advanced percentFilled={8} className="mb-2">
+                3 star
+              </Rating.Advanced>
+              <Rating.Advanced percentFilled={4} className="mb-2">
+                2 star
+              </Rating.Advanced>
+              <Rating.Advanced percentFilled={1} className="">
+                1 star
+              </Rating.Advanced>
+            </div>
+          )}
         </div>
         <div className="space-y-2">
-          <Review />
-          <Review />
-          <Review />
-          <Review />
-          <Review />
-          <Review />
+          {!reviewData?.data && <span>No review</span>}
+          {reviewData?.data.map((review) => {
+            return (
+              <Review
+                review={review}
+                onDelete={function (review: BookReview): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+            );
+          })}
         </div>
         <div className="flex w-full justify-center mt-2">
-          <Pagination
-            currentPage={1}
-            totalPages={100}
-            onPageChange={() => {}}
-          />
+          {reviewData?.data && (
+            <Pagination
+              currentPage={reviewPage}
+              totalPages={Math.ceil(
+                (reviewData?.totalItems ?? 0) / (reviewData?.pageSize ?? 1)
+              )}
+              onPageChange={() => {}}
+            />
+          )}
         </div>
+        <ReviewForm bookId={bookData?.id} />
       </Container>
       <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
         <div className="heading-4">On Sale</div>

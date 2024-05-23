@@ -1,3 +1,4 @@
+import { paymentApi } from "@/apis/payment.api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Label, Radio } from "flowbite-react";
 import { useState } from "react";
@@ -30,13 +31,31 @@ export function Checkout() {
     return `${year}-${month}-${day}`;
   }
 
-  const { data, isLoading } = useQuery({
+  const createCheckoutMutation = useMutation({
+    mutationKey: ["createCheckout", userId],
+    mutationFn: async () => {
+      try {
+        const data = await paymentApi.createCheckoutSession();
+        if (data.status === 200) {
+          const checkoutUrl = data.data; // Assuming the URL is returned in `checkoutUrl`
+          window.location.href = checkoutUrl; // Redirect to the checkout page
+        } else {
+          // Handle non-200 status codes
+          toast.error("Failed to create checkout session:" + data);
+        }
+      } catch (error) {
+        // Handle errors from the API call
+        toast.error("Error creating checkout session:" + error);
+      }
+    },
+  });
+
+  const { data: cartData, isLoading } = useQuery({
     queryKey: ["cart", userId],
     queryFn: async () => {
       console.log("userId", userId);
       const data = await cartApi.getCart(userId);
       console.log("data", data);
-
       return data.data;
     },
   });
@@ -56,7 +75,7 @@ export function Checkout() {
     mutationKey: ["createOrder", userId],
     mutationFn: async () => {
       console.log("createOrderMutation");
-      if (!data) {
+      if (!cartData) {
         toast.error("Cart is empty");
         return;
       }
@@ -64,11 +83,11 @@ export function Checkout() {
         toast.error("Please login to checkout");
         return;
       }
-      if (data.items.length === 0) {
+      if (cartData.items.length === 0) {
         toast.error("Cart is empty");
         return;
       }
-      const orderItems: OrderItem[] = data.items.map((item) => ({
+      const orderItems: OrderItem[] = cartData.items.map((item) => ({
         bookId: item.bookId,
         title: item.title,
         unitPrice: item.unitPrice,
@@ -93,7 +112,10 @@ export function Checkout() {
         description: "",
       };
       console.log("order", order);
-      await orderingApi.createOrdering(order);
+      var data = await orderingApi.createOrdering(order);
+      if (data.status === 200) {
+        createCheckoutMutation.mutate();
+      }
     },
   });
 
@@ -167,7 +189,7 @@ export function Checkout() {
         </div>
         <div className="w-full">
           <div className="w-full space-y-2 mb-6">
-            {data?.items?.map((product) => (
+            {cartData?.items?.map((product) => (
               <CartProduct
                 id={product.id}
                 key={product.id}

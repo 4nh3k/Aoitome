@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, TextInput } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 import { cartApi } from "../../apis/cart.api";
 import { ProductList } from "../../assets/mockdata";
 import OrderPriceSummary from "../../components/OrderPriceSummary";
@@ -20,6 +21,8 @@ export function Cart() {
       return data.data;
     },
   });
+
+  const navigate = useNavigate();
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -60,7 +63,7 @@ export function Cart() {
             savings={0}
             tax={0}
             storePickup={0}
-            path={path.checkout}
+            onClick={() => navigate(path.checkout)}
           />
           <div className="w-full px-5 pt-5 pb-6 mt-8 space-y-4 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
             <span className="w-80 text-black text-sm">
