@@ -45,7 +45,7 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
           <SidebarItem
             imageSrc={User}
             label={"Customers"}
-            // link={path.adminAccount}
+            link={path.adminCustomers}
           ></SidebarItem>
           <SidebarCollapse
             imageSrc={Book}

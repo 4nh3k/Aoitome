@@ -6,6 +6,7 @@ import AdminDropdown from '../Input/AdminDropdown';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
+import { ClipLoader } from 'react-spinners';
 
 const RevenueBarChart = () => {
 
@@ -72,7 +73,7 @@ const RevenueBarChart = () => {
           data: monthlyData.data.map(row => ({ x: row.monthOfYear, y: row.totalAmount }))
         }
       ])
-      
+
       setTotalAmount(monthlyData?.data.reduce((total, row) => total + row.totalAmount, 0))
 
       setLabel('Last month');
@@ -125,6 +126,12 @@ const RevenueBarChart = () => {
           </span> */}
         </div>
       </div>
+      {series === undefined &&
+        <div className="flex flex-col items-center">
+          <ClipLoader color="#8FA8DE" className="items-center justify-center flex" size={100} aria-label="Loading Spinner">
+          </ClipLoader>
+          <p className="text-primary">Loading...</p>
+        </div>}
       {series !== undefined && <Chart id='chart' class='w-full' options={{
         title: {
           text: 'Revenue chart ' + label + ' (in USD)',
@@ -148,6 +155,19 @@ const RevenueBarChart = () => {
           toolbar: {
             show: false,
           },
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: {
+              enabled: true,
+              delay: 150
+            },
+            dynamicAnimation: {
+              enabled: true,
+              speed: 350
+            }
+          }
         },
         plotOptions: {
           bar: {

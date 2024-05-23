@@ -1,3 +1,4 @@
+import { PaginatedResponse } from "@/types/PaginatedResponse.type";
 import {
   IDENTITY_PREFIX,
   URL_FILE_UPLOAD,
@@ -74,7 +75,12 @@ export const authApi = {
         }
     }
     );
-  }
+  },
+  getCustomers(pageIndex: number, pageSize: number) {
+    return http.get<PaginatedResponse<User>>(
+      `${IDENTITY_PREFIX}${URL_UPDATE_PROFILE}?pageIndex=${pageIndex}&pageSize=${pageSize}`
+    );
+  },
 };
 
 export default authApi;

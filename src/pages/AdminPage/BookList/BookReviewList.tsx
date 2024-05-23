@@ -6,6 +6,8 @@ import { bookReviewApi } from "@/apis/bookReview.api";
 import Review from "@/components/Review";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { Fade } from "react-awesome-reveal";
+import { ClipLoader } from "react-spinners";
 
 const BookReviewList = () => {
 
@@ -172,10 +174,18 @@ const BookReviewList = () => {
           onSubmit={onSearchSubmit}
         ></SearchInput>
       </div>
+      {/* {(isLoadingUserReviews || isLoadingBookReviews) &&
+        <div className="flex flex-col items-center">
+          <ClipLoader color="#8FA8DE" className="items-center justify-center flex" size={100} aria-label="Loading Spinner">
+          </ClipLoader>
+          <p className="text-primary">Loading...</p>
+        </div>} */}
       <div className="flex flex-col justify-items-center w-full gap-6 ">
         {(!isLoadingUserReviews || !isLoadingBookReviews) && reviews && reviews.map((review) => {
           return (
-            <Review isAdmin={true} review={review} onDelete={handleDelete} />
+            <Fade>
+              <Review isAdmin={true} review={review} onDelete={handleDelete} />
+            </Fade>
           );
         })}
       </div>

@@ -26,6 +26,7 @@ import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponMan
 import AddBook from "./pages/AdminPage/BookList/AddBook";
 import EditBook from "./pages/AdminPage/BookList/EditBook";
 import BookReviewList from "./pages/AdminPage/BookList/BookReviewList";
+import CustomerList from "./pages/AdminPage/CustomerList/CustomerList";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -135,6 +136,10 @@ export default function useRouteElement() {
         {
           element: <BookGridPage />,
           path: path.adminProducts,
+        },
+        {
+          element: <CustomerList />,
+          path: path.adminCustomers,
         },
         {
           element: <BookReviewList />,

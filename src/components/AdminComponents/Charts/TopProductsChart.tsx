@@ -7,6 +7,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
 import { TopProduct } from '../../../types/Models/Ordering/TopProduct.type';
+import { ClipLoader } from 'react-spinners';
 
 const TopProductCharts = () => {
 
@@ -57,14 +58,20 @@ const TopProductCharts = () => {
     <div id='chart-container' className="w-full justify-self-strech bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 overflow-hidden">
       <div className="flex justify-between pb-4 mb-4">
         <div className="flex items-center">
-          
+
         </div>
         <div>
-            <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">Top ten books bought of all time</h5>
-          </div>
+          <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">Top ten books bought of all time</h5>
+        </div>
         <div>
         </div>
       </div>
+      {series === undefined &&
+        <div className="flex flex-col items-center">
+          <ClipLoader color="#8FA8DE" className="items-center justify-center flex" size={100} aria-label="Loading Spinner">
+          </ClipLoader>
+          <p className="text-primary">Loading...</p>
+        </div>}
       {series !== undefined && <Chart id='chart2' class='w-full' options={{
         title: {
           text: '',
@@ -88,6 +95,19 @@ const TopProductCharts = () => {
           toolbar: {
             show: false,
           },
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: {
+              enabled: true,
+              delay: 150
+            },
+            dynamicAnimation: {
+              enabled: true,
+              speed: 350
+            }
+          }
         },
         plotOptions: {
           bar: {

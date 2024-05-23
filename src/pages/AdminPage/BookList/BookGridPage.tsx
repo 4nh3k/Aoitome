@@ -1,11 +1,16 @@
-import { Pagination, Select } from "flowbite-react";
-import Product from "../../../components/Product";
-import SearchInput from "@/components/SearchInput/SearchInput";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { bookApi } from "../../../apis/book.api";
 import { useEffect, useState } from "react";
+import { Pagination, Select } from "flowbite-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { bookApi } from "@/apis/book.api";
+import Product from "@/components/Product";
+import SearchInput from "@/components/SearchInput/SearchInput";
+import { Fade } from "react-awesome-reveal";
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+import { ClipLoader } from 'react-spinners';
+
+
 const BookGridPage = () => {
-  
+
   const queryClient = useQueryClient();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
@@ -21,15 +26,15 @@ const BookGridPage = () => {
     }
   });
 
-  const {data: searchBook, isLoading: isSearchBookLoading} = useQuery({
-    queryKey: ['search_book', {pageIndex, pageSize}],
+  const { data: searchBook, isLoading: isSearchBookLoading } = useQuery({
+    queryKey: ['search_book', { pageIndex, pageSize }],
     queryFn: () => {
       return bookApi.getSearchBookByPage(searchTerm, pageIndex - 1, pageSize);
     }
   });
 
   useEffect(() => {
-    if (!isLoadingBook && !isSearching){
+    if (!isLoadingBook && !isSearching) {
       const data = booksData?.data.data;
       const totalItems = booksData?.data.totalItems;
       setBooksInPage(data);
@@ -37,7 +42,7 @@ const BookGridPage = () => {
       console.log("Page index: " + pageIndex);
       console.log("Total items: " + totalItems);
     }
-    else if (!isSearchBookLoading && isSearching && searchBook){
+    else if (!isSearchBookLoading && isSearching && searchBook) {
       const booksInPage = searchBook?.data.data
       setBooksInPage(booksInPage);
       const totalItems = searchBook?.data.totalItems;
@@ -61,24 +66,24 @@ const BookGridPage = () => {
     setSelectedSort(event.target.value);
     let sortedValues = booksInPage;
     switch (selectedSort) {
-        case "Price (Low to High)":
-          sortedValues = sortedValues?.sort((a, b) => b.price * b.discountPercentage - a.price * a.discountPercentage)
-          return
-        case "Price (High to Low)":
-          sortedValues = sortedValues?.sort((a, b) => a.price * a.discountPercentage - b.price * b.discountPercentage)
-          return
-        case "Avg Reviews":
-          sortedValues = sortedValues?.sort((a, b) => b.averageRating - a.averageRating)
-          return
-      }
+      case "Price (Low to High)":
+        sortedValues = sortedValues?.sort((a, b) => b.price * b.discountPercentage - a.price * a.discountPercentage)
+        return
+      case "Price (High to Low)":
+        sortedValues = sortedValues?.sort((a, b) => a.price * a.discountPercentage - b.price * b.discountPercentage)
+        return
+      case "Avg Reviews":
+        sortedValues = sortedValues?.sort((a, b) => b.averageRating - a.averageRating)
+        return
+    }
     console.log(sortedValues)
     setBooksInPage(sortedValues);
   };
-  
+
   const onChangeSearchTerm = (searchTerm: string) => {
     const isSearchTermNull = searchTerm === "" ? true : false;
     setIsSearching(!isSearchTermNull);
-    if (!isSearchTermNull){
+    if (!isSearchTermNull) {
       setSearchTerm(searchTerm);
       console.log("Search term set: " + searchTerm)
     }
@@ -86,7 +91,7 @@ const BookGridPage = () => {
 
   const onSearchSubmit = () => {
     conditionalInvalidateSearchBookQuery();
-    if (!isSearchBookLoading && isSearching && searchBook){
+    if (!isSearchBookLoading && isSearching && searchBook) {
       setBooksInPage(searchBook.data.data);
       setPageIndex(1);
       const totalItems = searchBook.data.totalItems;
@@ -104,12 +109,12 @@ const BookGridPage = () => {
     }
   };
 
-  const handlePageChange = (e : number) => {
+  const handlePageChange = (e: number) => {
     const currentPage = e;
     console.log("Current page: " + currentPage);
     setPageIndex(currentPage);
   }
-  
+
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
       <span className="text-[1.5rem] font-bold">Book</span>
@@ -133,18 +138,26 @@ const BookGridPage = () => {
           </Select>
         </div>
       </div>
+      {isLoadingBook &&
+        <div className="flex flex-col items-center">
+          <ClipLoader color="#8FA8DE" className="items-center justify-center flex" size={100} aria-label="Loading Spinner">
+          </ClipLoader>
+          <p className="text-primary">Loading...</p>
+        </div>}
       <div className="grid grid-cols-4 justify-items-center w-full gap-[4.5rem] ">
-       {!isLoadingBook && booksInPage && booksInPage.map((product) => {
+        {!isLoadingBook && booksInPage && booksInPage.map((product) => {
           return (
-            <Product key={product.id}
-              id={product.id}
-              title={product.title}
-              imageURL={product.imageUrl}
-              price={product.price}
-              rating={product.averageRating}
-              discount={product.discountPercentage}
-              totalRating={product.ratingsCount}
-              isAdmin={true} />
+            <Fade>
+              <Product key={product.id}
+                id={product.id}
+                title={product.title}
+                imageURL={product.imageUrl}
+                price={product.price}
+                rating={product.averageRating}
+                discount={product.discountPercentage}
+                totalRating={product.ratingsCount}
+                isAdmin={true} />
+            </Fade>
           );
         })}
       </div>
