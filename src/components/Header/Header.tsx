@@ -1,4 +1,5 @@
 import SearchInput from "@/components/SearchInput/SearchInput";
+import { path } from "@/constants/path";
 import { useMutation } from "@tanstack/react-query";
 import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
@@ -88,9 +89,10 @@ export default function Header(props: HeaderProps) {
                 </span>
               )}
             >
-              <Dropdown.Item>Dashboard</Dropdown.Item>
               <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item>
+              <Link to={path.customerOrder}>
+                <Dropdown.Item>My orders</Dropdown.Item>
+              </Link>
               <Dropdown.Item onClick={() => logoutMutation.mutate()}>
                 Sign out
               </Dropdown.Item>

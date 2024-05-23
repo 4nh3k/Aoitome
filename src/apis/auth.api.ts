@@ -38,42 +38,46 @@ export const authApi = {
       status: string;
     }>(`${IDENTITY_PREFIX}${URL_LOGOUT}`);
   },
-  uploadImage(body: {
-    image: File
-  }) {
+  uploadImage(body: { image: File }) {
     const formData = new FormData();
     console.log(body.image);
-    formData.append('image', body.image);
+    formData.append("image", body.image);
 
-    return http.post<UploadImage>(`${IDENTITY_PREFIX}${URL_FILE_UPLOAD}`,
+    return http.post<UploadImage>(
+      `${IDENTITY_PREFIX}${URL_FILE_UPLOAD}`,
       formData,
       {
-        headers: 
-        {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
   },
-  getResetPassToken(body: {email: string}){
-      return http.post<string>(`${IDENTITY_PREFIX}${URL_TOKEN}`, body);
+  getResetPassToken(email: string) {
+    return http.post<string>(`${IDENTITY_PREFIX}${URL_TOKEN}`, email);
   },
-  updatePassword(userId: string, body: UpdatePasswordDTO){
-      return http.post<string>(`${IDENTITY_PREFIX}/users/${userId}${URL_UPDATEPASS}`, body);
+  updatePassword(userId: string, body: UpdatePasswordDTO) {
+    return http.post<string>(
+      `${IDENTITY_PREFIX}/users/${userId}${URL_UPDATEPASS}`,
+      body
+    );
   },
-  resetPassword(body: ResetPasswordDTO){
+  resetPassword(body: ResetPasswordDTO) {
     return http.post<string>(`${IDENTITY_PREFIX}${URL_RESETPASS}`, body);
   },
-  getUserProfile(userId: string){
-    console.log(`${IDENTITY_PREFIX}${URL_PROFILE}/${userId}`)
+  getUserProfile(userId: string) {
+    console.log(`${IDENTITY_PREFIX}${URL_PROFILE}/${userId}`);
     return http.get<User>(`${IDENTITY_PREFIX}${URL_PROFILE}/${userId}`);
   },
-  updateUserProfile(userId: string, body: UserUpdateDTO){
-    return http.patch<string>(`${IDENTITY_PREFIX}${URL_UPDATE_PROFILE}/${userId}`, body, {
-      headers: 
-        {
-          'Content-Type': 'application/json'
-        }
-    }
+  updateUserProfile(userId: string, body: UserUpdateDTO) {
+    return http.patch<string>(
+      `${IDENTITY_PREFIX}${URL_UPDATE_PROFILE}/${userId}`,
+      body,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
   },
   getCustomers(pageIndex: number, pageSize: number) {

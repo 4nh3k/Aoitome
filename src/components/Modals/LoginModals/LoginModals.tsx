@@ -85,6 +85,7 @@ export function LoginModals({
             <FloatingLabel
               variant="outlined"
               label="Password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
