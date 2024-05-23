@@ -1,5 +1,5 @@
 import AnalysisDataBox from '../../../components/AdminComponents/AnalysisDataBox'
-import BarChart from '../../../components/AdminComponents/Charts/BarChart'
+import BarChart from '../../../components/AdminComponents/Charts/RevenueBarChart'
 import CustomTable from '../../../components/CustomTable'
 import { useQuery } from '@tanstack/react-query'
 import { orderingApi } from '../../../apis/ordering.api'
@@ -7,6 +7,8 @@ import { bookApi } from '../../../apis/book.api'
 import { Pagination } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { Transaction } from '../../../types/Models/Ordering/OrderModel/Transaction.type'
+import RevenueBarChart from '../../../components/AdminComponents/Charts/RevenueBarChart'
+import TopProductCharts from '../../../components/AdminComponents/Charts/TopProductsChart'
 
 const AdminDashboard = () => {
   const headers = [
@@ -93,10 +95,13 @@ const AdminDashboard = () => {
 
       <span className='heading-4'>Sale revenue</span>
 
-      <div className='w-full flex flex-row justify-between'>
+      <div className='w-full flex flex-row justify-between pb-6'>
+        <RevenueBarChart />
+      </div>
 
-        <BarChart></BarChart>
-        {/* <PieChart></PieChart> */}
+      <span className='heading-4'>Top products</span>
+      <div className='w-full flex flex-row justify-between pb-6'>
+        <TopProductCharts />
       </div>
 
       <span className='heading-4'>Transaction history</span>

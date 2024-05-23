@@ -5,4 +5,5 @@ interface BookReviewDTO {
   userProfileImage?: string | null;
   comment?: string | null;
   ratingPoint?: number | null;
+  
 }

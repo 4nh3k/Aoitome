@@ -76,7 +76,7 @@ const GenresInput: React.FC<GenreInputProps> = ({selectedGenres, onChange}) => {
 			<span className="text-sm font-medium leading-5">Genres</span>
 			<div className="flex py-5 px-4 items-center gap-4 self-strech rounded-xl border-1 border-solid border-primary bg-white w-full">
 				<div className="flex flex-grow items-center gap-4 flex-1">
-					<div className="flex flex-grow items-center gap-4 flex-1">
+					<div className="flex flex-wrap items-center gap-4 flex-1 w-96">
 						{selectedGenres && selectedGenres.map((genre) => (
 							<Tag key={genre.id} label={genre.name} onClick={() => handleRemoveGenre(genre)} />
 						))}

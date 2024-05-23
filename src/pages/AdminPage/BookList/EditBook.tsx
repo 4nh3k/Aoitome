@@ -13,8 +13,10 @@ import { formatsApi } from "../../../apis/format.api";
 import { useCallback, useEffect, useState } from "react";
 import authApi from "../../../apis/auth.api";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BookDetailDTO } from "../../../types/DTOs/BookCatalog/BookDetailDTO.type";
+import { redirect } from "react-router-dom";
+import { path } from "../../../constants/path";
 
 const EditBook = () => {
   const { id } = useParams();
@@ -146,6 +148,30 @@ const EditBook = () => {
     console.log(book);
   }, [book]);
 
+  const navigate = useNavigate();
+
+  const deleteBookMutation = useMutation({
+    mutationKey: ['book', 'delete', book?.id],
+    mutationFn: async(id: number)=> {
+      if (id === null || id === undefined){
+        toast.error("Book id is not valid");
+        return;
+      }
+      
+      console.log(`Prepare to delete book with ${book.id}`)
+      const result = await bookApi.deleteBook(id);
+      if (result.status !== 200){
+        toast.error(result.data);
+        return;
+      } 
+    },
+    onSuccess: () => {
+      toast.success(`The book with bookId: ${id} has successfully deleted`);
+      console.log("Began navigating back to book grid page");
+      navigate("../" + path.adminProducts, {replace: true})
+    }
+  });
+
   const createImageUrlMutation = useMutation({
     mutationKey: ['image', file],
     mutationFn: async (file: File) => {
@@ -160,7 +186,7 @@ const EditBook = () => {
     },
     onSuccess: (imageUrl) => {
       // Trigger the second mutation after successfully uploading the image
-      toast.success("Save image successfully");
+      toast.success("Save new image successfully");
       const updateBook = book;
       updateBook.imageUrl = imageUrl;
       console.log("Update book")
@@ -178,8 +204,9 @@ const EditBook = () => {
       if (result.status !== 200) {
         toast.error(result.statusText);
         return;
-      }
-
+      }      
+    },
+    onSuccess: () => {
       toast.success("Product has been updated");
     }
   });
@@ -187,11 +214,24 @@ const EditBook = () => {
   const handleUpdateBook = useCallback(async () => {
     try {
       await createImageUrlMutation.mutateAsync(file);
-      toast.success("Image uploaded and user profile updated successfully.");
     } catch (error) {
       toast.error("Error uploading image and updating user profile: " + error);
     }
   }, [createImageUrlMutation, updateProductMutation]);
+
+  const handleDeleteBook = useCallback(async () => {
+    try {
+      const bookId = book?.id;
+      await deleteBookMutation.mutateAsync(bookId);
+    } catch (error) {
+      toast.error("Error uploading image and updating user profile: " + error);
+    }
+  }, [deleteBookMutation])
+
+  const handleCancel = (e) => {
+    const book = bookData?.data;
+    setBook(book);
+  };
 
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
@@ -303,12 +343,14 @@ const EditBook = () => {
               label={"Delete book"}
               textColor={"white"}
               btnColor={"secondary"}
+              onClick={handleDeleteBook}
             />
             <CustomButton
               label={"Cancel"}
               textColor={"black"}
               btnColor={"white"}
               borderColor={"gray-300"}
+              onClick={handleCancel}
             />
           </div>
         </div>

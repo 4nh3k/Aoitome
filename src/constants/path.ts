@@ -6,6 +6,7 @@ export const path = {
   product: "product/:id",
   adminAddProduct: "admin-bookgrid/add-product",
   adminProduct: "admin-bookgrid/product/:id",
+  adminBookReviews: "admin/book-reviews",
   cart: "cart",
   search: "search",
   checkout: "/order-checkout",

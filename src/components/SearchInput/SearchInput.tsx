@@ -9,17 +9,20 @@ interface SearchInputProps {
   enableDropdown?: boolean;
   onSubmit: (searchValue: string) => void; // Function to handle form submission
   onChange: (searchValue: string) => void; // Function to handle input change
+  onDropdownChange: (type: string) => void;
 }
 
-export function SearchInput({
+export default function SearchInput({
   className,
   dropdownList,
   placeholder,
   enableDropdown = true,
   onChange,
   onSubmit,
+  onDropdownChange,
 }: SearchInputProps) {
   const [searchValue, setSearchValue] = useState("");
+  const [filter, setFilter] = useState("Book id");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,11 +37,19 @@ export function SearchInput({
     onChange(newValue); // Call onChange function with new value
   };
 
+  const handleDropdownChange = (e) => {
+    const value = e.target.value;
+    setFilter(value);
+    if (enableDropdown){
+      onDropdownChange(value);
+    }
+  }
+
   return (
     <form className={className} onSubmit={handleSubmit}>
       <div className="flex">
         {enableDropdown && dropdownList!.length > 0 ? (
-          <Select id="countries" theme={customSelectTheme} required>
+          <Select value={filter} onChange={handleDropdownChange} className="min-w-fit" id="countries" theme={customSelectTheme} required>
             {dropdownList!.map((item, index) => (
               <option key={index}>{item}</option>
             ))}

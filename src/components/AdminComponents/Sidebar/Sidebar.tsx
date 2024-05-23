@@ -16,17 +16,8 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
   const bookSidebarItems = [
     { label: "All books", link: path.adminProducts },
     { label: "Add book", link: path.adminAddProduct },
+    { label: "Book reviews", link: path.adminBookReviews}
   ];
-
-  const genresItems = [
-    { label: "All genres", link: "" },
-    { label: "Add genre", link: ""}
-  ]
-  
-  const publisherItems = [
-    { label: "All publishers", link: ""},
-    { label: "Add publisher", link: ""}
-  ]
 
   const orderSidebarItems = [
     { label: "Order list", link: path.adminOrderManagement },
@@ -51,20 +42,15 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
             label={"Account"}
             link={path.adminAccount}
           ></SidebarItem>
+          <SidebarItem
+            imageSrc={User}
+            label={"Customers"}
+            // link={path.adminAccount}
+          ></SidebarItem>
           <SidebarCollapse
             imageSrc={Book}
             label={"Books"}
             items={bookSidebarItems}
-          ></SidebarCollapse>
-          <SidebarCollapse
-            imageSrc={Book}
-            label={"Genres"}
-            items={genresItems}
-          ></SidebarCollapse>
-          <SidebarCollapse
-            imageSrc={Book}
-            label={"Publishers"}
-            items={publisherItems}
           ></SidebarCollapse>
           <SidebarCollapse
             imageSrc={Bag}

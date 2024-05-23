@@ -28,7 +28,7 @@ export const bookApi = {
     return http.patch<Book>(`${CATALOG_PREFIX}${URL_BOOKS}`, body);
   },
   deleteBook(id: number) {
-    return http.delete<Book>(`${CATALOG_PREFIX}${URL_BOOKS}/${id}`);
+    return http.delete<string>(`${CATALOG_PREFIX}${URL_BOOKS}?id=${id}`);
   },
   getAllLanguageCodes(){
     return http.get<string[]>(`${CATALOG_PREFIX}${URL_BOOKS}${SUFFIX_LANG_CODES}`);

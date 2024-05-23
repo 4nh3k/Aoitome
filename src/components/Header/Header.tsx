@@ -11,7 +11,7 @@ import ForgotPassModals from "../Modals/ForgotPassModals";
 import LoginModals from "../Modals/LoginModals";
 import { RegisterModals } from "../Modals/RegisterModals/RegisterModals";
 import Notification from "../Notification";
-import SearchInput from "../SearchInput";
+import SearchInput from "@/components/SearchInput/SearchInput";
 import { StickyHeader } from "../StickyHeader/StickyHeader";
 
 interface HeaderProps {

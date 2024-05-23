@@ -77,9 +77,6 @@ const AddVoucher: React.FC<VoucherTypeProps> = ({ voucherType }) => {
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
             <AdminInput title={"Promotional description"} placeholder={"Enter promotional description"} />
           </div>
-
-          <GenresInput />
-
           <div className="flex items-start justify-end gap-3 self-stretch w-full" >
             <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} />
             <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} />

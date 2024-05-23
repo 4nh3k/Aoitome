@@ -25,6 +25,7 @@ import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
 import AddBook from "./pages/AdminPage/BookList/AddBook";
 import EditBook from "./pages/AdminPage/BookList/EditBook";
+import BookReviewList from "./pages/AdminPage/BookList/BookReviewList";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -117,6 +118,7 @@ export default function useRouteElement() {
           element: <UserAccount />,
           path: path.customerAccount,
         },
+
       ],
     },
     {
@@ -133,6 +135,10 @@ export default function useRouteElement() {
         {
           element: <BookGridPage />,
           path: path.adminProducts,
+        },
+        {
+          element: <BookReviewList />,
+          path: path.adminBookReviews,
         },
         {
           element: <AddBook />,

@@ -15,7 +15,7 @@ export const bookReviewApi = {
     );
   },
   deleteBookReview(userId: string, bookId: number) {
-    return http.delete<BookReviews>(
+    return http.delete<string>(
       `${CATALOG_PREFIX}${URL_BOOK_REVIEWS}?userId=${userId}&bookId=${bookId}`
     );
   },

@@ -20,17 +20,17 @@ export function CustomTable(props: CustomTableProps) {
   const { headers, data } = props;
 
   return (
-    <Table className="shadow rounded-lg">
+    <Table striped hoverable className="shadow rounded-lg bg-white">
       <Table.Head className="border-b">
         {headers.map((header, index) => (
-          <Table.HeadCell key={index}>{header.label}</Table.HeadCell>
+          <Table.HeadCell className="bg-gray-200" key={index}>{header.label}</Table.HeadCell>
         ))}
       </Table.Head>
       <Table.Body className="divide-y">
-        {data.map((item, index) => (
-          <Table.Row key={index}>
-            {headers.map((header, index) => (
-              <Table.Cell key={index} className={header.className}>
+        {data.map((item, indexRow) => (
+          <Table.Row key={indexRow} className="hover:bg-[#edf1f5]">
+            {headers.map((header, indexCell) => (
+              <Table.Cell className={header.className } key={indexCell}>
                 {item[header.prop]}
               </Table.Cell>
             ))}

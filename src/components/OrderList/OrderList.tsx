@@ -1,6 +1,6 @@
 import { Button, Datepicker } from "flowbite-react";
 import CustomTable from "../CustomTable";
-import SearchInput from "../SearchInput";
+import SearchInput from "@/components/SearchInput/SearchInput";
 
 export interface RowData {
   order_id: number;

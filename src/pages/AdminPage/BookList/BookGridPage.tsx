@@ -1,6 +1,6 @@
 import { Pagination, Select } from "flowbite-react";
 import Product from "../../../components/Product";
-import SearchInput from "../../../components/SearchInput";
+import SearchInput from "@/components/SearchInput/SearchInput";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { bookApi } from "../../../apis/book.api";
 import { useEffect, useState } from "react";
@@ -37,7 +37,7 @@ const BookGridPage = () => {
       console.log("Page index: " + pageIndex);
       console.log("Total items: " + totalItems);
     }
-    else if (!isSearchBookLoading && isSearching){
+    else if (!isSearchBookLoading && isSearching && searchBook){
       const booksInPage = searchBook?.data.data
       setBooksInPage(booksInPage);
       const totalItems = searchBook?.data.totalItems;

@@ -11,6 +11,7 @@ import { Order } from "../types/Models/Ordering/OrderModel/Order.type";
 import { OrderStatus } from "../types/Models/Ordering/OrderModel/OrderStatus.type";
 import { Report } from "../types/Models/Ordering/OrderModel/Report.type";
 import { Transaction } from "../types/Models/Ordering/OrderModel/Transaction.type";
+import { TopProduct } from "../types/Models/Ordering/TopProduct.type";
 import { WeeklyTransactionSummary } from "../types/Models/Ordering/WeeklyTransactionSummary.type";
 import { PaginatedResponse } from "../types/PaginatedResponse.type";
 import http from "../utils/http";
@@ -73,4 +74,7 @@ export const orderingApi = {
       `${ORDERING_PREFIX}${URL_TRANSACTIONS}?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
   },
+  getTopTenProduct(){
+    return http.get<TopProduct[]>(`${ORDERING_PREFIX}${URL_ORDERS}/top-10-products`)
+  }
 };

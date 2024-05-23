@@ -7,7 +7,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
 
-const BarChart = () => {
+const RevenueBarChart = () => {
 
   const [period, setPeriod] = useState<string>();
   const [label, setLabel] = useState('last 7 days');
@@ -134,7 +134,7 @@ const BarChart = () => {
           offsetY: 0,
           floating: false,
           style: {
-            fontSize: '14px',
+            fontSize: '24px',
             fontWeight: 'bold',
             fontFamily: 'Inter',
             color: '#263238'
@@ -201,7 +201,8 @@ const BarChart = () => {
             }
           },
           axisBorder: {
-            show: false,
+            show: true,
+            color: '#e8e4ec'
           },
           axisTicks: {
             show: true,
@@ -209,6 +210,10 @@ const BarChart = () => {
         },
         yaxis: {
           show: true,
+          axisBorder: {
+            show: true,
+            color: '#e8e4ec'
+          },
         },
         fill: {
           opacity: 1,
@@ -233,4 +238,4 @@ const BarChart = () => {
   )
 }
 
-export default BarChart 
+export default RevenueBarChart 
