@@ -89,7 +89,10 @@ export default function Header(props: HeaderProps) {
                 </span>
               )}
             >
-              <Dropdown.Item>Settings</Dropdown.Item>
+              <Link to={path.customerAccount}>
+                <Dropdown.Item>Settings</Dropdown.Item>
+              </Link>
+
               <Link to={path.customerOrder}>
                 <Dropdown.Item>My orders</Dropdown.Item>
               </Link>

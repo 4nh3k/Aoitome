@@ -1,27 +1,22 @@
-import AdminInput from "../../../components/AdminComponents/Input/AdminInput"
-import AdminDropdown from "../../../components/AdminComponents/Input/AdminDropdown";
-import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
-import InfoOutline from "../../../assets/icon/info-outline.svg"
-import ElysiaImg from "../../../assets/img/elysia.jpg"
-import UploadIcon from "../../../assets/icon/upload.svg"
-import LinkingAccount from "../../../components/AdminComponents/LinkingAccount.tsx/LinkingAccount";
-import GoogleLogo from "../../../assets/icon/google-logo.svg"
-import GithubLogo from "../../../assets/icon/github-logo.svg"
-import XCircle from "../../../assets/icon/x-circle.svg"
-import CheckCircle from "../../../assets/icon/check-circle.svg"
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Select } from "flowbite-react";
-import { User } from "../../../types/Models/Identity/User.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import authApi from "../../../apis/auth.api";
-import { getUIDFromLS } from "../../../utils/auth";
+import { Select } from "flowbite-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import authApi from "../../../apis/auth.api";
+import CheckCircle from "../../../assets/icon/check-circle.svg";
+import InfoOutline from "../../../assets/icon/info-outline.svg";
+import UploadIcon from "../../../assets/icon/upload.svg";
+import XCircle from "../../../assets/icon/x-circle.svg";
+import ElysiaImg from "../../../assets/img/elysia.jpg";
+import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
+import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
 import AdminPassword from "../../../components/AdminComponents/Input/AdminPassword";
+import { User } from "../../../types/Models/Identity/User.type";
+import { getUIDFromLS } from "../../../utils/auth";
 
 const AdminAccount = () => {
-
   const userId = getUIDFromLS();
-  const accountTypes = ['Admin', 'Customer']
+  const accountTypes = ["Admin", "Customer"];
 
   const [currentPassword, setCurrentPassword] = useState<string>();
   const [newPassword, setNewPassword] = useState<string>();
@@ -44,23 +39,23 @@ const AdminAccount = () => {
 
     if (file) {
       // Check if the selected file is an image
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith("image/")) {
         // Update the image source with the selected file
         const newImageSrc = URL.createObjectURL(file);
         setOldImg(currentImg);
         setCurrentImg(newImageSrc);
         setFile(file);
       } else {
-        console.error('Invalid file format. Please select an image.');
+        console.error("Invalid file format. Please select an image.");
       }
     }
   };
 
   const { data: adminData, isLoading: isLoadingAdminData } = useQuery({
-    queryKey: ['admin'],
+    queryKey: ["admin"],
     queryFn: () => {
-      return authApi.getUserProfile(userId)
-    }
+      return authApi.getUserProfile(userId);
+    },
   });
 
   useEffect(() => {
@@ -68,9 +63,9 @@ const AdminAccount = () => {
       const admin = adminData?.data;
       setAdminProfile(admin);
       setCurrentImg(admin.profileImageLink);
-      console.log(admin)
+      console.log(admin);
     }
-  }, [isLoadingAdminData, adminData])
+  }, [isLoadingAdminData, adminData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -79,19 +74,19 @@ const AdminAccount = () => {
 
   const onRemoveImage = (e) => {
     setCurrentImg(adminProfile.profileImageLink);
-  }
+  };
 
   const onCancelUpdate = (e) => {
     if (!isLoadingAdminData && adminData) {
       const admin = adminData?.data;
       setAdminProfile(admin);
       setCurrentImg(admin.profileImageLink);
-      console.log(admin)
+      console.log(admin);
     }
-  }
+  };
 
   const createImageUrlMutation = useMutation({
-    mutationKey: ['image', file],
+    mutationKey: ["image", file],
     mutationFn: async (file: File) => {
       if (file === undefined || file === null) {
         return currentImg;
@@ -105,18 +100,21 @@ const AdminAccount = () => {
     onSuccess: (imageUrl) => {
       // Trigger the second mutation after successfully uploading the image
       toast.success("Save image successfully");
-      updateAccountMutation.mutate({ ...adminProfile, ['profileImageLink']: imageUrl });
-    }
-  })
+      updateAccountMutation.mutate({
+        ...adminProfile,
+        ["profileImageLink"]: imageUrl,
+      });
+    },
+  });
 
   const updateAccountMutation = useMutation({
-    mutationKey: ['update-account', adminProfile?.userName],
+    mutationKey: ["update-account", adminProfile?.userName],
     mutationFn: async (adminProfile: User) => {
       console.log("Began updating user...");
-      setAdminProfile({ ...adminProfile, ['profileImageLink']: currentImg });
+      setAdminProfile({ ...adminProfile, ["profileImageLink"]: currentImg });
       console.log(adminProfile);
       await authApi.updateUserProfile(userId, adminProfile);
-    }
+    },
   });
 
   const handleSaveChanges = useCallback(async () => {
@@ -131,26 +129,26 @@ const AdminAccount = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
-      case 'currentPassword':
+      case "currentPassword":
         setCurrentPassword(value);
         return;
-      case 'newPassword':
+      case "newPassword":
         setNewPassword(value);
         return;
-      case 'repeatNewPassword':
+      case "repeatNewPassword":
         setRepeatNewPassword(value);
         return;
     }
-  }
+  };
 
   const onClickCancelChangePassword = (e) => {
-    setCurrentPassword('');
-    setNewPassword('');
-    setRepeatNewPassword('');
-  }
+    setCurrentPassword("");
+    setNewPassword("");
+    setRepeatNewPassword("");
+  };
 
   const updatePasswordMutation = useMutation({
-    mutationKey: ['update-password', userId],
+    mutationKey: ["update-password", userId],
     mutationFn: async () => {
       console.log("Current password: " + currentPassword);
       console.log("New password: " + newPassword);
@@ -162,13 +160,15 @@ const AdminAccount = () => {
       }
 
       if (newPassword !== repeatNewPassword) {
-        toast.error("New password and repeat new password not matched, please try again");
+        toast.error(
+          "New password and repeat new password not matched, please try again"
+        );
         return;
       }
       const updatePassword = {
         currentPassword: currentPassword,
-        newPassword: newPassword
-      }
+        newPassword: newPassword,
+      };
 
       const result = await authApi.updatePassword(userId, updatePassword);
       if (result.status === 400) {
@@ -177,15 +177,15 @@ const AdminAccount = () => {
       }
 
       toast.success("User's password has been updated");
-    }
+    },
   });
 
   const handleUpdateUserPassword = (e) => {
     updatePasswordMutation.mutate();
-  }
+  };
 
   return (
-    <div className='bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm'>
+    <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
       <div className="flex items-start basis-full gap-4 h-full ">
         <div className="flex flex-col pt-4 pb-5 px-4 justify-between w-3/4 gap-8 rounded-2xl border-1 border-solid border-gray-300 bg-white">
           <div className="flex items-center gap-4">
@@ -194,47 +194,128 @@ const AdminAccount = () => {
           </div>
 
           <div className="flex w-[18.75rem] justify-between items-center gap-4">
-            <img src={currentImg} className="flex-shrink-0 rounded-full border-rounded border-rounded h-[4.5rem] w-[4.5rem]" />
+            <img
+              src={currentImg}
+              className="flex-shrink-0 rounded-full border-rounded border-rounded h-[4.5rem] w-[4.5rem]"
+            />
 
-            <button className={`bg-primary flex w-[8rem] h-10 py-[23px] px-4 justify-center items-center gap-3 rounded-xl border-1 border-solid`} onClick={handleLoadImage}>
+            <button
+              className={`bg-primary flex w-[8rem] h-10 py-[23px] px-4 justify-center items-center gap-3 rounded-xl border-1 border-solid`}
+              onClick={handleLoadImage}
+            >
               {UploadIcon ? (
                 <img src={UploadIcon} width={16} height={16} />
-              ) : ''}
-              <span className={`text-sm text-white font-medium leading-[1.125rem]`}>Upload</span>
+              ) : (
+                ""
+              )}
+              <span
+                className={`text-sm text-white font-medium leading-[1.125rem]`}
+              >
+                Upload
+              </span>
               <input
-                type='file'
+                type="file"
                 ref={inputRef}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 onChange={handleFileChange}
-                accept='image/jpeg, image/png, image/gif, image/svg+xml'
+                accept="image/jpeg, image/png, image/gif, image/svg+xml"
               />
             </button>
 
-            <CustomButton label={"Remove"} textColor={"black"} btnColor={"white"} onClick={onRemoveImage} borderColor="gray-300" />
+            <CustomButton
+              label={"Remove"}
+              textColor={"black"}
+              btnColor={"white"}
+              onClick={onRemoveImage}
+              borderColor="gray-300"
+            />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput type="text" name={"userName"} value={adminProfile?.userName !== undefined ? adminProfile?.userName : ''} title={"Username*"} placeholder={"Enter username"} onChange={handleChange} />
+            <AdminInput
+              type="text"
+              name={"userName"}
+              value={
+                adminProfile?.userName !== undefined
+                  ? adminProfile?.userName
+                  : ""
+              }
+              title={"Username*"}
+              placeholder={"Enter username"}
+              onChange={handleChange}
+            />
 
-            <AdminInput name={"fullName"} value={adminProfile?.fullName !== undefined ? adminProfile?.fullName : ''} title={"Full name*"} placeholder={"Enter full name"} onChange={handleChange} type={"text"} />
+            <AdminInput
+              name={"fullName"}
+              value={
+                adminProfile?.fullName !== undefined
+                  ? adminProfile?.fullName
+                  : ""
+              }
+              title={"Full name*"}
+              placeholder={"Enter full name"}
+              onChange={handleChange}
+              type={"text"}
+            />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput name={"email"} value={adminProfile?.email !== undefined ? adminProfile?.email : ''} title={"Your email*"} placeholder={"Enter email"} onChange={handleChange} type={"text"} />
+            <AdminInput
+              name={"email"}
+              value={
+                adminProfile?.email !== undefined ? adminProfile?.email : ""
+              }
+              title={"Your email*"}
+              placeholder={"Enter email"}
+              onChange={handleChange}
+              type={"text"}
+            />
 
-            <AdminInput title={"Phone number*"} placeholder={"(+123) 456 789"} onChange={handleChange} name={"phoneNumber"} value={adminProfile?.phoneNumber !== undefined ? adminProfile?.phoneNumber : ''} type={"number"} />
+            <AdminInput
+              title={"Phone number*"}
+              placeholder={"(+123) 456 789"}
+              onChange={handleChange}
+              name={"phoneNumber"}
+              value={
+                adminProfile?.phoneNumber !== undefined
+                  ? adminProfile?.phoneNumber
+                  : ""
+              }
+              type={"number"}
+            />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput title={"Country"} placeholder={"Enter country"} onChange={handleChange} name={"country"} value={adminProfile?.country !== undefined ? adminProfile?.country : ''} type={"text"} />
-            <AdminInput title={"City"} placeholder={"Enter city"} onChange={handleChange} name={"city"} value={adminProfile?.city !== undefined ? adminProfile?.city : ''} type={"text"} />
+            <AdminInput
+              title={"Country"}
+              placeholder={"Enter country"}
+              onChange={handleChange}
+              name={"country"}
+              value={
+                adminProfile?.country !== undefined ? adminProfile?.country : ""
+              }
+              type={"text"}
+            />
+            <AdminInput
+              title={"City"}
+              placeholder={"Enter city"}
+              onChange={handleChange}
+              name={"city"}
+              value={adminProfile?.city !== undefined ? adminProfile?.city : ""}
+              type={"text"}
+            />
           </div>
 
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
             {/* <AdminDropdown title='Timezone' items={timezones} /> */}
             <div className="flex flex-col items-start gap-2 flex-1 self-strech flex-grow">
               <span className="text-sm font-medium leading-5">Role</span>
-              <Select className='self-strech w-full' required value={'Admin'} disabled={true}>
+              <Select
+                className="self-strech w-full"
+                required
+                value={"Admin"}
+                disabled={true}
+              >
                 {accountTypes.map((item, index) => (
                   <option key={index} value={item}>
                     {item}
@@ -253,9 +334,20 @@ const AdminAccount = () => {
             <LinkingAccount logo={GithubLogo} />
           </div> */}
 
-          <div className="flex items-start justify-end gap-3 self-stretch w-full" >
-            <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} onClick={handleSaveChanges} />
-            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} onClick={onCancelUpdate} />
+          <div className="flex items-start justify-end gap-3 self-stretch w-full">
+            <CustomButton
+              label={"Save changes"}
+              textColor={"white"}
+              btnColor={"primary"}
+              onClick={handleSaveChanges}
+            />
+            <CustomButton
+              label={"Cancel"}
+              textColor={"black"}
+              btnColor={"white"}
+              borderColor={"gray-300"}
+              onClick={onCancelUpdate}
+            />
           </div>
         </div>
 
@@ -267,48 +359,88 @@ const AdminAccount = () => {
 
           <div className="flex flex-col items-start gap-5 self-stretch">
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminPassword title={"Current password*"} placeholder={"Enter your current password"} onChange={handlePasswordChange} type={"password"} name={"currentPassword"} value={currentPassword} />
+              <AdminPassword
+                title={"Current password*"}
+                placeholder={"Enter your current password"}
+                onChange={handlePasswordChange}
+                type={"password"}
+                name={"currentPassword"}
+                value={currentPassword}
+              />
             </div>
 
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminPassword title={"New password*"} placeholder={"Enter your new password"}
-                onChange={handlePasswordChange} type={"newPassword"} name={"newPassword"} value={newPassword} />
+              <AdminPassword
+                title={"New password*"}
+                placeholder={"Enter your new password"}
+                onChange={handlePasswordChange}
+                type={"newPassword"}
+                name={"newPassword"}
+                value={newPassword}
+              />
             </div>
 
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminPassword title={"Confirm password*"} placeholder={"Confirm your new password"}
-                onChange={handlePasswordChange} type={"password"} name={"repeatNewPassword"} value={repeatNewPassword} />
+              <AdminPassword
+                title={"Confirm password*"}
+                placeholder={"Confirm your new password"}
+                onChange={handlePasswordChange}
+                type={"password"}
+                name={"repeatNewPassword"}
+                value={repeatNewPassword}
+              />
             </div>
           </div>
 
           <div className="flex p-4 flex-col items-start gap-2 self-strech bg-gray-50">
             <span className="text-lg font-medium">Password requirements:</span>
-            <span className="text-lg font-normal text-gray-500">Ensure that these requirements are met:</span>
+            <span className="text-lg font-normal text-gray-500">
+              Ensure that these requirements are met:
+            </span>
             <div className="flex flex-end gap-3">
               <img src={CheckCircle} width={20} height={20} />
-              <span className="text-sm font-normal">At least 8 characters (and up to 50 characters)</span>
+              <span className="text-sm font-normal">
+                At least 8 characters (and up to 50 characters)
+              </span>
             </div>
             <div className="flex flex-end gap-3">
               <img src={CheckCircle} width={20} height={20} />
-              <span className="text-sm font-normal">At least one lowercase character</span>
+              <span className="text-sm font-normal">
+                At least one lowercase character
+              </span>
             </div>
             <div className="flex flex-end gap-3">
               <img src={XCircle} width={20} height={20} />
-              <span className="text-sm font-normal">Inclusion of at least one special character, e.g.,! @ # ?</span>
+              <span className="text-sm font-normal">
+                Inclusion of at least one special character, e.g.,! @ # ?
+              </span>
             </div>
             <div className="flex flex-end gap-3">
               <img src={XCircle} width={20} height={20} />
-              <span className="text-sm font-normal">Different from your previous passwords</span>
+              <span className="text-sm font-normal">
+                Different from your previous passwords
+              </span>
             </div>
           </div>
-          <div className="flex items-start justify-end gap-3 self-stretch w-full" >
-            <CustomButton label={"Save changes"} textColor={"white"} btnColor={"primary"} onClick={handleUpdateUserPassword} />
-            <CustomButton label={"Cancel"} textColor={"black"} btnColor={"white"} borderColor={"gray-300"} onClick={onClickCancelChangePassword} />
+          <div className="flex items-start justify-end gap-3 self-stretch w-full">
+            <CustomButton
+              label={"Save changes"}
+              textColor={"white"}
+              btnColor={"primary"}
+              onClick={handleUpdateUserPassword}
+            />
+            <CustomButton
+              label={"Cancel"}
+              textColor={"black"}
+              btnColor={"white"}
+              borderColor={"gray-300"}
+              onClick={onClickCancelChangePassword}
+            />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminAccount
+export default AdminAccount;
