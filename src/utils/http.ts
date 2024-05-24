@@ -70,6 +70,10 @@ class Http {
             "Your session has expired. Please log in again to continue."
           );
           clearLS();
+          // navigate to login page with a query name redirect to redirect back to the current page
+          const redirect = window.location.pathname;
+          window.location.href = `/login?redirect=${redirect}`;
+          // window.location.href = "/login";
           //window.location.reload();
         }
         return Promise.reject(error);
