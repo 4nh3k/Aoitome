@@ -1,3 +1,5 @@
+import { path } from "@/constants/path";
+import { AuthResponse } from "@/types/Models/Identity/AuthResponse.type";
 import { useMutation } from "@tanstack/react-query";
 import {
   Button,
@@ -10,14 +12,12 @@ import {
 import { useState } from "react";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import authApi from "../../../apis/auth.api";
 import { useAppContext } from "../../../contexts/app.context";
 import { setAccessTokenToLS } from "../../../utils/auth";
-import { AuthResponse } from "@/types/Models/Identity/AuthResponse.type";
-import { path } from "@/constants/path";
 
 const ADMIN_ROLE = "Admin";
 const CUSTOMER_ROLE = "Customer";
@@ -40,14 +40,18 @@ export function LoginModals({
   const { setIsAuthenticated } = useAppContext();
   const navigate = useNavigate();
 
+  const { redirect } = useParams();
+
   const loginMutation = useMutation({
-    mutationFn: async(body: { username: string; password: string }) =>{
+    mutationFn: async (body: { username: string; password: string }) => {
       const result = await authApi.login(body);
-      if (result.status === 400){
-        throw new Error("Username or password is not exist or matched with any account");
+      if (result.status === 400) {
+        throw new Error(
+          "Username or password is not exist or matched with any account"
+        );
       }
       return result.data;
-    }
+    },
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,11 +72,14 @@ export function LoginModals({
         console.log("data", data);
         setAccessTokenToLS(data.token as string);
         setIsAuthenticated(true);
-        // onCloseModal();
-        if (data.role === ADMIN_ROLE){
-          navigate("../" + path.adminDashboard, {replace: true});
+        onCloseModal();
+        if (data.role === ADMIN_ROLE) {
+          if (redirect) navigate(redirect, { replace: true });
+          else navigate("../" + path.adminDashboard, { replace: true });
+        } else {
+          if (redirect) navigate(redirect, { replace: true });
+          else navigate("/");
         }
-        else navigate("/");
       },
       onError: (error: Error) => {
         toast.error(`Login failed!\n${error.message}`);

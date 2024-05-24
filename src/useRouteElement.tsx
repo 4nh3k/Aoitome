@@ -1,4 +1,4 @@
-import { useRoutes } from "react-router-dom";
+import { useNavigate, useRoutes } from "react-router-dom";
 import ForgotPassModals from "./components/Modals/ForgotPassModals";
 import LoginModals from "./components/Modals/LoginModals";
 import { RegisterModals } from "./components/Modals/RegisterModals/RegisterModals";
@@ -6,6 +6,7 @@ import { path } from "./constants/path";
 import AdminLayout from "./layouts/AdminLayout";
 import MainLayout from "./layouts/MainLayout";
 import AdminAccount from "./pages/AdminPage/AccountPage/AdminAccount";
+import UserAccountInAdmin from "./pages/AdminPage/AccountPage/UserAccountInAdmin";
 import AddBook from "./pages/AdminPage/BookList/AddBook";
 import BookGridPage from "./pages/AdminPage/BookList/BookGridPage";
 import BookReviewList from "./pages/AdminPage/BookList/BookReviewList";
@@ -24,25 +25,24 @@ import OrderTracking from "./pages/OrderTracking";
 import PaymentSuccess from "./pages/PaymentSuccess/PaymentSuccess";
 import ProductDetails from "./pages/ProductDetails";
 import SearchPage from "./pages/SearchPage";
-import { Test } from "./pages/TestAPIPage/Test";
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
-import UserAccountInAdmin from "./pages/AdminPage/AccountPage/UserAccountInAdmin";
 
 export default function useRouteElement() {
+  const navigate = useNavigate();
   const routeElement = useRoutes([
     {
       element: (
         <LoginModals
           openModal={true}
           onCloseModal={function (): void {
-            throw new Error("Function not implemented.");
+            navigate("/");
           }}
           onSignUpClick={function (): void {
-            throw new Error("Function not implemented.");
+            navigate(path.register);
           }}
           onForgotPassClick={function (): void {
-            throw new Error("Function not implemented.");
+            navigate(path.forgotPass);
           }}
         />
       ),
@@ -53,10 +53,10 @@ export default function useRouteElement() {
         <RegisterModals
           openModal={true}
           onCloseModal={function (): void {
-            throw new Error("Function not implemented.");
+            navigate("/");
           }}
           onSignInClick={function (): void {
-            throw new Error("Function not implemented.");
+            navigate(path.login);
           }}
         />
       ),
@@ -74,8 +74,6 @@ export default function useRouteElement() {
       ),
       path: path.forgotPass,
     },
-    { element: <Test />, path: "/Test" },
-
     {
       element: <MainLayout />,
       children: [
