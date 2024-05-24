@@ -9,6 +9,7 @@ import GridIcon from "../../../assets/icon/grid-outline.svg";
 import Elysia from "../../../assets/img/elysia.jpg";
 import { useAppContext } from "../../../contexts/app.context";
 import { clearLS } from "../../../utils/auth";
+import { path } from "@/constants/path";
 
 interface AdminHeaderProps {
   className?: string;
@@ -36,10 +37,10 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ className }) => {
         <div id="logo_role" className="flex items-center gap-[4.25rem]">
           <div id="logo" className="flex items-center gap-[1.5rem]">
             <img src={Logo} width={138} height={36}></img>
-            <span className="text-2xl font-semibold text-secondary">Admin</span>
+            {/* <span className="text-2xl font-semibold text-secondary">Admin</span> */}
           </div>
         </div>
-        <div id="cta" className="flex items-center gap-4">
+        <div id="cta" className="flex items-center gap-2">
           <div
             id="user-button"
             className="flex justify-center items-center gap-2 py-5]"
@@ -58,18 +59,16 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ className }) => {
                 </span>
               )}
             >
-              <Dropdown.Item>Dashboard</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Earnings</Dropdown.Item>
+              <Dropdown.Item href={`../${path.adminDashboard}`}>Dashboard</Dropdown.Item>
               <Dropdown.Item onClick={() => logoutMutation.mutate()}>
                 Sign out
               </Dropdown.Item>
             </Dropdown>
           </div>
-          <div id="grid-btn-container" className="flex px-[1.25rem]">
+          {/* <div id="grid-btn-container" className="flex px-[1.25rem]">
             <img src={GridIcon} width={20} height={20}></img>
-          </div>
-          <div id="grid-btn-container" className="flex px-1">
+          </div> */}
+          <div id="grid-btn-container" className="flex invisible">
             <img src={NotificationIcon} width={24} height={24}></img>
           </div>
         </div>

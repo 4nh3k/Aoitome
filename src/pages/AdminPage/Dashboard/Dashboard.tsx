@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { Transaction } from '../../../types/Models/Ordering/OrderModel/Transaction.type'
 import RevenueBarChart from '../../../components/AdminComponents/Charts/RevenueBarChart'
 import TopProductCharts from '../../../components/AdminComponents/Charts/TopProductsChart'
+import { Fade } from 'react-awesome-reveal'
 
 const AdminDashboard = () => {
   const headers = [
@@ -85,28 +86,31 @@ const AdminDashboard = () => {
     <div className=' bg-background mt-5 flex w-full flex-col gap-4'>
 
       <span className='heading-4'>Key metrics</span>
+      <Fade triggerOnce={true}>
+        <div className='flex items-start gap-8 overflow-x-hidden'>
+          <AnalysisDataBox label={'Books'} value={booksData !== undefined ? `${totalBooks}` : "0"}></AnalysisDataBox>
+          <AnalysisDataBox label={'Revenue'} value={report !== undefined ? `${report.totalRevenue}` : "0"}></AnalysisDataBox>
+          <AnalysisDataBox label={'Orders'} value={report !== undefined ? `${report.orderCount}` : "0"}></AnalysisDataBox>
+          <AnalysisDataBox label={'Customers'} value={report !== undefined ? `${report.customerCount}` : "0"}></AnalysisDataBox>
+        </div>
+      </Fade>
 
-      <div className='flex items-start gap-8 overflow-x-hidden'>
-        <AnalysisDataBox label={'Books'} value={booksData !== undefined ? `${totalBooks}` : "0"}></AnalysisDataBox>
-        <AnalysisDataBox label={'Revenue'} value={report !== undefined ? `${report.totalRevenue}` : "0"}></AnalysisDataBox>
-        <AnalysisDataBox label={'Orders'} value={report !== undefined ? `${report.orderCount}` : "0"}></AnalysisDataBox>
-        <AnalysisDataBox label={'Customers'} value={report !== undefined ? `${report.customerCount}` : "0"}></AnalysisDataBox>
-      </div>
 
       <span className='heading-4'>Sale revenue</span>
-
-      <div className='w-full flex flex-row justify-between pb-6'>
-        <RevenueBarChart />
-      </div>
-
-      <span className='heading-4'>Top products</span>
-      <div className='w-full flex flex-row justify-between pb-6'>
-        <TopProductCharts />
-      </div>
-
+      <Fade triggerOnce={true}>
+        <div className='w-full flex flex-row justify-between pb-6'>
+          <RevenueBarChart />
+        </div>
+      </Fade>
+      <Fade triggerOnce={true}>
+        <span className='heading-4'>Top products</span>
+        <div className='w-full flex flex-row justify-between pb-6'>
+          <TopProductCharts />
+        </div>
+      </Fade>
       <span className='heading-4'>Transaction history</span>
 
-      {!isLoadingTransaction && transactionsInPage && <CustomTable headers={headers} data={transactionsInPage.map((transaction) => {
+      {!isLoadingTransaction && transactionsInPage && <Fade triggerOnce={true}><CustomTable headers={headers} data={transactionsInPage.map((transaction) => {
         return {
           id: transaction.id,
           buyerId: transaction.buyerId,
@@ -114,7 +118,7 @@ const AdminDashboard = () => {
           totalAmount: transaction.totalAmount,
           status: transaction.status
         }
-      })}></CustomTable>}
+      })}></CustomTable></Fade>}
 
       <div className='text-right'>
         <Pagination currentPage={pageIndex} onPageChange={handlePageChange} totalPages={Math.ceil(totalItems / pageSize)} />

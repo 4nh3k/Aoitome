@@ -17,6 +17,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BookDetailDTO } from "../../../types/DTOs/BookCatalog/BookDetailDTO.type";
 import { redirect } from "react-router-dom";
 import { path } from "../../../constants/path";
+import { Fade } from "react-awesome-reveal";
 
 const EditBook = () => {
   const { id } = useParams();
@@ -235,6 +236,7 @@ const EditBook = () => {
 
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
+      <Fade triggerOnce={true}>
       <div className="flex items-stretch basis-full gap-4">
         <div className="flex flex-col pt-4 pb-5 px-4 justify-between items-start gap-5 rounded-2xl border-1 border-solid border-gray-300 bg-white">
           <span className="heading-4">Book detail</span>
@@ -362,6 +364,7 @@ const EditBook = () => {
           </div>
         </div>
       </div>
+      </Fade>
     </div>
   );
 };

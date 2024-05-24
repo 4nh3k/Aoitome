@@ -27,6 +27,7 @@ import SearchPage from "./pages/SearchPage";
 import { Test } from "./pages/TestAPIPage/Test";
 import UserAccount from "./pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "./pages/UserCouponManagement/UserCouponManagement";
+import UserAccountInAdmin from "./pages/AdminPage/AccountPage/UserAccountInAdmin";
 
 export default function useRouteElement() {
   const routeElement = useRoutes([
@@ -159,6 +160,10 @@ export default function useRouteElement() {
         {
           element: <AdminAccount />,
           path: path.adminAccount,
+        },
+        {
+          element: <UserAccountInAdmin />,
+          path: path.adminCustomerAccount,
         },
         {
           element: <AddVoucher voucherType={""} />,

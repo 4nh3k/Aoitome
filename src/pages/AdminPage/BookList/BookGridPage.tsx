@@ -147,7 +147,7 @@ const BookGridPage = () => {
       <div className="grid grid-cols-4 justify-items-center w-full gap-[4.5rem] ">
         {!isLoadingBook && booksInPage && booksInPage.map((product) => {
           return (
-            <Fade>
+            <Fade triggerOnce={true}>
               <Product key={product.id}
                 id={product.id}
                 title={product.title}

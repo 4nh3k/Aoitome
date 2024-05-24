@@ -1,29 +1,60 @@
+import authApi from "@/apis/auth.api";
+import AdminPassword from "@/components/AdminComponents/Input/AdminPassword";
+import LinkingAccount from "@/components/AdminComponents/LinkingAccount.tsx/LinkingAccount";
+import { User } from "@/types/Models/Identity/User.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Select } from "flowbite-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import authApi from "../../../apis/auth.api";
-import CheckCircle from "../../../assets/icon/check-circle.svg";
-import InfoOutline from "../../../assets/icon/info-outline.svg";
-import UploadIcon from "../../../assets/icon/upload.svg";
-import XCircle from "../../../assets/icon/x-circle.svg";
-import ElysiaImg from "../../../assets/img/elysia.jpg";
-import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
-import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
-import AdminPassword from "../../../components/AdminComponents/Input/AdminPassword";
-import { User } from "../../../types/Models/Identity/User.type";
-import { getUIDFromLS } from "../../../utils/auth";
+import CheckCircle from "@/assets/icon/check-circle.svg";
+import GithubLogo from "@/assets/icon/github-logo.svg";
+import GoogleLogo from "@/assets/icon/google-logo.svg";
+import InfoOutline from "@/assets/icon/info-outline.svg";
+import UploadIcon from "@/assets/icon/upload.svg";
+import XCircle from "@/assets/icon/x-circle.svg";
+import ElysiaImg from "@/assets/img/elysia.jpg";
+import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton";
+import AdminDropdown from "@/components/AdminComponents/Input/AdminDropdown";
+import AdminInput from "@/components/AdminComponents/Input/AdminInput";
+import AdminTextArea from "@/components/AdminComponents/Input/AdminTextArea";
+import { DiscountInput } from "@/components/AdminComponents/Input/DiscountInput";
+import RadioButton from "@/components/AdminComponents/RadioButton/RadioButton";
+import { useParams } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
+import CustomTable from "@/components/CustomTable";
 
-const AdminAccount = () => {
-  const userId = getUIDFromLS();
-  const accountTypes = ["Admin", "Customer"];
+const UserAccountInAdmin = () => {
 
+  const addressHeaders  = [
+    { label: 'ID', prop: 'id' },
+    { label: 'Street', prop: 'street' },
+    { label: 'Ward', prop: 'ward', className: 'text-gray-500' }, // Example of adding className
+    { label: 'District', prop: 'district', className: 'text-gray-500' }, // Example of adding className
+    { label: 'City', prop: 'city', className: 'text-gray-500' }, // Example of adding className
+    { label: 'Country', prop: 'country', className: 'text-gray-500' }, // Example of adding className
+    { label: 'Zip Code', prop: 'zipCode', className: 'text-gray-500' }, // Example of adding className
+    { label: 'Buyer ID', prop: 'buyerId', className: 'text-gray-500' }, // Example of adding className
+  ];
+
+  const creditCardHeaders = [
+    { label: 'ID', prop: 'id' },
+    { label: 'Alias', prop: 'alias' },
+    { label: 'Card Number', prop: 'cardNumber', className: 'text-gray-500' },
+    { label: 'Security Number', prop: 'securityNumber', className: 'text-gray-500' },
+    { label: 'Card Holder Name', prop: 'cardHoldername', className: 'text-gray-500' },
+    { label: 'Expiration', prop: 'expiration', className: 'text-gray-500' },
+    { label: 'Card Type ID', prop: 'cardTypeId', className: 'text-gray-500' },
+    { label: 'Buyer ID', prop: 'buyerId', className: 'text-gray-500' },
+  ];
+  
+
+  const { userId } = useParams();
+  console.log("userid" + userId)
   const [currentPassword, setCurrentPassword] = useState<string>();
   const [newPassword, setNewPassword] = useState<string>();
   const [repeatNewPassword, setRepeatNewPassword] = useState<string>();
 
-  const [adminProfile, setAdminProfile] = useState<User>();
+  const [userProfile, setUserProfile] = useState<User>();
   const [currentImg, setCurrentImg] = useState(ElysiaImg);
   const [oldImg, setOldImg] = useState();
   const [file, setFile] = useState<File>();
@@ -52,35 +83,35 @@ const AdminAccount = () => {
     }
   };
 
-  const { data: adminData, isLoading: isLoadingAdminData } = useQuery({
-    queryKey: ["admin"],
+  const { data: userData, isLoading: isUserDataLoading } = useQuery({
+    queryKey: ["user-profile", userId],
     queryFn: () => {
       return authApi.getUserProfile(userId);
     },
   });
 
   useEffect(() => {
-    if (!isLoadingAdminData && adminData) {
-      const admin = adminData?.data;
-      setAdminProfile(admin);
+    if (!isUserDataLoading && userData) {
+      const admin = userData?.data;
+      setUserProfile(admin);
       setCurrentImg(admin.profileImageLink);
       console.log(admin);
     }
-  }, [isLoadingAdminData, adminData]);
+  }, [isUserDataLoading, userData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setAdminProfile({ ...adminProfile, [name]: value });
+    setUserProfile({ ...userProfile, [name]: value });
   };
 
   const onRemoveImage = (e) => {
-    setCurrentImg(adminProfile.profileImageLink);
+    setCurrentImg(userProfile.profileImageLink);
   };
 
   const onCancelUpdate = (e) => {
-    if (!isLoadingAdminData && adminData) {
-      const admin = adminData?.data;
-      setAdminProfile(admin);
+    if (!isUserDataLoading && userData) {
+      const admin = userData?.data;
+      setUserProfile(admin);
       setCurrentImg(admin.profileImageLink);
       console.log(admin);
     }
@@ -102,19 +133,19 @@ const AdminAccount = () => {
       // Trigger the second mutation after successfully uploading the image
       toast.success("Save image successfully");
       updateAccountMutation.mutate({
-        ...adminProfile,
+        ...userProfile,
         ["profileImageLink"]: imageUrl,
       });
     },
   });
 
   const updateAccountMutation = useMutation({
-    mutationKey: ["update-account", adminProfile?.userName],
-    mutationFn: async (adminProfile: User) => {
+    mutationKey: ["update-account", userProfile?.userName],
+    mutationFn: async (userProfile: User) => {
       console.log("Began updating user...");
-      setAdminProfile({ ...adminProfile, ["profileImageLink"]: currentImg });
-      console.log(adminProfile);
-      await authApi.updateUserProfile(userId, adminProfile);
+      setUserProfile({ ...userProfile, ["profileImageLink"]: currentImg });
+      console.log(userProfile);
+      await authApi.updateUserProfile(userId, userProfile);
     },
   });
 
@@ -186,10 +217,9 @@ const AdminAccount = () => {
   };
 
   return (
-    <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
+    <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-12 rounded-lg shadow-sm">
       <Fade triggerOnce={true}>
-
-        <div className="flex items-start basis-full gap-4 h-full ">
+        <div className="flex items-start basis-full gap-4 ">
           <div className="flex flex-col pt-4 pb-5 px-4 justify-between w-3/4 gap-8 rounded-2xl border-1 border-solid border-gray-300 bg-white">
             <div className="flex items-center gap-4">
               <span className="heading-4">Account</span>
@@ -239,9 +269,7 @@ const AdminAccount = () => {
                 type="text"
                 name={"userName"}
                 value={
-                  adminProfile?.userName !== undefined
-                    ? adminProfile?.userName
-                    : ""
+                  userProfile?.userName !== undefined ? userProfile?.userName : ""
                 }
                 title={"Username*"}
                 placeholder={"Enter username"}
@@ -251,9 +279,7 @@ const AdminAccount = () => {
               <AdminInput
                 name={"fullName"}
                 value={
-                  adminProfile?.fullName !== undefined
-                    ? adminProfile?.fullName
-                    : ""
+                  userProfile?.fullName !== undefined ? userProfile?.fullName : ""
                 }
                 title={"Full name*"}
                 placeholder={"Enter full name"}
@@ -265,9 +291,7 @@ const AdminAccount = () => {
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
               <AdminInput
                 name={"email"}
-                value={
-                  adminProfile?.email !== undefined ? adminProfile?.email : ""
-                }
+                value={userProfile?.email !== undefined ? userProfile?.email : ""}
                 title={"Your email*"}
                 placeholder={"Enter email"}
                 onChange={handleChange}
@@ -280,8 +304,8 @@ const AdminAccount = () => {
                 onChange={handleChange}
                 name={"phoneNumber"}
                 value={
-                  adminProfile?.phoneNumber !== undefined
-                    ? adminProfile?.phoneNumber
+                  userProfile?.phoneNumber !== undefined
+                    ? userProfile?.phoneNumber
                     : ""
                 }
                 type={"number"}
@@ -295,7 +319,7 @@ const AdminAccount = () => {
                 onChange={handleChange}
                 name={"country"}
                 value={
-                  adminProfile?.country !== undefined ? adminProfile?.country : ""
+                  userProfile?.country !== undefined ? userProfile?.country : ""
                 }
                 type={"text"}
               />
@@ -304,7 +328,7 @@ const AdminAccount = () => {
                 placeholder={"Enter city"}
                 onChange={handleChange}
                 name={"city"}
-                value={adminProfile?.city !== undefined ? adminProfile?.city : ""}
+                value={userProfile?.city !== undefined ? userProfile?.city : ""}
                 type={"text"}
               />
             </div>
@@ -316,26 +340,27 @@ const AdminAccount = () => {
                 <Select
                   className="self-strech w-full"
                   required
-                  value={"Admin"}
+                  value={"User"}
                   disabled={true}
                 >
-                  {accountTypes.map((item, index) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  <option key={"1"} value={"User"}>
+                    User
+                  </option>
                 </Select>
               </div>
             </div>
 
-            {/* <div className="flex w-full self-strech flex-col items-start gap-4">
-            <div className="flex flex-col self-strech flex-start gap-1">
-              <span className="heading-6">Linked accounts</span>
-              <span className="font-normal text-base leading-6">We use this to help you sign in and populate your profile information</span>
+            <div className="flex w-full self-strech flex-col items-start gap-4">
+              <div className="flex flex-col self-strech flex-start gap-1">
+                <span className="heading-6">Linked accounts</span>
+                <span className="font-normal text-base leading-6">
+                  We use this to help you sign in and populate your profile
+                  information
+                </span>
+              </div>
+              <LinkingAccount logo={GoogleLogo} />
+              <LinkingAccount logo={GithubLogo} />
             </div>
-            <LinkingAccount logo={GoogleLogo} />
-            <LinkingAccount logo={GithubLogo} />
-          </div> */}
 
             <div className="flex items-start justify-end gap-3 self-stretch w-full">
               <CustomButton
@@ -353,7 +378,6 @@ const AdminAccount = () => {
               />
             </div>
           </div>
-
           <div className="flex w-6/12 self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white">
             <div className="flex items-center gap-4">
               <span className="heading-4">Password</span>
@@ -440,12 +464,146 @@ const AdminAccount = () => {
                 onClick={onClickCancelChangePassword}
               />
             </div>
+
           </div>
         </div>
       </Fade>
+      <Fade triggerOnce={true}>
+        <div className="flex flex-col items-start basis-full gap-12">
+          <div className="flex w-full self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white justify-between">
+            <div className="flex items-center gap-4">
+              <span className="heading-4">Shipping address </span>
+              <img src={InfoOutline} width={24} height={24} />
+            </div>
+            <CustomTable headers={addressHeaders} data={[]} />
+            {/* <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <RadioButton
+                label={""}
+                name={"address_type"}
+                values={[
+                  { label: "Individual", value: "individual" },
+                  { label: "Company", value: "company" },
+                ]}
+              />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminDropdown title={"Save address"} items={["Regular select"]} />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminInput
+                title={"First name*"}
+                placeholder={"Enter your first name"}
+              />
+              <AdminInput
+                title={"Last name*"}
+                placeholder={"Enter your last name"}
+              />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <DiscountInput
+                className={
+                  "flex flex-col items-strech w-full flex-wrap justify-between"
+                }
+                placeholder={"(+123) 456 789"}
+                dropdownList={["+84"]}
+                enableButton={false}
+                label="Phone number*"
+              />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminTextArea title={"Your address*"} placeholder={""} />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminDropdown title={"City*"} items={["HCM City"]} />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminDropdown title={"Country*"} items={["Vietnam"]} />
+              <AdminDropdown title={"Save address*"} items={["Ho Chi Minh"]} />
+            </div>
+            <div className="flex items-start justify-end gap-3 self-stretch w-full">
+              <CustomButton
+                label={"Save changes"}
+                textColor={"white"}
+                btnColor={"primary"}
+              />
+              <CustomButton
+                label={"Cancel"}
+                textColor={"black"}
+                btnColor={"white"}
+                borderColor={"gray-300"}
+              /> */}
+            {/* </div> */}
+          </div>
+          <div className="flex w-full self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white justify-between">
+            
+            <div className="flex items-center gap-4">
+              <span className="heading-4">Credit card </span>
+              <img src={InfoOutline} width={24} height={24} />
+            </div>
+            <CustomTable headers={creditCardHeaders} data={[]} />
+            { /*<div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <RadioButton
+                label={""}
+                name={"address_type"}
+                values={[
+                  { label: "Individual", value: "individual" },
+                  { label: "Company", value: "company" },
+                ]}
+              />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminDropdown title={"Save address"} items={["Regular select"]} />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminInput
+                title={"First name*"}
+                placeholder={"Enter your first name"}
+              />
+              <AdminInput
+                title={"Last name*"}
+                placeholder={"Enter your last name"}
+              />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <DiscountInput
+                className={
+                  "flex flex-col items-strech w-full flex-wrap justify-between"
+                }
+                placeholder={"(+123) 456 789"}
+                dropdownList={["+84"]}
+                enableButton={false}
+                label="Phone number*"
+              />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminTextArea title={"Your address*"} placeholder={""} />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminDropdown title={"City*"} items={["HCM City"]} />
+            </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+              <AdminDropdown title={"Country*"} items={["Vietnam"]} />
+              <AdminDropdown title={"Save address*"} items={["Ho Chi Minh"]} />
+            </div>
+            <div className="flex items-start justify-end gap-3 self-stretch w-full">
+              <CustomButton
+                label={"Save changes"}
+                textColor={"white"}
+                btnColor={"primary"}
+              />
+              <CustomButton
+                label={"Cancel"}
+                textColor={"black"}
+                btnColor={"white"}
+                borderColor={"gray-300"}
+              />
+            </div> */}
 
+          </div>
+        </div>
+      </Fade>
     </div>
   );
 };
 
-export default AdminAccount;
+export default UserAccountInAdmin;

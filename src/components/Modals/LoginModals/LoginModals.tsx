@@ -16,6 +16,11 @@ import "react-toastify/dist/ReactToastify.css";
 import authApi from "../../../apis/auth.api";
 import { useAppContext } from "../../../contexts/app.context";
 import { setAccessTokenToLS } from "../../../utils/auth";
+import { AuthResponse } from "@/types/Models/Identity/AuthResponse.type";
+import { path } from "@/constants/path";
+
+const ADMIN_ROLE = "Admin";
+const CUSTOMER_ROLE = "Customer";
 
 interface LoginModalsProps {
   openModal: boolean;
@@ -36,8 +41,13 @@ export function LoginModals({
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
-    mutationFn: (body: { username: string; password: string }) =>
-      authApi.login(body),
+    mutationFn: async(body: { username: string; password: string }) =>{
+      const result = await authApi.login(body);
+      if (result.status === 400){
+        throw new Error("Username or password is not exist or matched with any account");
+      }
+      return result.data;
+    }
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,16 +63,19 @@ export function LoginModals({
       password: password,
     };
     loginMutation.mutate(data, {
-      onSuccess: (data) => {
+      onSuccess: (data: AuthResponse) => {
         toast.success("Successfully login!");
         console.log("data", data);
-        setAccessTokenToLS(data.data?.token as string);
+        setAccessTokenToLS(data.token as string);
         setIsAuthenticated(true);
-        onCloseModal();
-        navigate("/");
+        // onCloseModal();
+        if (data.role === ADMIN_ROLE){
+          navigate("../" + path.adminDashboard, {replace: true});
+        }
+        else navigate("/");
       },
-      onError: (error: unknown) => {
-        toast.error("Login failed!");
+      onError: (error: Error) => {
+        toast.error(`Login failed!\n${error.message}`);
       },
     });
   };

@@ -36,7 +36,7 @@ export function CustomTable(props: CustomTableProps) {
       </Table.Head>
       <Table.Body className="divide-y">
         {data.map((item, indexRow) => (
-          <Table.Row key={indexRow} className="hover:bg-[#edf1f5]" onClick={() => handleRowClick(item, indexRow)}>
+          <Table.Row key={indexRow} className={`hover:bg-[#edf1f5] ${onRowClick ? 'cursor-pointer' : ''}`} onClick={() => handleRowClick(item, indexRow)}>
             {headers.map((header, indexCell) => (
               <Table.Cell className={header.className} key={indexCell}>
                 {header.isImage ? (

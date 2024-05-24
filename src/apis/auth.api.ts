@@ -17,6 +17,7 @@ import { AuthResponse } from "../types/Models/Identity/AuthResponse.type";
 import { User } from "../types/Models/Identity/User.type";
 import { UploadImage } from "../types/Models/UploadImage.type";
 import http from "../utils/http";
+import { UserUpdateDTO } from "@/types/DTOs/Identity/UserUpdateDTO.type";
 
 export const authApi = {
   register(body: {
@@ -80,9 +81,9 @@ export const authApi = {
       }
     );
   },
-  getCustomers(pageIndex: number, pageSize: number) {
+  getCustomers(searchTerm: string, pageIndex: number, pageSize: number) {
     return http.get<PaginatedResponse<User>>(
-      `${IDENTITY_PREFIX}${URL_UPDATE_PROFILE}?pageIndex=${pageIndex}&pageSize=${pageSize}`
+      `${IDENTITY_PREFIX}${URL_UPDATE_PROFILE}?pageIndex=${pageIndex}&pageSize=${pageSize}&searchTerm=${searchTerm}`
     );
   },
 };

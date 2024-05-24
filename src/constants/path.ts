@@ -26,4 +26,5 @@ export const path = {
   adminAddVoucher: "admin-add-voucher",
   adminOrderManagement: "admin-order",
   adminVoucherManagement: "admin-voucher-management",
+  adminCustomerAccount: "admin-customer-account/:userId"
 };
