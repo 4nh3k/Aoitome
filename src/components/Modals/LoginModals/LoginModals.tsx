@@ -68,7 +68,7 @@ export function LoginModals({
         console.log("data", data);
         setAccessTokenToLS(data.token as string);
         setIsAuthenticated(true);
-        // onCloseModal();
+        onCloseModal();
         if (data.role === ADMIN_ROLE){
           navigate("../" + path.adminDashboard, {replace: true});
         }

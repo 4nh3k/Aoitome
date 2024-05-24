@@ -29,6 +29,8 @@ export const ORDERING_PREFIX = "/ordering.api/v1";
 export const URL_ORDERS = "/orders";
 export const URL_PAYMENT = "/payment-webhook/create-checkout-session";
 export const URL_TRANSACTIONS = "/transactions";
+export const URL_ADDRESS = "/addresses";
+export const URL_PAYMENT_METHOD = "/payment-methods"
 
 // RecSys api
 export const RECSYS_PREFIX = "/recsys.api";

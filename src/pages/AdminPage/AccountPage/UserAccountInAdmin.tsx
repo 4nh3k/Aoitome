@@ -22,10 +22,13 @@ import RadioButton from "@/components/AdminComponents/RadioButton/RadioButton";
 import { useParams } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
 import CustomTable from "@/components/CustomTable";
+import { addressApi } from "@/apis/address.api";
+import { paymentApi } from "@/apis/payment.api";
+import { paymentMethodApi } from "@/apis/paymentMethod.api";
 
 const UserAccountInAdmin = () => {
 
-  const addressHeaders  = [
+  const addressHeaders = [
     { label: 'ID', prop: 'id' },
     { label: 'Street', prop: 'street' },
     { label: 'Ward', prop: 'ward', className: 'text-gray-500' }, // Example of adding className
@@ -44,9 +47,9 @@ const UserAccountInAdmin = () => {
     { label: 'Card Holder Name', prop: 'cardHoldername', className: 'text-gray-500' },
     { label: 'Expiration', prop: 'expiration', className: 'text-gray-500' },
     { label: 'Card Type ID', prop: 'cardTypeId', className: 'text-gray-500' },
-    { label: 'Buyer ID', prop: 'buyerId', className: 'text-gray-500' },
+    { label: 'Card Type Name', prop: 'cardTypeName', className: 'text-gray-500' },
   ];
-  
+
 
   const { userId } = useParams();
   console.log("userid" + userId)
@@ -87,6 +90,20 @@ const UserAccountInAdmin = () => {
     queryKey: ["user-profile", userId],
     queryFn: () => {
       return authApi.getUserProfile(userId);
+    },
+  });
+
+  const { data: addressData, isLoading: isAddressLoading } = useQuery({
+    queryKey: ["addresses", userId],
+    queryFn: () => {
+      return addressApi.getAddressByBuyer(userId, 0, 20);
+    },
+  });
+
+  const { data: paymentMethodData, isLoading: isPaymentMethodLoading } = useQuery({
+    queryKey: ["payment-methods", userId],
+    queryFn: () => {
+      return paymentMethodApi.getPaymentMethodByBuyer(userId, 0, 20);
     },
   });
 
@@ -472,10 +489,22 @@ const UserAccountInAdmin = () => {
         <div className="flex flex-col items-start basis-full gap-12">
           <div className="flex w-full self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white justify-between">
             <div className="flex items-center gap-4">
-              <span className="heading-4">Shipping address </span>
+              <span className="heading-4">Customer's shipping address </span>
               <img src={InfoOutline} width={24} height={24} />
             </div>
-            <CustomTable headers={addressHeaders} data={[]} />
+            {!isAddressLoading && addressData && <CustomTable headers={addressHeaders} data={addressData.data.data.map((item) => {
+              console.log(item);
+              return {
+                id: item.id,
+                street: item.street,
+                ward: item.ward,
+                district: item.district,
+                city: item.city,
+                country: item.country,
+                zipCode: item.zipCode,
+                buyerId: item.buyerId,
+              }
+            })} />}
             {/* <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
               <RadioButton
                 label={""}
@@ -535,12 +564,23 @@ const UserAccountInAdmin = () => {
             {/* </div> */}
           </div>
           <div className="flex w-full self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white justify-between">
-            
+
             <div className="flex items-center gap-4">
-              <span className="heading-4">Credit card </span>
+              <span className="heading-4">Customer's payment method </span>
               <img src={InfoOutline} width={24} height={24} />
             </div>
-            <CustomTable headers={creditCardHeaders} data={[]} />
+            {!isPaymentMethodLoading && paymentMethodData && <CustomTable headers={creditCardHeaders} data={paymentMethodData.data.data.map((paymentMethod) => {
+              return {
+                id: paymentMethod.id,
+                alias: paymentMethod.alias,
+                cardNumber: paymentMethod.cardNumber,
+                securityNumber: paymentMethod.securityNumber,
+                cardHoldername: paymentMethod.cardHoldername,
+                expiration: paymentMethod.expiration,
+                cardTypeId: paymentMethod.cardTypeId,
+                cardTypeName: paymentMethod.cardTypeName
+              }
+            })} />}
             { /*<div className="flex w-full flex-wrap items-stretch justify-between gap-8">
               <RadioButton
                 label={""}
