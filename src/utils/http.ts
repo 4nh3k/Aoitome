@@ -30,6 +30,7 @@ class Http {
 
     this.instance.interceptors.request.use(
       (config) => {
+        this.accessToken = getAccessTokenFromLS();
         if (this.accessToken && config.headers) {
           config.headers.Authorization = `Bearer ${this.accessToken}`;
           console.log(config.headers);

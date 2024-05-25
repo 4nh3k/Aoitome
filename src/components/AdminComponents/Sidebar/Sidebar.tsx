@@ -1,8 +1,6 @@
 import Bag from "../../../assets/icon/bag.svg";
 import Book from "../../../assets/icon/book-outline.svg";
 import PieChart from "../../../assets/icon/chart-pie-outline.svg";
-import Voucher from "../../../assets/icon/inbox-full-outline.svg";
-import Message from "../../../assets/icon/messages-outline.svg";
 import User from "../../../assets/icon/user.svg";
 import { path } from "../../../constants/path";
 import SidebarCollapse from "./SidebarCollapse";
@@ -16,7 +14,7 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
   const bookSidebarItems = [
     { label: "All books", link: path.adminProducts },
     { label: "Add book", link: path.adminAddProduct },
-    { label: "Book reviews", link: path.adminBookReviews}
+    { label: "Book reviews", link: path.adminBookReviews },
   ];
 
   const orderSidebarItems = [
@@ -57,11 +55,11 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
             label={"Order Management"}
             items={orderSidebarItems}
           ></SidebarCollapse>
-          <SidebarItem
+          {/* <SidebarItem
             imageSrc={Voucher}
             label={"Voucher Management"}
             link={path.adminVoucherManagement}
-          ></SidebarItem>
+          ></SidebarItem> */}
           {/* <SidebarCollapse
             imageSrc={Message}
             label={"Customer Service"}

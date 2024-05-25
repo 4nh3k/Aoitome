@@ -1,5 +1,5 @@
-import { AddressDTO } from "@/types/DTOs/Ordering/AddressDTO.type";
 import { ORDERING_PREFIX, URL_ADDRESS } from "@/constants/endpoint";
+import { AddressDTO } from "@/types/DTOs/Ordering/AddressDTO.type";
 import { PaginatedResponse } from "@/types/PaginatedResponse.type";
 import http from "@/utils/http";
 
@@ -10,10 +10,16 @@ export const addressApi = {
     );
   },
   createAddress(buyerId: string, address: AddressDTO) {
-    return http.post<string>(`${ORDERING_PREFIX}${URL_ADDRESS}/${buyerId}`, address);
+    return http.post<string>(
+      `${ORDERING_PREFIX}${URL_ADDRESS}/${buyerId}`,
+      address
+    );
   },
-  updateAddress(buyerId: string, address: AddressDTO) {
-    return http.patch<string>(`${ORDERING_PREFIX}${URL_ADDRESS}/${buyerId}`, address);
+  updateAddress(addressId: number, address: AddressDTO) {
+    return http.patch<string>(
+      `${ORDERING_PREFIX}${URL_ADDRESS}/${addressId}`,
+      address
+    );
   },
   deleteAddress(id: number) {
     return http.delete<string>(`${ORDERING_PREFIX}${URL_ADDRESS}/${id}`);

@@ -1,15 +1,14 @@
+import { addressApi } from "@/apis/address.api";
 import authApi from "@/apis/auth.api";
 import AdminPassword from "@/components/AdminComponents/Input/AdminPassword";
-import LinkingAccount from "@/components/AdminComponents/LinkingAccount.tsx/LinkingAccount";
 import { User } from "@/types/Models/Identity/User.type";
+import { Address } from "@/types/Models/Ordering/BuyerModel/Address.type";
 import { getUIDFromLS } from "@/utils/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Select } from "flowbite-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import CheckCircle from "../../assets/icon/check-circle.svg";
-import GithubLogo from "../../assets/icon/github-logo.svg";
-import GoogleLogo from "../../assets/icon/google-logo.svg";
 import InfoOutline from "../../assets/icon/info-outline.svg";
 import UploadIcon from "../../assets/icon/upload.svg";
 import XCircle from "../../assets/icon/x-circle.svg";
@@ -18,8 +17,6 @@ import CustomButton from "../../components/AdminComponents/CustomButton/CustomBu
 import AdminDropdown from "../../components/AdminComponents/Input/AdminDropdown";
 import AdminInput from "../../components/AdminComponents/Input/AdminInput";
 import AdminTextArea from "../../components/AdminComponents/Input/AdminTextArea";
-import { DiscountInput } from "../../components/AdminComponents/Input/DiscountInput";
-import RadioButton from "../../components/AdminComponents/RadioButton/RadioButton";
 
 const UserAccount = () => {
   const userId = getUIDFromLS();
@@ -28,10 +25,15 @@ const UserAccount = () => {
   const [newPassword, setNewPassword] = useState<string>();
   const [repeatNewPassword, setRepeatNewPassword] = useState<string>();
 
+  const [addressId, setAddressId] = useState<number | undefined>(undefined);
+
   const [userProfile, setUserProfile] = useState<User>();
   const [currentImg, setCurrentImg] = useState(ElysiaImg);
   const [oldImg, setOldImg] = useState();
   const [file, setFile] = useState<File>();
+
+  const [address, setAddress] = useState<Address>();
+
   const inputRef = useRef(null);
 
   const handleLoadImage = () => {
@@ -78,6 +80,11 @@ const UserAccount = () => {
     setUserProfile({ ...userProfile, [name]: value });
   };
 
+  const handleAdressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setAddress({ ...address, [name]: value });
+  };
+
   const onRemoveImage = (e) => {
     setCurrentImg(userProfile.profileImageLink);
   };
@@ -88,6 +95,39 @@ const UserAccount = () => {
       setUserProfile(admin);
       setCurrentImg(admin.profileImageLink);
       console.log(admin);
+    }
+  };
+
+  const createAddressMutation = useMutation({
+    mutationKey: ["create-address", userId],
+    mutationFn: async (address: Address) => {
+      console.log("Began creating address...");
+      await addressApi.createAddress(userId, address);
+    },
+  });
+
+  const updateAddressMutation = useMutation({
+    mutationKey: ["update-address", addressId],
+    mutationFn: async (address: Address) => {
+      console.log(addressId);
+
+      console.log("Began updating address...");
+      await addressApi.updateAddress(addressId, address);
+    },
+  });
+
+  const handleCreateAddress = async () => {
+    try {
+      console.log("data", address);
+      if (addressId === undefined) {
+        await createAddressMutation.mutateAsync(address);
+        toast.success("Address created successfully");
+      } else {
+        await updateAddressMutation.mutateAsync(address);
+        toast.success("Address updated successfully");
+      }
+    } catch (error) {
+      toast.error("Error creating address: " + error);
     }
   };
 
@@ -189,6 +229,13 @@ const UserAccount = () => {
   const handleUpdateUserPassword = (e) => {
     updatePasswordMutation.mutate();
   };
+
+  const { data: addressData, isLoading: isLoadingAddress } = useQuery({
+    queryKey: ["address", userId],
+    queryFn: async () => {
+      return await addressApi.getAddressByBuyer(userId, 0, 1000);
+    },
+  });
 
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
@@ -322,19 +369,6 @@ const UserAccount = () => {
               </Select>
             </div>
           </div>
-
-          <div className="flex w-full self-strech flex-col items-start gap-4">
-            <div className="flex flex-col self-strech flex-start gap-1">
-              <span className="heading-6">Linked accounts</span>
-              <span className="font-normal text-base leading-6">
-                We use this to help you sign in and populate your profile
-                information
-              </span>
-            </div>
-            <LinkingAccount logo={GoogleLogo} />
-            <LinkingAccount logo={GithubLogo} />
-          </div>
-
           <div className="flex items-start justify-end gap-3 self-stretch w-full">
             <CustomButton
               label={"Save changes"}
@@ -351,58 +385,115 @@ const UserAccount = () => {
             />
           </div>
         </div>
-        <div className="flex w-6/12 self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white justify-between">
+        <div className="flex w-1/2 self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white justify-between">
           <div className="flex items-center gap-4">
             <span className="heading-4">Shipping address </span>
             <img src={InfoOutline} width={24} height={24} />
           </div>
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <RadioButton
-              label={""}
-              name={"address_type"}
-              values={[
-                { label: "Individual", value: "individual" },
-                { label: "Company", value: "company" },
-              ]}
-            />
-          </div>
-          <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminDropdown title={"Save address"} items={["Regular select"]} />
-          </div>
-          <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminInput
-              title={"First name*"}
-              placeholder={"Enter your first name"}
-            />
-            <AdminInput
-              title={"Last name*"}
-              placeholder={"Enter your last name"}
-            />
-          </div>
-          <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <DiscountInput
-              className={
-                "flex flex-col items-strech w-full flex-wrap justify-between"
+            <AdminDropdown
+              title={"Save address"}
+              items={
+                addressData?.data.data.map((address, index) => {
+                  console.log(address);
+                  return {
+                    key: address.id,
+                    value: address.street,
+                  };
+                }) || []
               }
-              placeholder={"(+123) 456 789"}
-              dropdownList={["+84"]}
-              enableButton={false}
-              label="Phone number*"
+              name={"saveAddress"}
+              value={
+                addressData?.data.data[addressId ?? 0].street ??
+                "There's no address saved"
+              }
+              onChange={function (e: any, key: number): void {
+                console.log(key);
+                setAddressId(key);
+                setAddress(addressData?.data.data[key]);
+              }}
             />
           </div>
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminTextArea title={"Your address*"} placeholder={""} />
+            <AdminTextArea
+              title={"Your address*"}
+              placeholder={"Enter your address"}
+              name={"street"}
+              value={address?.street}
+              onChange={handleAdressChange}
+            />
+          </div>
+          <div className="flex w-full items-stretch justify-between gap-8">
+            <AdminInput
+              title={"Ward*"}
+              placeholder={"Enter your ward"}
+              onChange={handleAdressChange}
+              name={"ward"}
+              value={address?.ward ?? ""}
+              type={"text"}
+            />
+            <AdminInput
+              title={"District*"}
+              placeholder={"Enter your district"}
+              onChange={handleAdressChange}
+              name={"district"}
+              value={address?.district ?? ""}
+              type={"text"}
+            />
           </div>
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminDropdown title={"City*"} items={["HCM City"]} />
+            <AdminDropdown
+              title={"City*"}
+              items={[
+                { key: 1, value: "Ho Chi Minh" },
+                { key: 2, value: "Ha Noi" },
+                { key: 3, value: "Da Nang" },
+                { key: 4, value: "Hai Phong" },
+                { key: 5, value: "Can Tho" },
+              ]}
+              name={"city"}
+              value={address?.city ?? ""}
+              onChange={handleAdressChange}
+            />
           </div>
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-            <AdminDropdown title={"Country*"} items={["Vietnam"]} />
-            <AdminDropdown title={"Save address*"} items={["Ho Chi Minh"]} />
+            <AdminDropdown
+              title={"Country*"}
+              items={[
+                {
+                  key: 1,
+                  value: "Viet Nam",
+                },
+                {
+                  key: 2,
+                  value: "United States",
+                },
+                {
+                  key: 3,
+                  value: "United Kingdom",
+                },
+                {
+                  key: 4,
+                  value: "Australia",
+                },
+              ]}
+              name={"country"}
+              value={address?.country ?? ""}
+              onChange={handleAdressChange}
+            />
+            <AdminInput
+              title={"Zip code*"}
+              placeholder={"Enter your zip code"}
+              onChange={handleAdressChange}
+              name={"zipCode"}
+              value={address?.zipCode ?? ""}
+              type={"text"}
+            />{" "}
           </div>
           <div className="flex items-start justify-end gap-3 self-stretch w-full">
             <CustomButton
               label={"Save changes"}
+              onClick={handleCreateAddress}
               textColor={"white"}
               btnColor={"primary"}
             />

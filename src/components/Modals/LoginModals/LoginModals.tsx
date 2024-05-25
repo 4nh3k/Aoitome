@@ -74,8 +74,7 @@ export function LoginModals({
         setIsAuthenticated(true);
         onCloseModal();
         if (data.role === ADMIN_ROLE) {
-          if (redirect) navigate(redirect, { replace: true });
-          else navigate("../" + path.adminDashboard, { replace: true });
+          navigate("../" + path.adminDashboard, { replace: true });
         } else {
           if (redirect) navigate(redirect, { replace: true });
           else navigate("/");
