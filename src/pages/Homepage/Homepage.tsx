@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { Button, Spinner } from "flowbite-react";
+import { Button } from "flowbite-react";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import Slider from "react-slick";
+import { BeatLoader } from "react-spinners";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { bookApi } from "../../apis/book.api";
@@ -51,7 +52,6 @@ export default function Homepage() {
       return res.data;
     },
   });
-  if (isLoading) return <Spinner />;
 
   return (
     <>
@@ -75,36 +75,49 @@ export default function Homepage() {
       </Container>
       <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
         <div className="heading-4">On Sale</div>
-        <Slider {...settings}>
-          {data?.data.map((product, index) => (
-            <Product
-              id={product.id}
-              key={product.id}
-              title={product.title}
-              imageURL={product.imageUrl}
-              price={product.price}
-              rating={product.averageRating}
-              discount={product.discountPercentage}
-              totalRating={product.ratingsCount}
-            />
-          ))}
-        </Slider>
+        {isLoading && (
+          <div className="w-full flex item-centers py-8 justify-center">
+            <BeatLoader color="#3F83F8" />
+          </div>
+        )}
+        {!isLoading && (
+          <Slider {...settings}>
+            {data?.data.map((product, index) => (
+              <Product
+                id={product.id}
+                key={product.id}
+                title={product.title}
+                imageURL={product.imageUrl}
+                price={product.price}
+                rating={product.averageRating}
+                discount={product.discountPercentage}
+                totalRating={product.ratingsCount}
+              />
+            ))}
+          </Slider>
+        )}
       </Container>
       <Container>
         <div className="heading-4">Trending</div>
+        {isLoading && (
+          <div className="w-full flex item-centers py-8 justify-center">
+            <BeatLoader color="#3F83F8" />
+          </div>
+        )}
         <div className="grid grid-cols-5 gap-4 px-4 mt-5">
-          {data?.data.map((product, index) => (
-            <Product
-              id={product.id}
-              key={product.id}
-              title={product.title}
-              imageURL={product.imageUrl}
-              price={product.price}
-              rating={product.averageRating}
-              discount={product.discountPercentage}
-              totalRating={product.ratingsCount}
-            />
-          ))}
+          {!isLoading &&
+            data?.data.map((product, index) => (
+              <Product
+                id={product.id}
+                key={product.id}
+                title={product.title}
+                imageURL={product.imageUrl}
+                price={product.price}
+                rating={product.averageRating}
+                discount={product.discountPercentage}
+                totalRating={product.ratingsCount}
+              />
+            ))}
         </div>
         <Button
           className="mt-5 border-blue-600 border-1 mx-auto"

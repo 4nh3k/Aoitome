@@ -24,6 +24,7 @@
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-awesome-reveal": "^4.2.11",
+    "react-chatbotify": "^1.6.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "react-icons": "^5.0.1",

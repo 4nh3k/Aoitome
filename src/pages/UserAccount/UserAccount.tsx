@@ -4,7 +4,7 @@ import AdminPassword from "@/components/AdminComponents/Input/AdminPassword";
 import { User } from "@/types/Models/Identity/User.type";
 import { Address } from "@/types/Models/Ordering/BuyerModel/Address.type";
 import { getUIDFromLS } from "@/utils/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Select } from "flowbite-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -35,6 +35,7 @@ const UserAccount = () => {
   const [address, setAddress] = useState<Address>();
 
   const inputRef = useRef(null);
+  const client = useQueryClient();
 
   const handleLoadImage = () => {
     if (inputRef.current) {
@@ -103,6 +104,7 @@ const UserAccount = () => {
     mutationFn: async (address: Address) => {
       console.log("Began creating address...");
       await addressApi.createAddress(userId, address);
+      client.invalidateQueries(["address", userId]);
     },
   });
 
@@ -113,6 +115,7 @@ const UserAccount = () => {
 
       console.log("Began updating address...");
       await addressApi.updateAddress(addressId, address);
+      client.invalidateQueries(["address", userId ?? ""]);
     },
   });
 
@@ -395,7 +398,6 @@ const UserAccount = () => {
               title={"Save address"}
               items={
                 addressData?.data.data.map((address, index) => {
-                  console.log(address);
                   return {
                     key: address.id,
                     value: address.street,
@@ -404,13 +406,13 @@ const UserAccount = () => {
               }
               name={"saveAddress"}
               value={
-                addressData?.data.data[addressId ?? 0].street ??
+                addressData?.data?.data[addressId ?? 0]?.street ??
                 "There's no address saved"
               }
               onChange={function (e: any, key: number): void {
                 console.log(key);
                 setAddressId(key);
-                setAddress(addressData?.data.data[key]);
+                setAddress(addressData?.data.data.find((a) => a.id === key));
               }}
             />
           </div>
