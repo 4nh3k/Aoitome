@@ -18,7 +18,7 @@ const CustomerList = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(3);
+  const [pageSize, setPageSize] = useState<number>(6);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [usersInPage, setUsersInPage] = useState<User[]>();
   const [searchTerm, setSearchTerm] = useState<string>("");
