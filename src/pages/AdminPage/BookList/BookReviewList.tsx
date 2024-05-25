@@ -86,8 +86,8 @@ const BookReviewList = () => {
   }
 
   const conditionalInvalidateReviewsQuery = () => {
-    queryClient.invalidateQueries(['book-reviews', bookId, { pageIndex, pageSize }]);
-    queryClient.invalidateQueries(['user-reviews', userId, { pageIndex, pageSize }]);
+    queryClient.invalidateQueries(['book-reviews', { pageIndex, pageSize }]);
+    queryClient.invalidateQueries(['user-reviews', { pageIndex, pageSize }]);
   };
 
   const handlePageChange = (e: number) => {
@@ -97,6 +97,7 @@ const BookReviewList = () => {
   }
 
   useEffect(() => {
+    conditionalInvalidateReviewsQuery();
     if (filter === "User id" && !isLoadingUserReviews) {
       const data = userReviewsData?.data.data;
       const totalItems = userReviewsData?.data.totalItems;
@@ -121,9 +122,8 @@ const BookReviewList = () => {
     } else {
       setReviews([]);
       setTotalItems(0);
-      setPageIndex(1);
     }
-  }, [pageIndex])
+  }, [pageIndex, userReviewsData, bookReviewsData])
 
   const deleteBookReviewMutation = useMutation({
     mutationKey: ['delete', 'book-review'],
@@ -166,7 +166,7 @@ const BookReviewList = () => {
       <div className="flex justify-between items-center self-stretch">
         <SearchInput
           className={"min-w-96"}
-          placeholder={"Search book"}
+          placeholder={"Search reviews"}
           dropdownList={['Book id', 'User id']}
           enableDropdown={true}
           onChange={onChangeSearchTerm}
