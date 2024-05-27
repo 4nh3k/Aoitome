@@ -25,7 +25,9 @@ export default function App() {
     },
     loop: {
       message: async (params: Params) => {
+        console.log(params.userInput);
         const res = await chatbotApi.getChatResponse(params.userInput);
+        console.log(res);
         return res.data.response;
       },
       path: () => {
@@ -41,7 +43,7 @@ export default function App() {
         <div className="overflow-x-hidden overflow-y-hidden">
           {routeElement}
           <ToastContainer position="top-right" />
-          <ChatBot flow={flow} options={options} />
+          <ChatBot flow={flow} />
         </div>
       </AppProvider>
       <ReactQueryDevtools initialIsOpen={false} />

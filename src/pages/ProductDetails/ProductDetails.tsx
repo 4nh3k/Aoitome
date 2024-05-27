@@ -431,6 +431,7 @@ export function ProductDetails() {
         <ReviewForm bookId={bookData?.id} />
       </Container>
       <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
+        <p className="heading-4 mb-5">You may like these</p>
         {isSimilarLoading && (
           <div className="w-full flex item-centers py-8 justify-center">
             <BeatLoader color="#3F83F8" />
