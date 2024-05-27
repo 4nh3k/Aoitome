@@ -1,3 +1,4 @@
-export interface CreateRoleDto{
+export interface CreateRoleDto
+{
   name: string;
 }
