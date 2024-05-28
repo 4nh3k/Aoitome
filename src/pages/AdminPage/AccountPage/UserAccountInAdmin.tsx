@@ -14,16 +14,11 @@ import UploadIcon from "@/assets/icon/upload.svg";
 import XCircle from "@/assets/icon/x-circle.svg";
 import ElysiaImg from "@/assets/img/elysia.jpg";
 import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton";
-import AdminDropdown from "@/components/AdminComponents/Input/AdminDropdown";
 import AdminInput from "@/components/AdminComponents/Input/AdminInput";
-import AdminTextArea from "@/components/AdminComponents/Input/AdminTextArea";
-import { DiscountInput } from "@/components/AdminComponents/Input/DiscountInput";
-import RadioButton from "@/components/AdminComponents/RadioButton/RadioButton";
 import { useParams } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
 import CustomTable from "@/components/CustomTable";
 import { addressApi } from "@/apis/address.api";
-import { paymentApi } from "@/apis/payment.api";
 import { paymentMethodApi } from "@/apis/paymentMethod.api";
 
 const UserAccountInAdmin = () => {

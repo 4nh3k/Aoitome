@@ -18,6 +18,7 @@ const BookGridPage = () => {
   const [booksInPage, setBooksInPage] = useState<BookGeneralInfoDTO[]>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [isFirstRun, setIsFirstRun] = useState(true);
 
   const { data: booksData, isLoading: isLoadingBook } = useQuery({
     queryKey: ['books', { pageIndex, pageSize }],
@@ -34,15 +35,22 @@ const BookGridPage = () => {
   });
 
   useEffect(() => {
-    if (!isLoadingBook && !isSearching) {
+    if ((isFirstRun || (!isFirstRun && !isSearching)) && !isLoadingBook && booksData) {
+      console.log("First run to mount data");
       const data = booksData?.data.data;
       const totalItems = booksData?.data.totalItems;
       setBooksInPage(data);
       setTotalItems(totalItems);
       console.log("Page index: " + pageIndex);
       console.log("Total items: " + totalItems);
+      console.log("First time");
+      setIsFirstRun(false);
     }
-    else if (!isSearchBookLoading && isSearching && searchBook) {
+    
+  }, [isFirstRun, isLoadingBook, booksData, pageIndex]);
+
+  useEffect(() => {
+     if (!isSearchBookLoading && isSearching && searchBook) {
       const booksInPage = searchBook?.data.data
       setBooksInPage(booksInPage);
       const totalItems = searchBook?.data.totalItems;
@@ -50,7 +58,7 @@ const BookGridPage = () => {
       console.log("Page index: " + pageIndex);
       console.log("Total items: " + totalItems);
     }
-  }, [booksData, booksInPage, isLoadingBook, isSearchBookLoading, isSearching, pageIndex, searchBook]);
+  }, [isSearchBookLoading, searchBook, isSearching, pageIndex]);
 
   const sortChoices = [
     "Price (Low to High)",
@@ -64,21 +72,29 @@ const BookGridPage = () => {
   const handleSortChange = (event) => {
     console.log(event.target.value);
     setSelectedSort(event.target.value);
-    let sortedValues = booksInPage;
+  };
+
+  useEffect(() => {
+    if (isFirstRun) return;
+    console.log("Began sorting....")
+    let sortedValues = isSearching ? [...searchBook?.data.data] : [...booksData?.data.data];
+    console.log(sortedValues)
+
     switch (selectedSort) {
       case "Price (Low to High)":
-        sortedValues = sortedValues?.sort((a, b) => b.price * b.discountPercentage - a.price * a.discountPercentage)
-        return
+        sortedValues?.sort((a, b) => a.price * a.discountPercentage - b.price * b.discountPercentage)
+        break;
       case "Price (High to Low)":
-        sortedValues = sortedValues?.sort((a, b) => a.price * a.discountPercentage - b.price * b.discountPercentage)
-        return
+        sortedValues?.sort((a, b) => b.price * b.discountPercentage - a.price * a.discountPercentage)
+        break;
       case "Avg Reviews":
-        sortedValues = sortedValues?.sort((a, b) => b.averageRating - a.averageRating)
-        return
+        sortedValues?.sort((a, b) => a.averageRating - b.averageRating)
+        break;
     }
-    console.log(sortedValues)
+    console.log("Sorted values:")
+    console.log(sortedValues);
     setBooksInPage(sortedValues);
-  };
+  }, [selectedSort]);
 
   const onChangeSearchTerm = (searchTerm: string) => {
     const isSearchTermNull = searchTerm === "" ? true : false;

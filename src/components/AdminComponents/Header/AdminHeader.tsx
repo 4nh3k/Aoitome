@@ -1,20 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Dropdown } from "flowbite-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import authApi from "../../../apis/auth.api";
-import Logo from "../../../assets/icon/Logo.svg";
-import NotificationIcon from "../../../assets/icon/bell-outline.svg";
-import GridIcon from "../../../assets/icon/grid-outline.svg";
-import Elysia from "../../../assets/img/elysia.jpg";
-import { useAppContext } from "../../../contexts/app.context";
-import { clearLS } from "../../../utils/auth";
+import authApi from "@/apis/auth.api";
+import Logo from "@/assets/icon/Logo.svg";
+import NotificationIcon from "@/assets/icon/bell-outline.svg";
+import GridIcon from "@/assets/icon/grid-outline.svg";
+import Elysia from "@/assets/img/elysia.jpg";
+import { useAppContext } from "@/contexts/app.context";
+import { clearLS, getUIDFromLS } from "@/utils/auth";
 import { path } from "@/constants/path";
 
 interface AdminHeaderProps {
   className?: string;
 }
-
+const userId = getUIDFromLS();
 const AdminHeader: React.FC<AdminHeaderProps> = ({ className }) => {
   const { isAuthenticated, setIsAuthenticated } = useAppContext();
   const navigate = useNavigate();
@@ -26,6 +26,14 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ className }) => {
       await authApi.logout();
     },
   });
+
+  const { data: adminData, isLoading: isLoadingUserData } = useQuery({
+    queryKey: ["admin"],
+    queryFn: () => {
+      return authApi.getUserProfile(userId);
+    },
+  });
+
   return (
     <div
       className={` ${className} flex flex-col px-6 justify-center align-middle border-1 border-solid border-gray-200 bg-white`}
@@ -51,11 +59,11 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ className }) => {
                 <span className="small font-medium flex items-center justify-between">
                   <img
                     className="rounded-full"
-                    src={Elysia}
+                    src={adminData?.data.profileImageLink ?? ""}
                     width={36}
                     height={36}
                   ></img>
-                  <span className="text-sm font-medium ml-2">Elysia</span>{" "}
+                  <span className="text-sm font-medium ml-2">{adminData?.data.userName}</span>{" "}
                 </span>
               )}
             >

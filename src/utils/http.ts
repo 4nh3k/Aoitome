@@ -5,7 +5,7 @@ import {
   URL_LOGIN,
   URL_LOGOUT,
   URL_REGISTER,
-} from "../constants/endpoint";
+} from "@/constants/endpoint";
 import { AuthResponse } from "../types/Models/Identity/AuthResponse.type";
 import { clearLS, getAccessTokenFromLS } from "./auth";
 class Http {

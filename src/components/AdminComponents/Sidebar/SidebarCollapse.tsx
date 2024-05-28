@@ -23,7 +23,7 @@ const SidebarCollapse: React.FC<SidebarCollapseProps> = ({ imageSrc, label, item
     return (
         <div className='flex flex-col items-strech'>
             <div className='flex flex-1 gap-3 items-strech sidebar-hover justify-between'>
-                <div className='flex items-start gap-2'>
+                <div className='flex items-center gap-2'>
                 {imageSrc && <img src={imageSrc} width={24} height={24}></img>}
                 {label}
                 </div>
