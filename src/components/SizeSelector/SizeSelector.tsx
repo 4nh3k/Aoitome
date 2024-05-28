@@ -1,12 +1,7 @@
 import React from "react";
 
-export interface RingSize {
-  size: number;
-  available: boolean;
-}
-
 interface SizeSelectorProps {
-  sizes: RingSize[];
+  sizes: any[];
   selectedSize: number | null;
   onSizeSelect: (size: number) => void;
 }
