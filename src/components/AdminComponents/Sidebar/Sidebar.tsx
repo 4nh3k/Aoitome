@@ -1,12 +1,11 @@
 import Bag from "../../../assets/icon/bag.svg";
 import Book from "../../../assets/icon/book-outline.svg";
 import PieChart from "../../../assets/icon/chart-pie-outline.svg";
-import Voucher from "../../../assets/icon/inbox-full-outline.svg";
-import Message from "../../../assets/icon/messages-outline.svg";
 import User from "../../../assets/icon/user.svg";
 import { path } from "../../../constants/path";
 import SidebarCollapse from "./SidebarCollapse";
 import SidebarItem from "./SidebarItem";
+import Voucher from "../../../assets/icon/coupon.png"
 
 interface AdminSidebarProps {
   className?: string;
@@ -15,18 +14,14 @@ interface AdminSidebarProps {
 const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
   const bookSidebarItems = [
     { label: "All products", link: path.adminProducts },
-    { label: "Add product", link: path.adminBookDetail },
-    // { label: "All genres", link: "" },
-    // { label: "All publishers", link: "" },
-    // { label: "All authors", link: "" },
+    { label: "Add product", link: path.adminAddProduct },
   ];
 
-  const voucherSidebarItems = [
-    {label: "All vouchers", link: path.adminVoucherManagement},
-    {label: "Add voucher", link: path.adminAddVoucher},
+  const orderSidebarItems = [
+    { label: "Order list", link: path.adminOrderManagement },
+    { label: "Cancel order", link: "" },
+    { label: "Refund order", link: "" },
   ];
-
-  const customerServiceSidebarItems = [{ label: "Chat log", link: "" }];
   return (
     <div
       className={`${className} flex w-[15.625rem] items-start bg-white border-1 border-solid border-gray-200`}
@@ -43,22 +38,26 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
             label={"Account"}
             link={path.adminAccount}
           ></SidebarItem>
+          <SidebarItem
+            imageSrc={User}
+            label={"Customers"}
+            link={path.adminCustomers}
+          ></SidebarItem>
           <SidebarCollapse
             imageSrc={Book}
-            label={"Product Management"}
+            label={"Products"}
             items={bookSidebarItems}
           ></SidebarCollapse>
-          <SidebarItem
+          <SidebarCollapse
             imageSrc={Bag}
             label={"Order Management"}
-            link={path.adminOrderManagement}
-          />
-          <SidebarCollapse label={"Voucher management"} items={voucherSidebarItems} imageSrc={Voucher} />
-          <SidebarCollapse
-            imageSrc={Message}
-            label={"Customer Service"}
-            items={customerServiceSidebarItems}
+            items={orderSidebarItems}
           ></SidebarCollapse>
+          <SidebarItem
+            imageSrc={Voucher}
+            label={"Voucher Management"}
+            link={path.adminVoucherManagement}
+          ></SidebarItem>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import { Badge, Button, Datepicker } from "flowbite-react";
-import CustomTable from "../CustomTable";
-import SearchInput from "../SearchInput";
-
+import CustomTable from "@/components/CustomTable";
+import SearchInput from "@/components/SearchInput/SearchInput";
 export function OrderList() {
   const headers = [
     {

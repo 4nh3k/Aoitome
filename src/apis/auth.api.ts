@@ -7,7 +7,6 @@ import {
   URL_RESETPASS,
 } from "../constants/endpoint";
 import { LoginDTO } from "../types/Auths/LoginDto.type";
-import { LoginReponseDTO } from "../types/Auths/LoginResponseDto.type";
 import { RegisterDTO } from "../types/Auths/RegisterDto.type";
 import { RegisterResponseDTO } from "../types/Auths/RegisterResponseDto.type";
 import { ResetPasswordDTO } from "../types/Auths/ResetPasswordDto.type";
@@ -21,7 +20,7 @@ export const authApi = {
     });
   },
   login(body: LoginDTO) {
-    return http.post<LoginReponseDTO>(`${AUTH_PREFIX}${URL_LOGIN}`, body);
+    return http.post<Response>(`${AUTH_PREFIX}${URL_LOGIN}`, body);
   },
   getOTPs(body: SendOTPDTO) {
     return http.post<Response>(`${AUTH_PREFIX}${URL_OTPS}`, body);

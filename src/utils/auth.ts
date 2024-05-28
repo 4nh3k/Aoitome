@@ -4,11 +4,11 @@ export const LocalStorageEventTarget = new EventTarget();
 
 export const setAccessTokenToLS = (access_token: string) => {
   // Decode the access token
-  const decodedToken: { userId: string } = jwtDecode(access_token);
+  const decodedToken: { sub: string } = jwtDecode(access_token);
 
   // Store the access token and user ID in local storage
   localStorage.setItem("access_token", access_token);
-  localStorage.setItem("uid", decodedToken.userId);
+  localStorage.setItem("uid", decodedToken.sub);
 };
 
 export const getProfileFromLS = () => {

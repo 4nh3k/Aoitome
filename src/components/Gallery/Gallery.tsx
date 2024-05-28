@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { GlassMagnifier } from "react-image-magnifiers-v2";
-
 const images = [
   {
     id: 1,
@@ -48,7 +46,7 @@ const Gallery = () => {
             alt={images[selectedImageIndex].alt}
             className="w-full h-full"
           /> */}
-          <GlassMagnifier
+          {/* <GlassMagnifier
             className="w-full h-full input-position border-1 rounded-lg"
             imageSrc={images[selectedImageIndex].src}
             largeImageSrc={
@@ -60,7 +58,7 @@ const Gallery = () => {
             magnifierBorderSize={2}
             magnifierBorderColor={"rgba(255, 255, 255, .5)"}
             square={false}
-          />
+          /> */}
         </div>
       </div>
     </div>

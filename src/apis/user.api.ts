@@ -8,7 +8,7 @@ export const userApi = {
     return http.get<Response>(`${USER_PREFIX}?roleId=${roleId}`);
   },
   getUserById(userId: string){
-    return http.get<Response>(`${USER_PREFIX}${userId}`);
+    return http.get<Response>(`${USER_PREFIX}/${userId}`);
   },
   updateRole(body: UpdateUserDTO){
     return http.patch<Response>(`${USER_PREFIX}`, body);

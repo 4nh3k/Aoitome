@@ -15,9 +15,11 @@ import { getUIDFromLS } from "@/utils/auth";
 import { Fade } from "react-awesome-reveal";
 import { GetUserResponseDTO } from "@/types/Users/GetUserResponseDto.type";
 import userApi from "@/apis/user.api";
+import { useParams } from "react-router-dom";
 
-const AdminAccount = () => {
-  const userId = getUIDFromLS();
+const UserAccountInAdmin = () => {
+  const { userId } = useParams();
+  console.log("userid" + userId)
   const accountTypes = ["Admin", "User"];
 
   const [currentPassword, setCurrentPassword] = useState<string>();
@@ -100,7 +102,7 @@ const AdminAccount = () => {
       return url.data.imageUrls[0]; // Return the image URL
     },
     onSuccess: (imageUrl) => {
-      // Trigger the second mutation after successfully uploading the image
+      // Trigger the second mutation after successfully uploading the imageDr
       toast.success("Save image successfully");
       updateAccountMutation.mutate({
         ...adminProfile,
@@ -296,8 +298,8 @@ const AdminAccount = () => {
                 <Select
                   className="self-strech w-full"
                   required
-                  value={"Admin"}
                   disabled={true}
+                  value={"User"}
                 >
                   {accountTypes.map((item, index) => (
                     <option key={index} value={item}>
@@ -428,4 +430,4 @@ const AdminAccount = () => {
   );
 };
 
-export default AdminAccount;
+export default UserAccountInAdmin;

@@ -1,4 +1,4 @@
-export const URL_BASE = "http://localhost:8080/api";
+export const URL_BASE = "http://localhost:5002/api";
 // Auth api
 export const AUTH_PREFIX = "/auth";
 export const URL_REGISTER = "/register";

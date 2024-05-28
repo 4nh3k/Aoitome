@@ -1,13 +1,18 @@
+import SearchInput from "@/components/SearchInput/SearchInput";
+import { path } from "@/constants/path";
+import { useMutation } from "@tanstack/react-query";
 import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
 import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import authApi from "../../apis/auth.api";
+import { useAppContext } from "../../contexts/app.context";
+import { clearLS } from "../../utils/auth";
 import Button from "../Button/Button";
 import ForgotPassModals from "../Modals/ForgotPassModals";
 import LoginModals from "../Modals/LoginModals";
 import { RegisterModals } from "../Modals/RegisterModals/RegisterModals";
 import Notification from "../Notification";
-import SearchInput from "../SearchInput";
 import { StickyHeader } from "../StickyHeader/StickyHeader";
 
 interface HeaderProps {
@@ -18,6 +23,23 @@ export default function Header(props: HeaderProps) {
   const [toggleLoginModal, setToggleLoginModal] = useState(false);
   const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
   const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useAppContext();
+  const [searchValue, setSearchValue] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (search: string) => {
+    navigate(`/search?q=${searchValue}`);
+  };
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      clearLS();
+      setIsAuthenticated(false);
+      await authApi.logout();
+    },
+  });
+
   return (
     <div className={props.className}>
       <StickyHeader />
@@ -35,22 +57,50 @@ export default function Header(props: HeaderProps) {
         </Navbar.Brand>
         <SearchInput
           className="w-1/2"
+          onSubmit={handleSubmit}
           placeholder={"Enter a search term"}
-          dropdownList={["Option 1", "Option 2", "Option 3"]}
-          dropdownLabel={"Select an option"}
+          dropdownList={["By name", "By author"]}
+          onChange={function (searchValue: string): void {
+            setSearchValue(searchValue);
+          }}
+          onDropdownChange={function (type: string): void {
+            throw new Error("Function not implemented.");
+          }}
         />
         <div className="flex space-x-4">
           <Notification />
           <Link to="/cart">
             <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
           </Link>
-          <Button
-            icon={PiUser}
-            text={"Account"}
-            onClick={() => {
-              setToggleLoginModal(true);
-            }}
-          />
+          {!isAuthenticated ? (
+            <Button
+              icon={PiUser}
+              text={"Sign In"}
+              onClick={() => {
+                setToggleLoginModal(true);
+              }}
+            />
+          ) : (
+            <Dropdown
+              label=""
+              renderTrigger={() => (
+                <span className="small font-medium flex">
+                  <PiUser className="mr-1" size={18} /> Account
+                </span>
+              )}
+            >
+              <Link to={path.customerAccount}>
+                <Dropdown.Item>Settings</Dropdown.Item>
+              </Link>
+
+              <Link to={path.customerOrder}>
+                <Dropdown.Item>My orders</Dropdown.Item>
+              </Link>
+              <Dropdown.Item onClick={() => logoutMutation.mutate()}>
+                Sign out
+              </Dropdown.Item>
+            </Dropdown>
+          )}
           <LoginModals
             openModal={toggleLoginModal}
             onCloseModal={() => {
