@@ -34,7 +34,7 @@ export const DELETE_PRODUCT_URL = "/delete";
 // Product coupon api
 export const PRODUCT_COUPON_PREFIX = "/ProductCouponApi";
 export const GET_ALL_COUPON_URL = "/getall";
-export const GET_COUPON_BY_ID_URL = "/getbyid"; 
+export const GET_COUPON_BY_ID_URL = "/getbyid";
 export const ADD_COUPON_URL = "/add";
 export const UPDATE_COUPON_URL = "/update";
 export const DELETE_COUPON_URL = "/delete";
@@ -50,4 +50,4 @@ export const USER_ASSIGN_ROLE_URL = "/assignRole";
 export const USER_COUPON_API = "/UserCouponApi";
 export const USER_ALL_COUPONS_URL = "/getall";
 export const USER_COUPON_RECEIVED_URL = "/receiveCoupon";
-export const USER_APPLY_COUPON_URL = "/tryApply"
+export const USER_APPLY_COUPON_URL = "/tryApply";
