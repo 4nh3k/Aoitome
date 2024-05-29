@@ -1,10 +1,10 @@
-import { CreateProductItemDTO } from "../ProductItems/CreateNewProductDto.type";
+import { ProductItemResponseDTO } from "../ProductItems/ProductItemResponseDto.type";
 
-export interface ProductResponseDto{
+export interface ProductResponseDto {
   id: string;
   name: string;
   catalogId: string;
   averageRating: number;
   ratingCount: number;
-  items: CreateProductItemDTO[]
+  items: ProductItemResponseDTO[];
 }

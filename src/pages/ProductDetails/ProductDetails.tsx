@@ -1,8 +1,11 @@
+import cartApi from "@/apis/cart.api";
 import productApi from "@/apis/product.api";
 import { ProductList } from "@/assets/mockdata";
 import { Product } from "@/components/Product/Product";
 import SizeSelector from "@/components/SizeSelector/SizeSelector";
-import { useQuery } from "@tanstack/react-query";
+import { CreateCartItemDTO } from "@/types/CartItems/CreateCartItemDto.type";
+import { getUIDFromLS } from "@/utils/auth";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Rating } from "flowbite-react";
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
@@ -62,6 +65,22 @@ export function ProductDetails() {
       return res.data;
     },
   });
+
+  const uid = getUIDFromLS();
+
+  const addToCartMutation = useMutation({
+    mutationFn: async (body: CreateCartItemDTO) => {
+      await cartApi.upsertCartItems(uid, body);
+    },
+  });
+
+  const handleAddToCart = () => {
+    addToCartMutation.mutate({
+      productItemId: productData?.items[currentItem].id,
+      count: 1,
+    });
+  };
+
   const [quantity, setQuantity] = useState(1);
   const [currentItem, setCurrentItem] = useState(0);
 
@@ -173,6 +192,7 @@ export function ProductDetails() {
                   outline
                   color="cyan"
                   className="w-36 border-1 border-yellow-600"
+                  onClick={handleAddToCart}
                 >
                   <TbShoppingCartPlus
                     size={16}

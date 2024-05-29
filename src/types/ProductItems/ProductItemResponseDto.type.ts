@@ -1,5 +1,5 @@
-export interface ProductItemResponseDTO{
-  id: number;
+export interface ProductItemResponseDTO {
+  id: string;
   name: string;
   price: number;
   discountPrice: number;
