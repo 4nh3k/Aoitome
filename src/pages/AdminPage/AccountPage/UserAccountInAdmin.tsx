@@ -15,9 +15,10 @@ import { getUIDFromLS } from "@/utils/auth";
 import { Fade } from "react-awesome-reveal";
 import { GetUserResponseDTO } from "@/types/Users/GetUserResponseDto.type";
 import userApi from "@/apis/user.api";
+import { UpdateUserDTO } from "@/types/Users/UpdateUserDto.type";
 import { useParams } from "react-router-dom";
 
-const UserAccountInAdmin = () => {
+const AdminAccount = () => {
   const { userId } = useParams();
   console.log("userid" + userId)
   const accountTypes = ["Admin", "User"];
@@ -27,7 +28,7 @@ const UserAccountInAdmin = () => {
   const [repeatNewPassword, setRepeatNewPassword] = useState<string>();
 
   const [adminProfile, setAdminProfile] = useState<GetUserResponseDTO>();
-  const [currentImg, setCurrentImg] = useState(ElysiaImg);
+  const [currentImg, setCurrentImg] = useState<string>(ElysiaImg);
   const [oldImg, setOldImg] = useState();
   const [file, setFile] = useState<File>();
   const inputRef = useRef(null);
@@ -66,7 +67,7 @@ const UserAccountInAdmin = () => {
     if (!isLoadingAdminData && adminData) {
       const admin = adminData?.data.result;
       setAdminProfile(admin);
-      setCurrentImg(admin.profileImageLink);
+      setCurrentImg(admin.avatarUrl);
       console.log(admin);
     }
   }, [isLoadingAdminData, adminData]);
@@ -77,14 +78,14 @@ const UserAccountInAdmin = () => {
   };
 
   const onRemoveImage = (e) => {
-    setCurrentImg(adminProfile.profileImageLink);
+    setCurrentImg(adminProfile.avatarUrl);
   };
 
   const onCancelUpdate = (e) => {
     if (!isLoadingAdminData && adminData) {
-      const admin = adminData?.data;
+      const admin = adminData?.data.result;
       setAdminProfile(admin);
-      setCurrentImg(admin.profileImageLink);
+      setCurrentImg(admin.avatarUrl);
       console.log(admin);
     }
   };
@@ -96,28 +97,27 @@ const UserAccountInAdmin = () => {
         return currentImg;
       }
       console.log("Began uploading image");
-      const url = await authApi.uploadImage({ image: file });
-      console.log("Image url generated: " + url.data.imageUrls[0]);
-      setCurrentImg(url.data.imageUrls[0]);
-      return url.data.imageUrls[0]; // Return the image URL
+      const result = await userApi.upsertPhoto(userId, file);
+      console.log("Image url generated: " + result.data.result);
+      setCurrentImg(result.data.result);
+      return result.data.result; // Return the image URL
     },
     onSuccess: (imageUrl) => {
-      // Trigger the second mutation after successfully uploading the imageDr
+      // Trigger the second mutation after successfully uploading the image
       toast.success("Save image successfully");
       updateAccountMutation.mutate({
         ...adminProfile,
-        ["profileImageLink"]: imageUrl,
       });
     },
   });
 
   const updateAccountMutation = useMutation({
-    mutationKey: ["update-account", adminProfile?.userName],
-    mutationFn: async (adminProfile: User) => {
+    mutationKey: ["update-account", adminProfile?.name],
+    mutationFn: async (adminProfile: GetUserResponseDTO) => {
       console.log("Began updating user...");
-      setAdminProfile({ ...adminProfile, ["profileImageLink"]: currentImg });
+      setAdminProfile({ ...adminProfile });
       console.log(adminProfile);
-      await authApi.updateUserProfile(userId, adminProfile);
+      await userApi.updateUser(userId, adminProfile);
     },
   });
 
@@ -174,7 +174,7 @@ const UserAccountInAdmin = () => {
         newPassword: newPassword,
       };
 
-      const result = await authApi.updatePassword(userId, updatePassword);
+      const result = await userApi.updatePassword(userId, updatePassword);
       if (result.status === 400) {
         toast.error(result.data);
         return;
@@ -248,18 +248,18 @@ const UserAccountInAdmin = () => {
                 }
                 title={"Id*"}
                 placeholder={"Enter id"}
-                onChange={handleChange}
+              // onChange={handleChange}
               />
 
               <AdminInput
-                name={"fullName"}
+                name={"name"}
                 value={
                   adminProfile?.name !== undefined
                     ? adminProfile?.name
                     : ""
                 }
-                title={"Full name*"}
-                placeholder={"Enter full name"}
+                title={"Name*"}
+                placeholder={"Enter name"}
                 onChange={handleChange}
                 type={"text"}
               />
@@ -273,7 +273,7 @@ const UserAccountInAdmin = () => {
                 }
                 title={"Your email*"}
                 placeholder={"Enter email"}
-                onChange={handleChange}
+                // onChange={handleChange}
                 type={"text"}
               />
 
@@ -298,8 +298,8 @@ const UserAccountInAdmin = () => {
                 <Select
                   className="self-strech w-full"
                   required
+                  value={"Admin"}
                   disabled={true}
-                  value={"User"}
                 >
                   {accountTypes.map((item, index) => (
                     <option key={index} value={item}>
@@ -430,4 +430,4 @@ const UserAccountInAdmin = () => {
   );
 };
 
-export default UserAccountInAdmin;
+export default AdminAccount;

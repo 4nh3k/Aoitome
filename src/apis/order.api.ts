@@ -1,10 +1,12 @@
+import { ApiResponse } from "@/types/ApiResponse.type";
 import { ADD_INFO_FROM_CART_URL, CANCEL_ORDER_URL, GET_ALL_ORDER_URL, GET_ORDER_BY_USERS_URL, ORDER_PREFIX } from "../constants/endpoint";
 import { CreateNewOrderFromCartDTO } from "../types/Orders/CreateNewOrderFromCartDto.type";
 import http from "../utils/http";
+import { OrderDTO } from "@/types/Orders/OrderDto.type";
 
 export const orderApi = {
   getAllOrders(pageNumber: number, pageSize: number) {
-    return http.get<Response>(`${ORDER_PREFIX}${GET_ALL_ORDER_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    return http.get<ApiResponse<OrderDTO[]>>(`${ORDER_PREFIX}${GET_ALL_ORDER_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   },
   getOrderById(id: string) {
     return http.get<Response>(`${ORDER_PREFIX}/${GET_ALL_ORDER_URL}/${id}`);

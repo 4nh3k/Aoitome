@@ -3,5 +3,6 @@ export interface GetUserResponseDTO{
   email: string;
   name: string;
   phoneNumber: string;
+  avatarUrl: string;
   roles: string[]
 }

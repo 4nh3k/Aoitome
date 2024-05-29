@@ -1,3 +1,4 @@
+import { ApiResponse } from "@/types/ApiResponse.type";
 import {
   AUTH_PREFIX,
   URL_FORGOTPASS,
@@ -12,6 +13,7 @@ import { RegisterResponseDTO } from "../types/Auths/RegisterResponseDto.type";
 import { ResetPasswordDTO } from "../types/Auths/ResetPasswordDto.type";
 import { SendOTPDTO } from "../types/Auths/SendOTPDto.type";
 import http from "../utils/http";
+import { LoginReponseDTO } from "@/types/Auths/LoginResponseDto.type";
 
 export const authApi = {
   register(body: RegisterDTO) {
@@ -20,7 +22,7 @@ export const authApi = {
     });
   },
   login(body: LoginDTO) {
-    return http.post<Response>(`${AUTH_PREFIX}${URL_LOGIN}`, body);
+    return http.post<ApiResponse<LoginReponseDTO>>(`${AUTH_PREFIX}${URL_LOGIN}`, body);
   },
   getOTPs(body: SendOTPDTO) {
     return http.post<Response>(`${AUTH_PREFIX}${URL_OTPS}`, body);

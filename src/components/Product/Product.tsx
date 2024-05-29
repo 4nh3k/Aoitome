@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import RatingStar from "../RatingStar";
 
 interface ProductProps {
-  id: number;
+  id: string;
   title: string;
   imageURL: string;
   price: number;

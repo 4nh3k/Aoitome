@@ -19,6 +19,7 @@ import authApi from "../../../apis/auth.api";
 import { useAppContext } from "../../../contexts/app.context";
 import { setAccessTokenToLS } from "../../../utils/auth";
 import { LoginReponseDTO } from "@/types/Auths/LoginResponseDto.type";
+import { ApiResponse } from "@/types/ApiResponse.type";
 
 const ADMIN_ROLE = "Admin";
 const CUSTOMER_ROLE = "Customer";
@@ -68,18 +69,19 @@ export function LoginModals({
       password: password,
     };
     loginMutation.mutate(data, {
-      onSuccess: (data: Response) => {
+      onSuccess: (data: ApiResponse<LoginReponseDTO>) => {
         toast.success("Successfully login!");
         console.log("data", data);
-        setAccessTokenToLS(data.result.token as string);
+        setAccessTokenToLS(data.result?.token as string);
         setIsAuthenticated(true);
         onCloseModal();
-        // if (data.role === ADMIN_ROLE) {
-        //   navigate("../" + path.adminDashboard, { replace: true });
-        // } else {
+        const role = data.result?.user.roles[0];
+        if (role === "ADMIN") {
+          navigate("../" + path.adminDashboard, { replace: true });
+        } else {
           if (redirect) navigate(redirect, { replace: true });
           else navigate("/");
-        // }
+        }
       },
       onError: (error: Error) => {
         toast.error(`Login failed!\n${error.message}`);

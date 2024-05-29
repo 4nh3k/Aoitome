@@ -11,6 +11,8 @@ import {
 import { CreateNewProductDto } from "../types/Products/CreateNewProductDto.type";
 import { UpdateProductDto } from "../types/Products/UpdateProductDto.type";
 import http from "../utils/http";
+import { R } from "node_modules/@tanstack/react-query-devtools/build/modern/devtools-PtxSnd7z";
+import { PaginatedData } from "@/types/PaginatedData.type";
 
 export const productApi = {
   getAllProducts(pageIndex: number, pageSize: number) {
@@ -18,6 +20,9 @@ export const productApi = {
       `${PRODUCT_PREFIX}${GET_ALL_PRODUCT_URL}?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
   },
+  // searchUser(pageIndex: number, pageSize: number, filter: string){
+  //   return http.get<ApiResponse<PaginatedData<ProductResponseDto>>>(`${USER_PREFIX}?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${keyword}`);
+  // },
   getProductById(id: string) {
     return http.get<ProductResponseDto>(
       `${PRODUCT_PREFIX}${GET_PRODUCT_BY_ID_URL}/${id}`

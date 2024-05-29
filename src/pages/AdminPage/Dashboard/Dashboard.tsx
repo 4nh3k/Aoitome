@@ -31,7 +31,7 @@ const AdminDashboard = () => {
     {
       label: 'Create Date',
       prop: 'createDate',
-      className: 'font-normal'
+      className: 'font-normal w-fit'
     },
     {
       label: 'Payment Method',
@@ -44,8 +44,13 @@ const AdminDashboard = () => {
       className: 'font-normal'
     },
     {
-      label: 'Shipping',
-      prop: 'shipping',
+      label: 'Shipping status',
+      prop: 'shippingStatus',
+      className: 'font-normal'
+    },
+    {
+      label: 'Delivery information',
+      prop: 'information',
       className: 'font-normal'
     }
   ];
@@ -82,9 +87,9 @@ const AdminDashboard = () => {
 
       <Fade triggerOnce={true}>
       <div className='flex items-start gap-8 overflow-x-hidden'>
-        <AnalysisDataBox label={'Products'} value={productData?.data.result.length}></AnalysisDataBox>
-        <AnalysisDataBox label={'Orders'} value={ordersData?.data.result.length}></AnalysisDataBox>
-        <AnalysisDataBox label={'Customers'} value={userData?.data.result.length}></AnalysisDataBox>
+        <AnalysisDataBox label={'Products'} value={productData?.data.result?.length}></AnalysisDataBox>
+        <AnalysisDataBox label={'Orders'} value={ordersData?.data.result?.length}></AnalysisDataBox>
+        <AnalysisDataBox label={'Customers'} value={userData?.data.result?.count}></AnalysisDataBox>
       </div>
       </Fade>
 
@@ -97,15 +102,16 @@ const AdminDashboard = () => {
       </Fade>
       <span className='heading-4'>Transaction history</span>
 
-      {!isLoadingOrders && ordersData && <Fade triggerOnce={true}><CustomTable headers={headers} data={ordersData.data.result.map((order) => {
+      {!isLoadingOrders && ordersData && <Fade triggerOnce={true}><CustomTable headers={headers} data={ordersData?.data.result?.map((order) => {
         return {
           id: order.id,
           userId: order.userId,
           orderStatus: order.orderStatus,
-          createDate: order.createDate,
+          createDate: new Date(order.createDate).toLocaleDateString(),
           paymentMethod: order.paymentMethod,
           totalPrice: order.totalPrice,
-          shipping: order.shipping
+          shippingStatus: order.shipping.shippingStatus,
+          information: order.shipping.delivery.information
         }
       })}></CustomTable></Fade>}
     </div>

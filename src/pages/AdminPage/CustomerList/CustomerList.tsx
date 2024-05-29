@@ -27,23 +27,24 @@ const CustomerList = () => {
 
   const headers = [
     { label: "ID", prop: "id", className: "w-fit" },
-    { label: "Profile Image", prop: "profileImageLink", isImage: true },
+    { label: "Avatar", prop: "avatarUrl", isImage: true },
     { label: "Phone number", prop: "phoneNumber"},
     { label: "Name", prop: "name" },
     { label: "Email", prop: "email" },
+    { label: "Roles", prop: "roles" },
   ];
 
   const { data: usersData, isLoading: isLoadingUser } = useQuery({
-    queryKey: ['customers', pageIndex, pageSize],
+    queryKey: ['users', pageIndex, pageSize],
     queryFn: () => {
-      return userApi.getUserByRole(USER_ROLE_ID)
+      return userApi.searchUser(pageIndex - 1, pageSize, searchTerm);
     }
   })
 
   useEffect(() => {
     if (!isLoadingUser) {
-      const data = usersData?.data.result;
-      const totalItems = usersData?.data.result.length ?? 0;
+      const data = usersData?.data.result?.data;
+      const totalItems = usersData?.data.result?.count ?? 0;
       setUsersInPage(data);
       setTotalItems(totalItems);
       console.log("Page index: " + pageIndex);
@@ -58,18 +59,18 @@ const CustomerList = () => {
   const onSearchSubmit = () => {
     conditionalInvalidateSearchUserQuery();
     if (!isLoadingUser && usersData) {
-      setUsersInPage(usersData.data.data);
+      setUsersInPage(usersData.data.result?.data);
       setPageIndex(1);
-      const totalItems = usersData.data.totalItems;
+      const totalItems = usersData.data.result?.count;
       setTotalItems(totalItems);
       console.log("Page index: " + pageIndex);
       console.log("Total items: " + totalItems);
-      console.log(usersData.data.data);
+      console.log(usersData.data.result?.data);
     }
   };
 
   const conditionalInvalidateSearchUserQuery = () => {
-    queryClient.invalidateQueries(["users", { pageIndex, pageSize }]);
+    queryClient.invalidateQueries(['users', pageIndex, pageSize]);
   };
 
   const handlePageChange = (e: number) => {
@@ -113,27 +114,27 @@ const CustomerList = () => {
             <CustomTable
               onRowClick={onRowClick}
               headers={headers}
-              data={usersData.data.result.map((user) => {
+              data={usersData.data.result?.data.map((user) => {
                 return {
                   id: user.id,
                   name: user.name || "-",
                   email: user.email,
                   phoneNumber: user.phoneNumber,
-                  address: user.address || "-",
-                  profileImageLink:
-                    user.profileImageLink || CustomerImgPlaceholder,
+                  roles: user.roles.join(", "),
+                  avatarUrl:
+                    user.avatarUrl || CustomerImgPlaceholder,
                 };
               })}
             />
           </Fade>
         )}
       </div>
-      {/* <Pagination
+      <Pagination
         className="m-auto"
         currentPage={pageIndex}
         onPageChange={handlePageChange}
         totalPages={Math.ceil(totalItems / pageSize)}
-      ></Pagination> */}
+      ></Pagination>
     </div>
   );
 };

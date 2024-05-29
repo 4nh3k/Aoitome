@@ -4,7 +4,7 @@ import React from "react";
 interface AdminDropdownProps {
   title: string;
   name: string;
-  items: { key: number; value: string }[];
+  items: { key: any; value: string }[];
   value: string;
   onChange: (e, key: number) => void;
 }
@@ -26,7 +26,7 @@ const AdminDropdown: React.FC<AdminDropdownProps> = ({
   return (
     <div className="flex flex-col items-start gap-2 flex-1 self-strech flex-grow">
       <span className="text-sm font-medium leading-5">{title}</span>
-      <Select
+      <Select 
         name={name}
         className="self-strech w-full"
         required

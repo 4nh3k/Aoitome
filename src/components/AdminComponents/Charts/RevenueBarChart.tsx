@@ -10,7 +10,7 @@ import orderApi from '../../../apis/order.api';
 
 export interface Report{
   time: string,
-  total: unknown
+  total: any
 }
 
 const RevenueBarChart = () => {
@@ -20,6 +20,7 @@ const RevenueBarChart = () => {
   const [totalAmount, setTotalAmount] = useState<number>();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(1000);
+  const [key, setKey] = useState<number>(0);
 
   const { data: ordersData, isLoading: isLoadingOrders } = useQuery({
     queryKey: ['orders', pageIndex, pageSize],
@@ -95,10 +96,11 @@ const RevenueBarChart = () => {
   useEffect(() => {
     if (first && !isLoadingOrders && ordersData && weeklyTotals) {
       const orders = ordersData?.data.result;
-      const weeklyResult = calculateLast7DaysTotals(orders)
+      const weeklyResult = calculateLast7DaysTotals(orders);
       setWeeklyTotals(weeklyResult);
       setMonthlyTotals(calculateMonthlyTotals(orders));
-
+      console.log("Total amount on first load");
+      console.log(weeklyResult.reduce((total, row) => total + row.total, 0))
       console.log("Weekly total on first load")
       console.log(weeklyTotals);
       setFirst(false);
@@ -115,9 +117,19 @@ const RevenueBarChart = () => {
 
       console.log("Total amount: " + weeklyTotals.reduce((total, row) => total + row.total, 0))
     }
-  }, [first, isLoadingOrders, weeklyTotals])
+  }, [first, isLoadingOrders, weeklyTotals]);
+
+  useEffect(() => {
+    if (key === 0){
+      setTotalAmount(weeklyTotals.reduce((total, row) => total + row.total, 0))
+    }
+    else if (key === 1){
+      setTotalAmount(monthlyTotals.reduce((total, row) => total + row.total, 0))
+    }
+  }, [key, weeklyTotals, monthlyTotals])
 
   const onPeriodChange = (e, key: number) => {
+    setKey(key);
     if (key === 0 && !isLoadingOrders && weeklyTotals) {
       setSeries([
         {
@@ -130,8 +142,6 @@ const RevenueBarChart = () => {
 
       setPeriod("week")
 
-      setTotalAmount(weeklyTotals.reduce((total, row) => total + row.total, 0))
-
       console.log("Period changed to week")
     }
     else if (key === 1 && !isLoadingOrders && monthlyTotals) {
@@ -142,7 +152,7 @@ const RevenueBarChart = () => {
         }
       ])
 
-      setTotalAmount(monthlyTotals.reduce((total, row) => total + row.total, 0))
+
 
       setLabel('Last month');
 
@@ -212,10 +222,9 @@ const RevenueBarChart = () => {
             fontSize: '24px',
             fontWeight: 'bold',
             fontFamily: 'Inter',
-            color: '#263238'
           },
         },
-        colors: ["#1A56DB", "#FDBA8C"],
+        colors: ["#c48c46", "#FDBA8C"],
         chart: {
           type: "bar",
           height: "320px",
@@ -314,7 +323,7 @@ const RevenueBarChart = () => {
             { key: 1, value: 'Last month' }]} onChange={onPeriodChange} name={'period'} />
           </div>
           <button onClick={exportChartToPDF}
-            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
+            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-primary hover:text-primary dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
             Leads Report
             <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />

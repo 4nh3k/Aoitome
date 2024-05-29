@@ -10,7 +10,7 @@ import { ProductResponseDto } from "@/types/Products/ProductResponseDto.type";
 
 
 const ProductGrid = () => {
-
+  const LOADING_SIZE = 10000;
   const queryClient = useQueryClient();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
@@ -18,6 +18,7 @@ const ProductGrid = () => {
   const [productsInPage, setProductsInPage] = useState<ProductResponseDto[]>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [isFirstRun, setIsFirstRun] = useState(true);
 
   const { data: productsData, isLoading: isLoadingProduct } = useQuery({
     queryKey: ['products', { pageIndex, pageSize }],
@@ -26,36 +27,28 @@ const ProductGrid = () => {
     }
   });
 
-  // const { data: searchProduct, isLoading: isSearchProductLoading } = useQuery({
-  //   queryKey: ['search_product', { pageIndex, pageSize }],
-  //   queryFn: () => {
-  //     return productApi.getSearchProductByPage(searchTerm, pageIndex - 1, pageSize);
-  //   }
-  // });
+  const { data: searchProduct, isLoading: isSearchProductLoading } = useQuery({
+    queryKey: ['search_product', { pageIndex, pageSize }],
+    queryFn: () => {
+      return productApi.searchProduct(pageIndex, pageSize, searchTerm);
+    }
+  });
 
-  // useEffect(() => {
-  //   if (!isLoadingProduct && !isSearching) {
-  //     const data = productsData?.data.result;
-  //     const totalItems = productsData?.data.result.length;
-  //     console.log("Jewel data: ");
-  //     console.log(data);
-  //     console.log("Total items: ");
-  //     console.log(totalItems);
-  //     setProductsInPage(data);
-  //     setTotalItems(totalItems);
-  //     console.log("Page index: " + pageIndex);
-  //     console.log("Total items: " + totalItems);
-  //   }
-  //   // else if (!isSearchProductLoading && isSearching && searchProduct) {
-  //   //   const productsInPage = searchProduct?.data.data
-  //   //   setProductsInPage(productsInPage);
-  //   //   const totalItems = searchProduct?.data.totalItems;
-  //   //   setTotalItems(totalItems);
-  //   //   console.log("Page index: " + pageIndex);
-  //   //   console.log("Total items: " + totalItems);
-  //   // }
-  // }, [productsData, isLoadingProduct, isSearching, pageIndex]);
-  // isSearchProductLoading,  searchProduct
+
+  useEffect(() => {
+    if ((isFirstRun || (!isFirstRun && !isSearching)) && !isLoadingProduct && productsData) {
+      console.log("First run to mount data");
+      const data = productsData?.data.result;
+      const totalItems = productsData?.data.result?.length;
+      setProductsInPage(data);
+      setTotalItems(totalItems);
+      console.log("Page index: " + pageIndex);
+      console.log("Total items: " + totalItems);
+      console.log("First time");
+      setIsFirstRun(false);
+    }
+
+  }, [isFirstRun, isLoadingProduct, productsData, pageIndex]);
 
   const sortChoices = [
     "Price (Low to High)",
@@ -65,62 +58,64 @@ const ProductGrid = () => {
 
   const [selectedSort, setSelectedSort] = useState(sortChoices[0]);
 
-  //Handle change event
+  // Handle change event
   const handleSortChange = (event) => {
     console.log(event.target.value);
     setSelectedSort(event.target.value);
   };
 
   useEffect(() => {
-    if (isLoadingProduct || !productsData) return;
-
-    let sortedValues = [...productsData.data.result]; // Create a shallow copy to avoid mutating data directly
+    if (isFirstRun) return;
+    console.log("Began sorting....")
+    let sortedValues = isSearching ? [...searchProduct?.data.data] : [...productsData?.data.data];
+    console.log(sortedValues)
 
     switch (selectedSort) {
       case "Price (Low to High)":
-        sortedValues.sort((a, b) => a.items[0].price - b.items[0].price);
+        sortedValues?.sort((a, b) => a.price * a.discountPercentage - b.price * b.discountPercentage)
         break;
       case "Price (High to Low)":
-        sortedValues.sort((a, b) => b.items[0].price - a.items[0].price);
+        sortedValues?.sort((a, b) => b.price * b.discountPercentage - a.price * a.discountPercentage)
         break;
       case "Avg Reviews":
-        sortedValues.sort((a, b) => b.averageRating - a.averageRating);
+        sortedValues?.sort((a, b) => a.averageRating - b.averageRating)
         break;
-      default:
-        console.log("do nothing");
     }
-
+    console.log("Sorted values:")
+    console.log(sortedValues);
     setProductsInPage(sortedValues);
-  }, [selectedSort, productsData, isLoadingProduct]);
+  }, [selectedSort]);
 
-  // const onChangeSearchTerm = (searchTerm: string) => {
-  //   const isSearchTermNull = searchTerm === "" ? true : false;
-  //   setIsSearching(!isSearchTermNull);
-  //   if (!isSearchTermNull) {
-  //     setSearchTerm(searchTerm);
-  //     console.log("Search term set: " + searchTerm)
-  //   }
-  // }
+  const onChangeSearchTerm = (searchTerm: string) => {
+    const isSearchTermNull = searchTerm === "" ? true : false;
+    setIsSearching(!isSearchTermNull);
+    if (!isSearchTermNull) {
+      setSearchTerm(searchTerm);
+      console.log("Search term set: " + searchTerm)
+    }
+  }
 
-  // const onSearchSubmit = () => {
-  //   conditionalInvalidateSearchProductQuery();
-  //   if (!isSearchProductLoading && isSearching && searchProduct) {
-  //     setProductsInPage(searchProduct.data.data);
-  //     setPageIndex(1);
-  //     const totalItems = searchProduct.data.totalItems;
-  //     setTotalItems(totalItems);
-  //     console.log("Page index: " + pageIndex);
-  //     console.log("Total items: " + totalItems);
-  //     console.log(searchProduct.data.data);
-  //   }
-  // }
+  const onSearchSubmit = () => {
+    conditionalInvalidateSearchBookQuery();
+    if (!isSearchProductLoading && isSearching && searchProduct) {
+      console.log("Search product");
+      console.log(searchProduct)
+      setProductsInPage(searchProduct.data.result);
+      setPageIndex(1);
+      const totalItems = searchProduct.data.result?.length;
+      setTotalItems(totalItems);
+      console.log("Page index: " + pageIndex);
+      console.log("Total items: " + totalItems);
+      console.log(searchProduct.data.result);
+    }
+  }
 
-  // const conditionalInvalidateSearchProductQuery = () => {
-  //   const cachedData = queryClient.getQueryData(['search_product', { pageIndex, pageSize }]);
-  //   if (cachedData) {
-  //     queryClient.invalidateQueries(['search_product', { pageIndex, pageSize }]);
-  //   }
-  // };
+  const conditionalInvalidateSearchBookQuery = () => {
+    const cachedData = queryClient.getQueryData(['search_book', { pageIndex, pageSize }]);
+    if (cachedData) {
+      queryClient.invalidateQueries(['search_product', { pageIndex, pageSize }]);
+    }
+  };
 
   const handlePageChange = (e: number) => {
     const currentPage = e;
@@ -137,9 +132,8 @@ const ProductGrid = () => {
           placeholder={"Search product"}
           dropdownList={[]}
           enableDropdown={false}
-
-        // onChange={onChangeSearchTerm}
-        // onSubmit={onSearchSubmit}
+          onChange={onChangeSearchTerm}
+          onSubmit={onSearchSubmit}
         ></SearchInput>
         <div className="flex justify-end items-center gap-3">
           <span className="text-[1rem] font-normal">Sort by</span>
