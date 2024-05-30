@@ -38,10 +38,12 @@ const ProductGrid = () => {
   useEffect(() => {
     if ((isFirstRun || (!isFirstRun && !isSearching)) && !isLoadingProduct && productsData) {
       console.log("First run to mount data");
-      const data = productsData?.data.result;
-      const totalItems = productsData?.data.result?.length;
+      const data = productsData.data.result?.data;
+      const totalItems = productsData?.data.result?.totalCount;
       setProductsInPage(data);
       setTotalItems(totalItems);
+      console.log("Total data:");
+      console.log(data);
       console.log("Page index: " + pageIndex);
       console.log("Total items: " + totalItems);
       console.log("First time");
@@ -49,6 +51,20 @@ const ProductGrid = () => {
     }
 
   }, [isFirstRun, isLoadingProduct, productsData, pageIndex]);
+
+  useEffect(() => {
+    if (!isSearchProductLoading && isSearching && searchProduct) {
+      console.log("Search product");
+      console.log(searchProduct)
+      const products = searchProduct.data.result?.data
+      setProductsInPage(products);
+      const totalItems = searchProduct.data.result?.totalCount;
+      setTotalItems(totalItems);
+      console.log("Page index: " + pageIndex);
+      console.log("Total items: " + totalItems);
+      console.log(searchProduct.data.result);
+    }
+  }, [pageIndex, isSearchProductLoading, isSearching, searchProduct])
 
   const sortChoices = [
     "Price (Low to High)",
@@ -67,15 +83,20 @@ const ProductGrid = () => {
   useEffect(() => {
     if (isFirstRun) return;
     console.log("Began sorting....")
-    let sortedValues = isSearching ? [...searchProduct?.data.data] : [...productsData?.data.data];
+    console.log("Search product")
+    console.log(searchProduct);
+    console.log("Product")
+    console.log(productsData);
+    let sortedValues = [...productsInPage]
+    console.log("product before sorted")
     console.log(sortedValues)
 
     switch (selectedSort) {
       case "Price (Low to High)":
-        sortedValues?.sort((a, b) => a.price * a.discountPercentage - b.price * b.discountPercentage)
+        sortedValues?.sort((a, b) => a.items[0].price - b.items[0].price)
         break;
       case "Price (High to Low)":
-        sortedValues?.sort((a, b) => b.price * b.discountPercentage - a.price * a.discountPercentage)
+        sortedValues?.sort((a, b) => b.items[0].price - a.items[0].price)
         break;
       case "Avg Reviews":
         sortedValues?.sort((a, b) => a.averageRating - b.averageRating)
@@ -100,9 +121,10 @@ const ProductGrid = () => {
     if (!isSearchProductLoading && isSearching && searchProduct) {
       console.log("Search product");
       console.log(searchProduct)
-      setProductsInPage(searchProduct.data.result);
+      const products = searchProduct.data.result?.data
+      setProductsInPage(products);
       setPageIndex(1);
-      const totalItems = searchProduct.data.result?.length;
+      const totalItems = searchProduct.data.result?.totalCount;
       setTotalItems(totalItems);
       console.log("Page index: " + pageIndex);
       console.log("Total items: " + totalItems);
@@ -110,11 +132,11 @@ const ProductGrid = () => {
     }
   }
 
+
+
   const conditionalInvalidateSearchBookQuery = () => {
-    const cachedData = queryClient.getQueryData(['search_book', { pageIndex, pageSize }]);
-    if (cachedData) {
-      queryClient.invalidateQueries(['search_product', { pageIndex, pageSize }]);
-    }
+    queryClient.invalidateQueries(['search_product', { pageIndex, pageSize }]);
+    queryClient.invalidateQueries(['products', { pageIndex, pageSize }]);
   };
 
   const handlePageChange = (e: number) => {
@@ -148,7 +170,7 @@ const ProductGrid = () => {
           </Select>
         </div>
       </div>
-      {isLoadingProduct &&
+      {(isLoadingProduct || (!isLoadingProduct && isSearchProductLoading && isSearching && searchProduct)) &&
         <div className="flex flex-col items-center">
           <ClipLoader color="#8FA8DE" className="items-center justify-center flex" size={100} aria-label="Loading Spinner">
           </ClipLoader>

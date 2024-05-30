@@ -33,6 +33,9 @@ const RevenueBarChart = () => {
   const [monthlyTotals, setMonthlyTotals] = useState<Report[]>([]);
 
   const calculateLast7DaysTotals = (orders) => {
+    console.log("Prepare before weekly for 7 days");
+    console.log(orders);
+    console.log("Prepare after weekly for 7 days");
     if (orders.length === 0) return [];
   
     // Sort orders by createDate in descending order
@@ -80,8 +83,8 @@ const RevenueBarChart = () => {
 
   useEffect(() => {
     console.log(isLoadingOrders)
-    if (isLoadingOrders) return;
-    const orders = ordersData?.data.result;
+    if (isLoadingOrders || !ordersData) return;
+    const orders = ordersData?.data.result?.data;
     console.log(ordersData)
     console.log("Orders")
     console.log(orders)
@@ -95,7 +98,7 @@ const RevenueBarChart = () => {
 
   useEffect(() => {
     if (first && !isLoadingOrders && ordersData && weeklyTotals) {
-      const orders = ordersData?.data.result;
+      const orders = ordersData?.data.result.data;
       const weeklyResult = calculateLast7DaysTotals(orders);
       setWeeklyTotals(weeklyResult);
       setMonthlyTotals(calculateMonthlyTotals(orders));

@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import HorizontalSeparator from "../../../assets/icon/horizontal-separator.svg";
 import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
 import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
 import AdminTextArea from "../../../components/AdminComponents/Input/AdminTextArea";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import catalogApi from "@/apis/catalog.api";
 import { GetCatalogResponseDTO } from "@/types/Categories/GetCatalogResponseDTO.type";
@@ -15,6 +15,9 @@ import Plus from "@/assets/icon/plus-outline.svg"
 import DropzoneFileInput from "@/components/AdminComponents/Input/DropzoneFileInput";
 import AddProductItem from "./AddProductItem";
 import { Modal } from "flowbite-react";
+import EditProductItem from "./EditProductItem";
+import productApi from "@/apis/product.api";
+import { toast } from "react-toastify";
 const BRACELET_CATEGORY_ID = 'e2bff60d-a1d3-49e3-bb34-1a3dde1d7a46'
 
 const AddProduct = () => {
@@ -56,6 +59,11 @@ const AddProduct = () => {
 
   const [productItems, setProductItems] = useState<CreateProductItemDTO[]>([]);
 
+  useEffect(() => {
+    console.log("update create product payload");
+    setProduct({...product, ['items']: productItems})
+  }, [productItems]);
+
   const onInputChange = (e) => {
     const { name, value } = e.target;
     // Check if the value is a number and convert if necessary
@@ -70,41 +78,68 @@ const AddProduct = () => {
     console.log(product);
   }
 
-  const onAddProductItem = (productItem: CreateProductItemDTO) => {
-    setProductItems((prevItems) => [...prevItems, productItem]);
-  }
-
-  useEffect(() => {
-    setOpenAddModal(false);
-    console.log(productItems);
-  }, [productItems])
-
   const [openAddModal, setOpenAddModal] = useState(false);
   const handleAddItem = () => {
     setOpenAddModal(true);
   };
 
-  // const createProductMutation = useMutation({
-  //   mutationKey: ['add-product', book],
-  //   mutationFn: async(book: CreateBookDTO) => {
-  //     const result = await bookApi.createBook(book);
-  //     if (result.status !== 200) {
-  //       toast.error(result.statusText);
-  //       return;
-  //     }
+  const onAddProductItem = (productItem: CreateProductItemDTO) => {
+    setProductItems((prevItems) => [...prevItems, productItem]);
+  }
 
-  //     toast.success("Product has been created");
-  //   }
-  // });
+  const [selectedRow, setSelectedRow] = useState();
+  const [toggleRowClick, setToggleRowClick] = useState<boolean>(true);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const handleEditDeleteItem = (item: Data, index: number) => {
+    console.log('A row has been selected for update / delete')
+    console.log(item);
+    setSelectedRow(item);
+    setToggleRowClick(!toggleRowClick)
+  }
+  useEffect(() => {
+    setOpenEditModal(true);
+  }, [selectedRow, toggleRowClick])
 
-  // const handleCreateBook = useCallback(async () => {
-  //   try {
-  //     await createImageUrlMutation.mutateAsync(file);
-  //     toast.success("Image uploaded and user profile updated successfully.");
-  //   } catch (error) {
-  //     toast.error("Error uploading image and updating user profile: " + error);
-  //   }
-  // }, [createImageUrlMutation, createProductMutation]);
+  const onEditProductItem = (updatedProductItem: CreateProductItemDTO) => {
+    setProductItems((prevItems) =>
+      prevItems.map((item) =>
+        item.description === updatedProductItem.description ? updatedProductItem : item
+      )
+    );
+  }
+  
+  const onDeleteProductItem = (productItem: CreateProductItemDTO) => {
+    setProductItems((prevItems) =>
+      prevItems.filter((item) => item.description !== productItem.description)
+    );
+  }
+
+  useEffect(() => {
+    setOpenAddModal(false);
+    setOpenEditModal(false);
+    console.log(productItems);
+  }, [productItems])
+
+  const createProductMutation = useMutation({
+    mutationKey: ['add-product', product],
+    mutationFn: async(product: CreateNewProductDto) => {
+      const result = await productApi.addProduct(product);
+      if (result.status !== 200) {
+        toast.error(result.statusText);
+        return;
+      }
+
+      toast.success("Product has been created");
+    }
+  });
+
+  const handleCreateProduct = useCallback(async () => {
+    try {
+      await createProductMutation.mutateAsync(product);
+    } catch (error) {
+      toast.error("Error uploading image and updating user profile: " + error);
+    }
+  }, [createProductMutation]);
 
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 h-full min-h-screen gap-6 rounded-lg shadow-sm">
@@ -127,46 +162,55 @@ const AddProduct = () => {
                 name='catalogId'
                 onChange={onDropdownChange} />
             </div>
-            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+            <div className="flex flex-col pt-10 pb-96 px-0 justify-between items-start gap-5 rounded-2xl  border-gray-300 bg-white w-full">
+                <div className="flex w-full flex-wrap items-stretch self-stretch justify-between gap-8">
+                  <span className="heading-4">Product items</span>
+                  <CustomButton
+                    onClick={handleAddItem}
+                    imgSrc={Plus}
+                    label={"Add item"}
+                    textColor={"white"}
+                    btnColor={"primary"}
+                  />
+                </div>
+                <div className="flex w-full flex-wrap items-stretch self-stretch justify-stretch gap-8">
+                  <CustomTable headers={productItemHeaders} data={productItems} onRowClick={handleEditDeleteItem}/>
+                </div>
 
+                <Modal
+                  size={'6xl'}
+                  dismissible
+                  show={openAddModal}
+                  onClose={() => setOpenAddModal(false)}
+                >
+                  <Modal.Header>Add new product item</Modal.Header>
+                  <Modal.Body>
+                    <AddProductItem onAddProductItem={onAddProductItem} />
+                  </Modal.Body>
+                </Modal>
+
+                <Modal
+                  size={'6xl'}
+                  dismissible
+                  show={openEditModal}
+                  onClose={() => setOpenEditModal(false)}
+                >
+                  <Modal.Header>Add new product item</Modal.Header>
+                  <Modal.Body>
+                    <EditProductItem product={selectedRow} onEditProductItem={onEditProductItem} onDeleteProductItem={onDeleteProductItem}/>
+                  </Modal.Body>
+                </Modal>
+              </div>
+            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
               <div className="flex items-start justify-end gap-3 mt-10 self-stretch w-full">
                 <CustomButton
-                  // onClick={handleCreateBook}
+                  onClick={handleCreateProduct}
                   label={"Add product"}
                   textColor={"white"}
                   btnColor={"primary"}
                 />
               </div>
             </div>
-          </div>
-        </div>
-        <div className="flex items-stretch basis-full gap-4">
-          <div className="flex flex-col pt-4 pb-5 px-4 justify-between items-start gap-5 rounded-2xl border-1 border-solid border-gray-300 bg-white w-full">
-            <div className="flex w-full flex-wrap items-stretch self-stretch justify-between gap-8">
-              <span className="heading-4">Product items</span>
-              <CustomButton
-                onClick={handleAddItem}
-                imgSrc={Plus}
-                label={"Add item"}
-                textColor={"white"}
-                btnColor={"primary"}
-              />
-            </div>
-            <div className="flex w-full flex-wrap items-stretch self-stretch justify-stretch gap-8">
-              <CustomTable headers={productItemHeaders} data={productItems} />
-            </div>
-
-            <Modal
-              size={'6xl'}
-              dismissible
-              show={openAddModal}
-              onClose={() => setOpenAddModal(false)}
-            >
-              <Modal.Header>Add new product item</Modal.Header>
-              <Modal.Body>
-                <AddProductItem onAddProductItem={onAddProductItem} />
-              </Modal.Body>
-            </Modal>
           </div>
         </div>
       </Fade>

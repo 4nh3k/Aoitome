@@ -88,7 +88,7 @@ const AdminDashboard = () => {
       <Fade triggerOnce={true}>
       <div className='flex items-start gap-8 overflow-x-hidden'>
         <AnalysisDataBox label={'Products'} value={productData?.data.result?.length}></AnalysisDataBox>
-        <AnalysisDataBox label={'Orders'} value={ordersData?.data.result?.length}></AnalysisDataBox>
+        <AnalysisDataBox label={'Orders'} value={ordersData?.data.result?.totalCount}></AnalysisDataBox>
         <AnalysisDataBox label={'Customers'} value={userData?.data.result?.count}></AnalysisDataBox>
       </div>
       </Fade>
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
       </Fade>
       <span className='heading-4'>Transaction history</span>
 
-      {!isLoadingOrders && ordersData && <Fade triggerOnce={true}><CustomTable headers={headers} data={ordersData?.data.result?.map((order) => {
+      {!isLoadingOrders && ordersData && <Fade triggerOnce={true}><CustomTable headers={headers} data={ordersData.data.result?.data.map((order) => {
         return {
           id: order.id,
           userId: order.userId,

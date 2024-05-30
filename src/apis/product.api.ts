@@ -11,24 +11,38 @@ import {
 import { CreateNewProductDto } from "../types/Products/CreateNewProductDto.type";
 import { UpdateProductDto } from "../types/Products/UpdateProductDto.type";
 import http from "../utils/http";
-import { R } from "node_modules/@tanstack/react-query-devtools/build/modern/devtools-PtxSnd7z";
-import { PaginatedData } from "@/types/PaginatedData.type";
+import { AllDTO } from "@/types/Orders/AllOrdersDTO.type";
 
 export const productApi = {
   getAllProducts(pageIndex: number, pageSize: number) {
     return http.get<ApiResponse<ProductResponseDto[]>>(
-      `${PRODUCT_PREFIX}${GET_ALL_PRODUCT_URL}?pageIndex=${pageIndex}&pageSize=${pageSize}`
+      `${PRODUCT_PREFIX}?pageNumber=${pageIndex}&pageNumber=${pageSize}`
     );
   },
-  // searchUser(pageIndex: number, pageSize: number, filter: string){
-  //   return http.get<ApiResponse<PaginatedData<ProductResponseDto>>>(`${USER_PREFIX}?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${keyword}`);
-  // },
+  searchProduct(pageIndex: number, pageSize: number, searchTerm: any) {
+    const filter = searchTerm === "" ? "" : {
+      filters:
+        [{
+          field: "Name",
+          operator: "contains",
+          value: searchTerm
+        }], 
+        logic: "and"
+    }
+    const filterString = JSON.stringify(filter);
+    console.log("The filter string is")
+    console.log(filterString)
+
+    return http.get<ApiResponse<AllDTO<ProductResponseDto>>>(
+      `${PRODUCT_PREFIX}?pageNumber=${pageIndex}&pageSize=${pageSize}&filter=${filterString}`
+    )
+  },
   getProductById(id: string) {
     return http.get<ProductResponseDto>(
       `${PRODUCT_PREFIX}${GET_PRODUCT_BY_ID_URL}/${id}`
     );
   },
-  addProductPRODUCT(body: CreateNewProductDto) {
+  addProduct(body: CreateNewProductDto) {
     return http.post<Response>(`${PRODUCT_PREFIX}${ADD_PRODUCT_URL}`, body);
   },
   updateProductCoupon(body: UpdateProductDto) {
