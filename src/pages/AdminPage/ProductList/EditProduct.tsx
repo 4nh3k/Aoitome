@@ -18,10 +18,13 @@ import { Modal } from "flowbite-react";
 import EditProductItem from "./EditProductItem";
 import productApi from "@/apis/product.api";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { path } from "@/constants/path";
 const BRACELET_CATEGORY_ID = 'e2bff60d-a1d3-49e3-bb34-1a3dde1d7a46'
 
-const AddProduct = () => {
+const EditProduct = () => {
+
+  const { id } = useParams();
 
   const [categories, setCategories] = useState<GetCatalogResponseDTO[]>();
 
@@ -35,19 +38,31 @@ const AddProduct = () => {
   );
 
   const [product, setProduct] = useState<CreateNewProductDto>();
+  const [productItems, setProductItems] = useState<CreateProductItemDTO[]>([]);
+
+  const { data: productData, isLoading: isLoadingProduct } = useQuery(
+    {
+      queryKey: ['product', id],
+      queryFn: () => {
+        return productApi.getProductById(id);
+      }
+    }
+  );
 
   useEffect(() => {
-    if (isLoadingCategory || !categoryData) return;
+    if (isLoadingProduct || isLoadingCategory || !productData || !categoryData) return;
     const categoryList = categoryData.data.result?.data;
+    const product = productData.data;
     setCategories(categoryList);
     setProduct({
-      name: '',
-      catalogId: BRACELET_CATEGORY_ID,
-      ratingCount: 0,
-      averageRating: 0,
-      items: []
-    })
-  }, [categoryData, isLoadingCategory]);
+      name: product.name,
+      catalogId: product.catalogId,
+      items: product.items,
+      averageRating: product.averageRating,
+      ratingCount: product.ratingCount
+    });
+    setProductItems(product.items);
+  }, [productData, isLoadingProduct, categoryData, isLoadingCategory]);
 
   const productItemHeaders = [
     { label: "Image", prop: "image", isImage: true },
@@ -58,11 +73,9 @@ const AddProduct = () => {
     { label: "Tags", prop: "tags", className: "w-screen" },
   ]
 
-  const [productItems, setProductItems] = useState<CreateProductItemDTO[]>([]);
-
   useEffect(() => {
     console.log("update create product payload");
-    setProduct({...product, ['items']: productItems})
+    setProduct({ ...product, ['items']: productItems })
   }, [productItems]);
 
   const onInputChange = (e) => {
@@ -108,7 +121,7 @@ const AddProduct = () => {
       )
     );
   }
-  
+
   const onDeleteProductItem = (productItem: CreateProductItemDTO) => {
     setProductItems((prevItems) =>
       prevItems.filter((item) => item.description !== productItem.description)
@@ -121,26 +134,75 @@ const AddProduct = () => {
     console.log(productItems);
   }, [productItems])
 
-  const createProductMutation = useMutation({
+  const updateProductMutation = useMutation({
     mutationKey: ['add-product', product],
-    mutationFn: async(product: CreateNewProductDto) => {
-      const result = await productApi.addProduct(product);
+    mutationFn: async (product: CreateNewProductDto) => {
+      const result = await productApi.updateProduct(product);
       if (result.status !== 200) {
         toast.error(result.statusText);
         return;
       }
 
-      toast.success("Product has been created");
+      toast.success("Product has been updated");
     }
   });
 
-  const handleCreateProduct = useCallback(async () => {
+  const handleUpdateProduct = useCallback(async () => {
     try {
-      await createProductMutation.mutateAsync(product);
+      await updateProductMutation.mutateAsync(product);
     } catch (error) {
       toast.error("Error uploading image and updating user profile: " + error);
     }
-  }, [createProductMutation]);
+  }, [updateProductMutation]);
+
+  const handleCancelUpdate = (e) => {
+    if (isLoadingProduct || isLoadingCategory || !productData || !categoryData) return;
+    const categoryList = categoryData.data.result?.data;
+    const product = productData.data;
+    setCategories(categoryList);
+    setProduct({
+      name: product.name,
+      catalogId: product.catalogId,
+      items: product.items,
+      averageRating: product.averageRating,
+      ratingCount: product.ratingCount
+    });
+    setProductItems(product.items);
+  }
+
+  const navigate = useNavigate();
+
+  const deleteBookMutation = useMutation({
+    mutationKey: ['product', 'delete', id],
+    mutationFn: async(id: string)=> {
+      if (id === null || id === undefined){
+        toast.error("product id is not valid");
+        return;
+      }
+      
+      console.log(`Prepare to delete product with ${id}`)
+      const result = await productApi.deleteProduct(id);
+      if (result.status !== 200){
+        toast.error(result.data.result);
+        return;
+      } 
+    },
+    onSuccess: () => {
+      toast.success(`The product with product id: ${id} has been successfully deleted`);
+      console.log("Began navigating back to product grid page");
+      navigate("../" + path.adminProducts, {replace: true})
+    }
+  });
+
+  const handleDeleteProduct = useCallback(async () => {
+    try {
+      await deleteBookMutation.mutateAsync(id);
+    } catch (error) {
+      toast.error("Error uploading image and updating user profile: " + error);
+    }
+  }, [deleteBookMutation])
+
+  
 
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 h-full min-h-screen gap-6 rounded-lg shadow-sm">
@@ -161,54 +223,69 @@ const AddProduct = () => {
                 title="Product category"
                 items={categories !== undefined ? categories.map(c => ({ key: c.id, value: c.name })) : []}
                 name='catalogId'
+                value={categories?.find(c => c.id === product?.catalogId)?.name}
                 onChange={onDropdownChange} />
             </div>
             <div className="flex flex-col pt-10 pb-96 px-0 justify-between items-start gap-5 rounded-2xl  border-gray-300 bg-white w-full">
-                <div className="flex w-full flex-wrap items-stretch self-stretch justify-between gap-8">
-                  <span className="heading-4">Product items</span>
-                  <CustomButton
-                    onClick={handleAddItem}
-                    imgSrc={Plus}
-                    label={"Add item"}
-                    textColor={"white"}
-                    btnColor={"primary"}
-                  />
-                </div>
-                <div className="flex w-full flex-wrap items-stretch self-stretch justify-stretch gap-8">
-                  <CustomTable headers={productItemHeaders} data={productItems} onRowClick={handleEditDeleteItem}/>
-                </div>
-
-                <Modal
-                  size={'6xl'}
-                  dismissible
-                  show={openAddModal}
-                  onClose={() => setOpenAddModal(false)}
-                >
-                  <Modal.Header>Add new product item</Modal.Header>
-                  <Modal.Body>
-                    <AddProductItem onAddProductItem={onAddProductItem} />
-                  </Modal.Body>
-                </Modal>
-
-                <Modal
-                  size={'6xl'}
-                  dismissible
-                  show={openEditModal}
-                  onClose={() => setOpenEditModal(false)}
-                >
-                  <Modal.Header>Add new product item</Modal.Header>
-                  <Modal.Body>
-                    <EditProductItem product={selectedRow} onEditProductItem={onEditProductItem} onDeleteProductItem={onDeleteProductItem}/>
-                  </Modal.Body>
-                </Modal>
+              <div className="flex w-full flex-wrap items-stretch self-stretch justify-between gap-8">
+                <span className="heading-4">Product items</span>
+                <CustomButton
+                  onClick={handleAddItem}
+                  imgSrc={Plus}
+                  label={"Add item"}
+                  textColor={"white"}
+                  btnColor={"primary"}
+                />
               </div>
+              <div className="flex w-full flex-wrap items-stretch self-stretch justify-stretch gap-8">
+                <CustomTable headers={productItemHeaders} data={productItems} onRowClick={handleEditDeleteItem} />
+              </div>
+
+              <Modal
+                size={'6xl'}
+                dismissible
+                show={openAddModal}
+                onClose={() => setOpenAddModal(false)}
+              >
+                <Modal.Header>Add new product item</Modal.Header>
+                <Modal.Body>
+                  <AddProductItem onAddProductItem={onAddProductItem} />
+                </Modal.Body>
+              </Modal>
+
+              <Modal
+                size={'6xl'}
+                dismissible
+                show={openEditModal}
+                onClose={() => setOpenEditModal(false)}
+              >
+                <Modal.Header>Add new product item</Modal.Header>
+                <Modal.Body>
+                  <EditProductItem product={selectedRow} onEditProductItem={onEditProductItem} onDeleteProductItem={onDeleteProductItem} />
+                </Modal.Body>
+              </Modal>
+            </div>
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
               <div className="flex items-start justify-end gap-3 mt-10 self-stretch w-full">
                 <CustomButton
-                  onClick={handleCreateProduct}
-                  label={"Add product"}
+                  onClick={handleUpdateProduct}
+                  label={"Save product"}
                   textColor={"white"}
                   btnColor={"primary"}
+                />
+
+                <CustomButton
+                  onClick={handleDeleteProduct}
+                  label={"Delete product"}
+                  textColor={"white"}
+                  btnColor={"secondary"}
+                />
+
+                <CustomButton
+                  onClick={handleCancelUpdate}
+                  label={"Cancel"}
+                  textColor={"gray-500"}
+                  btnColor={"white"}
                 />
               </div>
             </div>
@@ -219,4 +296,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

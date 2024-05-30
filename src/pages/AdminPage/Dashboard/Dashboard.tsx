@@ -87,7 +87,7 @@ const AdminDashboard = () => {
 
       <Fade triggerOnce={true}>
       <div className='flex items-start gap-8 overflow-x-hidden'>
-        <AnalysisDataBox label={'Products'} value={productData?.data.result?.length}></AnalysisDataBox>
+        <AnalysisDataBox label={'Products'} value={productData?.data.result.totalCount}></AnalysisDataBox>
         <AnalysisDataBox label={'Orders'} value={ordersData?.data.result?.totalCount}></AnalysisDataBox>
         <AnalysisDataBox label={'Customers'} value={userData?.data.result?.count}></AnalysisDataBox>
       </div>

@@ -14,7 +14,10 @@ export interface Report{
 }
 
 const RevenueBarChart = () => {
-
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
   const [period, setPeriod] = useState<string>();
   const [label, setLabel] = useState('last 7 days');
   const [totalAmount, setTotalAmount] = useState<number>();
@@ -70,8 +73,7 @@ const RevenueBarChart = () => {
       const monthStart = new Date(order.createDate);
       monthStart.setHours(0, 0, 0, 0);
       monthStart.setDate(1);
-      const monthKey = monthStart.toISOString().split('T')[0];
-
+      const monthKey = monthNames[monthStart.getMonth()];
       if (!totals[monthKey]) {
         totals[monthKey] = 0;
       }
@@ -154,8 +156,6 @@ const RevenueBarChart = () => {
           data: monthlyTotals.map(row => ({ x: row.time, y: row.total }))
         }
       ])
-
-
 
       setLabel('Last month');
 

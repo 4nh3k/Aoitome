@@ -131,9 +131,7 @@ const ProductGrid = () => {
       console.log(searchProduct.data.result);
     }
   }
-
-
-
+  
   const conditionalInvalidateSearchBookQuery = () => {
     queryClient.invalidateQueries(['search_product', { pageIndex, pageSize }]);
     queryClient.invalidateQueries(['products', { pageIndex, pageSize }]);
@@ -186,7 +184,7 @@ const ProductGrid = () => {
                 imageURL={product.items[0].image}
                 price={product.items[0].price}
                 rating={product.averageRating}
-                discount={product.items[0].discountPercentage}
+                discount={product.items[0].discountPrice}
                 totalRating={product.ratingCount}
                 isAdmin={true} />
             </Fade>

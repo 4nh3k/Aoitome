@@ -15,6 +15,22 @@ export const userApi = {
   searchUser(pageIndex: number, pageSize: number, keyword: string){
     return http.get<ApiResponse<PaginatedData<GetUserResponseDTO>>>(`${USER_PREFIX}?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${keyword}`);
   },
+  uploadImg(file: File){
+    const formData = new FormData();
+    console.log(file);
+    formData.append("file", file);
+    console.log(`${USER_PREFIX}/upload`)
+    return http.post<ApiResponse<string>>(
+      `${USER_PREFIX}/upload`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/\form-data",
+        },
+      }
+    );
+  },
+
   getUserById(userId: string){
     return http.get<ApiResponse<GetUserResponseDTO>>(`${USER_PREFIX}/${userId}`);
   },

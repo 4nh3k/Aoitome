@@ -23,6 +23,7 @@ import CustomerList from "@/pages/AdminPage/CustomerList/CustomerList";
 import UserAccountInAdmin from "@/pages/AdminPage/AccountPage/UserAccountInAdmin";
 import ProductGrid from "@/pages/AdminPage/ProductList/ProductGrid";
 import AddProduct from "@/pages/AdminPage/ProductList/AddProduct";
+import EditProduct from "@/pages/AdminPage/ProductList/EditProduct";
 
 export default function useRouteElement() {
   const navigate = useNavigate();
@@ -147,10 +148,10 @@ export default function useRouteElement() {
           element: <AddProduct />,
           path: path.adminAddProduct,
         },
-        // {
-        //   element: <EditBook />,
-        //   path: path.adminProduct,
-        // },
+        {
+          element: <EditProduct />,
+          path: path.adminProduct,
+        },
         {
           element: <AdminAccount />,
           path: path.adminAccount,

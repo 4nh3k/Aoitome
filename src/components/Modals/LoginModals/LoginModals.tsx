@@ -75,8 +75,8 @@ export function LoginModals({
         setAccessTokenToLS(data.result?.token as string);
         setIsAuthenticated(true);
         onCloseModal();
-        const role = data.result?.user.roles[0];
-        if (role === "ADMIN") {
+        const role = data.result?.user.roles;
+        if (role?.includes("ADMIN")) {
           navigate("../" + path.adminDashboard, { replace: true });
         } else {
           if (redirect) navigate(redirect, { replace: true });

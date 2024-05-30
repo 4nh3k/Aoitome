@@ -45,6 +45,12 @@ export const productApi = {
   addProduct(body: CreateNewProductDto) {
     return http.post<Response>(`${PRODUCT_PREFIX}${ADD_PRODUCT_URL}`, body);
   },
+  updateProduct(body: CreateNewProductDto){
+    return http.post<Response>(`${PRODUCT_PREFIX}${UPDATE_PRODUCT_URL}`, body);
+  },
+  deleteProduct(id: string){
+    return http.post<Response>(`${PRODUCT_PREFIX}${DELETE_PRODUCT_URL}/${id}`)
+  },
   updateProductCoupon(body: UpdateProductDto) {
     return http.post<Response>(`${PRODUCT_PREFIX}${UPDATE_PRODUCT_URL}`, body);
   },
