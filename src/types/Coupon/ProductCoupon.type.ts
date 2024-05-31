@@ -7,6 +7,7 @@ export interface ProductCoupon{
   productId: string;
   discountValue: number;
   discountUnit: string;
+  couponCode: string;
   createdTime: Date;
   validFrom: Date;
   validTo: Date;

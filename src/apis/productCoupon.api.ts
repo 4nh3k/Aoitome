@@ -19,6 +19,7 @@ export const productCouponApi = {
     return http.post<ApiResponse<string>>(`${PRODUCT_COUPON_PREFIX}${UPDATE_COUPON_URL}`, body);
   },
   deleteProductCoupon(couponId: string){
+    console.log('delete coupon api called')
     return http.post<ApiResponse<string>>(`${PRODUCT_COUPON_PREFIX}${DELETE_COUPON_URL}/${couponId}`);
   }
 };

@@ -1,7 +1,7 @@
 export interface CreateNewProductCoupon{
   productId: string;
   discountValue: number;
-  discountUnit: number;
+  discountUnit: string;
   name: string;
   conditions: string;
   usedTime: number;

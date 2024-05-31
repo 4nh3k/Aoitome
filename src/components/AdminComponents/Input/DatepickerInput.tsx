@@ -18,7 +18,7 @@ const DatepickerInput: React.FC<DatepickerProps> = ({ title, value, onChange }) 
         <div className="flex flex-col items-start gap-2 flex-1 self-stretch flex-grow">
             <span className="text-sm font-medium leading-5">{title}</span>
             <Datepicker
-                maxDate={new Date()}
+                
                 className='self-stretch w-full'
                 value={value} // Pass the selected date as value
                 onSelectedDateChanged={handleDateChange} // Handle date change

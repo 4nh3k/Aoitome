@@ -211,7 +211,7 @@ const EditProduct = () => {
       <Fade triggerOnce={true}>
         <div className="flex items-stretch basis-full gap-4">
           <div className="flex flex-col pt-4 pb-5 px-4 justify-between items-start gap-5 rounded-2xl border-1 border-solid border-gray-300 bg-white w-full">
-            <span className="heading-4">Add product</span>
+            <span className="heading-4">Edit product</span>
             <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
               <AdminInput
                 title={"Name"}

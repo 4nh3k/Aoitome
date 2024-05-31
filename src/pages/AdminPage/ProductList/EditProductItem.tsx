@@ -1,14 +1,20 @@
+import userApi from '@/apis/user.api'
 import CustomButton from '@/components/AdminComponents/CustomButton/CustomButton'
 import AdminInput from '@/components/AdminComponents/Input/AdminInput'
 import AdminTextArea from '@/components/AdminComponents/Input/AdminTextArea'
 import DropzoneFileInput from '@/components/AdminComponents/Input/DropzoneFileInput'
 import { CreateProductItemDTO } from '@/types/ProductItems/CreateNewProductDto.type'
+import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 const EditProductItem = ({product, onEditProductItem, onDeleteProductItem }) => {
 
   console.log(product);
   const [productItem, setProductItem] = useState<CreateProductItemDTO>(product);
+  useEffect(() => {
+    setImgSrc(product.image)
+  }, [])
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,8 +44,7 @@ const EditProductItem = ({product, onEditProductItem, onDeleteProductItem }) => 
   };
 
   const handleEditProductItem = (e) => {
-    onEditProductItem(productItem);
-    setProductItem(undefined);
+    createImageUrlMutation.mutate(file);
   }
 
   const handleDeleteProductItem = (e) => {
@@ -59,29 +64,30 @@ const EditProductItem = ({product, onEditProductItem, onDeleteProductItem }) => 
     }
   }, [productItem]);
 
-    // const createImageUrlMutation = useMutation({
-  //   mutationKey: ['image', file],
-  //   mutationFn: async (file: File) => {
-  //     if (file === undefined || file === null) {
-  //       return imgSrc;
-  //     }
-  //     console.log("Began uploading image");
-  //     const url = await authApi.uploadImage({ image: file });
-  //     console.log("Image url generated: " + url.data.imageUrls[0]);
-  //     setImgSrc(url.data.imageUrls[0]);
-  //     return url.data.imageUrls[0]; // Return the image URL
-  //   },
-  //   onSuccess: (imageUrl) => {
-  //     // Trigger the second mutation after successfully uploading the image
-  //     toast.success("Save image successfully");
-  //     const createBook = book;
-  //     createBook.imageUrl = imageUrl;
-  //     console.log("Update book")
-  //     console.log(createBook)
-  //     setBook({ ...book, ['imageUrl']: imageUrl });
-  //     createProductMutation.mutate(createBook);
-  //   }
-  // });
+  const createImageUrlMutation = useMutation({
+    mutationKey: ['image', file],
+    mutationFn: async (file: File) => {
+      if (file === undefined || file === null) {
+        return imgSrc;
+      }
+      console.log("Began uploading image");
+      const url = await userApi.uploadImg(file);
+      console.log("Image url generated: " + url.data.result);
+      setImgSrc(url.data.result);
+      return url.data.result; // Return the image URL
+    },
+    onSuccess: (imageUrl) => {
+      // Trigger the second mutation after successfully uploading the image
+      toast.success("Save image successfully");
+
+      const updateProductItem = productItem;
+      updateProductItem.image = imageUrl;
+      console.log("Updating product item...")
+      console.log(updateProductItem)
+      onEditProductItem(updateProductItem);
+      setProductItem(undefined);
+    }
+  });
 
   return (
     <div className="flex pt-8 pb-8 px-6 justify-between items-start gap-10 rounded-2xl border-1 border-solid border-gray-300 bg-white w-full">

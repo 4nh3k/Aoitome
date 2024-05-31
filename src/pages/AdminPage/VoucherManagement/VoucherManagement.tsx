@@ -1,7 +1,6 @@
 import Container from "../../../components/Container";
 import CustomTable from "@/components/CustomTable";
-import { DiscountInput } from "@/components/AdminComponents/Input/DiscountInput";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import productCouponApi from "@/apis/productCoupon.api";
 import { useEffect, useRef, useState } from "react";
 import { ProductCoupon } from "@/types/Coupon/ProductCoupon.type";
@@ -9,24 +8,39 @@ import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton
 import Plus from "@/assets/icon/plus-outline.svg"
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { Modal, Tabs, TabsRef } from "flowbite-react";
-import AdminDropdown from "@/components/AdminComponents/Input/AdminDropdown";
-import AdminInput from "@/components/AdminComponents/Input/AdminInput";
-import DatepickerInput from "@/components/AdminComponents/Input/DatepickerInput";
+import AddVoucherModal from "./AddCouponModal";
+import AddCouponModal from "./AddCouponModal";
+import EditCouponModal from "./EditCouponModal";
 
 export function VoucherManagement() {
   const headers = [
+    {
+      label: "Id",
+      prop: "id",
+      className: "text-gray-900 text-sm overflow-hidden text-ellipsis whitespace-nowrap",
+    },
     {
       label: "Name",
       prop: "name",
       className: "text-gray-900 text-sm",
     },
     {
-      label: "Discount Value",
+      label: "Conditions",
+      prop: "conditions",
+      className: "text-gray-900 text-sm overflow-hidden text-ellipsis whitespace-nowrap",
+    },
+    {
+      label: "Code",
+      prop: "couponCode",
+      className: "text-gray-900 text-sm",
+    },
+    {
+      label: "Value",
       prop: "discountValue",
       className: "text-gray-900 text-sm",
     },
     {
-      label: "Discount Unit",
+      label: "Unit",
       prop: "discountUnit",
       className: "text-gray-900 text-sm",
     },
@@ -41,17 +55,17 @@ export function VoucherManagement() {
       className: "text-gray-900 text-sm",
     },
     {
-      label: "Minimum Order Value",
+      label: "Min Order Value",
       prop: "minimumOrderValue",
       className: "text-gray-900 text-sm",
     },
     {
-      label: "Maximum Discount Value",
+      label: "Max Discount Value",
       prop: "maximumDiscountValue",
       className: "text-gray-900 text-sm",
     },
     {
-      label: "Used Time",
+      label: "Used",
       prop: "usedTime",
       className: "text-gray-900 text-sm",
     },
@@ -63,9 +77,11 @@ export function VoucherManagement() {
     {
       label: "Product id",
       prop: "productId",
-      className: "text-gray-900 text-sm",
+      className: "text-gray-900 text-sm overflow-hidden text-ellipsis whitespace-nowrap",
     }
   ];
+
+  const queryClient = useQueryClient();
 
   const { data: productCouponData, isLoading: isCouponLoading } = useQuery({
     queryKey: ['product-coupons'],
@@ -145,6 +161,20 @@ export function VoucherManagement() {
     setOpenAddModal(true);
   }
 
+  const [selectedRow, setSelectedRow] = useState();
+  const [toggleRowClick, setToggleRowClick] = useState<boolean>(true);
+  const [openEditModal, setOpenEditModal] = useState(false);
+
+  const handleEditDeleteCoupon = (item: Data, index: number) => {
+    console.log('A row has been selected for update / delete')
+    console.log(item);
+
+    setSelectedRow(item);    
+    setToggleRowClick(!toggleRowClick)
+  }
+  useEffect(() => {
+    setOpenEditModal(true);
+  }, [selectedRow, toggleRowClick])
 
   return (
     <Container>
@@ -174,6 +204,7 @@ export function VoucherManagement() {
             label={"Add coupon"} textColor={"white"} btnColor={"primary"} onClick={handleAddCoupon} />}
         </div>
         {!isCouponLoading && coupons && <CustomTable
+          onRowClick={handleEditDeleteCoupon}
           headers={headers}
           data={coupons?.map(coupon => {
             console.log(coupon);
@@ -188,7 +219,9 @@ export function VoucherManagement() {
               maximumDiscountValue: coupon.maximumDiscountValue,
               usedTime: coupon.usedTime,
               isRedeemAllowed: coupon.isRedeemAllowed ? 'Yes' : 'No',
-              productId: coupon.productId
+              productId: coupon.productId,
+              conditions: coupon.conditions,
+              couponCode: coupon.couponCode
             }
           })}
         />}
@@ -202,82 +235,25 @@ export function VoucherManagement() {
       >
         <Modal.Header>Add new product coupon</Modal.Header>
         <Modal.Body>
-          <div className="flex flex-col pt-8 pb-8 px-6 justify-between items-start gap-10 rounded-2xl border-1 border-solid border-gray-300 bg-white w-full">
-            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+          <AddCouponModal onAddCoupon={() => {
+             setOpenAddModal(false);
+             queryClient.invalidateQueries(['product-coupons']);
+          }} />
+        </Modal.Body>
+      </Modal>
 
-              <AdminDropdown
-                title="Select product"
-                // items={categories !== undefined ? categories.map(c => ({ key: c.id, value: c.name })) : []}
-                items={[]}
-                name='catalogId'
-              // onChange={onDropdownChange}
-              />
-
-              <AdminInput
-                title={"Product id"}
-                placeholder={"Enter product name"}
-                // onChange={onInputChange}
-                type={"text"}
-                name={"productId"}
-              // value={product?.name} 
-              />
-            </div>
-
-            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminInput
-                title={"Disscount value"}
-                placeholder={"Enter discount value"}
-                // onChange={onInputChange}
-                type={"number"}
-                name={"discountValue"}
-              // value={product?.name} 
-              />
-
-              <AdminInput
-                title={"Discount unit"}
-                placeholder={"Enter discount unit"}
-                // onChange={onInputChange}
-                type={"text"}
-                name={"discountUnit"}
-              // value={product?.name} 
-              />
-            </div>
-
-            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <DatepickerInput
-                // value={`${book?.publicationDay}-${book?.publicationMonth}-${book?.publicationYear}`} 
-                // onChange={onPublicationDateChange} 
-                title="Valid from"
-              />
-
-              <DatepickerInput
-                // value={`${book?.publicationDay}-${book?.publicationMonth}-${book?.publicationYear}`} 
-                // onChange={onPublicationDateChange} 
-                title="Valid to"
-              />
-            </div>
-
-            <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
-              <AdminInput
-                title={"Minimum order value"}
-                placeholder={"Enter minimum order value"}
-                // onChange={onInputChange}
-                type={"number"}
-                name={"minimumOrderValue"}
-              // value={product?.name} 
-              />
-
-              <AdminInput
-                title={"Maximum order value"}
-                placeholder={"Enter maximum order value"}
-                // onChange={onInputChange}
-                type={"text"}
-                name={"maximumOrderValue"}
-              // value={product?.name} 
-              />
-            </div>
-
-          </div>
+      <Modal
+        size={'6xl'}
+        dismissible
+        show={openEditModal}
+        onClose={() => setOpenEditModal(false)}
+      >
+        <Modal.Header>Edit product coupon</Modal.Header>
+        <Modal.Body>
+          <EditCouponModal onEditCoupon={() => {
+            setOpenEditModal(false);
+            queryClient.invalidateQueries(['product-coupons']);
+          } } couponData={selectedRow} />
         </Modal.Body>
       </Modal>
     </Container>
