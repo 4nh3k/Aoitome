@@ -28,7 +28,7 @@ export function CustomTable(props: CustomTableProps) {
   };
 
   return (
-    <Table striped hoverable className="table-fixed shadow rounded-lg bg-white w-full self-strech items-stretch basis-full">
+    <Table striped hoverable className="table-fixed shadow rounded-lg bg-white w-full self-stretch items-stretch basis-full">
       <Table.Head className="border-b">
         {headers.map((header, index) => (
           <Table.HeadCell className="bg-gray-200" key={index}>{header.label}</Table.HeadCell>
@@ -38,7 +38,7 @@ export function CustomTable(props: CustomTableProps) {
         {data.map((item, indexRow) => (
           <Table.Row key={indexRow} className={`hover:bg-[#edf1f5] ${onRowClick ? 'cursor-pointer' : ''}`} onClick={() => handleRowClick(item, indexRow)}>
             {headers.map((header, indexCell) => (
-              <Table.Cell className={header.className} key={indexCell}>
+              <Table.Cell className={`${header.className} break-words`} key={indexCell}>
                 {header.isImage ? (
                   <img alt='profileimg' className="w-auto h-auto flex aspect-square rounded-lg bg-gray-50 object-cover" src={item[header.prop]} style={{ maxWidth: 64, height: 64 }} />
                 ) : (

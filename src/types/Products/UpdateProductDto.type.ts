@@ -1,3 +1,4 @@
+import { CreateProductItemDTO } from "../ProductItems/CreateNewProductDto.type";
 import { UpdateProductItemDTO } from "../ProductItems/UpdateProductItemDto.type";
 
 export interface UpdateProductDto{
@@ -6,5 +7,5 @@ export interface UpdateProductDto{
   catalogId: string;
   averageRating: number;
   ratingCount: number;
-  items: UpdateProductItemDTO[]
+  items: CreateProductItemDTO[]
 }

@@ -3,7 +3,6 @@ import { ProductResponseDto } from "@/types/Products/ProductResponseDto.type";
 import {
   ADD_PRODUCT_URL,
   DELETE_PRODUCT_URL,
-  GET_ALL_PRODUCT_URL,
   GET_PRODUCT_BY_ID_URL,
   PRODUCT_PREFIX,
   UPDATE_PRODUCT_URL,
@@ -46,7 +45,7 @@ export const productApi = {
     return http.post<Response>(`${PRODUCT_PREFIX}${ADD_PRODUCT_URL}`, body);
   },
   updateProduct(body: CreateNewProductDto){
-    return http.post<Response>(`${PRODUCT_PREFIX}${UPDATE_PRODUCT_URL}`, body);
+    return http.put<Response>(`${PRODUCT_PREFIX}${UPDATE_PRODUCT_URL}`, body);
   },
   deleteProduct(id: string){
     return http.post<Response>(`${PRODUCT_PREFIX}${DELETE_PRODUCT_URL}/${id}`)

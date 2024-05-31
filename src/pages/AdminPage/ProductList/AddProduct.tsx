@@ -1,8 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import HorizontalSeparator from "../../../assets/icon/horizontal-separator.svg";
 import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
 import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
-import AdminTextArea from "../../../components/AdminComponents/Input/AdminTextArea";
 import { useCallback, useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import catalogApi from "@/apis/catalog.api";
@@ -12,13 +10,11 @@ import AdminDropdown from "@/components/AdminComponents/Input/AdminDropdown";
 import { CreateProductItemDTO } from "@/types/ProductItems/CreateNewProductDto.type";
 import CustomTable from "@/components/CustomTable";
 import Plus from "@/assets/icon/plus-outline.svg"
-import DropzoneFileInput from "@/components/AdminComponents/Input/DropzoneFileInput";
 import AddProductItem from "./AddProductItem";
 import { Modal } from "flowbite-react";
 import EditProductItem from "./EditProductItem";
 import productApi from "@/apis/product.api";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
 const BRACELET_CATEGORY_ID = 'e2bff60d-a1d3-49e3-bb34-1a3dde1d7a46'
 
 const AddProduct = () => {

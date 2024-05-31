@@ -1,10 +1,12 @@
+import { ProductResponseDto } from "../Products/ProductResponseDto.type";
+
 export interface ProductCoupon{
   id: string;
   name: string;
-  condition: string;
+  conditions: string;
   productId: string;
   discountValue: number;
-  discountUnit: number;
+  discountUnit: string;
   createdTime: Date;
   validFrom: Date;
   validTo: Date;
@@ -12,4 +14,5 @@ export interface ProductCoupon{
   maximumDiscountValue: number;
   usedTime: number;
   isRedeemAllowed: boolean;
+  product: ProductResponseDto
 }

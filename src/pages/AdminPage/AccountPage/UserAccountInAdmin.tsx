@@ -298,7 +298,7 @@ const AdminAccount = () => {
                 <Select
                   className="self-strech w-full"
                   required
-                  value={"Admin"}
+                  value={adminProfile?.roles.length > 1 ? "Admin" : "User"}
                   disabled={true}
                 >
                   {accountTypes.map((item, index) => (

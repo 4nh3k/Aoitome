@@ -20,6 +20,7 @@ import productApi from "@/apis/product.api";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { path } from "@/constants/path";
+import { UpdateProductDto } from "@/types/Products/UpdateProductDto.type";
 const BRACELET_CATEGORY_ID = 'e2bff60d-a1d3-49e3-bb34-1a3dde1d7a46'
 
 const EditProduct = () => {
@@ -37,7 +38,7 @@ const EditProduct = () => {
     }
   );
 
-  const [product, setProduct] = useState<CreateNewProductDto>();
+  const [product, setProduct] = useState<UpdateProductDto>();
   const [productItems, setProductItems] = useState<CreateProductItemDTO[]>([]);
 
   const { data: productData, isLoading: isLoadingProduct } = useQuery(
@@ -55,6 +56,7 @@ const EditProduct = () => {
     const product = productData.data;
     setCategories(categoryList);
     setProduct({
+      id: product.id,
       name: product.name,
       catalogId: product.catalogId,
       items: product.items,
