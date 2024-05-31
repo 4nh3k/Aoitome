@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import HorizontalSeparator from "../../../assets/icon/horizontal-separator.svg";
 import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
 import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
@@ -26,7 +26,7 @@ const BRACELET_CATEGORY_ID = 'e2bff60d-a1d3-49e3-bb34-1a3dde1d7a46'
 const EditProduct = () => {
 
   const { id } = useParams();
-
+  const queryClient = useQueryClient();
   const [categories, setCategories] = useState<GetCatalogResponseDTO[]>();
 
   const { data: categoryData, isLoading: isLoadingCategory } = useQuery(
@@ -144,7 +144,7 @@ const EditProduct = () => {
         toast.error(result.statusText);
         return;
       }
-
+      queryClient.invalidateQueries(['product', id]);
       toast.success("Product has been updated");
     }
   });

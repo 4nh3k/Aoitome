@@ -14,8 +14,8 @@ import { AllDTO } from "@/types/Orders/AllOrdersDTO.type";
 
 export const productApi = {
   getAllProducts(pageIndex: number, pageSize: number) {
-    return http.get<ApiResponse<ProductResponseDto[]>>(
-      `${PRODUCT_PREFIX}?pageNumber=${pageIndex}&pageNumber=${pageSize}`
+    return http.get<ApiResponse<AllDTO<ProductResponseDto>>>(
+      `${PRODUCT_PREFIX}?pageNumber=${pageIndex}&pageSize=${pageSize}`
     );
   },
   searchProduct(pageIndex: number, pageSize: number, searchTerm: any) {

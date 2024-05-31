@@ -56,8 +56,8 @@ export default function Homepage() {
   const { data: productData, isLoading: productLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      var res = await productApi.getAllProducts(0, 10);
-      return res.data.result;
+      var res = await productApi.getAllProducts(1, 10);
+      return res.data.result?.data;
     },
   });
 
@@ -85,9 +85,9 @@ export default function Homepage() {
       <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
         <div className="heading-4">On Sale</div>
         {productLoading && <div>Loading...</div>}
-        {!productLoading && (
+        {!productLoading && productData && (
           <Slider {...settings}>
-            {productData?.map((product) => (
+            {productData.map((product) => (
               <Product
                 title={product.name}
                 imageURL={product.items[0].image}

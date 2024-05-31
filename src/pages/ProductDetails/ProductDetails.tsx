@@ -209,7 +209,7 @@ export function ProductDetails() {
         )}
       </Container>
       <Container>
-        <p className="heading-4">Product Desciption</p>
+        <p className="heading-4">Product Description</p>
         {isLoading && (
           <div className="w-full flex item-centers py-8 justify-center">
             <BeatLoader color="#3F83F8" />
