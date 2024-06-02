@@ -5,9 +5,9 @@ import { Product } from "@/components/Product/Product";
 import SizeSelector from "@/components/SizeSelector/SizeSelector";
 import { CreateCartItemDTO } from "@/types/CartItems/CreateCartItemDto.type";
 import { getUIDFromLS } from "@/utils/auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import { Button, Rating } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import { TbShoppingCartPlus } from "react-icons/tb";
@@ -21,6 +21,7 @@ import Container from "../../components/Container";
 import QuantityInput from "../../components/QuantityInput";
 import RatingStar from "../../components/RatingStar";
 import Review from "../../components/Review";
+import { toast } from "react-toastify";
 
 function NextArrow(props) {
   const { className, onClick } = props;
@@ -83,6 +84,37 @@ export function ProductDetails() {
 
   const [quantity, setQuantity] = useState(1);
   const [currentItem, setCurrentItem] = useState(0);
+
+  const { data: recommendedBooks, isLoading: recommendedBooksIsLoading } =
+    useQuery({
+      queryKey: ["recommendedBooks", id],
+      queryFn: async () => {
+        if (!id || id === "") {
+          toast.error("Book not found");
+          return;
+        }
+        console.log("bookId", id);
+        const data = await productApi.getRecommendations(id);
+        console.log("data", data);
+
+        return data;
+      },
+    });
+
+  const similarBooksQueries = useQueries({
+    queries: recommendedBooks
+      ? recommendedBooks.map((movieId: string) => {
+        return {
+          queryKey: ["movie", movieId],
+          queryFn: () => productApi.getProductById(movieId.toString()),
+        };
+      })
+      : [],
+  });
+
+  const isSimilarLoading = similarBooksQueries.some(
+    (result) => result.isLoading
+  );
 
   return (
     <Fade triggerOnce={true}>
@@ -302,19 +334,22 @@ export function ProductDetails() {
         </div>
       </Container>
       <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
-        <div className="heading-4">On Sale</div>
-        <Slider {...settings}>
-          {ProductList.map((product) => (
-            <Product
-              title={product.title}
-              imageURL={product.imageURL}
-              price={product.price}
-              rating={product.rating}
-              discount={product.discount}
-              totalRating={product.totalRating}
-            />
-          ))}
-        </Slider>
+        <div className="heading-4">You may also like</div>
+        {!isSimilarLoading && (
+          <Slider {...settings}>
+            { similarBooksQueries.map((product, index) => {
+              return (
+                <Product
+                  title={product.data?.data.name}
+                  imageURL={product.data?.data.items[0].image}
+                  price={product.data?.data.items[0].price}
+                  rating={product.data?.data.averageRating}
+                  totalRating={product.data?.data.ratingCount}
+                />
+              );
+            })}
+          </Slider>
+        )}
       </Container>
     </Fade>
   );

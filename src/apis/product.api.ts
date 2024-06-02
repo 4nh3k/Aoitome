@@ -11,6 +11,7 @@ import { CreateNewProductDto } from "../types/Products/CreateNewProductDto.type"
 import { UpdateProductDto } from "../types/Products/UpdateProductDto.type";
 import http from "../utils/http";
 import { AllDTO } from "@/types/Orders/AllOrdersDTO.type";
+import axios from "axios";
 
 export const productApi = {
   getAllProducts(pageIndex: number, pageSize: number) {
@@ -57,6 +58,11 @@ export const productApi = {
     return http.post<Response>(
       `${PRODUCT_PREFIX}${DELETE_PRODUCT_URL}/${couponId}`
     );
+  },
+  async getRecommendations(productId: string) {
+    const response = await axios.get<string[]>(`http://localhost:6001/predict/${productId}`);
+    
+    return response.data;
   },
 };
 

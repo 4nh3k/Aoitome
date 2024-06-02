@@ -8,7 +8,6 @@ import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton
 import Plus from "@/assets/icon/plus-outline.svg"
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { Modal, Tabs, TabsRef } from "flowbite-react";
-import AddVoucherModal from "./AddCouponModal";
 import AddCouponModal from "./AddCouponModal";
 import EditCouponModal from "./EditCouponModal";
 

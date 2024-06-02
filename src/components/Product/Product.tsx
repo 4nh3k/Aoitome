@@ -42,7 +42,7 @@ export function Product(props: ProductProps) {
         <div className="flex items-center">
           <div className=" text-yellow-600 text-base font-bold leading-loose">
             {!props.discount
-              ? props.price.toLocaleString()
+              ? props.price
               : (props.price * props.discount).toFixed(2)}{" "}
             $
           </div>
