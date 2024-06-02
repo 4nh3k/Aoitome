@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import HorizontalSeparator from "../../../assets/icon/horizontal-separator.svg";
 import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
-import FileLoadProgressBar from "../../../components/AdminComponents/FileLoadProgressBar/FileLoadProgressBar";
 import AdminDropdown from "../../../components/AdminComponents/Input/AdminDropdown";
 import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
 import AdminTextArea from "../../../components/AdminComponents/Input/AdminTextArea";
