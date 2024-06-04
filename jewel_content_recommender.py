@@ -108,6 +108,8 @@ def predict_with_title(id):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    print('Starting Flask')
-    logging.info("Starting Flask application")
+    print('Starting Flask application, host on localhost:6001 with two apis: ')
+    print('/predict/{product_id}')
+    print('/predict_with_title/{product_id}')
     serve(app, host="0.0.0.0", port=6001)
+
