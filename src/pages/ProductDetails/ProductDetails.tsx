@@ -198,7 +198,7 @@ export function ProductDetails() {
               <div className="mt-5">
                 <SizeSelector
                   sizes={
-                    productData?.items.map((item, index) => {
+                    productData?.items.slice(0, 5).map((item, index) => {
                       return {
                         size: index,
                         available: 10,
