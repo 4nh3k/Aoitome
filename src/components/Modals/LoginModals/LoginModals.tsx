@@ -1,5 +1,6 @@
 import { path } from "@/constants/path";
-import { AuthResponse } from "@/types/Auths/AuthResponse.type";
+import { ApiResponse } from "@/types/ApiResponse.type";
+import { LoginReponseDTO } from "@/types/Auths/LoginResponseDto.type";
 import { useMutation } from "@tanstack/react-query";
 import {
   Button,
@@ -17,9 +18,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import authApi from "../../../apis/auth.api";
 import { useAppContext } from "../../../contexts/app.context";
-import { setAccessTokenToLS } from "../../../utils/auth";
-import { LoginReponseDTO } from "@/types/Auths/LoginResponseDto.type";
-import { ApiResponse } from "@/types/ApiResponse.type";
+import { setAccessTokenToLS, setRoleToLS } from "../../../utils/auth";
 
 const ADMIN_ROLE = "Admin";
 const CUSTOMER_ROLE = "Customer";
@@ -74,6 +73,7 @@ export function LoginModals({
         console.log("data", data);
         setAccessTokenToLS(data.result?.token as string);
         setIsAuthenticated(true);
+        setRoleToLS(data.result?.user.roles);
         onCloseModal();
         const role = data.result?.user.roles;
         if (role?.includes("ADMIN")) {

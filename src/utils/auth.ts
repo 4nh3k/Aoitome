@@ -10,10 +10,13 @@ export const setAccessTokenToLS = (access_token: string) => {
   localStorage.setItem("access_token", access_token);
   localStorage.setItem("uid", decodedToken.sub);
 };
+export const setRoleToLS = (role: string) => {
+  localStorage.setItem("role", role);
+};
 
-export const getProfileFromLS = () => {
-  const result = localStorage.getItem("profile");
-  return result ? JSON.parse(result) : null;
+export const getIsAdmin = () => {
+  const role = localStorage.getItem("role");
+  return role?.includes("ADMIN");
 };
 
 export const getUIDFromLS = () => {
@@ -26,5 +29,6 @@ export const getAccessTokenFromLS = () =>
 
 export const clearLS = () => {
   localStorage.removeItem("access_token");
+  localStorage.removeItem("profile");
   localStorage.removeItem("uid");
 };

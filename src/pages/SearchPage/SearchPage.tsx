@@ -1,3 +1,4 @@
+import productApi from "@/apis/product.api";
 import Filter from "@/components/Filter";
 import { useQuery } from "@tanstack/react-query";
 import { Pagination, Select } from "flowbite-react";
@@ -16,15 +17,13 @@ export function SearchPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["search", q, page - 1],
     queryFn: async () => {
-      return {
-        data: [],
-        totalItems: 0,
-      };
+      var res = await productApi.searchProduct(page, pageSize, q);
+      return res.data.result;
     },
   });
 
   if (isLoading) return <div>Loading...</div>;
-  const totalPages = Math.floor((data?.totalItems ?? 0) / pageSize) + 1;
+  const totalPages = Math.floor((data?.totalCount ?? 0) / pageSize) + 1;
 
   return (
     <div className="flex space-x-7">
@@ -36,7 +35,7 @@ export function SearchPage() {
             <div className="heading-5 mb-2">
               Search Result:{" "}
               <span className="text-lg font-normal text-blue-600">
-                ({data?.totalItems} results)
+                ({data?.totalCount} results)
               </span>
             </div>
             <div className="my-4 flex items-center justify-end space-x-4">
@@ -49,15 +48,15 @@ export function SearchPage() {
               </Select>
             </div>
             <div className="grid grid-cols-4 gap-7">
-              {data?.data.map((book, index) => (
+              {data?.data.map((product, index) => (
                 <Product
                   key={index}
-                  id={""}
-                  title={""}
-                  imageURL={""}
-                  price={0}
-                  rating={0}
-                  totalRating={0}
+                  id={product.id}
+                  title={product.name}
+                  imageURL={product.items[0].image}
+                  price={product.items[0].price}
+                  rating={product.averageRating}
+                  totalRating={product.ratingCount}
                 />
               ))}
             </div>

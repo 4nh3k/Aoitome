@@ -29,10 +29,12 @@ export const orderApi = {
     );
   },
   paymentCallback(vnp_OrderInfo: string) {
-    return http.get<Response>(`${ORDER_PREFIX}?vnp_OrderInfo=${vnp_OrderInfo}`);
+    return http.get<ApiResponse<OrderDTO[]>>(
+      `${ORDER_PREFIX}?vnp_OrderInfo=${vnp_OrderInfo}`
+    );
   },
   getOrderByUser(userId: string) {
-    return http.post<Response>(
+    return http.get<ApiResponse<OrderDTO[]>>(
       `${ORDER_PREFIX}${GET_ORDER_BY_USERS_URL}/${userId}`
     );
   },
