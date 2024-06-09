@@ -1,4 +1,3 @@
-import { useNavigate, useRoutes } from "react-router-dom";
 import ForgotPassModals from "@/components/Modals/ForgotPassModals";
 import LoginModals from "@/components/Modals/LoginModals";
 import { RegisterModals } from "@/components/Modals/RegisterModals/RegisterModals";
@@ -6,7 +5,12 @@ import { path } from "@/constants/path";
 import AdminLayout from "@/layouts/AdminLayout";
 import MainLayout from "@/layouts/MainLayout";
 import AdminAccount from "@/pages/AdminPage/AccountPage/AdminAccount";
+import UserAccountInAdmin from "@/pages/AdminPage/AccountPage/UserAccountInAdmin";
+import CustomerList from "@/pages/AdminPage/CustomerList/CustomerList";
 import AdminDashboard from "@/pages/AdminPage/Dashboard/Dashboard";
+import AddProduct from "@/pages/AdminPage/ProductList/AddProduct";
+import EditProduct from "@/pages/AdminPage/ProductList/EditProduct";
+import ProductGrid from "@/pages/AdminPage/ProductList/ProductGrid";
 import AddVoucher from "@/pages/AdminPage/VoucherManagement/AddVoucher";
 import { VoucherManagement } from "@/pages/AdminPage/VoucherManagement/VoucherManagement";
 import Cart from "@/pages/Cart";
@@ -19,11 +23,8 @@ import OrderTracking from "@/pages/OrderTracking";
 import ProductDetails from "@/pages/ProductDetails";
 import UserAccount from "@/pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "@/pages/UserCouponManagement/UserCouponManagement";
-import CustomerList from "@/pages/AdminPage/CustomerList/CustomerList";
-import UserAccountInAdmin from "@/pages/AdminPage/AccountPage/UserAccountInAdmin";
-import ProductGrid from "@/pages/AdminPage/ProductList/ProductGrid";
-import AddProduct from "@/pages/AdminPage/ProductList/AddProduct";
-import EditProduct from "@/pages/AdminPage/ProductList/EditProduct";
+import { useNavigate, useRoutes } from "react-router-dom";
+import { SearchPage } from "./pages/SearchPage/SearchPage";
 
 export default function useRouteElement() {
   const navigate = useNavigate();
@@ -86,6 +87,10 @@ export default function useRouteElement() {
         {
           element: <Checkout />,
           path: path.checkout,
+        },
+        {
+          element: <SearchPage />,
+          path: path.search,
         },
         {
           element: <OrderSummary />,

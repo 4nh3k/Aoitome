@@ -1,13 +1,12 @@
 import cartApi from "@/apis/cart.api";
 import productApi from "@/apis/product.api";
-import { ProductList } from "@/assets/mockdata";
 import { Product } from "@/components/Product/Product";
 import SizeSelector from "@/components/SizeSelector/SizeSelector";
 import { CreateCartItemDTO } from "@/types/CartItems/CreateCartItemDto.type";
 import { getUIDFromLS } from "@/utils/auth";
 import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import { Button, Rating } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
 import { TbShoppingCartPlus } from "react-icons/tb";
@@ -15,13 +14,13 @@ import { useParams } from "react-router-dom";
 import ShowMoreText from "react-show-more-text";
 import Slider from "react-slick";
 import { BeatLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Container from "../../components/Container";
 import QuantityInput from "../../components/QuantityInput";
 import RatingStar from "../../components/RatingStar";
 import Review from "../../components/Review";
-import { toast } from "react-toastify";
 
 function NextArrow(props) {
   const { className, onClick } = props;
@@ -80,6 +79,7 @@ export function ProductDetails() {
       productItemId: productData?.items[currentItem].id,
       count: 1,
     });
+    toast.success("Item added to cart");
   };
 
   const [quantity, setQuantity] = useState(1);
@@ -104,11 +104,11 @@ export function ProductDetails() {
   const similarBooksQueries = useQueries({
     queries: recommendedBooks
       ? recommendedBooks.map((movieId: string) => {
-        return {
-          queryKey: ["movie", movieId],
-          queryFn: () => productApi.getProductById(movieId.toString()),
-        };
-      })
+          return {
+            queryKey: ["movie", movieId],
+            queryFn: () => productApi.getProductById(movieId.toString()),
+          };
+        })
       : [],
   });
 
@@ -337,7 +337,7 @@ export function ProductDetails() {
         <div className="heading-4">You may also like</div>
         {!isSimilarLoading && (
           <Slider {...settings}>
-            { similarBooksQueries.map((product, index) => {
+            {similarBooksQueries.map((product, index) => {
               return (
                 <Product
                   title={product.data?.data.name}

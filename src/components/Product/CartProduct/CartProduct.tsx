@@ -3,6 +3,7 @@ import { CreateCartItemDTO } from "@/types/CartItems/CreateCartItemDto.type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { PiHeart, PiX } from "react-icons/pi";
+import { toast } from "react-toastify";
 import { getUIDFromLS } from "../../../utils/auth";
 import Button from "../../Button/Button";
 import QuantityInput from "../../QuantityInput";
@@ -29,16 +30,16 @@ export function CartProduct({
   const uid = getUIDFromLS();
   const [quantity, setQuantity] = useState(defaultValue);
   const queryClient = useQueryClient();
-  const onQuantityChange = (quantity: number) => {
-    setQuantity(quantity);
+  const onQuantityChange = (quantityNum: number) => {
+    setQuantity(quantity + quantityNum);
     updateQuantityMutation.mutate(
       {
         productItemId: id,
-        count: quantity,
+        count: quantityNum,
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["cart", uid]);
+          queryClient.invalidateQueries({ queryKey: ["cart", uid] });
         },
       }
     );
@@ -53,7 +54,8 @@ export function CartProduct({
   const handleDeleteMutation = useMutation({
     mutationFn: async () => {
       await cartApi.deleteCartItems(uid, id);
-      queryClient.invalidateQueries(["cart", uid]);
+      toast.success("Item removed from cart");
+      queryClient.invalidateQueries({ queryKey: ["cart", uid] });
     },
   });
 

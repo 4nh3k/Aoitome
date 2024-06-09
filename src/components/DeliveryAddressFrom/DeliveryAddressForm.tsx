@@ -1,35 +1,28 @@
-import { Checkbox, Label, Select, TextInput, Textarea } from "flowbite-react";
+import { CreateDeliveryDTO } from "@/types/Deliveries/CreateDeliveryDto.type";
+import { Checkbox, Label, TextInput, Textarea } from "flowbite-react";
 
-export function DeliveryAddressForm() {
+interface DeliveryAddressFormProps {
+  deliveryAddress: CreateDeliveryDTO;
+  setDeliveryAddress: (deliveryAddress: CreateDeliveryDTO) => void;
+}
+
+export function DeliveryAddressForm({
+  deliveryAddress,
+  setDeliveryAddress,
+}: DeliveryAddressFormProps) {
+  const handleDeliveryAddressChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDeliveryAddress({
+      ...deliveryAddress,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <div className="w-full px-5 py-5 space-y-8 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
-      {/* <fieldset className="flex max-w-md gap-4">
-        <div className="flex items-center gap-2">
-          <Radio
-            id="united-state"
-            name="countries"
-            value="USA"
-            defaultChecked
-          />
-          <Label htmlFor="united-state">Individual</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Radio id="germany" name="countries" value="Germany" />
-          <Label htmlFor="germany">Company</Label>
-        </div>
-      </fieldset> */}
       <span className="heading-5">Delivery Adress</span>
-      <div className="w-full">
-        <div className="mb-2 block">
-          <Label className="font-medium" value="Save address" />
-        </div>
-        <Select id="countries" required>
-          <option>United States</option>
-          <option>Canada</option>
-          <option>France</option>
-          <option>Germany</option>
-        </Select>
-      </div>
+
       <div className="flex w-full space-x-3">
         <div className="w-full">
           <div className="mb-2 block">
@@ -58,31 +51,52 @@ export function DeliveryAddressForm() {
           id="comment"
           placeholder="Write your address here..."
           required
+          onChange={(e) => {
+            setDeliveryAddress({
+              ...deliveryAddress,
+              information: e.target.value,
+            });
+          }}
           rows={4}
         />
       </div>
       <div className="flex w-full space-x-3">
         <div className="w-full">
           <div className="mb-2 block">
-            <Label className="font-medium" value="Country*" />
+            <Label className="font-medium" value="Province*" />
           </div>
-          <Select id="countries" required>
-            <option>United States</option>
-            <option>Canada</option>
-            <option>France</option>
-            <option>Germany</option>
-          </Select>
+          <TextInput
+            placeholder="Enter your province"
+            name="province"
+            onChange={handleDeliveryAddressChange}
+            type="text"
+          />
         </div>
+      </div>
+      <div className="flex w-full space-x-3">
         <div className="w-full">
           <div className="mb-2 block">
-            <Label className="font-medium" value="City*" />
+            <Label className="font-medium" value="District*" />
           </div>
-          <Select id="countries" required>
-            <option>United States</option>
-            <option>Canada</option>
-            <option>France</option>
-            <option>Germany</option>
-          </Select>
+          <TextInput
+            placeholder="Enter your district"
+            name="district"
+            onChange={handleDeliveryAddressChange}
+            type="text"
+          />
+        </div>
+      </div>
+      <div className="flex w-full space-x-3">
+        <div className="w-full">
+          <div className="mb-2 block">
+            <Label className="font-medium" value="Ward*" />
+          </div>
+          <TextInput
+            placeholder="Enter your ward"
+            name="ward"
+            onChange={handleDeliveryAddressChange}
+            type="text"
+          />
         </div>
       </div>
       <div className="flex items-center gap-2">

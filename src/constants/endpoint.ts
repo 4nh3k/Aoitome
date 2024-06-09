@@ -45,8 +45,8 @@ export const ROLE_PREFIX = "/roles";
 // User API
 export const USER_PREFIX = "/users";
 export const USER_ASSIGN_ROLE_URL = "/assignRole";
-export const URL_PASSWORD = "/password"
-export const URL_AVATAR = "/avatar"
+export const URL_PASSWORD = "/password";
+export const URL_AVATAR = "/avatar";
 
 // User coupon API
 export const USER_COUPON_API = "/UserCouponApi";
