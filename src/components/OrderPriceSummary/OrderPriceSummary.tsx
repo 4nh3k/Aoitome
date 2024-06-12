@@ -6,6 +6,7 @@ interface OrderPriceSummaryProps {
   savings?: number;
   tax?: number;
   storePickup?: number;
+  isLoading?: boolean;
   onClick?: () => void;
 }
 
@@ -14,6 +15,7 @@ export function OrderPriceSummary({
   originalPrice = 2000,
   savings = 200,
   tax = 799,
+  isLoading = false,
   storePickup = 99,
   onClick,
 }: OrderPriceSummaryProps) {
@@ -57,8 +59,14 @@ export function OrderPriceSummary({
         </div>
         {!textOnly && (
           <>
-            <Button className="w-full" size="sm" onClick={onClick}>
-              Proceed to checkout
+            <Button
+              className="w-full"
+              size="sm"
+              disabled={isLoading}
+              onClick={onClick}
+            >
+              {!isLoading && "Proceed to checkout"}
+              {isLoading && "Processing..."}
             </Button>
             <div className="text-center">
               <span className="text-black text-xs font-medium">or </span>

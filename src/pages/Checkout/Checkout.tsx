@@ -31,25 +31,6 @@ export function Checkout() {
     return `${year}-${month}-${day}`;
   }
 
-  const createCheckoutMutation = useMutation({
-    mutationKey: ["createCheckout", userId],
-    mutationFn: async () => {
-      try {
-        const data = await paymentApi.createCheckoutSession();
-        if (data.status === 200) {
-          const checkoutUrl = data.data; // Assuming the URL is returned in `checkoutUrl`
-          window.location.href = checkoutUrl; // Redirect to the checkout page
-        } else {
-          // Handle non-200 status codes
-          toast.error("Failed to create checkout session:" + data);
-        }
-      } catch (error) {
-        // Handle errors from the API call
-        toast.error("Error creating checkout session:" + error);
-      }
-    },
-  });
-
   const { data: cartData, isLoading } = useQuery({
     queryKey: ["cart", userId],
     queryFn: async () => {
@@ -71,6 +52,37 @@ export function Checkout() {
     },
   });
 
+  const createCheckoutMutation = useMutation({
+    mutationKey: ["createCheckout", userId],
+    mutationFn: async () => {
+      try {
+        if (!cartData) {
+          toast.error("Cart is empty");
+          return;
+        }
+        const orderItems: OrderItem[] = cartData.items.map((item) => ({
+          bookId: item.bookId,
+          title: item.title,
+          unitPrice: item.unitPrice,
+          oldUnitPrice: item.oldUnitPrice,
+          totalUnitPrice: item.totalUnitPrice,
+          imageUrl: item.imageUrl,
+          quantity: item.quantity,
+        }));
+        const data = await paymentApi.createCheckoutSession(orderItems);
+        if (data.status === 200) {
+          const checkoutUrl = data.data; // Assuming the URL is returned in `checkoutUrl`
+          window.location.href = checkoutUrl; // Redirect to the checkout page
+        } else {
+          // Handle non-200 status codes
+          toast.error("Failed to create checkout session:" + data);
+        }
+      } catch (error) {
+        // Handle errors from the API call
+        toast.error("Error creating checkout session:" + error);
+      }
+    },
+  });
   const createOrderMutation = useMutation({
     mutationKey: ["createOrder", userId],
     mutationFn: async () => {
@@ -106,7 +118,7 @@ export function Checkout() {
           securityNumber: "string",
           cardHoldername: "string",
           expiration: formatDate(new Date()), // Convert string to Date object
-          cardTypeId: cardType.id,
+          cardTypeId: 1,
         },
         userName: "",
         description: "",
@@ -165,27 +177,6 @@ export function Checkout() {
               </div>
             </fieldset>
           </div>
-          <div className="w-full mt-6 px-5 py-5 space-y-2 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
-            <span className="heading-5">Payment details</span>
-            <fieldset key={"payment"} className="flex max-w-md flex-col gap-4">
-              {isPaymentLoading ? (
-                <div>Loading...</div>
-              ) : (
-                paymentMethodsData?.map((method) => (
-                  <div className="space-x-2">
-                    <Radio
-                      key={method.id.toString()}
-                      id={method.id.toString()}
-                      name="paymentMethods"
-                      onChange={handleRadioChange}
-                      value={method.id}
-                    />
-                    <Label htmlFor="united-state">{method.name}</Label>
-                  </div>
-                ))
-              )}
-            </fieldset>
-          </div>
         </div>
         <div className="w-full">
           <div className="w-full space-y-2 mb-6">
@@ -202,6 +193,16 @@ export function Checkout() {
             ))}
           </div>
           <OrderPriceSummary
+            isLoading={
+              createOrderMutation.isPending || createCheckoutMutation.isPending
+            }
+            originalPrice={
+              cartData?.items.reduce((acc, item) => acc + item.unitPrice, 0) ||
+              0
+            }
+            savings={0}
+            tax={0}
+            storePickup={0}
             onClick={() => {
               console.log(address);
               handleCheckout();
