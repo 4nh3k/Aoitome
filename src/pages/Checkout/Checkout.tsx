@@ -106,6 +106,9 @@ export function Checkout() {
           </div>
           <OrderPriceSummary
             originalPrice={cartData?.totalPrice}
+            savings={0}
+            storePickup={0}
+            tax={0}
             onClick={() => handleCheckout()}
           />
         </div>

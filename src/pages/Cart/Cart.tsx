@@ -57,22 +57,26 @@ export function Cart() {
           })}
         </div>
         <div className="w-[25rem]">
-          <OrderPriceSummary
-            originalPrice={data?.totalPrice}
-            savings={0}
-            tax={0}
-            storePickup={0}
-            onClick={() => navigate(path.checkout)}
-          />
-          <div className="w-full px-5 pt-5 pb-6 mt-8 space-y-4 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
-            <span className="w-80 text-black text-sm">
-              Do you have a voucher or gift card ?
-            </span>
-            <TextInput className="w-full" />
-            <Button className="w-full" size="sm">
-              Apply Code
-            </Button>
-          </div>
+          {data && (
+            <OrderPriceSummary
+              originalPrice={data?.totalPrice}
+              savings={0}
+              tax={0}
+              storePickup={0}
+              onClick={() => navigate(path.checkout)}
+            />
+          )}
+          {data && (
+            <div className="w-full px-5 pt-5 pb-6 mt-8 space-y-4 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
+              <span className="w-80 text-black text-sm">
+                Do you have a voucher or gift card ?
+              </span>
+              <TextInput className="w-full" />
+              <Button className="w-full" size="sm">
+                Apply Code
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       <div className="heading-4 mt-10">People also bought</div>

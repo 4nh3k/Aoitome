@@ -146,7 +146,7 @@ export function ProductDetails() {
                   readonly
                 />
                 <p className="ml-2 text-xs font-medium leading-5">
-                  {productData?.averageRating}
+                  {productData?.averageRating.toFixed(2)}
                 </p>
                 <p className="text-xs ml-1 font-semibold text-black underline leading-5">
                   {productData?.ratingCount} reviews
@@ -337,17 +337,19 @@ export function ProductDetails() {
         <div className="heading-4">You may also like</div>
         {!isSimilarLoading && (
           <Slider {...settings}>
-            {similarBooksQueries.map((product, index) => {
-              return (
-                <Product
-                  title={product.data?.data.name}
-                  imageURL={product.data?.data.items[0].image}
-                  price={product.data?.data.items[0].price}
-                  rating={product.data?.data.averageRating}
-                  totalRating={product.data?.data.ratingCount}
-                />
-              );
-            })}
+            {similarBooksQueries
+              .slice(1, similarBooksQueries.length)
+              .map((product, index) => {
+                return (
+                  <Product
+                    title={product.data?.data.name}
+                    imageURL={product.data?.data.items[0].image}
+                    price={product.data?.data.items[0].price}
+                    rating={product.data?.data.averageRating}
+                    totalRating={product.data?.data.ratingCount}
+                  />
+                );
+              })}
           </Slider>
         )}
       </Container>

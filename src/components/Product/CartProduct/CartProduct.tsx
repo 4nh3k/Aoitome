@@ -62,7 +62,7 @@ export function CartProduct({
   return (
     <div className="h-32 w-full px-5 py-3.5 bg-white rounded border border-gray-200 justify-between items-center inline-flex">
       <div className="justify-start items-center gap-2.5 flex">
-        <img className="h-20" src={imageURL} />
+        <img className="h-20 w-28" src={imageURL} />
         <div>
           <p className=" text-black text-lg w-60 truncate ">{title}</p>
           {canEdit && (
