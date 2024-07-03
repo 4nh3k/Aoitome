@@ -1,11 +1,11 @@
-import axios, { AxiosError, HttpStatusCode, type AxiosInstance } from "axios";
-import { toast } from "react-toastify";
 import {
   URL_BASE,
   URL_LOGIN,
   URL_LOGOUT,
   URL_REGISTER,
 } from "@/constants/endpoint";
+import axios, { AxiosError, HttpStatusCode, type AxiosInstance } from "axios";
+import { toast } from "react-toastify";
 import { AuthResponse } from "../types/Models/Identity/AuthResponse.type";
 import { clearLS, getAccessTokenFromLS } from "./auth";
 class Http {
@@ -21,7 +21,7 @@ class Http {
 
     this.instance = axios.create({
       baseURL: URL_BASE,
-      timeout: 10000,
+      timeout: 50000,
       headers: {
         "Content-Type": "application/json",
       },
