@@ -31,7 +31,7 @@ export default function App() {
     },
     loop: {
       message: response,
-      options: userInput,
+      options: userInput.map((id, index) => (index + 1).toString()),
       path: () => {
         if (userInput.length === 0) return "wait_me";
         return "process_options";
@@ -41,7 +41,9 @@ export default function App() {
       transition: { duration: 0 },
       chatDisabled: true,
       path: async (params) => {
-        let link = `localhost:3000/product/${params.userInput}`;
+        let link = `http://localhost:3000/product/${
+          userInput[parseInt(params.userInput) - 1]
+        }`;
         setUserInput([]);
         console.log(link);
         await params.injectMessage("Sit tight! I'll send you right there!");
