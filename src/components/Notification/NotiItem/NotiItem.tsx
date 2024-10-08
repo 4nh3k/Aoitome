@@ -19,7 +19,7 @@ export function NotiItem({
         size === "sm" ? "[496px]" : "[1200px]"
       } h-32 p-2 justify-start items-center gap-3.5 inline-flex`}
     >
-      <div className="w-16 h-16 relative bg-emerald-600 rounded-full" />
+      <div className="w-16 h-14 relative bg-emerald-600 rounded-full" />
       <div className="w-full h-28 relative text-left space-y-1">
         <div className="flex items-center justify-between">
           <div className="text-black font-medium">{title}</div>

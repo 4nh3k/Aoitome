@@ -42,9 +42,9 @@ export default function Header(props: HeaderProps) {
 
   return (
     <div className={props.className}>
-      <StickyHeader />
+      {/* <StickyHeader /> */}
       <Navbar
-        className="py-4 lg:px-32 sm:px-4 border-t-1 border-b-1"
+        className="py-3 lg:px-32 sm:px-4 border-none bg-blue-100"
         fluid
         rounded
       >
@@ -56,10 +56,11 @@ export default function Header(props: HeaderProps) {
           />
         </Navbar.Brand>
         <SearchInput
-          className="w-1/2"
+          className="w-1/2 border-1 border-transparent border-gray-300 border-sm rounded-l-sm rounded-r-md p-0 focus-within:[&:has(input:focus)]:border-blue-500 overflow-hidden"
           onSubmit={handleSubmit}
+          enableSizing={true}
           placeholder={"Enter a search term"}
-          dropdownList={["By name", "By author"]}
+          dropdownList={["By name", "By author", "By Elysia & Mei", ]}
           onChange={function (searchValue: string): void {
             setSearchValue(searchValue);
           }}
@@ -70,12 +71,12 @@ export default function Header(props: HeaderProps) {
         <div className="flex space-x-4">
           <Notification />
           <Link to="/cart">
-            <Button icon={PiShoppingCart} text={"My Cart"} onClick={() => {}} />
+            <Button icon={PiShoppingCart} text={"Cart"} onClick={() => {}} />
           </Link>
           {!isAuthenticated ? (
             <Button
               icon={PiUser}
-              text={"Sign In"}
+              text={"Account"}
               onClick={() => {
                 setToggleLoginModal(true);
               }}
@@ -138,7 +139,7 @@ export default function Header(props: HeaderProps) {
           label={
             <div className="flex space-x-1">
               <PiList size={18} />
-              <span>All categories</span>
+              <span>All</span>
             </div>
           }
           inline

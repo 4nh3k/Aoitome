@@ -29,7 +29,7 @@ import Review from "../../components/Review";
 import useBookDetails from "../../hooks/useBookDetails";
 import { getUIDFromLS } from "../../utils/auth";
 
-function NextArrow(props) {
+function NextArrow(props: any) {
   const { className, onClick } = props;
   return (
     <PiCaretRight
@@ -41,7 +41,7 @@ function NextArrow(props) {
   );
 }
 
-function PrevArrow(props) {
+function PrevArrow(props: any) {
   const { className, style, onClick } = props;
   return (
     <PiCaretLeft
