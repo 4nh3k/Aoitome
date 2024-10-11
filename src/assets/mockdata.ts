@@ -26,32 +26,32 @@ export const CategoryList = [
   {
     title: "Fiction",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/9/7/9786047764655.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkHl_AsaJGOhRd3Yk6ZxZJ_bh89_VgHKyVtw&s",
   },
   {
     title: "Non-fiction",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/9/7/9786044009674.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXamadoglIqmFLXWMcZvADNlx_kmma4UHizQ&s",
   },
   {
     title: "Romance",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8935244876154.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi2vEo9u7o6yMttUelVhB0cs0FgmARiiJ7Vg&s",
   },
   {
     title: "History",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-tr_c-ph_p-y-3.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdi2tJEqk4GmDP6dsnP7rOPM4IQvRfs5miqw&s",
   },
   {
     title: "Young Adult",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-tr_c-nh_-x_c.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAaVt6EP27NSTp5McrQOHb5QgWumjOdTvrw&s",
   },
   {
     title: "Poetry",
     imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/a/n/an-nhi_n-gi_a-nh_ng-th_ng-tr_m---b_a-1.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdl5STQ78mMBCdnxWRuGXc2TniuyETVsWnmg&s",
   },
 ];
 
@@ -94,7 +94,7 @@ export const ProductList = [
     title: "Tuổi Thơ Dữ Dội - Tập 1 (Tái Bản 2019)",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_187162.jpg",
-    price: 58400,
+    price: 50,
     rating: 5.0,
     discount: 27,
     totalRating: 27,
@@ -103,7 +103,7 @@ export const ProductList = [
     title: "Trốn Lên Mái Nhà Để Khóc - Tặng Kèm Bookmark",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-1-tr_n-l_n-m_i-nh_-_-kh_c-2.jpg",
-    price: 72200,
+    price: 34,
     rating: 0,
     discount: 24,
     totalRating: 0,
@@ -112,7 +112,7 @@ export const ProductList = [
     title: "3 Step - Tiết Lộ Bí Quyết 3 Bước Đạt Điểm 8+ Toán Học",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_50143.jpg",
-    price: 239000,
+    price: 22,
     rating: 4.0,
     discount: 20,
     totalRating: 20,
@@ -121,7 +121,7 @@ export const ProductList = [
     title: "Bài Tập Bổ Trợ Nâng Cao Kỹ Năng Hóa Học Lớp 10 - Tập 2",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936214270262.jpg",
-    price: 115000,
+    price: 65,
     rating: 4.6,
     totalRating: 2,
   },
@@ -130,7 +130,7 @@ export const ProductList = [
       "Nói Chuyện Là Bản Năng, Giữ Miệng Là Tu Dưỡng, Im Lặng Là Trí Tuệ (Tái Bản)",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694469.jpg",
-    price: 110000,
+    price: 25,
     rating: 4.1,
     totalRating: 20,
   },
@@ -138,7 +138,7 @@ export const ProductList = [
     title: "Đám Trẻ Ở Đại Dương Đen",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg",
-    price: 110000,
+    price: 42,
     rating: 4.1,
     totalRating: 20,
   },
@@ -146,7 +146,7 @@ export const ProductList = [
     title: "Ghi Chép Pháp Y - Những Thi Thể Không Hoàn Chỉnh",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-tr_c-ph_p-y-3.jpg",
-    price: 213400,
+    price: 42,
     discount: 15,
     rating: 2.3,
     totalRating: 20,
@@ -155,7 +155,7 @@ export const ProductList = [
     title: "3 Step - Tiết Lộ Bí Quyết 3 Bước Đạt Điểm 8+ Toán Học",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_50143.jpg",
-    price: 239000,
+    price: 242,
     rating: 4.0,
     discount: 20,
     totalRating: 20,
@@ -164,7 +164,7 @@ export const ProductList = [
     title: "Bài Tập Bổ Trợ Nâng Cao Kỹ Năng Hóa Học Lớp 10 - Tập 2",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936214270262.jpg",
-    price: 115000,
+    price: 142,
     rating: 4.6,
     totalRating: 2,
   },
@@ -173,7 +173,7 @@ export const ProductList = [
       "Nói Chuyện Là Bản Năng, Giữ Miệng Là Tu Dưỡng, Im Lặng Là Trí Tuệ (Tái Bản)",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694469.jpg",
-    price: 110000,
+    price: 42,
     rating: 4.1,
     totalRating: 20,
   },

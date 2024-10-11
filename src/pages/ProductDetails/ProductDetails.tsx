@@ -63,398 +63,491 @@ const settings = {
 };
 
 export function ProductDetails() {
-  const { id } = useParams();
-  const uid = getUIDFromLS();
-  const { getBookDetails } = useBookDetails(id || "");
-  const { data: bookData, isLoading } = getBookDetails;
-  const [reviewPage, setReviewPage] = useState(1);
-  const queryClient = useQueryClient();
-  const [quantity, setQuantity] = useState(1);
-  const { data: reviewData, isLoading: reviewIsLoading } = useQuery({
-    queryKey: ["reviews", id],
-    queryFn: async () => {
-      if (!id || id === "") {
-        toast.error("Book not found");
-        return;
-      }
-      console.log("bookId", id);
-      const data = await bookReviewApi.getBookReviewByBook(
-        parseInt(id),
-        reviewPage - 1,
-        10
-      );
-      console.log("data", data);
+  // const { id } = useParams();
+  // const uid = getUIDFromLS();
+  // const { getBookDetails } = useBookDetails(id || "");
+  // const { data: bookData, isLoading } = getBookDetails;
+  // const [reviewPage, setReviewPage] = useState(1);
+  // const queryClient = useQueryClient();
+  // const [quantity, setQuantity] = useState(1);
+  // const { data: reviewData, isLoading: reviewIsLoading } = useQuery({
+  //   queryKey: ["reviews", id],
+  //   queryFn: async () => {
+  //     if (!id || id === "") {
+  //       toast.error("Book not found");
+  //       return;
+  //     }
+  //     console.log("bookId", id);
+  //     const data = await bookReviewApi.getBookReviewByBook(
+  //       parseInt(id),
+  //       reviewPage - 1,
+  //       10
+  //     );
+  //     console.log("data", data);
 
-      return data.data;
-    },
-  });
+  //     return data.data;
+  //   },
+  // });
 
-  const { data: recommendedBooks, isLoading: recommendedBooksIsLoading } =
-    useQuery({
-      queryKey: ["recommendedBooks", id],
-      queryFn: async () => {
-        if (!id || id === "") {
-          toast.error("Book not found");
-          return;
-        }
-        console.log("bookId", id);
-        const data = await recsysApi.getRecommendations(id);
-        console.log("data", data);
+  // const { data: recommendedBooks, isLoading: recommendedBooksIsLoading } =
+  //   useQuery({
+  //     queryKey: ["recommendedBooks", id],
+  //     queryFn: async () => {
+  //       if (!id || id === "") {
+  //         toast.error("Book not found");
+  //         return;
+  //       }
+  //       console.log("bookId", id);
+  //       const data = await recsysApi.getRecommendations(id);
+  //       console.log("data", data);
 
-        return data.data;
-      },
-    });
+  //       return data.data;
+  //     },
+  //   });
 
-  const similarBooksQueries = useQueries({
-    queries: recommendedBooks
-      ? recommendedBooks.map((movieId: number) => {
-          return {
-            queryKey: ["movie", movieId],
-            queryFn: () => bookApi.getBook(movieId.toString()),
-          };
-        })
-      : [],
-  });
+  // const similarBooksQueries = useQueries({
+  //   queries: recommendedBooks
+  //     ? recommendedBooks.map((movieId: number) => {
+  //         return {
+  //           queryKey: ["movie", movieId],
+  //           queryFn: () => bookApi.getBook(movieId.toString()),
+  //         };
+  //       })
+  //     : [],
+  // });
 
-  const isSimilarLoading = similarBooksQueries.some(
-    (result) => result.isLoading
-  );
+  // const isSimilarLoading = similarBooksQueries.some(
+  //   (result) => result.isLoading
+  // );
 
-  const { data: cartData, isLoading: cartIsLoading } = useQuery({
-    queryKey: ["cart", uid],
-    queryFn: async () => {
-      if (!uid || uid === "") {
-        toast.error("User not found");
-        return;
-      }
-      console.log("userId", uid);
-      const data = await cartApi.getCart(uid);
-      console.log("data", data);
+  // const { data: cartData, isLoading: cartIsLoading } = useQuery({
+  //   queryKey: ["cart", uid],
+  //   queryFn: async () => {
+  //     if (!uid || uid === "") {
+  //       toast.error("User not found");
+  //       return;
+  //     }
+  //     console.log("userId", uid);
+  //     const data = await cartApi.getCart(uid);
+  //     console.log("data", data);
 
-      return data.data;
-    },
-  });
-  const addToCartMutation = useMutation({
-    mutationKey: ["addToCart", id],
-    mutationFn: async (id: string) => {
-      console.log("Add to cart", id);
-      if (!bookData) {
-        toast.error("Book not found");
-        return;
-      }
-      var items = cartData?.items ?? [];
-      if (items.find((item) => item.bookId === bookData.id)) {
-        console.log("test");
-        items = items.map((item) => {
-          if (item.bookId === bookData.id) {
-            item.quantity += quantity;
-            item.totalUnitPrice = item.unitPrice * item.quantity;
-          }
-          return item;
-        });
-      } else {
-        console.log("test2");
-        items.push({
-          imageUrl: bookData?.imageUrl ?? "",
-          title: bookData?.title ?? "",
-          unitPrice: bookData?.price ?? 0,
-          quantity: quantity,
-          bookId: bookData?.id,
-          oldUnitPrice: bookData?.price ?? 0,
-          totalUnitPrice:
-            bookData?.price ?? 0 * (1 - (bookData.discountPercentage ?? 0)),
-        });
-        console.log("cartData", cartData);
-      }
-      console.log("cartData", cartData);
-      await cartApi.updateCart(uid, items);
-      toast.success("Add to cart successfully");
-      queryClient.invalidateQueries(["cart", uid]);
-    },
-  });
+  //     return data.data;
+  //   },
+  // });
+  // const addToCartMutation = useMutation({
+  //   mutationKey: ["addToCart", id],
+  //   mutationFn: async (id: string) => {
+  //     console.log("Add to cart", id);
+  //     if (!bookData) {
+  //       toast.error("Book not found");
+  //       return;
+  //     }
+  //     var items = cartData?.items ?? [];
+  //     if (items.find((item) => item.bookId === bookData.id)) {
+  //       console.log("test");
+  //       items = items.map((item) => {
+  //         if (item.bookId === bookData.id) {
+  //           item.quantity += quantity;
+  //           item.totalUnitPrice = item.unitPrice * item.quantity;
+  //         }
+  //         return item;
+  //       });
+  //     } else {
+  //       console.log("test2");
+  //       items.push({
+  //         imageUrl: bookData?.imageUrl ?? "",
+  //         title: bookData?.title ?? "",
+  //         unitPrice: bookData?.price ?? 0,
+  //         quantity: quantity,
+  //         bookId: bookData?.id,
+  //         oldUnitPrice: bookData?.price ?? 0,
+  //         totalUnitPrice:
+  //           bookData?.price ?? 0 * (1 - (bookData.discountPercentage ?? 0)),
+  //       });
+  //       console.log("cartData", cartData);
+  //     }
+  //     console.log("cartData", cartData);
+  //     await cartApi.updateCart(uid, items);
+  //     toast.success("Add to cart successfully");
+  //     queryClient.invalidateQueries(["cart", uid]);
+  //   },
+  // });
 
   return (
-    <Fade triggerOnce={true}>
-      <Container className="w-full px-6 py-6 bg-white rounded-xl shadow-sm">
-        {isLoading && (
-          <div className="w-full flex item-centers py-40 justify-center">
-            <BeatLoader color="#3F83F8" />
-          </div>
-        )}
-        {!isLoading && (
-          <div className="flex px-2">
-            <img className="w-80 h-96" src={bookData?.imageUrl} />
-            <div className="ml-8 w-full">
-              <div className="text-2xl font-semibold">{bookData?.title}</div>
-              <div className="flex mt-3">
-                <div className="w-1/2">
-                  <span className="text-black text-sm font-normal">
-                    Author:{" "}
-                  </span>
-                  <span className="text-black text-sm font-bold">
-                    {bookData?.authorName}
-                  </span>
-                </div>
-                <div className="w-1/2">
-                  <span className="text-black text-sm font-normal">
-                    Publisher:{" "}
-                  </span>
-                  <span className="text-black text-sm font-bold">
-                    {bookData?.publisherName}
-                  </span>
-                </div>
-              </div>
-              <div className="flex mt-1">
-                <div className="w-1/2">
-                  <span className="text-black text-sm font-normal">
-                    Format:{" "}
-                  </span>
-                  <span className="text-black text-sm font-bold">
-                    {bookData?.formatName}
-                  </span>
-                </div>
-                <div className="w-1/2">
-                  <span className="text-black text-sm font-normal">
-                    Num of page:{" "}
-                  </span>
-                  <span className="text-black text-sm font-bold">
-                    {bookData?.numPages}
-                  </span>
-                </div>
-              </div>
-              <span className="text-black text-sm font-normal">Genres: </span>
-              <span className="text-black text-sm font-semibold">
-                {bookData?.bookGenres.map((genre) => genre.name).join(", ")}
-              </span>
-              <div className="flex justify-start w-full mt-1">
-                <RatingStar initialRating={bookData?.averageRating} readonly />
-                <p className="ml-2 text-xs font-medium leading-5">
-                  {bookData?.averageRating}
-                </p>
-                <p className="text-xs ml-1 font-semibold text-black underline leading-5">
-                  {bookData?.ratingsCount} reviews
-                </p>
-              </div>
+    // <Fade triggerOnce={true}>
+    //   <Container className="w-full px-6 py-6 bg-white rounded-xl shadow-sm">
+    //     {isLoading && (
+    //       <div className="w-full flex item-centers py-40 justify-center">
+    //         <BeatLoader color="#3F83F8" />
+    //       </div>
+    //     )}
+    //     {!isLoading && (
+    //       <div className="flex px-2">
+    //         <img className="w-80 h-96" src={bookData?.imageUrl} />
+    //         <div className="ml-8 w-full">
+    //           <div className="text-2xl font-semibold">{bookData?.title}</div>
+    //           <div className="flex mt-3">
+    //             <div className="w-1/2">
+    //               <span className="text-black text-sm font-normal">
+    //                 Author:{" "}
+    //               </span>
+    //               <span className="text-black text-sm font-bold">
+    //                 {bookData?.authorName}
+    //               </span>
+    //             </div>
+    //             <div className="w-1/2">
+    //               <span className="text-black text-sm font-normal">
+    //                 Publisher:{" "}
+    //               </span>
+    //               <span className="text-black text-sm font-bold">
+    //                 {bookData?.publisherName}
+    //               </span>
+    //             </div>
+    //           </div>
+    //           <div className="flex mt-1">
+    //             <div className="w-1/2">
+    //               <span className="text-black text-sm font-normal">
+    //                 Format:{" "}
+    //               </span>
+    //               <span className="text-black text-sm font-bold">
+    //                 {bookData?.formatName}
+    //               </span>
+    //             </div>
+    //             <div className="w-1/2">
+    //               <span className="text-black text-sm font-normal">
+    //                 Num of page:{" "}
+    //               </span>
+    //               <span className="text-black text-sm font-bold">
+    //                 {bookData?.numPages}
+    //               </span>
+    //             </div>
+    //           </div>
+    //           <span className="text-black text-sm font-normal">Genres: </span>
+    //           <span className="text-black text-sm font-semibold">
+    //             {bookData?.bookGenres.map((genre) => genre.name).join(", ")}
+    //           </span>
+    //           <div className="flex justify-start w-full mt-1">
+    //             <RatingStar initialRating={bookData?.averageRating} readonly />
+    //             <p className="ml-2 text-xs font-medium leading-5">
+    //               {bookData?.averageRating}
+    //             </p>
+    //             <p className="text-xs ml-1 font-semibold text-black underline leading-5">
+    //               {bookData?.ratingsCount} reviews
+    //             </p>
+    //           </div>
 
-              <div className="flex items-center">
-                <span className="text-blue-700 text-3xl font-bold">
-                  {(
-                    bookData?.price *
-                    (1 - bookData?.discountPercentage)
-                  ).toFixed(2)}{" "}
-                  $
-                </span>
-                <span className="text-black text-sm font-normal line-through ml-3">
-                  {bookData?.price.toFixed(2)} $
-                </span>
-                <div className="w-11 h-5 px-1.5 ml-3 bg-blue-700 rounded justify-center items-center gap-2.5 inline-flex">
-                  <span className="text-white text-xs font-bold">
-                    -{(bookData?.discountPercentage * 100).toFixed()}%
-                  </span>
-                </div>
-              </div>
-              <div className=" flex mt-3 items-start justify-start ">
-                <span className="text-black text-sm font-normal w-20">
-                  Delivery
-                </span>
-                <div>
-                  <p className="text-black text-sm font-normal">
-                    Deliver to{" "}
-                    <b>
-                      Bonnie Green- Sacramento 23647{" "}
-                      <button className="text-blue-700 ">Change</button>
-                    </b>{" "}
-                  </p>
-                  <p className="text-black text-sm">
-                    Shipping - <b>18$</b>
-                  </p>
-                  <p className="text-black text-sm">
-                    Estimated shipping <b>February 27-29</b>
-                  </p>
-                </div>
-              </div>
-              <div className=" flex mt-3 items-center justify-start ">
-                <span className="text-black text-sm font-normal w-20">
-                  Quantity
-                </span>
-                <QuantityInput
-                  quantity={quantity}
-                  onQuantityChange={(q) => setQuantity(q)}
-                />
-              </div>
-              <div className="flex mt-5 items-center justify-start ">
-                <Button
-                  size="sm"
-                  outline
-                  color="cyan"
-                  className="w-36 border-1 border-blue-600"
-                  onClick={() => addToCartMutation.mutate(bookData?.id)}
-                >
-                  <TbShoppingCartPlus
-                    size={16}
-                    className="mr-2 text-blue-600"
-                  />
-                  <span className="text-blue-600">Add to cart</span>
-                </Button>
-                <Button size="sm" className="ml-6 w-36">
-                  Buy now
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </Container>
-      <Container>
-        <p className="heading-4">Product Desciption</p>
-        {isLoading && (
-          <div className="w-full flex item-centers py-8 justify-center">
-            <BeatLoader color="#3F83F8" />
-          </div>
-        )}
+    //           <div className="flex items-center">
+    //             <span className="text-blue-700 text-3xl font-bold">
+    //               {(
+    //                 bookData?.price *
+    //                 (1 - bookData?.discountPercentage)
+    //               ).toFixed(2)}{" "}
+    //               $
+    //             </span>
+    //             <span className="text-black text-sm font-normal line-through ml-3">
+    //               {bookData?.price.toFixed(2)} $
+    //             </span>
+    //             <div className="w-11 h-5 px-1.5 ml-3 bg-blue-700 rounded justify-center items-center gap-2.5 inline-flex">
+    //               <span className="text-white text-xs font-bold">
+    //                 -{(bookData?.discountPercentage * 100).toFixed()}%
+    //               </span>
+    //             </div>
+    //           </div>
+    //           <div className=" flex mt-3 items-start justify-start ">
+    //             <span className="text-black text-sm font-normal w-20">
+    //               Delivery
+    //             </span>
+    //             <div>
+    //               <p className="text-black text-sm font-normal">
+    //                 Deliver to{" "}
+    //                 <b>
+    //                   Bonnie Green- Sacramento 23647{" "}
+    //                   <button className="text-blue-700 ">Change</button>
+    //                 </b>{" "}
+    //               </p>
+    //               <p className="text-black text-sm">
+    //                 Shipping - <b>18$</b>
+    //               </p>
+    //               <p className="text-black text-sm">
+    //                 Estimated shipping <b>February 27-29</b>
+    //               </p>
+    //             </div>
+    //           </div>
+    //           <div className=" flex mt-3 items-center justify-start ">
+    //             <span className="text-black text-sm font-normal w-20">
+    //               Quantity
+    //             </span>
+    //             <QuantityInput
+    //               quantity={quantity}
+    //               onQuantityChange={(q) => setQuantity(q)}
+    //             />
+    //           </div>
+    //           <div className="flex mt-5 items-center justify-start ">
+    //             <Button
+    //               size="sm"
+    //               outline
+    //               color="cyan"
+    //               className="w-36 border-1 border-blue-600"
+    //               onClick={() => addToCartMutation.mutate(bookData?.id)}
+    //             >
+    //               <TbShoppingCartPlus
+    //                 size={16}
+    //                 className="mr-2 text-blue-600"
+    //               />
+    //               <span className="text-blue-600">Add to cart</span>
+    //             </Button>
+    //             <Button size="sm" className="ml-6 w-36">
+    //               Buy now
+    //             </Button>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     )}
+    //   </Container>
+    //   <Container>
+    //     <p className="heading-4">Product Desciption</p>
+    //     {isLoading && (
+    //       <div className="w-full flex item-centers py-8 justify-center">
+    //         <BeatLoader color="#3F83F8" />
+    //       </div>
+    //     )}
 
-        {!isLoading && (
-          <div className="flex mt-4">
-            <ShowMoreText
-              lines={8}
-              more="Show more"
-              less="Show less"
-              className="w-full text-black mr-24"
-              anchorClass="text-blue-700 text-base font-bold"
-              expanded={false}
-              truncatedEndingComponent={"... "}
-            >
-              {bookData?.description}
-            </ShowMoreText>
-            <div className="space-y-2">
-              <div className="flex">
-                <p className="min-w-44 text-gray-600">Author</p>
-                <p className="min-w-44 text-black">{bookData?.authorName}</p>
-              </div>
-              <div className="flex">
-                <p className="min-w-44 text-gray-600">Publisher</p>
-                <p className="min-w-44 text-black">{bookData?.publisherName}</p>
-              </div>
-              <div className="flex">
-                <p className="min-w-44 text-gray-600">Publication date</p>
-                <p className="min-w-44 text-black">
-                  {bookData?.publicationDay}/{bookData?.publicationMonth}/
-                  {bookData?.publicationYear}
-                </p>
-              </div>
-              <div className="flex">
-                <p className="min-w-44 text-gray-600">Weight</p>
-                <p className="min-w-44 text-black">
-                  {bookData?.itemWeight} pound
-                </p>
-              </div>
-              <div className="flex">
-                <p className="min-w-44 text-gray-600">Language</p>
-                <p className="min-w-44 text-black">English</p>
-              </div>
-              <div className="flex">
-                <p className="min-w-44  text-gray-600">Format</p>
-                <p className="min-w-44 text-black">{bookData?.formatName}</p>
-              </div>
-              <div className="flex">
-                <p className="min-w-44 text-gray-600">Dimensions </p>
-                <p className="min-w-44 text-black">{bookData?.dimensions}</p>
+    //     {!isLoading && (
+    //       <div className="flex mt-4">
+    //         <ShowMoreText
+    //           lines={8}
+    //           more="Show more"
+    //           less="Show less"
+    //           className="w-full text-black mr-24"
+    //           anchorClass="text-blue-700 text-base font-bold"
+    //           expanded={false}
+    //           truncatedEndingComponent={"... "}
+    //         >
+    //           {bookData?.description}
+    //         </ShowMoreText>
+    //         <div className="space-y-2">
+    //           <div className="flex">
+    //             <p className="min-w-44 text-gray-600">Author</p>
+    //             <p className="min-w-44 text-black">{bookData?.authorName}</p>
+    //           </div>
+    //           <div className="flex">
+    //             <p className="min-w-44 text-gray-600">Publisher</p>
+    //             <p className="min-w-44 text-black">{bookData?.publisherName}</p>
+    //           </div>
+    //           <div className="flex">
+    //             <p className="min-w-44 text-gray-600">Publication date</p>
+    //             <p className="min-w-44 text-black">
+    //               {bookData?.publicationDay}/{bookData?.publicationMonth}/
+    //               {bookData?.publicationYear}
+    //             </p>
+    //           </div>
+    //           <div className="flex">
+    //             <p className="min-w-44 text-gray-600">Weight</p>
+    //             <p className="min-w-44 text-black">
+    //               {bookData?.itemWeight} pound
+    //             </p>
+    //           </div>
+    //           <div className="flex">
+    //             <p className="min-w-44 text-gray-600">Language</p>
+    //             <p className="min-w-44 text-black">English</p>
+    //           </div>
+    //           <div className="flex">
+    //             <p className="min-w-44  text-gray-600">Format</p>
+    //             <p className="min-w-44 text-black">{bookData?.formatName}</p>
+    //           </div>
+    //           <div className="flex">
+    //             <p className="min-w-44 text-gray-600">Dimensions </p>
+    //             <p className="min-w-44 text-black">{bookData?.dimensions}</p>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     )}
+    //   </Container>
+    //   <Container>
+    //     <p className="heading-4">Product Rating</p>
+    //     {reviewIsLoading && (
+    //       <div className="w-full flex item-centers py-8 justify-center">
+    //         <BeatLoader color="#3F83F8" />
+    //       </div>
+    //     )}
+    //     {!reviewIsLoading && (
+    //       <>
+    //         <div className=" border-b-1 border-gray-200 pb-4 mb-4">
+    //           <div className="flex">
+    //             <RatingStar initialRating={bookData?.averageRating} readonly />
+    //             <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+    //               {bookData?.averageRating} out of 5
+    //             </p>
+    //           </div>
+    //           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+    //             {bookData?.ratingsCount} global ratings
+    //           </p>
+    //           {reviewData?.data && (
+    //             <div className="mt-4">
+    //               <Rating.Advanced percentFilled={70} className="mb-2">
+    //                 5 star
+    //               </Rating.Advanced>
+    //               <Rating.Advanced percentFilled={17} className="mb-2">
+    //                 4 star
+    //               </Rating.Advanced>
+    //               <Rating.Advanced percentFilled={8} className="mb-2">
+    //                 3 star
+    //               </Rating.Advanced>
+    //               <Rating.Advanced percentFilled={4} className="mb-2">
+    //                 2 star
+    //               </Rating.Advanced>
+    //               <Rating.Advanced percentFilled={1} className="">
+    //                 1 star
+    //               </Rating.Advanced>
+    //             </div>
+    //           )}
+    //         </div>
+    //         <div className="space-y-2">
+    //           {!reviewData?.data && <span>No review</span>}
+    //           {reviewData?.data.map((review) => {
+    //             return (
+    //               <Review
+    //                 review={review}
+    //                 onDelete={function (review: BookReview): void {
+    //                   throw new Error("Function not implemented.");
+    //                 }}
+    //               />
+    //             );
+    //           })}
+    //         </div>
+    //         <div className="flex w-full justify-center mt-2">
+    //           {reviewData?.data && (
+    //             <Pagination
+    //               currentPage={reviewPage}
+    //               totalPages={Math.ceil(
+    //                 (reviewData?.totalItems ?? 0) / (reviewData?.pageSize ?? 1)
+    //               )}
+    //               onPageChange={() => {}}
+    //             />
+    //           )}
+    //         </div>
+    //       </>
+    //     )}
+    //     <ReviewForm bookId={bookData?.id} />
+    //   </Container>
+    //   <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
+    //     <p className="heading-4 mb-5">You may like these</p>
+    //     {isSimilarLoading && (
+    //       <div className="w-full flex item-centers py-8 justify-center">
+    //         <BeatLoader color="#3F83F8" />
+    //       </div>
+    //     )}
+    //     {!isSimilarLoading && (
+    //       <Slider {...settings}>
+    //         {similarBooksQueries.map((res, index) => {
+    //           return (
+    //             <Product
+    //               title={res.data?.data.title ?? ""}
+    //               imageURL={res.data?.data.imageUrl ?? ""}
+    //               price={res.data?.data.price ?? 0}
+    //               rating={res.data?.data.ratingsCount ?? 0}
+    //               discount={res.data?.data.discountPercentage ?? 0}
+    //               totalRating={res.data?.data.ratingsCount ?? 0}
+    //               id={res.data?.data.id ?? 0}
+    //             />
+    //           );
+    //         })}
+    //       </Slider>
+    //     )}
+    //   </Container>
+    // </Fade>
+    <div id="product-detail-body" className="flex flex-col gap-3 bg-red-400">
+      <div id="product-essential" className="flex gap-3 bg-blue-400">
+        <div
+          id="product-essential-media"
+          className="flex flex-col gap-3 bg-emerald-400"
+        >
+          <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[450px] h-[450px] object-cover"/>
+
+          <div className="flex flex-1 justify-between">
+            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
+            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
+            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
+            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
+            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
+          </div>
+
+          <div id="buying-btn-containers" className="flex flex-row gap-4">
+            <button className="w-full bg-white">Add to cart</button>
+            <button className="w-full bg-white">Buy now</button>
+          </div>
+
+          <div id="policies-container" className="flex flex-col gap-4">
+            <h6>Aoitome Promotional Policies</h6>
+            <div id="ship-policy" className="flex flex-row justify-between">
+              <div id="ship-policy-descr"><strong>Shipping time:</strong> Fast and reliable shipping</div>
+            </div>
+            <div id="return-policy" className="flex flex-row justify-between">
+              <div id="return-policy-descr"><strong>Return policy:</strong> Free nationwide returns</div>
+            </div>
+            <div id="wholesale-policy" className="flex flex-row justify-between">
+              <div id="wholesale-policy-descr"><strong>Wholesale policy:</strong> Discounts for bulk purchases</div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="product-essential-detail"
+          className="flex flex-col gap-3 bg-amber-500 flex-1"
+        >
+          <div id="product-view" className="bg-indigo-500">
+            ABC
+          </div>
+          <div id="info-delivery" className="bg-indigo-500">
+            ABC
+          </div>
+          <div id="info-detail-1" className="bg-indigo-500">
+            ABC
+          </div>
+          <div id="info-detail-2" className="bg-indigo-500">
+            ABC
+          </div>
+        </div>
+      </div>
+      <div id="related-products" className="flex flex-col gap-4">
+        <h5>Related Products</h5>
+        <nav id="tag-products" className="flex gap-4 bg-indigo-500">
+          <a href="#">Same authors</a>
+          <a href="#">Same waifus</a>
+        </nav>
+        <div className="tag-products-view bg-indigo-500">ABC</div>
+      </div>
+      <div id="recommendation">
+        <h5>Recommendations</h5>
+        <div className="tag-products-view bg-indigo-500">ABC</div>
+      </div>
+      <div id="rating-product-view" >
+        <div id="rating-header" className="flex flex-row gap-4">
+          <div id="rating-chart" className="bg-indigo-500">
+            ABC
+          </div>
+          <button>Comment</button>
+        </div>
+        <nav id="tag-reviews" className="flex gap-4 bg-indigo-500">
+          <a href="#">Newest</a>
+          <a href="#">Most reacted</a>
+        </nav>
+        <div id="comment-list" className="bg-indigo-500">
+          <div id="comment" className="flex">
+            <div id="user-info" className="flex flex-col">
+              <span>User</span>
+              <span>Comment date</span>
+            </div>
+            <div id="comment-detail" className="bg-slate-600">
+              <div id="rating-point">5 stars</div>
+              <div id="comment-description">I love Fugue & Tingyun</div>
+              <div id="rating-action" className="flex flex-row">
+                <div id="like">LIKE</div>
+                <div id="report">Report</div>
               </div>
             </div>
           </div>
-        )}
-      </Container>
-      <Container>
-        <p className="heading-4">Product Rating</p>
-        {reviewIsLoading && (
-          <div className="w-full flex item-centers py-8 justify-center">
-            <BeatLoader color="#3F83F8" />
-          </div>
-        )}
-        {!reviewIsLoading && (
-          <>
-            <div className=" border-b-1 border-gray-200 pb-4 mb-4">
-              <div className="flex">
-                <RatingStar initialRating={bookData?.averageRating} readonly />
-                <p className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                  {bookData?.averageRating} out of 5
-                </p>
-              </div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                {bookData?.ratingsCount} global ratings
-              </p>
-              {reviewData?.data && (
-                <div className="mt-4">
-                  <Rating.Advanced percentFilled={70} className="mb-2">
-                    5 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={17} className="mb-2">
-                    4 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={8} className="mb-2">
-                    3 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={4} className="mb-2">
-                    2 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={1} className="">
-                    1 star
-                  </Rating.Advanced>
-                </div>
-              )}
-            </div>
-            <div className="space-y-2">
-              {!reviewData?.data && <span>No review</span>}
-              {reviewData?.data.map((review) => {
-                return (
-                  <Review
-                    review={review}
-                    onDelete={function (review: BookReview): void {
-                      throw new Error("Function not implemented.");
-                    }}
-                  />
-                );
-              })}
-            </div>
-            <div className="flex w-full justify-center mt-2">
-              {reviewData?.data && (
-                <Pagination
-                  currentPage={reviewPage}
-                  totalPages={Math.ceil(
-                    (reviewData?.totalItems ?? 0) / (reviewData?.pageSize ?? 1)
-                  )}
-                  onPageChange={() => {}}
-                />
-              )}
-            </div>
-          </>
-        )}
-        <ReviewForm bookId={bookData?.id} />
-      </Container>
-      <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
-        <p className="heading-4 mb-5">You may like these</p>
-        {isSimilarLoading && (
-          <div className="w-full flex item-centers py-8 justify-center">
-            <BeatLoader color="#3F83F8" />
-          </div>
-        )}
-        {!isSimilarLoading && (
-          <Slider {...settings}>
-            {similarBooksQueries.map((res, index) => {
-              return (
-                <Product
-                  title={res.data?.data.title ?? ""}
-                  imageURL={res.data?.data.imageUrl ?? ""}
-                  price={res.data?.data.price ?? 0}
-                  rating={res.data?.data.ratingsCount ?? 0}
-                  discount={res.data?.data.discountPercentage ?? 0}
-                  totalRating={res.data?.data.ratingsCount ?? 0}
-                  id={res.data?.data.id ?? 0}
-                />
-              );
-            })}
-          </Slider>
-        )}
-      </Container>
-    </Fade>
+        </div>
+      </div>
+    </div>
   );
 }

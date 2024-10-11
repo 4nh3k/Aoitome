@@ -55,15 +55,16 @@ export default function Homepage() {
 
   return (
     <>
-      <img className="rounded-xl" src="/src/assets/img/banner.png" />
-      <div className="flex justify-between items-center mt-8">
+      <img className="rounded-md w-full object-contain" src="/src/assets/img/banner.png" />
+      <div className="flex flex-wrap justify-between items-center mt-8">
         {couponList.map((coupon, index) => (
-          <img key={index} src={coupon.imageURL} />
+          <img className="w-1/2 lg:w-1/4 rounded-md object-contain" key={index} src={coupon.imageURL} />
         ))}
       </div>
       <Container>
-        <div className="heading-4">Categories</div>
-        <div className="flex justify-between w-full items-center mt-5">
+        <div className="heading-4 mb-0">Categories</div>
+        <div className="flex flex-col w-full self-stretch items-center justify-center">
+        <div className={`w-full flex justify-between mt-[1.25rem]`}>
           {CategoryList.map((category, index) => (
             <Category
               key={index}
@@ -72,8 +73,9 @@ export default function Homepage() {
             />
           ))}
         </div>
+        </div>
       </Container>
-      <Container className="w-full px-10 py-6 my-8 bg-white rounded-xl">
+      <Container>
         <div className="heading-4">On Sale</div>
         {isLoading && (
           <div className="w-full flex item-centers py-8 justify-center">

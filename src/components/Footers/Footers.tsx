@@ -7,9 +7,9 @@ import { path } from "../../constants/path";
 
 function Footers() {
   return (
-    <Footer className="py-4 lg:px-32 sm:px-4 border-t-1 border-b-1 rounded-none">
+    <Footer className="bg-blue-50 py-4 lg:px-[7.8rem] sm:px-4 border-t-1 border-b-1 rounded-none">
       <div>
-        <div className="grid grid-cols-3 gap-80">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-10 lg:gap-80">
           <div className="flex items-start">
             <PiTruck size={20} className="mr-2 text-gray-600" />
             <div>

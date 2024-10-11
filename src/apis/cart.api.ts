@@ -28,7 +28,7 @@ const mockItems: Item[] = [
     oldUnitPrice: 24.99,
     totalUnitPrice: 19.99 * 2, // Assuming quantity 2
     quantity: 2,
-    imageUrl: "https://example.com/image1.jpg",
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi2vEo9u7o6yMttUelVhB0cs0FgmARiiJ7Vg&s",
   },
   {
     id: 2,
@@ -38,7 +38,7 @@ const mockItems: Item[] = [
     oldUnitPrice: 34.99,
     totalUnitPrice: 29.99 * 1, // Assuming quantity 1
     quantity: 1,
-    imageUrl: "https://example.com/image2.jpg",
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgAaVt6EP27NSTp5McrQOHb5QgWumjOdTvrw&s",
   },
 ];
 

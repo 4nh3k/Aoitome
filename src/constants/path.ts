@@ -2,13 +2,14 @@ export const path = {
   login: "login",
   register: "register",
   forgotPass: "forgot-password",
-
+  cart: "cart",
+  
   product: "product/:id",
   adminAddProduct: "admin-bookgrid/add-product",
   adminProduct: "admin-bookgrid/product/:id",
   adminBookReviews: "admin/book-reviews",
   adminCustomers: "admin/customers",
-  cart: "cart",
+
   search: "search",
   payment_success: "/payment-success",
   checkout: "/order-checkout",

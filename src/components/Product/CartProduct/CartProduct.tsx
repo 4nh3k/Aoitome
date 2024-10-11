@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { PiHeart, PiX } from "react-icons/pi";
 import { toast } from "react-toastify";
-import { cartApi } from "../../../apis/cart.api";
-import { getUIDFromLS } from "../../../utils/auth";
-import Button from "../../Button/Button";
-import QuantityInput from "../../QuantityInput";
+import { cartApi } from "@/apis/cart.api";
+import { getUIDFromLS } from "@/utils/auth";
+import QuantityInput from "@/components/QuantityInput";
+import { Checkbox } from "flowbite-react";
+import Trash from "@/assets/icon/trash_icon.svg";
 
 interface CartProductProps {
   id: number;
@@ -75,12 +75,15 @@ export function CartProduct({
     updateQuantityMutation.mutate();
   };
   return (
-    <div className="h-32 w-full px-5 py-3.5 bg-white rounded border border-gray-200 justify-between items-center inline-flex">
-      <div className="justify-start items-center gap-2.5 flex">
-        <img className="h-20" src={imageURL} />
-        <div>
-          <p className=" text-black text-lg w-60 truncate ">{title}</p>
-          {canEdit && (
+    <div className="h-32 w-full pr-5 py-3.5 bg-white justify-between items-center inline-flex">
+      <div className="items-center gap-2.5 flex flex-row">
+        <Checkbox className="max-w-4 max-h-4 basis-1/12 cursor-pointer" />
+        <div className="basis-3/12">
+          <img className="min-w-16 cursor-pointer h-24 object-cover" src={imageURL} />
+        </div>
+        <div className="flex-grow flex-1">
+          <p className="text-md font-medium w-60 truncate cursor-pointer">{title}</p>
+          {/* {canEdit && (
             <div className="flex space-x-4 mt-1">
               <Button
                 icon={PiHeart}
@@ -99,7 +102,7 @@ export function CartProduct({
                 }}
               />
             </div>
-          )}
+          )} */}
         </div>
       </div>
       {canEdit && (
@@ -113,8 +116,12 @@ export function CartProduct({
           x{quantity}
         </div>
       )}
-      <div className="text-center w-20 text-black text-lg font-bold">
+      <div className="text-left w-20 text-black text-md font-semibold">
         ${(price * quantity).toFixed(2)}
+      </div>
+      {/* <img src={Trash} className="w-5 h-5 transition-colors duration-300 ease-in-out cursor-pointer"/> */}
+      <div className="bg-black w-5 h-5 icon-trash svg-icon hover:bg-red-500 hover:text-red-500 select-none cursor-pointer">
+        abcxyz
       </div>
     </div>
   );

@@ -20,9 +20,9 @@ export function OrderPriceSummary({
   onClick,
 }: OrderPriceSummaryProps) {
   return (
-    <div className="w-full px-5 pt-5 pb-2.5 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
+    <div className="w-full px-5 pt-5 pb-2.5 bg-white rounded-lg border border-gray-200 flex-col justify-start items-start inline-flex">
       {!textOnly && (
-        <div className="text-black text-xl font-bold">Order Summary</div>
+        <div className="text-black text-lg font-semibold">Order Summary</div>
       )}{" "}
       <div className="w-full space-y-2 mt-2">
         <div className="flex w-full justify-between">
@@ -39,7 +39,7 @@ export function OrderPriceSummary({
             -${savings.toFixed(2)}
           </span>
         </div>
-        <div className="flex w-full justify-between">
+        {/* <div className="flex w-full justify-between">
           <span className="text-black text-base font-normal">Store pickup</span>
           <span className="text-black text-base font-medium">
             -${storePickup.toFixed(2)}
@@ -50,10 +50,10 @@ export function OrderPriceSummary({
           <span className="text-black text-base font-medium">
             -${tax.toFixed(2)}{" "}
           </span>
-        </div>
+        </div> */}
         <div className="py-2.5 border-t border-gray-200 flex w-full justify-between">
-          <span className="text-black text-base font-bold">Total</span>
-          <span className="text-black text-base font-bold">
+          <span className="text-black text-base font-semibold">Total</span>
+          <span className="text-black text-base font-semibold">
             ${(originalPrice - savings - storePickup - tax).toFixed(2)}
           </span>
         </div>

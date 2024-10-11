@@ -5,8 +5,8 @@ interface CategoryProps {
 
 export function Category(props: CategoryProps) {
   return (
-    <div className="w-44 h-56 pb-3 bg-white rounded-xl shadow flex-col justify-start items-center gap-2 inline-flex">
-      <img className="w-44 h-44 rounded-xl" src={props.imageURL} />
+    <div className="w-full px-1 pb-3 bg-white rounded-xl flex-col justify-start items-center gap-2 inline-flex cursor-pointer">
+      <img className="w-[12rem] h-[20rem] rounded-xl object-cover" src={props.imageURL} />
       <div className="text-lg font-semibold">{props.title}</div>
     </div>
   );

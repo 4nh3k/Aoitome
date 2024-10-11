@@ -7,12 +7,12 @@ export function Notification() {
     <>
       <Dropdown
         inline
-        className="w-[496px]"
+        className="w-[496px] "
         label={"Noti"}
         renderTrigger={() => (
           <div className="border-none text-sm cursor-pointer flex space-x-1">
             <PiBell size={18} />
-            <span>Notification</span>
+            <span className="hidden lg:inline-block">Notification</span>
           </div>
         )}
         arrowIcon={false}

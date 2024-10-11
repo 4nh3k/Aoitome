@@ -51,7 +51,7 @@ export function SearchPage() {
                 <option>Newest Arrivals</option>
               </Select>
             </div>
-            <div className="grid grid-cols-4 gap-7">
+            <div className="grid grid-cols-4 justify-items-center gap-y-6">
               {data?.data.map((book, index) => (
                 <Product
                   key={index}

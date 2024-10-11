@@ -6,15 +6,29 @@ export default {
     "node_modules/flowbite-react/lib/esm/**/*.js",
   ],
   theme: {
+    screens: {
+      sm: "640px", // Small devices (min-width: 640px)
+      md: "768px", // Medium devices (min-width: 768px)
+      lg: "1024px", // Large devices (min-width: 1024px)
+      xl: "1280px", // Extra large devices (min-width: 1280px)
+      "2xl": "1536px", // 2X extra large devices (min-width: 1536px)
+      // Custom breakpoints
+      tablet: "640px", // Custom breakpoint for tablet
+      desktop: "1024px", // Custom breakpoint for desktop
+    },
     extend: {
+      gridTemplateColumns: {
+        'auto-fill': 'repeat(auto-fill, minmax(200px, 1fr))',
+        'auto-fit': 'repeat(auto-fit, minmax(200px, 1fr))',
+      },
       fontFamily: {
         sans: ['"Inter"', "sans-serif"],
       },
       // that is actual animation
       keyframes: () => ({
         fadeOut: {
-          '0%': { opacity: 0 },
-          '100%': { opacity: 1},
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
       }),
       colors: {

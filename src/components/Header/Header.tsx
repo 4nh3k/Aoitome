@@ -44,7 +44,7 @@ export default function Header(props: HeaderProps) {
     <div className={props.className}>
       {/* <StickyHeader /> */}
       <Navbar
-        className="py-3 lg:px-32 sm:px-4 border-none bg-blue-100"
+        className="py-3 px-1 lg:px-[6rem] border-none bg-blue-100"
         fluid
         rounded
       >
@@ -56,11 +56,11 @@ export default function Header(props: HeaderProps) {
           />
         </Navbar.Brand>
         <SearchInput
-          className="w-1/2 border-1 border-transparent border-gray-300 border-sm rounded-l-sm rounded-r-md p-0 focus-within:[&:has(input:focus)]:border-blue-500 overflow-hidden"
+          className="w-1/2 border-2 border-transparent border-gray-300 border-sm rounded-l-sm rounded-r-md p-0 focus-within:[&:has(input:focus)]:border-blue-500 overflow-hidden"
           onSubmit={handleSubmit}
           enableSizing={true}
           placeholder={"Enter a search term"}
-          dropdownList={["By name", "By author", "By Elysia & Mei", ]}
+          dropdownList={["By name", "By author", "By Elysia & Mei"]}
           onChange={function (searchValue: string): void {
             setSearchValue(searchValue);
           }}
@@ -71,10 +71,11 @@ export default function Header(props: HeaderProps) {
         <div className="flex space-x-4">
           <Notification />
           <Link to="/cart">
-            <Button icon={PiShoppingCart} text={"Cart"} onClick={() => {}} />
+            <Button textClassName="hidden lg:inline-block" icon={PiShoppingCart} text={"Cart"} onClick={() => {}} />
           </Link>
           {!isAuthenticated ? (
             <Button
+              textClassName="hidden lg:inline-block"
               icon={PiUser}
               text={"Account"}
               onClick={() => {
@@ -85,7 +86,7 @@ export default function Header(props: HeaderProps) {
             <Dropdown
               label=""
               renderTrigger={() => (
-                <span className="small font-medium flex">
+                <span className="small font-medium flex  hidden lg:inline-block">
                   <PiUser className="mr-1" size={18} /> Account
                 </span>
               )}
@@ -134,8 +135,9 @@ export default function Header(props: HeaderProps) {
           />
         </div>
       </Navbar>
-      <div className="border-b-1 border-gray-200 py-3 px-32 text-black text-sm font-medium flex gap-11">
+      <div className="border-b-1 border-gray-200 py-0 px-2 lg:px-[6rem] text-black text-sm font-medium flex ">
         <Dropdown
+          className="mr-2"
           label={
             <div className="flex space-x-1">
               <PiList size={18} />
@@ -148,12 +150,20 @@ export default function Header(props: HeaderProps) {
           <Dropdown.Item href="#">Option 2</Dropdown.Item>
           <Dropdown.Item href="#">Option 3</Dropdown.Item>
         </Dropdown>
-        <button>Best Sellers</button>
-        <button>Gift Cards</button>
-        <button>Gift Ideas</button>
-        <button>Deal of the day</button>
-        <button>Top Deals</button>
-        <button>New Releases</button>
+        <div className="flex">
+          <button className="h-full py-3 px-12 hover:bg-gray-200 rounded-sm">
+            Best Sellers
+          </button>
+          <button className="h-full py-3 px-12 hover:bg-gray-200 rounded-sm">
+            Gift Cards
+          </button>
+          <button className="h-full py-3 px-12 hover:bg-gray-200 rounded-sm">
+            Top Deals
+          </button>
+          <button className="h-full py-3 px-12 hover:bg-gray-200 rounded-sm">
+            New Releases
+          </button>
+        </div>
       </div>
     </div>
   );
