@@ -42,6 +42,7 @@ export function QuantityInput({
             />
           </svg>
         </button>
+
         <input
           type="text"
           id="quantity-input"
@@ -49,6 +50,17 @@ export function QuantityInput({
           aria-describedby="helper-text-explanation"
           className="bg-gray-50 border-x-0 border-gray-300 h-9 text-center text-gray-900 text-sm focus:border-1 focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           value={quantity}
+          onChange={(e) => {
+            const newQuantity = parseInt(e.target.value, 10);
+            if (!isNaN(newQuantity) && newQuantity >= 0) {
+              onQuantityChange && onQuantityChange(newQuantity);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Backspace" && e.currentTarget.value.length === 1) {
+              onQuantityChange && onQuantityChange(1);
+            }
+          }}
           required
         />
         <button

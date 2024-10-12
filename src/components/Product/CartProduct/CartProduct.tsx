@@ -1,12 +1,10 @@
+import { cartApi } from "@/apis/cart.api";
+import QuantityInput from "@/components/QuantityInput";
+import { getUIDFromLS } from "@/utils/auth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Checkbox } from "flowbite-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { cartApi } from "@/apis/cart.api";
-import { getUIDFromLS } from "@/utils/auth";
-import QuantityInput from "@/components/QuantityInput";
-import { Checkbox } from "flowbite-react";
-import Trash from "@/assets/icon/trash_icon.svg";
-import CustomSVGIcon from "@/components/Icon/CustomSVGIcon";
 
 interface CartProductProps {
   id: number;
@@ -50,7 +48,7 @@ export function CartProduct({
       const data = cartData.items.filter((item) => item.id !== id);
       await cartApi.updateCart(uid ?? "", data);
       toast.success("Product removed from cart");
-      queryClient.invalidateQueries(["cart", uid]);
+      queryClient.invalidateQueries({ queryKey: ["cart", uid ?? ""] });
     },
   });
   const updateQuantityMutation = useMutation({
@@ -68,10 +66,11 @@ export function CartProduct({
         return item;
       });
       await cartApi.updateCart(uid ?? "", data);
-      queryClient.invalidateQueries(["cart", uid]);
+      queryClient.invalidateQueries({ queryKey: ["cart", uid ?? ""] });
     },
   });
   const onQuantityChange = (quantity: number) => {
+    console.log("quantity", quantity);
     setQuantity(quantity);
     updateQuantityMutation.mutate();
   };
@@ -80,10 +79,15 @@ export function CartProduct({
       <div className="items-center gap-2.5 flex flex-row">
         <Checkbox className="max-w-4 max-h-4 basis-1/12 cursor-pointer" />
         <div className="basis-3/12">
-          <img className="min-w-16 cursor-pointer h-24 object-cover" src={imageURL} />
+          <img
+            className="min-w-16 cursor-pointer h-24 object-cover"
+            src={imageURL}
+          />
         </div>
         <div className="flex-grow flex-1">
-          <p className="text-md font-medium w-60 truncate cursor-pointer">{title}</p>
+          <p className="text-md font-medium w-60 truncate cursor-pointer">
+            {title}
+          </p>
         </div>
       </div>
       {canEdit && (

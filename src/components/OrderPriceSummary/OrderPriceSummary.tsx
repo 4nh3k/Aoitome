@@ -1,4 +1,5 @@
 import { Button } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 interface OrderPriceSummaryProps {
   textOnly?: boolean;
@@ -70,9 +71,12 @@ export function OrderPriceSummary({
             </Button>
             <div className="text-center">
               <span className="text-black text-xs font-medium">or </span>
-              <span className="text-blue-700 text-xs font-medium underline">
+              <Link
+                to="/"
+                className="text-blue-700 text-xs font-medium underline"
+              >
                 Continue Shopping
-              </span>
+              </Link>
               <span className="text-blue-700 text-xs font-medium">&rarr;</span>
             </div>
           </>
