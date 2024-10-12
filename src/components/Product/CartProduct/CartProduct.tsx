@@ -6,6 +6,7 @@ import { getUIDFromLS } from "@/utils/auth";
 import QuantityInput from "@/components/QuantityInput";
 import { Checkbox } from "flowbite-react";
 import Trash from "@/assets/icon/trash_icon.svg";
+import CustomSVGIcon from "@/components/Icon/CustomSVGIcon";
 
 interface CartProductProps {
   id: number;
@@ -83,26 +84,6 @@ export function CartProduct({
         </div>
         <div className="flex-grow flex-1">
           <p className="text-md font-medium w-60 truncate cursor-pointer">{title}</p>
-          {/* {canEdit && (
-            <div className="flex space-x-4 mt-1">
-              <Button
-                icon={PiHeart}
-                iconClassName="text-slate-400"
-                text="Add to favorites"
-                textClassName="text-slate-400 text-sm"
-                onClick={() => {}}
-              />
-              <Button
-                icon={PiX}
-                iconClassName="text-red-600"
-                text="Remove"
-                textClassName="text-red-600 text-sm"
-                onClick={() => {
-                  removeProductMutation.mutate();
-                }}
-              />
-            </div>
-          )} */}
         </div>
       </div>
       {canEdit && (

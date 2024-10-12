@@ -12,7 +12,12 @@ import {
 import { Button, Pagination, Rating } from "flowbite-react";
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
-import { PiCaretLeft, PiCaretRight } from "react-icons/pi";
+import {
+  PiCaretLeft,
+  PiCaretRight,
+  PiThumbsUp,
+  PiWarningCircleLight,
+} from "react-icons/pi";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import { useParams } from "react-router-dom";
 import ShowMoreText from "react-show-more-text";
@@ -28,6 +33,10 @@ import RatingStar from "../../components/RatingStar";
 import Review from "../../components/Review";
 import useBookDetails from "../../hooks/useBookDetails";
 import { getUIDFromLS } from "../../utils/auth";
+import CustomSVGIcon from "@/components/Icon/CustomSVGIcon";
+import Coupon from "@/components/Coupon/Coupon";
+import { KurumiList } from "@/assets/mockdata";
+import { PiNotePencilBold } from "react-icons/pi";
 
 function NextArrow(props: any) {
   const { className, onClick } = props;
@@ -172,6 +181,33 @@ export function ProductDetails() {
   //     queryClient.invalidateQueries(["cart", uid]);
   //   },
   // });
+
+  const bookData = {
+    productCode: "9784040743639",
+    supplier: "Kinokuniya Book Stores",
+    author: "東出 祐一郎, 橘 公司, NOCO",
+    publisher: "Kadokawa",
+    publishYear: 2022,
+    language: "Tiếng Nhật",
+    weight: 200,
+    size: "14.9 x 10.6 x 1.6 cm",
+    quantityOfPage: 280,
+    bookLayout: "Paperback",
+  };
+
+  // Create Title and Description Lists
+  const titles = [
+    "Product code",
+    "Supplier",
+    "Author",
+    "Publisher",
+    "Publish Year",
+    "Language",
+    "Weight",
+    "Size",
+    "Quantity of Page",
+    "Book Layout",
+  ];
 
   return (
     // <Fade triggerOnce={true}>
@@ -456,98 +492,343 @@ export function ProductDetails() {
     //     )}
     //   </Container>
     // </Fade>
-    <div id="product-detail-body" className="flex flex-col gap-3 bg-red-400">
-      <div id="product-essential" className="flex gap-3 bg-blue-400">
-        <div
-          id="product-essential-media"
-          className="flex flex-col gap-3 bg-emerald-400"
-        >
-          <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[450px] h-[450px] object-cover"/>
+    // h-screen & overflow-hidden for the container
+      <div id="product-detail-body" className="flex flex-col gap-3 bg-red-400">
+        <div id="product-essential" className="flex gap-3 bg-blue-400 items-start">
+          <div
+            id="product-essential-media"
+            className="flex flex-col gap-3 bg-emerald-400  sticky top-0"
+          >
+            <img
+              src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
+              className="w-[450px] h-[450px] object-cover"
+            />
 
-          <div className="flex flex-1 justify-between">
-            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
-            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
-            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
-            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
-            <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg" className="w-[82.4px] h-[82.4px]"/>
-          </div>
-
-          <div id="buying-btn-containers" className="flex flex-row gap-4">
-            <button className="w-full bg-white">Add to cart</button>
-            <button className="w-full bg-white">Buy now</button>
-          </div>
-
-          <div id="policies-container" className="flex flex-col gap-4">
-            <h6>Aoitome Promotional Policies</h6>
-            <div id="ship-policy" className="flex flex-row justify-between">
-              <div id="ship-policy-descr"><strong>Shipping time:</strong> Fast and reliable shipping</div>
+            <div className="flex justify-between">
+              <img
+                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
+                className="w-[82.4px] h-[82.4px]"
+              />
+              <img
+                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
+                className="w-[82.4px] h-[82.4px]"
+              />
+              <img
+                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
+                className="w-[82.4px] h-[82.4px]"
+              />
+              <img
+                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
+                className="w-[82.4px] h-[82.4px]"
+              />
+              <img
+                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
+                className="w-[82.4px] h-[82.4px]"
+              />
             </div>
-            <div id="return-policy" className="flex flex-row justify-between">
-              <div id="return-policy-descr"><strong>Return policy:</strong> Free nationwide returns</div>
+
+            <div id="buying-btn-containers" className="flex flex-row gap-4">
+              <button className="w-full bg-white">Add to cart</button>
+              <button className="w-full bg-white">Buy now</button>
             </div>
-            <div id="wholesale-policy" className="flex flex-row justify-between">
-              <div id="wholesale-policy-descr"><strong>Wholesale policy:</strong> Discounts for bulk purchases</div>
+
+            <div id="policies-container" className="flex flex-col gap-4">
+              <h6>Aoitome Promotional Policies</h6>
+              <div id="ship-policy" className="flex flex-row justify-between">
+                <div id="ship-policy-descr">
+                  <strong>Shipping time:</strong> Fast and reliable shipping
+                </div>
+              </div>
+              <div id="return-policy" className="flex flex-row justify-between">
+                <div id="return-policy-descr">
+                  <strong>Return policy:</strong> Free nationwide returns
+                </div>
+              </div>
+              <div
+                id="wholesale-policy"
+                className="flex flex-row justify-between"
+              >
+                <div id="wholesale-policy-descr">
+                  <strong>Wholesale policy:</strong> Discounts for bulk
+                  purchases
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            id="product-essential-detail"
+            className="flex flex-col gap-3 bg-amber-500 flex-1 overflow-y-auto"
+          >
+            <div id="product-view" className="bg-gray-200 flex flex-col">
+              <span className="break-words">
+                デート・ア・ライブ フラグメント デート・ア・バレット - Date A
+                Barrette Date A Live Fragment 8
+              </span>
+              <div id="product-sa" className="flex flex-col">
+                <div className="flex flex-1 flex-row">
+                  <div id="product-sa-supplier" className=" w-1/2">
+                    <span className="font-normal">Supplier: </span>
+                    <span className="font-bold text-[#2489F4]">
+                      Kinokuniya Book Stores
+                    </span>
+                  </div>
+                  <div id="product-sa-supplier" className=" w-1/2">
+                    <span className="font-normal">Author: </span>
+                    <span className="font-bold text-[#2489F4]">
+                      東出 祐一郎, 橘 公
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-1 flex-row">
+                  <div id="product-sa-supplier" className="w-1/2">
+                    <span className="font-normal">Publisher: </span>
+                    <span className="font-bold text-[#2489F4]">Kadokawa</span>
+                  </div>
+                  <div id="product-sa-supplier" className="w-1/2">
+                    <span className="font-normal">Book layout: </span>
+                    <span className="font-bold text-[#2489F4]">Paperback</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row py-2 gap-2">
+                <RatingStar />
+                <div className="w-px h-full bg-black"></div>
+                <span className="text-sm font-medium text-gray-900">
+                  Sold quantity 51
+                </span>
+              </div>
+              <div className="flex flex-row gap-2 items-center pb-2">
+                <div className="line-clamp-2 cursor-pointer h-fit text-black text-md font-normal leading-normal">
+                  8.24$
+                </div>
+                <div className="text-black text-sm font-normal line-through leading-tight">
+                  12.9$
+                </div>
+                <span className="bg-blue-700  text-white text-xs px-1 py-1 font-bold rounded-md">
+                  -25%
+                </span>
+              </div>
+            </div>
+            <div
+              id="info-delivery"
+              className="bg-gray-200 flex flex-col flex-1"
+            >
+              <h5 className="font-bold">Shipping details</h5>
+              <div id="shipping-address" className="flex flex-row gap-2">
+                <span>
+                  Delivery to <strong>YOUR_ADDRESS</strong>
+                </span>
+                <button className="font-bold text-[#2489F4] border-0 bg-transparent">
+                  Change
+                </button>
+              </div>
+              <div id="shipping-method" className="flex flex-row gap-4">
+                <div className="bg-[#14ab77] text-[#14ab77] w-5 h-5 icon-shipping svg-icon select-none cursor-auto">
+                  abcxyz
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold">Standard delivery</span>
+                  <span>
+                    Expected delivery <strong>Saturday - 10-12</strong>
+                  </span>
+                </div>
+              </div>
+              <div id="rel-discounts-header" className="flex flex-row gap-4">
+                <h5 className="font-bold">Related promotions</h5>
+                <button className="font-bold text-[#2489F4] border-0 bg-transparent">
+                  See more
+                </button>
+              </div>
+              <div id="rel-discount-list" className="flex flex-row gap-4">
+                <Coupon />
+                <Coupon />
+              </div>
+              <div
+                id="quantity-input-container"
+                className="flex flex-row gap-4"
+              >
+                <span className="text-md font-bold">Quantity</span>
+                <QuantityInput quantity={0} onQuantityChange={undefined} />
+              </div>
+            </div>
+            <div id="info-detail-1" className="bg-gray-200 flex flex-col p-2">
+              <h6 className="font-bold">Product description</h6>
+              <div className="w-full flex flex-col">
+                {titles.map((item: string, index) => (
+                  <div key={index} className="py-2">
+                    <div className="w-full flex">
+                      <div className="w-1/4">{item}</div>
+                      <div className="w-3/4">{"Test input"}</div>
+                    </div>
+                    {index < titles.length - 1 && (
+                      <hr className="w-full border-t border-indigo-500 mt-2" />
+                    )}{" "}
+                    {/* Horizontal separator */}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div id="info-detail-2" className="bg-gray-200 flex flex-col">
+              <h6 className="font-bold">Product description</h6>
+              <strong>
+                デート・ア・ライブ フラグメント デート・ア・バレット - Date A
+                Bullet Date A Live Fragment 8
+              </strong>
+              <span>
+                さあ――わたくしの戦争も終わらせましょう
+                <br />
+                <br />
+                「さて、それじゃあ……死にますか!」
+                大切な人を応援するため、自らを犠牲にする少女。
+                <br />
+                <br />
+                「それでは紗和さん。最後のデートを始めましょう」
+                好きな人と再会するため、走り続ける少女。
+                <br />
+                <br />
+                「世界が滅んでもいい。あなたが滅ぶなら構わない」
+                親しい人を独占するため、隣界を滅ぼそうとする少女。
+                <br />
+                <br />
+                ついに辿り着いた第一領域にて、緋衣響、時崎狂三、白の女王の殺し合いは終わりを迎える。
+                <br />
+                <br />
+                戦い続けた少女たちが下す選択とは――。「長い時間が掛かりましたけど。ちゃんと、叶いましたわ」
+                <br />
+                <br />
+                時崎狂三のもうひとつの戦争、ここに完結!
+              </span>
+              <div className="text-center">
+                <a className="w-full text-center font-light text-[#2489F4] border-0 bg-transparent">
+                  Show more
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        <div
-          id="product-essential-detail"
-          className="flex flex-col gap-3 bg-amber-500 flex-1"
-        >
-          <div id="product-view" className="bg-indigo-500">
-            ABC
-          </div>
-          <div id="info-delivery" className="bg-indigo-500">
-            ABC
-          </div>
-          <div id="info-detail-1" className="bg-indigo-500">
-            ABC
-          </div>
-          <div id="info-detail-2" className="bg-indigo-500">
-            ABC
+        <div id="related-products" className="flex flex-col gap-4">
+          <h5>Related Products</h5>
+          <nav id="tag-products" className="flex gap-4 bg-indigo-500">
+            <a href="#">Same authors</a>
+            <a href="#">Same waifus</a>
+          </nav>
+          <div className="tag-products-view bg-indigo-500 flex flex-row justify-between">
+            {KurumiList.slice(0, 5).map((product, index) => (
+              <Product
+                key={index}
+                title={product.title}
+                imageURL={product.imageURL}
+                price={product.price}
+                rating={product.rating}
+                discount={product.discount}
+                totalRating={product.totalRating}
+                id={0}
+              />
+            ))}
           </div>
         </div>
-      </div>
-      <div id="related-products" className="flex flex-col gap-4">
-        <h5>Related Products</h5>
-        <nav id="tag-products" className="flex gap-4 bg-indigo-500">
-          <a href="#">Same authors</a>
-          <a href="#">Same waifus</a>
-        </nav>
-        <div className="tag-products-view bg-indigo-500">ABC</div>
-      </div>
-      <div id="recommendation">
-        <h5>Recommendations</h5>
-        <div className="tag-products-view bg-indigo-500">ABC</div>
-      </div>
-      <div id="rating-product-view" >
-        <div id="rating-header" className="flex flex-row gap-4">
-          <div id="rating-chart" className="bg-indigo-500">
-            ABC
+        <div id="recommendation">
+          <h5>Recommendations</h5>
+          <div className="tag-products-view bg-indigo-500 flex flex-row justify-between">
+            {KurumiList.slice(0, 5).map((product, index) => (
+              <Product
+                key={index}
+                title={product.title}
+                imageURL={product.imageURL}
+                price={product.price}
+                rating={product.rating}
+                discount={product.discount}
+                totalRating={product.totalRating}
+                id={0}
+              />
+            ))}
           </div>
-          <button>Comment</button>
         </div>
-        <nav id="tag-reviews" className="flex gap-4 bg-indigo-500">
-          <a href="#">Newest</a>
-          <a href="#">Most reacted</a>
-        </nav>
-        <div id="comment-list" className="bg-indigo-500">
-          <div id="comment" className="flex">
-            <div id="user-info" className="flex flex-col">
-              <span>User</span>
-              <span>Comment date</span>
+        <div id="rating-product-view" className="bg-gray-200">
+          <div id="rating-header" className="flex flex-row gap-4 items-center">
+            <div id="rating-chart" className="bg-yellow-200 w-1/2">
+              <div className="flex flex-row w-full">
+                <div className="flex flex-col justify-center">
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    4.95/5
+                  </p>
+                  <Rating className="mb-2">
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star filled={false} />
+                  </Rating>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    1,745 global ratings
+                  </p>
+                </div>
+                <div className="flex flex-col flex-1">
+                  <Rating.Advanced percentFilled={70} className="mb-2">
+                    5 star
+                  </Rating.Advanced>
+                  <Rating.Advanced percentFilled={17} className="mb-2">
+                    4 star
+                  </Rating.Advanced>
+                  <Rating.Advanced percentFilled={8} className="mb-2">
+                    3 star
+                  </Rating.Advanced>
+                  <Rating.Advanced percentFilled={4} className="mb-2">
+                    2 star
+                  </Rating.Advanced>
+                  <Rating.Advanced percentFilled={1}>1 star</Rating.Advanced>
+                </div>
+              </div>
             </div>
-            <div id="comment-detail" className="bg-slate-600">
-              <div id="rating-point">5 stars</div>
-              <div id="comment-description">I love Fugue & Tingyun</div>
-              <div id="rating-action" className="flex flex-row">
-                <div id="like">LIKE</div>
-                <div id="report">Report</div>
+            <button
+              id="btn-comment"
+              className="h-fit border-1 rounded-md border-blue-500 mx-auto p-2 flex items-center gap-2"
+            >
+              <PiNotePencilBold />
+              Write comment
+            </button>
+          </div>
+          <nav id="tag-reviews" className="flex gap-4 bg-indigo-500">
+            <a href="#">Newest</a>
+            <a href="#">Most reacted</a>
+          </nav>
+          <div id="comment-list" className="bg-indigo-500">
+            <div id="comment" className="flex items-start">
+              <div id="user-info" className="flex flex-col">
+                <span>User</span>
+                <span>12/10/2024</span>
+              </div>
+              <div
+                id="comment-detail"
+                className="bg-slate-600 flex flex-col flex-1"
+              >
+                <div id="rating-point">
+                  <Rating>
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star />
+                    <Rating.Star filled={false} />
+                  </Rating>
+                </div>
+                <div id="comment-description">I love Fugue & Tingyun</div>
+                <div
+                  id="rating-action"
+                  className="flex flex-row items-center gap-2"
+                >
+                  <div id="like" className="flex flex-row gap-2 items-center">
+                    <PiThumbsUp />
+                    Like (0)
+                  </div>
+                  <div id="report" className="flex flex-row items-center gap-2">
+                    <PiWarningCircleLight />
+                    Report
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }

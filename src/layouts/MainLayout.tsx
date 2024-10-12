@@ -4,9 +4,10 @@ import Header from "../components/Header";
 
 export default function MainLayout() {
   return (
-    <div className="flex flex-col min-h-screen min-w-[640px]">
-      <Header className="sticky top-0 z-50" />
-      <div className="flex-grow px-[6rem] py-8 bg-background">
+    // sticky -> chỉ work khi height container của nó xác định !
+    <div className="flex flex-col h-screen overflow-auto min-w-[640px]">
+      <Header className="" />
+      <div className="flex-grow px-[6rem] py-8 bg-background z-0">
         <Outlet />
       </div>
       <Footers />

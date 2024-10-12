@@ -11,8 +11,8 @@ interface RatingStarProps {
 
 export function RatingStar(props: RatingStarProps) {
   return (
-    <Rating>
-      <NewRating
+    <Rating className="p-0 m-0 h-fit border-0 items-center">
+      <NewRating className="inline-block h-[20px] p-0 m-0 items-center"
         onChange={props.onChange}
         fractions={props.fractions}
         initialRating={props.initialRating}
@@ -21,6 +21,12 @@ export function RatingStar(props: RatingStarProps) {
         emptySymbol={<Rating.Star className="pb-0" filled={false} />}
         fullSymbol={<Rating.Star className="pb-0 text-yellow-300" />}
       />
+      <a
+        href="#"
+        className="ml-2 text-sm font-medium text-gray-900  hover:no-underline dark:text-white"
+      >
+        73 reviews
+      </a>
     </Rating>
   );
 }

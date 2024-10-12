@@ -6,6 +6,10 @@ body {
   min-width: 640px;
 }
 
+.webkit-sticky{
+  position: -webkit-sticky;
+}
+
 .svg-icon{
   mask-size: 100%;
   mask-repeat: no-repeat;
@@ -15,6 +19,11 @@ body {
 .icon-trash{
   mask-image: url('./assets/icon/trash_icon.svg');
   -webkit-mask-image: url('./assets/icon/trash_icon.svg');
+}
+
+.icon-shipping{
+  mask-image: url('./assets/icon/delivery-icon.svg');
+  -webkit-mask-image: url('./assets/icon/delivery-icon.svg');
 }
 
 @font-face {
@@ -57,13 +66,13 @@ input {
   border-color: #c3ddfd;
   background-color: #ebf5ff;
 
+  padding-inline: 8px;
   gap: 8px;
-  width: 150px;
-  height: 150px;
-  padding-left: 29px;
-  padding-right: 29px;
+  width: fit-content;
+  box-sizing: content-box;
+  height: 45px;
 
-  --mask: radial-gradient(16px at 100% 16px, #0000 98%, #000) 0 -16px;
+  --mask: radial-gradient(8px at 100% 8px, #0000 98%, #000) 0 -8px;
   -webkit-mask: var(--mask);
   mask: var(--mask);
 }
@@ -88,12 +97,12 @@ input {
   background-color: #ebf5ff;
 
   gap: 8px;
-  width: 150px;
-  height: 150px;
-  padding-left: 29px;
-  padding-right: 29px;
+  width: fit-content;
+  height: 45px;
+  box-sizing: content-box;
+  padding-inline: 8px;
 
-  --mask: radial-gradient(16px at 0 16px, #0000 98%, #000) 0 -16px;
+  --mask: radial-gradient(8px at 0 8px, #0000 98%, #000) 0 -8px;
   -webkit-mask: var(--mask);
   mask: var(--mask);
 }

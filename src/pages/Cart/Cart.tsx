@@ -46,7 +46,7 @@ export function Cart() {
               <Checkbox className="max-w-4 max-h-4 basis-1/12 cursor-pointer" />
               <span>Select all products (x products)</span>
             </div>
-            <div className="ml-4 text-center w-20 text-black text-md font-semibold">
+            <div className="ml-1 text-center w-20 text-black text-md font-semibold">
               Quantity
             </div>
             <div className="text-left mr-3 w-fit text-black text-md font-semibold">

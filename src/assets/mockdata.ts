@@ -89,6 +89,53 @@ export const TrackingList = [
   },
 ];
 
+export const KurumiList = [
+  {
+    title: "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 7",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040737799.jpg",
+    price: 50,
+    rating: 5.0,
+    discount: 27,
+    totalRating: 27,
+  },
+  {
+    title: "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 6",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
+    price: 22,
+    rating: 4.0,
+    discount: 20,
+    totalRating: 20,
+  },
+  {
+    title: "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 5",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040731056.jpg",
+    price: 65,
+    rating: 4.6,
+    totalRating: 2,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 4",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040728728.jpg",
+    price: 25,
+    rating: 4.1,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 4",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040728728.jpg",
+    price: 25,
+    rating: 4.1,
+    totalRating: 20,
+  },
+];
+
 export const ProductList = [
   {
     title: "Tuổi Thơ Dữ Dội - Tập 1 (Tái Bản 2019)",
@@ -133,48 +180,4 @@ export const ProductList = [
     price: 25,
     rating: 4.1,
     totalRating: 20,
-  },
-  {
-    title: "Đám Trẻ Ở Đại Dương Đen",
-    imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8935325011559.jpg",
-    price: 42,
-    rating: 4.1,
-    totalRating: 20,
-  },
-  {
-    title: "Ghi Chép Pháp Y - Những Thi Thể Không Hoàn Chỉnh",
-    imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-tr_c-ph_p-y-3.jpg",
-    price: 42,
-    discount: 15,
-    rating: 2.3,
-    totalRating: 20,
-  },
-  {
-    title: "3 Step - Tiết Lộ Bí Quyết 3 Bước Đạt Điểm 8+ Toán Học",
-    imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_50143.jpg",
-    price: 242,
-    rating: 4.0,
-    discount: 20,
-    totalRating: 20,
-  },
-  {
-    title: "Bài Tập Bổ Trợ Nâng Cao Kỹ Năng Hóa Học Lớp 10 - Tập 2",
-    imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8936214270262.jpg",
-    price: 142,
-    rating: 4.6,
-    totalRating: 2,
-  },
-  {
-    title:
-      "Nói Chuyện Là Bản Năng, Giữ Miệng Là Tu Dưỡng, Im Lặng Là Trí Tuệ (Tái Bản)",
-    imageURL:
-      "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694469.jpg",
-    price: 42,
-    rating: 4.1,
-    totalRating: 20,
-  },
-];
+  }];

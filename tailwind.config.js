@@ -32,12 +32,6 @@ export default {
         },
       }),
       colors: {
-        // this to workaround the fact that flowbite react
-        // dóes not support customizing the primary color
-        // cyan is used in all components as the default "primary" color
-        // here we are actually overriding it to some purple color
-        // so practically, the cyan means primary
-        // in this we use blue color as primary
         cyan: {
           50: "#EBF5FF",
           100: "#E1EFFE",
