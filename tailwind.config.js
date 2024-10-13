@@ -56,6 +56,9 @@ export default {
       borderWidth: {
         1: "1px",
       },
+      transitionProperty: {
+        'height': 'height'
+      }
     },
   },
   plugins: [require("flowbite/plugin")],

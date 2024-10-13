@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ChevronUp from '../../../assets/icon/chevron-up-outline.svg'
+import ChevronUp from '@/assets/icon/chevron-up-outline.svg'
 import SidebarItem from './SidebarItem';
 
 interface SidebarCollapseProps {

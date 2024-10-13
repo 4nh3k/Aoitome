@@ -17,6 +17,8 @@
     "axios": "^1.6.8",
     "file-saver": "^2.0.5",
     "flowbite-react": "^0.7.2",
+    "fslightbox": "^3.4.2",
+    "fslightbox-react": "^1.7.6",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "jwt-decode": "^4.0.0",
@@ -42,6 +44,7 @@
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
+    "@types/fslightbox-react": "^1.7.8",
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.19",
     "@types/react-show-more-text": "^1.4.5",

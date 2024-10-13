@@ -33,10 +33,13 @@ import RatingStar from "../../components/RatingStar";
 import Review from "../../components/Review";
 import useBookDetails from "../../hooks/useBookDetails";
 import { getUIDFromLS } from "../../utils/auth";
-import CustomSVGIcon from "@/components/Icon/CustomSVGIcon";
 import Coupon from "@/components/Coupon/Coupon";
 import { KurumiList } from "@/assets/mockdata";
 import { PiNotePencilBold } from "react-icons/pi";
+import FsLightbox from "fslightbox-react";
+import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
+import Policy from "@/components/Policy/Policy";
+import ChevronUp from "@/assets/icon/chevron-up-outline.svg";
 
 function NextArrow(props: any) {
   const { className, onClick } = props;
@@ -181,7 +184,7 @@ export function ProductDetails() {
   //     queryClient.invalidateQueries(["cart", uid]);
   //   },
   // });
-
+  const MAX_DISPLAY_NUM_IMAGE_GALLERY = 4;
   const bookData = {
     productCode: "9784040743639",
     supplier: "Kinokuniya Book Stores",
@@ -208,6 +211,18 @@ export function ProductDetails() {
     "Quantity of Page",
     "Book Layout",
   ];
+
+  const lstImg = [
+    "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg",
+    "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_2-390x510.png",
+    "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_1-390x510.png",
+    "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
+    "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
+    "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
+  ];
+
+  const [toggler, setToggler] = useState(false);
+  const [toggleDescr, setToggleDescr] = useState(false);
 
   return (
     // <Fade triggerOnce={true}>
@@ -493,342 +508,439 @@ export function ProductDetails() {
     //   </Container>
     // </Fade>
     // h-screen & overflow-hidden for the container
-      <div id="product-detail-body" className="flex flex-col gap-3 bg-red-400">
-        <div id="product-essential" className="flex gap-3 bg-blue-400 items-start">
-          <div
-            id="product-essential-media"
-            className="flex flex-col gap-3 bg-emerald-400  sticky top-0"
-          >
-            <img
-              src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
-              className="w-[450px] h-[450px] object-cover"
-            />
+    <div id="product-detail-body" className="flex flex-col gap-3 bg-background">
+      <FsLightbox
+        type={"image"}
+        toggler={toggler}
+        sources={[
+          "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg",
+          "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_2-390x510.png",
+          "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_1-390x510.png",
+          "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
+          "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
+          "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
+        ]}
+      />
+      <div
+        id="product-essential"
+        className="flex gap-3 bg-background items-start"
+      >
+        <div
+          id="product-essential-media"
+          className="flex flex-col gap-3 bg-white sticky top-8 w-[500px] content-border"
+        >
+          <img
+            src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
+            className="w-[450px] h-[450px] object-cover mx-auto cursor-pointer"
+            onClick={() => setToggler(!toggler)}
+          />
 
-            <div className="flex justify-between">
+          <div className="flex justify-between px-4">
+            {lstImg.slice(0, MAX_DISPLAY_NUM_IMAGE_GALLERY).map((img) => (
               <img
-                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
-                className="w-[82.4px] h-[82.4px]"
+                key={img}
+                src={img}
+                className="w-[82.4px] h-[82.4px] p-1 hover:border-blue-500 hover:border-1 cursor-pointer rounded-md object-contain"
+                onClick={() => setToggler(!toggler)}
               />
-              <img
-                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
-                className="w-[82.4px] h-[82.4px]"
-              />
-              <img
-                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
-                className="w-[82.4px] h-[82.4px]"
-              />
-              <img
-                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
-                className="w-[82.4px] h-[82.4px]"
-              />
-              <img
-                src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
-                className="w-[82.4px] h-[82.4px]"
-              />
-            </div>
-
-            <div id="buying-btn-containers" className="flex flex-row gap-4">
-              <button className="w-full bg-white">Add to cart</button>
-              <button className="w-full bg-white">Buy now</button>
-            </div>
-
-            <div id="policies-container" className="flex flex-col gap-4">
-              <h6>Aoitome Promotional Policies</h6>
-              <div id="ship-policy" className="flex flex-row justify-between">
-                <div id="ship-policy-descr">
-                  <strong>Shipping time:</strong> Fast and reliable shipping
-                </div>
-              </div>
-              <div id="return-policy" className="flex flex-row justify-between">
-                <div id="return-policy-descr">
-                  <strong>Return policy:</strong> Free nationwide returns
-                </div>
-              </div>
-              <div
-                id="wholesale-policy"
-                className="flex flex-row justify-between"
-              >
-                <div id="wholesale-policy-descr">
-                  <strong>Wholesale policy:</strong> Discounts for bulk
-                  purchases
-                </div>
-              </div>
+            ))}
+            <div
+              className="justify-center items-center flex bg-[#0D0E0F] opacity-80 text-white font-bold w-[82.4px] h-[82.4px] p-1 hover:border-blue-500 hover:border-1 cursor-pointer rounded-md hover:text-[#F63B2F] "
+              onClick={() => setToggler(!toggler)}
+            >
+              +{lstImg.length - MAX_DISPLAY_NUM_IMAGE_GALLERY}
             </div>
           </div>
+
+          <div id="buying-btn-containers" className="flex flex-row gap-4 px-4">
+            <button className="w-full bg-white border-2 rounded-md py-2 font-semibold text-primary border-primary active:scale-95 transition duration-150 ease-in-out">
+              <div className="flex w-fit gap-2 items-center mx-auto">
+                <PiShoppingCart />
+                Add to cart
+              </div>
+            </button>
+            <button className="w-full rounded-md py-2 font-semibold text-white bg-primary active:scale-95 transition duration-150 ease-in-out">
+              <div className="flex w-fit gap-2 items-center mx-auto">
+                Buy now
+              </div>
+            </button>
+          </div>
+
+          <div id="policies-container" className="flex flex-col gap-4 px-4">
+            <h6 className="font-bold">Aoitome Promotional Policies</h6>
+            <Policy
+              content={{
+                label: "Shipping time:",
+                content: "Fast and reliable shipping",
+              }}
+              iconSrc={"icon-delivery"}
+            />
+            <Policy
+              content={{
+                label: "Return policy:",
+                content: "Free nationwide returns",
+              }}
+              iconSrc={"icon-product"}
+            />
+            <Policy
+              content={{
+                label: "Wholesale policy:",
+                content: "Discounts for bulk purchases",
+              }}
+              iconSrc={"icon-shop"}
+            />
+          </div>
+        </div>
+        <div
+          id="product-essential-detail"
+          className="flex flex-col gap-3 bg-background flex-1 overflow-y-auto"
+        >
           <div
-            id="product-essential-detail"
-            className="flex flex-col gap-3 bg-amber-500 flex-1 overflow-y-auto"
+            id="product-view"
+            className="bg-white flex flex-col p-4 content-border gap-2"
           >
-            <div id="product-view" className="bg-gray-200 flex flex-col">
-              <span className="break-words">
-                デート・ア・ライブ フラグメント デート・ア・バレット - Date A
-                Barrette Date A Live Fragment 8
-              </span>
-              <div id="product-sa" className="flex flex-col">
-                <div className="flex flex-1 flex-row">
-                  <div id="product-sa-supplier" className=" w-1/2">
-                    <span className="font-normal">Supplier: </span>
-                    <span className="font-bold text-[#2489F4]">
-                      Kinokuniya Book Stores
-                    </span>
-                  </div>
-                  <div id="product-sa-supplier" className=" w-1/2">
-                    <span className="font-normal">Author: </span>
-                    <span className="font-bold text-[#2489F4]">
-                      東出 祐一郎, 橘 公
-                    </span>
-                  </div>
+            <span className="break-words text-2xl font-semibold">
+              デート・ア・ライブ フラグメント デート・ア・バレット - Date A
+              Barrette Date A Live Fragment 8
+            </span>
+            <div id="product-sa" className="flex flex-col text-sm gap-2">
+              <div className="flex flex-1 flex-row">
+                <div id="product-sa-supplier" className=" w-2/3">
+                  <span className="font-normal">Supplier: </span>
+                  <span className="font-bold text-primary">
+                    Kinokuniya Book Stores
+                  </span>
                 </div>
-                <div className="flex flex-1 flex-row">
-                  <div id="product-sa-supplier" className="w-1/2">
-                    <span className="font-normal">Publisher: </span>
-                    <span className="font-bold text-[#2489F4]">Kadokawa</span>
-                  </div>
-                  <div id="product-sa-supplier" className="w-1/2">
-                    <span className="font-normal">Book layout: </span>
-                    <span className="font-bold text-[#2489F4]">Paperback</span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row py-2 gap-2">
-                <RatingStar />
-                <div className="w-px h-full bg-black"></div>
-                <span className="text-sm font-medium text-gray-900">
-                  Sold quantity 51
-                </span>
-              </div>
-              <div className="flex flex-row gap-2 items-center pb-2">
-                <div className="line-clamp-2 cursor-pointer h-fit text-black text-md font-normal leading-normal">
-                  8.24$
-                </div>
-                <div className="text-black text-sm font-normal line-through leading-tight">
-                  12.9$
-                </div>
-                <span className="bg-blue-700  text-white text-xs px-1 py-1 font-bold rounded-md">
-                  -25%
-                </span>
-              </div>
-            </div>
-            <div
-              id="info-delivery"
-              className="bg-gray-200 flex flex-col flex-1"
-            >
-              <h5 className="font-bold">Shipping details</h5>
-              <div id="shipping-address" className="flex flex-row gap-2">
-                <span>
-                  Delivery to <strong>YOUR_ADDRESS</strong>
-                </span>
-                <button className="font-bold text-[#2489F4] border-0 bg-transparent">
-                  Change
-                </button>
-              </div>
-              <div id="shipping-method" className="flex flex-row gap-4">
-                <div className="bg-[#14ab77] text-[#14ab77] w-5 h-5 icon-shipping svg-icon select-none cursor-auto">
-                  abcxyz
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold">Standard delivery</span>
-                  <span>
-                    Expected delivery <strong>Saturday - 10-12</strong>
+                <div id="product-sa-supplier" className=" w-1/3">
+                  <span className="font-normal">Author: </span>
+                  <span className="font-bold text-primary">
+                    東出 祐一郎, 橘 公
                   </span>
                 </div>
               </div>
-              <div id="rel-discounts-header" className="flex flex-row gap-4">
-                <h5 className="font-bold">Related promotions</h5>
-                <button className="font-bold text-[#2489F4] border-0 bg-transparent">
-                  See more
-                </button>
-              </div>
-              <div id="rel-discount-list" className="flex flex-row gap-4">
-                <Coupon />
-                <Coupon />
-              </div>
-              <div
-                id="quantity-input-container"
-                className="flex flex-row gap-4"
-              >
-                <span className="text-md font-bold">Quantity</span>
-                <QuantityInput quantity={0} onQuantityChange={undefined} />
+              <div className="flex flex-1 flex-row">
+                <div id="product-sa-supplier" className="w-2/3">
+                  <span className="font-normal">Publisher: </span>
+                  <span className="font-bold text-primary ">Kadokawa</span>
+                </div>
+                <div id="product-sa-supplier" className="w-1/3">
+                  <span className="font-normal">Book layout: </span>
+                  <span className="font-bold text-primary">Paperback</span>
+                </div>
               </div>
             </div>
-            <div id="info-detail-1" className="bg-gray-200 flex flex-col p-2">
-              <h6 className="font-bold">Product description</h6>
-              <div className="w-full flex flex-col">
-                {titles.map((item: string, index) => (
-                  <div key={index} className="py-2">
-                    <div className="w-full flex">
-                      <div className="w-1/4">{item}</div>
-                      <div className="w-3/4">{"Test input"}</div>
-                    </div>
-                    {index < titles.length - 1 && (
-                      <hr className="w-full border-t border-indigo-500 mt-2" />
-                    )}{" "}
-                    {/* Horizontal separator */}
-                  </div>
-                ))}
-              </div>
+            <div className="flex flex-row gap-2 mb-1">
+              <RatingStar />
+              <div className="w-px h-full bg-black"></div>
+              <span className="text-sm font-medium text-gray-900">
+                Sold quantity 51
+              </span>
             </div>
-            <div id="info-detail-2" className="bg-gray-200 flex flex-col">
-              <h6 className="font-bold">Product description</h6>
-              <strong>
-                デート・ア・ライブ フラグメント デート・ア・バレット - Date A
-                Bullet Date A Live Fragment 8
-              </strong>
+            <div className="flex flex-row gap-2 items-center">
+              <div className="line-clamp-2 cursor-pointer h-fit text-primary text-md leading-normal text-3xl font-semibold">
+                8.24$
+              </div>
+              <div className="text-gray-400 text-lg font-normal line-through leading-tight">
+                12.9$
+              </div>
+              <span className="bg-blue-700  text-white text-lg px-2 py-1 font-bold rounded-md">
+                -25%
+              </span>
+            </div>
+          </div>
+          <div
+            id="info-delivery"
+            className="bg-white flex flex-col flex-1 p-4 content-border gap-2"
+          >
+            <span className="font-bold heading-6">Shipping details</span>
+            <div id="shipping-address" className="flex flex-row gap-4 text-sm">
               <span>
-                さあ――わたくしの戦争も終わらせましょう
+                Delivery to <strong>YOUR_ADDRESS</strong>
+              </span>
+              <button className="font-bold text-primary border-0 bg-transparent">
+                Change
+              </button>
+            </div>
+            <div id="shipping-method" className="flex flex-row gap-4">
+              <div className="bg-[#14ab77] text-[#14ab77] w-5 h-5 icon-shipping svg-icon select-none cursor-auto">
+                abcxyz
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-md">Standard delivery</span>
+                <span className="text-sm">
+                  Expected delivery <strong>Saturday - 10-12</strong>
+                </span>
+              </div>
+            </div>
+            <div id="rel-discounts-header" className="flex flex-row gap-4">
+              <span className="font-bold heading-6">Related promotions</span>
+              <button className="font-bold text-primary border-0 bg-transparent text-sm">
+                See more{" "}
+              </button>
+            </div>
+            <div id="rel-discount-list" className="flex flex-row gap-4">
+              <Coupon />
+              <Coupon />
+              <Coupon />
+              <Coupon />
+            </div>
+            <div
+              id="quantity-input-container"
+              className="flex flex-row gap-16 mt-2 items-center"
+            >
+              <span className="heading-6 font-bold">Quantity</span>
+              <QuantityInput quantity={0} onQuantityChange={undefined} />
+            </div>
+          </div>
+          <div
+            id="info-detail-1"
+            className="bg-white content-border flex flex-col p-4"
+          >
+            <span className="font-bold heading-6 pb-4">
+              Product description
+            </span>
+            <div className="w-full flex flex-col">
+              {titles.map((item: string, index) => (
+                <div key={index} className="py-2">
+                  <div className="w-full flex font-light text-sm">
+                    <div className="w-1/4 text-[#777777]">{item}</div>
+                    <div className="w-3/4">{"Test input"}</div>
+                  </div>
+                  {index < titles.length - 1 && (
+                    <hr className="w-full border-t border-background mt-2" />
+                  )}{" "}
+                  {/* Horizontal separator */}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div
+            id="info-detail-2"
+            className="bg-white p-4 content-border flex flex-col"
+          >
+            <span className="heading-6 font-bold pb-4">
+              Product description
+            </span>
+
+            <div
+              className={`leading-8 grid overflow-hidden grid-transition-rows delay-1000 ${
+                toggleDescr ? "grid-rows-[1fr]" : "grid-rows-[200px]"
+              } `}
+            >
+              <div>
+                <strong>
+                  デート・ア・ライブ フラグメント デート・ア・バレット - Date A
+                  Bullet Date A Live Fragment 8
+                </strong>
                 <br />
+                &nbsp;さあ――わたくしの戦争も終わらせましょう
                 <br />
                 「さて、それじゃあ……死にますか!」
                 大切な人を応援するため、自らを犠牲にする少女。
                 <br />
-                <br />
                 「それでは紗和さん。最後のデートを始めましょう」
                 好きな人と再会するため、走り続ける少女。
-                <br />
                 <br />
                 「世界が滅んでもいい。あなたが滅ぶなら構わない」
                 親しい人を独占するため、隣界を滅ぼそうとする少女。
                 <br />
-                <br />
                 ついに辿り着いた第一領域にて、緋衣響、時崎狂三、白の女王の殺し合いは終わりを迎える。
-                <br />
                 <br />
                 戦い続けた少女たちが下す選択とは――。「長い時間が掛かりましたけど。ちゃんと、叶いましたわ」
                 <br />
-                <br />
                 時崎狂三のもうひとつの戦争、ここに完結!
-              </span>
-              <div className="text-center">
-                <a className="w-full text-center font-light text-[#2489F4] border-0 bg-transparent">
-                  Show more
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="related-products" className="flex flex-col gap-4">
-          <h5>Related Products</h5>
-          <nav id="tag-products" className="flex gap-4 bg-indigo-500">
-            <a href="#">Same authors</a>
-            <a href="#">Same waifus</a>
-          </nav>
-          <div className="tag-products-view bg-indigo-500 flex flex-row justify-between">
-            {KurumiList.slice(0, 5).map((product, index) => (
-              <Product
-                key={index}
-                title={product.title}
-                imageURL={product.imageURL}
-                price={product.price}
-                rating={product.rating}
-                discount={product.discount}
-                totalRating={product.totalRating}
-                id={0}
-              />
-            ))}
-          </div>
-        </div>
-        <div id="recommendation">
-          <h5>Recommendations</h5>
-          <div className="tag-products-view bg-indigo-500 flex flex-row justify-between">
-            {KurumiList.slice(0, 5).map((product, index) => (
-              <Product
-                key={index}
-                title={product.title}
-                imageURL={product.imageURL}
-                price={product.price}
-                rating={product.rating}
-                discount={product.discount}
-                totalRating={product.totalRating}
-                id={0}
-              />
-            ))}
-          </div>
-        </div>
-        <div id="rating-product-view" className="bg-gray-200">
-          <div id="rating-header" className="flex flex-row gap-4 items-center">
-            <div id="rating-chart" className="bg-yellow-200 w-1/2">
-              <div className="flex flex-row w-full">
-                <div className="flex flex-col justify-center">
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    4.95/5
-                  </p>
-                  <Rating className="mb-2">
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star filled={false} />
-                  </Rating>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    1,745 global ratings
-                  </p>
-                </div>
-                <div className="flex flex-col flex-1">
-                  <Rating.Advanced percentFilled={70} className="mb-2">
-                    5 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={17} className="mb-2">
-                    4 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={8} className="mb-2">
-                    3 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={4} className="mb-2">
-                    2 star
-                  </Rating.Advanced>
-                  <Rating.Advanced percentFilled={1}>1 star</Rating.Advanced>
-                </div>
-              </div>
-            </div>
-            <button
-              id="btn-comment"
-              className="h-fit border-1 rounded-md border-blue-500 mx-auto p-2 flex items-center gap-2"
-            >
-              <PiNotePencilBold />
-              Write comment
-            </button>
-          </div>
-          <nav id="tag-reviews" className="flex gap-4 bg-indigo-500">
-            <a href="#">Newest</a>
-            <a href="#">Most reacted</a>
-          </nav>
-          <div id="comment-list" className="bg-indigo-500">
-            <div id="comment" className="flex items-start">
-              <div id="user-info" className="flex flex-col">
-                <span>User</span>
-                <span>12/10/2024</span>
               </div>
               <div
-                id="comment-detail"
-                className="bg-slate-600 flex flex-col flex-1"
+                className={`${
+                  toggleDescr
+                    ? "h-0"
+                    : "sticky bottom-0 left-0 w-full h-[200px] white-gradient"
+                } transition-height duration-1000 ease 
+`}
+              ></div>
+            </div>
+            <div className="text-center pt-2">
+              <a
+                className="w-full text-center text-primary border-0 bg-transparent cursor-pointer font-medium"
+                onClick={() => setToggleDescr(!toggleDescr)}
               >
-                <div id="rating-point">
-                  <Rating>
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star />
-                    <Rating.Star filled={false} />
-                  </Rating>
+                {toggleDescr ? "View less" : "View more"}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="related-products"
+        className="flex flex-col gap-4 bg-white p-4 content-border"
+      >
+        <span className="heading-6 font-bold">Related Products</span>
+        <nav id="tag-products" className="flex gap-4 ">
+          <a href="#">Same authors</a>
+          <a href="#">Same waifus</a>
+        </nav>
+        <div className="tag-products-view flex flex-row justify-between">
+          {KurumiList.slice(0, 5).map((product, index) => (
+            <Product
+              key={index}
+              title={product.title}
+              imageURL={product.imageURL}
+              price={product.price}
+              rating={product.rating}
+              discount={product.discount}
+              totalRating={product.totalRating}
+              id={0}
+            />
+          ))}
+        </div>
+      </div>
+      <div
+        id="recommendation"
+        className="flex flex-col gap-4 bg-white p-4 content-border"
+      >
+        <span className="heading-6 font-bold">Recommendations</span>
+        <div className="tag-products-view flex flex-row justify-between">
+          {KurumiList.slice(0, 5).map((product, index) => (
+            <Product
+              key={index}
+              title={product.title}
+              imageURL={product.imageURL}
+              price={product.price}
+              rating={product.rating}
+              discount={product.discount}
+              totalRating={product.totalRating}
+              id={0}
+            />
+          ))}
+        </div>
+      </div>
+      <div id="rating-product-view" className=" items-center p-4 content-border bg-white">
+        <span className="heading-6 font-bold">Product reviews</span>
+        <div
+          id="rating-header"
+          className="flex flex-row my-4"
+        >
+          <div id="rating-chart" className="w-1/2">
+            <div className="flex flex-row w-full gap-8">
+              <div className="flex flex-col justify-center">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <span className="text-4xl font-bold text-black">4.95</span> &nbsp;
+                  <span className="text-2xl font-semibold text-black">/&nbsp;5</span>
+                </p>
+                <Rating className="mb-2 justify-center">
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star filled={false} />
+                </Rating>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  1,745 global ratings
+                </p>
+              </div>
+              <div className="flex flex-col flex-1">
+                <Rating.Advanced percentFilled={70} className="mb-2">
+                  5 star
+                </Rating.Advanced>
+                <Rating.Advanced percentFilled={17} className="mb-2">
+                  4 star
+                </Rating.Advanced>
+                <Rating.Advanced percentFilled={8} className="mb-2">
+                  3 star
+                </Rating.Advanced>
+                <Rating.Advanced percentFilled={4} className="mb-2">
+                  2 star
+                </Rating.Advanced>
+                <Rating.Advanced percentFilled={1}>1 star</Rating.Advanced>
+              </div>
+            </div>
+          </div>
+          <button
+            id="btn-comment"
+            className="h-fit mx-auto my-auto p-2 flex  items-center gap-2 w-fit bg-white border-2 rounded-md py-2 font-semibold text-primary border-primary active:scale-95 transition duration-150 ease-in-out"
+          >
+            <PiNotePencilBold />
+            Write comment
+          </button>
+          
+        </div>
+        <nav id="tag-reviews" className="flex gap-4 mb-4">
+          <a href="#">Newest</a>
+          <a href="#">Most reacted</a>
+        </nav>
+        <hr className="w-full mb-4 border-t border-gray-200" />
+        <div id="comment-list" className="flex flex-col gap-4">
+          <div id="comment" className="flex items-start gap-4">
+            <div id="user-info" className="flex flex-col w-[200px]">
+              <span>User</span>
+              <span>12/10/2024</span>
+            </div>
+            <div
+              id="comment-detail"
+              className="flex flex-col flex-1"
+            >
+              <div id="rating-point">
+                <Rating>
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star filled={false} />
+                </Rating>
+              </div>
+              <div id="comment-description">I love Fugue & Tingyun</div>
+              <div
+                id="rating-action"
+                className="flex flex-row items-center gap-2"
+              >
+                <div id="like" className="flex flex-row gap-2 items-center">
+                  <PiThumbsUp />
+                  Like (0)
                 </div>
-                <div id="comment-description">I love Fugue & Tingyun</div>
-                <div
-                  id="rating-action"
-                  className="flex flex-row items-center gap-2"
-                >
-                  <div id="like" className="flex flex-row gap-2 items-center">
-                    <PiThumbsUp />
-                    Like (0)
-                  </div>
-                  <div id="report" className="flex flex-row items-center gap-2">
-                    <PiWarningCircleLight />
-                    Report
-                  </div>
+                <div id="report" className="flex flex-row items-center gap-2">
+                  <PiWarningCircleLight />
+                  Report
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr className="w-full border-t border-gray-200" />
+          <div id="comment" className="flex items-start gap-4">
+            <div id="user-info" className="flex flex-col w-[200px]">
+              <span>User</span>
+              <span>12/10/2024</span>
+            </div>
+            <div
+              id="comment-detail"
+              className="flex flex-col flex-1"
+            >
+              <div id="rating-point">
+                <Rating>
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star />
+                  <Rating.Star filled={false} />
+                </Rating>
+              </div>
+              <div id="comment-description">I love Fugue & Tingyun</div>
+              <div
+                id="rating-action"
+                className="flex flex-row items-center gap-2"
+              >
+                <div id="like" className="flex flex-row gap-2 items-center">
+                  <PiThumbsUp />
+                  Like (0)
+                </div>
+                <div id="report" className="flex flex-row items-center gap-2">
+                  <PiWarningCircleLight />
+                  Report
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 }

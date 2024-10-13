@@ -5,11 +5,6 @@ export const path = {
   cart: "cart",
   
   product: "product/:id",
-  adminAddProduct: "admin-bookgrid/add-product",
-  adminProduct: "admin-bookgrid/product/:id",
-  adminBookReviews: "admin/book-reviews",
-  adminCustomers: "admin/customers",
-
   search: "search",
   payment_success: "/payment-success",
   checkout: "/order-checkout",
@@ -20,6 +15,10 @@ export const path = {
   customerAccount: "my-account",
   customerOrderTracking: "order",
 
+  adminAddProduct: "admin-bookgrid/add-product",
+  adminProduct: "admin-bookgrid/product/:id",
+  adminBookReviews: "admin/book-reviews",
+  adminCustomers: "admin/customers",
   adminDashboard: "admin-dashboard",
   adminProducts: "admin-bookgrid",
   adminBookDetail: "admin-bookdetail",
