@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { Button, Checkbox, TextInput } from "flowbite-react";
-import { useNavigate } from "react-router-dom";
 import { cartApi } from "@/apis/cart.api";
+import Trash from "@/assets/icon/trash_icon.svg";
 import { ProductList } from "@/assets/mockdata";
 import OrderPriceSummary from "@/components/OrderPriceSummary";
 import Product from "@/components/Product";
 import CartProduct from "@/components/Product/CartProduct";
 import { path } from "@/constants/path";
+import { useQuery } from "@tanstack/react-query";
+import { Button, Checkbox, TextInput } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 import { getUIDFromLS } from "../../utils/auth";
-import Trash from "@/assets/icon/trash_icon.svg";
 
 export function Cart() {
   const userId = getUIDFromLS();
@@ -63,7 +63,7 @@ export function Cart() {
                   <hr className="w-full border-t border-gray-200" />
                 )}
                 <CartProduct
-                  id={product.id}
+                  id={product.id ?? 0}
                   key={product.id}
                   imageURL={product.imageUrl}
                   price={product.unitPrice}
