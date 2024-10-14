@@ -5,7 +5,6 @@ import { bookApi } from "@/apis/book.api";
 import Product from "@/components/Product";
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { Fade } from "react-awesome-reveal";
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
 import { ClipLoader } from 'react-spinners';
 
 

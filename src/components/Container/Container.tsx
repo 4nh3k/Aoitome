@@ -9,7 +9,7 @@ export function Container(props: ContainerProps) {
       className={
         props.className
           ? props.className
-          : "w-full px-[1.25rem] py-[1.25rem] my-8 bg-white rounded-md shadow-sm flex flex-col"
+          : "w-full px-4 py-4 my-8 bg-white rounded-md shadow-sm flex flex-col content-border"
       }
     >
       {props.children}

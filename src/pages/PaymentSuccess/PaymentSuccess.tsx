@@ -4,7 +4,7 @@ import successIllustration from "../../assets/img/payment-success.svg"; // Make 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+    <div className="bg-white shadow-sm p-8 text-center content-border">
       <img
         src={successIllustration}
         alt="Payment Success"
@@ -17,7 +17,7 @@ const PaymentSuccess = () => {
         Thank you for your payment. Your transaction was successful.
       </p>
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+        className="w-fit px-2 rounded-md py-2 font-semibold text-white bg-primary active:scale-95 transition duration-150 ease-in-out"
         onClick={() => {
           navigate("/");
         }}

@@ -3,28 +3,31 @@ export const path = {
   register: "register",
   forgotPass: "forgot-password",
   cart: "cart",
-  
   product: "product/:id",
-  search: "search",
   payment_success: "/payment-success",
   checkout: "/order-checkout",
   orderSummary: "order-summary",
   notificationPage: "notification-page",
+  customerOrderTracking: "order",
+  adminAccount: "admin-account",
+  
+  search: "search", 
   customerOrder: "my-orders",
   customerCoupon: "my-coupons",
   customerAccount: "my-account",
-  customerOrderTracking: "order",
 
+  adminProducts: "admin-bookgrid",
   adminAddProduct: "admin-bookgrid/add-product",
   adminProduct: "admin-bookgrid/product/:id",
-  adminBookReviews: "admin/book-reviews",
-  adminCustomers: "admin/customers",
-  adminDashboard: "admin-dashboard",
-  adminProducts: "admin-bookgrid",
   adminBookDetail: "admin-bookdetail",
-  adminAccount: "admin-account",
-  adminAddVoucher: "admin-add-voucher",
+  adminBookReviews: "admin/book-reviews",
+  
+  adminDashboard: "admin-dashboard",
   adminOrderManagement: "admin-order",
+
+  adminAddVoucher: "admin-add-voucher",
   adminVoucherManagement: "admin-voucher-management",
-  adminCustomerAccount: "admin-customer-account/:userId"
+  
+  adminCustomers: "admin/customers",
+  adminCustomerAccount: "admin-customer-account/:userId",  
 };

@@ -40,6 +40,7 @@ import FsLightbox from "fslightbox-react";
 import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
 import Policy from "@/components/Policy/Policy";
 import ChevronUp from "@/assets/icon/chevron-up-outline.svg";
+import TabSlider from "@/components/TabSlider/TabSlider";
 
 function NextArrow(props: any) {
   const { className, onClick } = props;
@@ -222,7 +223,10 @@ export function ProductDetails() {
   ];
 
   const [toggler, setToggler] = useState(false);
-  const [toggleDescr, setToggleDescr] = useState(false);
+  const [toggleDescr, setToggleDescr] = useState(true);
+  const productDescrElementHeight = document.getElementById(
+    "product-description-text"
+  )?.offsetHeight;
 
   return (
     // <Fade triggerOnce={true}>
@@ -723,11 +727,14 @@ export function ProductDetails() {
             </span>
 
             <div
-              className={`leading-8 grid overflow-hidden grid-transition-rows delay-1000 ${
-                toggleDescr ? "grid-rows-[1fr]" : "grid-rows-[200px]"
-              } `}
+              class={`grid-rows-transition ${
+                toggleDescr ? "grid-rows-transition-open" : ""
+              }`}
+              // className={`leading-8 grid overflow-hidden relative transition-height duration-300 ease-in-out ${
+              //   toggleDescr ? "max-h-auto" : "max-h-[200px]"
+              // }`}
             >
-              <div>
+              <div id="product-description-text">
                 <strong>
                   デート・ア・ライブ フラグメント デート・ア・バレット - Date A
                   Bullet Date A Live Fragment 8
@@ -754,9 +761,8 @@ export function ProductDetails() {
                 className={`${
                   toggleDescr
                     ? "h-0"
-                    : "sticky bottom-0 left-0 w-full h-[200px] white-gradient"
-                } transition-height duration-1000 ease 
-`}
+                    : `bottom-0 left-0 w-full h-[200px] white-gradient`
+                } absolute transition-height duration-1000 ease z-5 `}
               ></div>
             </div>
             <div className="text-center pt-2">
@@ -775,10 +781,7 @@ export function ProductDetails() {
         className="flex flex-col gap-4 bg-white p-4 content-border"
       >
         <span className="heading-6 font-bold">Related Products</span>
-        <nav id="tag-products" className="flex gap-4 ">
-          <a href="#">Same authors</a>
-          <a href="#">Same waifus</a>
-        </nav>
+        <TabSlider items={["Same author", "Same genre"]} />
         <div className="tag-products-view flex flex-row justify-between">
           {KurumiList.slice(0, 5).map((product, index) => (
             <Product
@@ -814,18 +817,21 @@ export function ProductDetails() {
           ))}
         </div>
       </div>
-      <div id="rating-product-view" className=" items-center p-4 content-border bg-white">
+      <div
+        id="rating-product-view"
+        className=" items-center p-4 content-border bg-white"
+      >
         <span className="heading-6 font-bold">Product reviews</span>
-        <div
-          id="rating-header"
-          className="flex flex-row my-4"
-        >
+        <div id="rating-header" className="flex flex-row my-4">
           <div id="rating-chart" className="w-1/2">
             <div className="flex flex-row w-full gap-8">
               <div className="flex flex-col justify-center">
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  <span className="text-4xl font-bold text-black">4.95</span> &nbsp;
-                  <span className="text-2xl font-semibold text-black">/&nbsp;5</span>
+                  <span className="text-4xl font-bold text-black">4.95</span>{" "}
+                  &nbsp;
+                  <span className="text-2xl font-semibold text-black">
+                    /&nbsp;5
+                  </span>
                 </p>
                 <Rating className="mb-2 justify-center">
                   <Rating.Star />
@@ -862,7 +868,6 @@ export function ProductDetails() {
             <PiNotePencilBold />
             Write comment
           </button>
-          
         </div>
         <nav id="tag-reviews" className="flex gap-4 mb-4">
           <a href="#">Newest</a>
@@ -875,10 +880,7 @@ export function ProductDetails() {
               <span>User</span>
               <span>12/10/2024</span>
             </div>
-            <div
-              id="comment-detail"
-              className="flex flex-col flex-1"
-            >
+            <div id="comment-detail" className="flex flex-col flex-1">
               <div id="rating-point">
                 <Rating>
                   <Rating.Star />
@@ -910,10 +912,7 @@ export function ProductDetails() {
               <span>User</span>
               <span>12/10/2024</span>
             </div>
-            <div
-              id="comment-detail"
-              className="flex flex-col flex-1"
-            >
+            <div id="comment-detail" className="flex flex-col flex-1">
               <div id="rating-point">
                 <Rating>
                   <Rating.Star />

@@ -2,17 +2,17 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Select } from "flowbite-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import authApi from "../../../apis/auth.api";
-import CheckCircle from "../../../assets/icon/check-circle.svg";
-import InfoOutline from "../../../assets/icon/info-outline.svg";
-import UploadIcon from "../../../assets/icon/upload.svg";
-import XCircle from "../../../assets/icon/x-circle.svg";
-import ElysiaImg from "../../../assets/img/elysia.jpg";
-import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
-import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
-import AdminPassword from "../../../components/AdminComponents/Input/AdminPassword";
-import { User } from "../../../types/Models/Identity/User.type";
-import { getUIDFromLS } from "../../../utils/auth";
+import authApi from "@/apis/auth.api";
+import CheckCircle from "@/assets/icon/check-circle.svg";
+import InfoOutline from "@/assets/icon/info-outline.svg";
+import UploadIcon from "@/assets/icon/upload.svg";
+import XCircle from "@/assets/icon/x-circle.svg";
+import ElysiaImg from "@/assets/img/elysia.jpg";
+import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton";
+import AdminInput from "@/components/AdminComponents/Input/AdminInput";
+import AdminPassword from "@/components/AdminComponents/Input/AdminPassword";
+import { User } from "@/types/Models/Identity/User.type";
+import { getUIDFromLS } from "@/utils/auth";
 import { Fade } from "react-awesome-reveal";
 
 const AdminAccount = () => {
@@ -190,7 +190,7 @@ const AdminAccount = () => {
       <Fade triggerOnce={true}>
 
         <div className="flex items-start basis-full gap-4 h-full ">
-          <div className="flex flex-col pt-4 pb-5 px-4 justify-between w-3/4 gap-8 rounded-2xl border-1 border-solid border-gray-300 bg-white">
+          <div className="flex flex-col pt-4 pb-5 px-4 justify-between w-3/4 gap-8 rounded-2xl border-1 border-solid border-gray-300 bg-white h-screen">
             <div className="flex items-center gap-4">
               <span className="heading-4">Account</span>
               <img src={InfoOutline} width={24} height={24} />
@@ -337,7 +337,7 @@ const AdminAccount = () => {
             <LinkingAccount logo={GithubLogo} />
           </div> */}
 
-            <div className="flex items-start justify-end gap-3 self-stretch w-full">
+            <div className="flex items-end justify-end gap-3 self-stretch w-full">
               <CustomButton
                 label={"Save changes"}
                 textColor={"white"}
@@ -354,7 +354,7 @@ const AdminAccount = () => {
             </div>
           </div>
 
-          <div className="flex w-6/12 self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white">
+          <div className="flex w-6/12 self-stretch p-4 flex-col gap-6 rounded-2xl border-1 border-solid border-gray-300 bg-white justify-between">
             <div className="flex items-center gap-4">
               <span className="heading-4">Password</span>
               <img src={InfoOutline} width={24} height={24} />

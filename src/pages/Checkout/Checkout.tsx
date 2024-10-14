@@ -131,11 +131,11 @@ export function Checkout() {
     },
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  // if (isLoading) return <div>Loading...</div>;
 
-  if (isPaymentLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isPaymentLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedCardType = paymentMethodsData?.find(
@@ -178,18 +178,22 @@ export function Checkout() {
             </fieldset>
           </div>
         </div>
-        <div className="w-full">
-          <div className="w-full space-y-2 mb-6">
-            {cartData?.items?.map((product) => (
-              <CartProduct
-                id={product.id}
-                key={product.id}
-                canEdit={false}
-                imageURL={product.imageUrl}
-                price={product.unitPrice}
-                title={product.title}
-                defaultValue={product.quantity}
-              />
+        <div className="w-full flex flex-col gap-4">
+        <div className="w-full px-5 pt-2 pb-2 bg-white rounded-lg border border-gray-200 flex-col justify-start items-start inline-flex">
+            {cartData?.items?.map((product, index) => (
+              <>
+                {index > 0 && (
+                  <hr className="w-full border-t border-gray-200" />
+                )}
+                <CartProduct
+                  id={product.id ?? 0}
+                  key={product.id}
+                  imageURL={product.imageUrl}
+                  price={product.unitPrice}
+                  title={product.title}
+                  defaultValue={product.quantity}
+                />
+              </>
             ))}
           </div>
           <OrderPriceSummary

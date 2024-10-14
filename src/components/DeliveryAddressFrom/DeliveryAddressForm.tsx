@@ -21,7 +21,7 @@ export function DeliveryAddressForm({
   };
 
   return (
-    <form className="w-full px-5 py-5 space-y-8 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
+    <form className="w-full px-4 py-4 space-y-8 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex content-border">
       {/* <fieldset className="flex max-w-md gap-4">
         <div className="flex items-center gap-2">
           <Radio
@@ -37,7 +37,7 @@ export function DeliveryAddressForm({
           <Label htmlFor="germany">Company</Label>
         </div>
       </fieldset> */}
-      <span className="heading-5">Delivery Adress</span>
+      <span className="heading-5">Delivery Address</span>
       <div className="w-full">
         <div className="mb-2 block">
           <Label className="font-medium" value="Save address" />

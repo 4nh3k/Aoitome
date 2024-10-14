@@ -6,54 +6,80 @@ body {
   min-width: 640px;
 }
 
-.content-border{
-  @apply border-1 border-gray-200 rounded-lg pb-4
+.content-border {
+  @apply border-1 border-gray-200 rounded-lg pb-4;
 }
 
-.webkit-sticky{
+.no-scrollbar::-webkit-scrollbar{
+  display: none;
+}
+
+.webkit-sticky {
   position: -webkit-sticky;
 }
 
-.svg-icon{
+.grid-rows-transition{
+  position: relative;
+  line-height: 32px;
+  display: grid; 
+  grid-template-rows: 0.8fr;
+  transition: 1000ms grid-template-rows ease;
+}
+
+.grid-rows-transition > div {
+  overflow: hidden;
+}
+
+.grid-rows-transition-open{
+  grid-template-rows: 1fr;
+}
+
+.grid-transition-rows {
+  transition-duration: 1000ms;
+  transition-property: grid-template-rows;
+  transition-timing-function: ease;
+}
+
+.svg-icon {
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center;
 }
 
-.icon-trash{
-  mask-image: url('./assets/icon/trash_icon.svg');
-  -webkit-mask-image: url('./assets/icon/trash_icon.svg');
+.icon-trash {
+  mask-image: url("./assets/icon/trash_icon.svg");
+  -webkit-mask-image: url("./assets/icon/trash_icon.svg");
 }
 
-.icon-shipping{
-  mask-image: url('./assets/icon/delivery-icon.svg');
-  -webkit-mask-image: url('./assets/icon/delivery-icon.svg');
+.icon-shipping {
+  mask-image: url("./assets/icon/delivery-icon.svg");
+  -webkit-mask-image: url("./assets/icon/delivery-icon.svg");
 }
 
-.icon-delivery{
-  mask-image: url('./assets/icon/fast-delivery.svg');
-  -webkit-mask-image: url('./assets/icon/fast-delivery.svg');
+.icon-delivery {
+  mask-image: url("./assets/icon/fast-delivery.svg");
+  -webkit-mask-image: url("./assets/icon/fast-delivery.svg");
 }
 
-.icon-product{
-  mask-image: url('./assets/icon/product.svg');
-  -webkit-mask-image: url('./assets/icon/product.svg');
+.icon-product {
+  mask-image: url("./assets/icon/product.svg");
+  -webkit-mask-image: url("./assets/icon/product.svg");
 }
 
-.icon-shop{
-  mask-image: url('./assets/icon/shop.svg');
-  -webkit-mask-image: url('./assets/icon/shop.svg');
+.icon-shop {
+  mask-image: url("./assets/icon/shop.svg");
+  -webkit-mask-image: url("./assets/icon/shop.svg");
 }
 
-.white-gradient{
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgb(255, 255, 255));
+.white-gradient {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgb(255, 255, 255)
+  );
 }
 
-.grid-transition-rows{
-  transition-duration: 1000ms;
-  transition-property: grid-template-rows;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
+
 
 @font-face {
   font-family: "Regular";

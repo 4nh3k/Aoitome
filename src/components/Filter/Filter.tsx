@@ -21,8 +21,7 @@ export function Filter() {
       return res.data;
     },
   });
-  if (isLoading) return <Spinner />;
-
+  
   return (
     <Container className="w-72 px-6 py-6 my-8 h-fit bg-white rounded-xl shadow-sm divide-y space-y-3">
       <div>

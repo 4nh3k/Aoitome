@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Pagination, Select } from "flowbite-react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { bookApi } from "../../apis/book.api";
-import Container from "../../components/Container";
-import Filter from "../../components/Filter";
-import Product from "../../components/Product";
+import { bookApi } from "@/apis/book.api";
+import Container from "@/components/Container";
+import Filter from "@/components/Filter";
+import Product from "@/components/Product";
 
 export function SearchPage() {
   const location = useLocation();

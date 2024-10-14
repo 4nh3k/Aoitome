@@ -26,7 +26,7 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
   const customerServiceSidebarItems = [{ label: "Chat log", link: "" }];
   return (
     <div
-      className={`${className} flex w-[15.625rem] items-start bg-white border-1 border-solid border-gray-200`}
+      className={`${className} flex w-[15.625rem] items-start bg-white border-1 border-solid border-gray-200 overflow-y-scroll no-scrollbar`}
     >
       <div className="flex flex-col items-start gap-6 flex-1">
         <div className="flex flex-col items-stretch gap-1 px-4 py-3 font-medium flex-wrap">
