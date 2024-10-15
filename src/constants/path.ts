@@ -4,30 +4,30 @@ export const path = {
   forgotPass: "forgot-password",
   cart: "cart",
   product: "product/:id",
-  payment_success: "/payment-success",
-  checkout: "/order-checkout",
+  paymentSuccess: "payment-success",
+  checkout: "checkout",
   orderSummary: "order-summary",
-  notificationPage: "notification-page",
+  notificationPage: "notification",
   customerOrderTracking: "order",
   adminAccount: "admin-account",
-  
   search: "search", 
+
+  adminDashboard: "dashboard",
+  adminCustomers: "customers",
+  adminCustomerAccount: "customers/:customerId", 
+  customerAccount: "my-account",
+ 
+  // OK
   customerOrder: "my-orders",
   customerCoupon: "my-coupons",
-  customerAccount: "my-account",
 
-  adminProducts: "admin-bookgrid",
-  adminAddProduct: "admin-bookgrid/add-product",
-  adminProduct: "admin-bookgrid/product/:id",
-  adminBookDetail: "admin-bookdetail",
-  adminBookReviews: "admin/book-reviews",
-  
-  adminDashboard: "admin-dashboard",
-  adminOrderManagement: "admin-order",
+  adminProducts: "products",
+  adminAddProduct: "products/add",
+  adminProduct: "products/:id",
+  adminBookReviews: "products/reviews",
 
-  adminAddVoucher: "admin-add-voucher",
-  adminVoucherManagement: "admin-voucher-management",
-  
-  adminCustomers: "admin/customers",
-  adminCustomerAccount: "admin-customer-account/:userId",  
+  adminOrderManagement: "orders",
+
+  adminAddVoucher: "vouchers",
+  adminVoucherManagement: "vouchers/add",
 };

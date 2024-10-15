@@ -10,6 +10,12 @@ body {
   @apply border-1 border-gray-200 rounded-lg pb-4;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .no-scrollbar::-webkit-scrollbar{
   display: none;
 }

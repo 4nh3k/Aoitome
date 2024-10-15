@@ -85,54 +85,57 @@ const CustomerList = () => {
   };
 
   return (
-    <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
-      <span className="text-[1.5rem] font-bold">User</span>
-      <div className="flex justify-between items-center self-stretch">
-        <SearchInput
-          className={"min-w-64"}
-          placeholder={"Search users"}
-          enableDropdown={false}
-          onChange={onChangeSearchTerm}
-          onSubmit={onSearchSubmit}
-          onDropdownChange={() => {}}
-        ></SearchInput>
-      </div>
-      {isLoadingUser && (
-        <div className="flex flex-col items-center">
-          <ClipLoader
-            color="#8FA8DE"
-            className="items-center justify-center flex"
-            size={100}
-            aria-label="Loading Spinner"
-          ></ClipLoader>
-          <p className="text-primary">Loading...</p>
+    <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm justify-between">
+      <div className="flex flex-col w-full gap-4">
+        <span className="text-[1.5rem] font-bold">User</span>
+        <div className="flex justify-between items-center self-stretch mb-2">
+          <SearchInput
+            className="w-1/2 border-1 border-gray-300 border-sm rounded-l-sm rounded-r-lg p-0 focus-within:[&:has(input:focus)]:border-blue-500 overflow-hidden"
+            onChange={onChangeSearchTerm}
+            onSubmit={onSearchSubmit}
+            enableSizing={true}
+            placeholder={"Enter a search term"}
+            dropdownList={["By name", "By author", "By Elysia & Mei"]}
+            enableDropdown={false}
+          />
         </div>
-      )}
-      <div className="w-fit flex flex-col">
-        {!isLoadingUser && usersData && (
-          <Fade triggerOnce={true}>
-            <CustomTable
-              onRowClick={onRowClick}
-              headers={headers}
-              data={usersData.data.data.map((user) => {
-                return {
-                  id: user.id,
-                  fullName: user.fullName || "-",
-                  userName: user.userName,
-                  email: user.email,
-                  address: user.address || "-",
-                  country: user.country || "-",
-                  city: user.city || "-",
-                  profileImageLink:
-                    user.profileImageLink || CustomerImgPlaceholder,
-                };
-              })}
-            />
-          </Fade>
+        {isLoadingUser && (
+          <div className="flex flex-col items-center">
+            <ClipLoader
+              color="#8FA8DE"
+              className="items-center justify-center flex"
+              size={100}
+              aria-label="Loading Spinner"
+            ></ClipLoader>
+            <p className="text-primary">Loading...</p>
+          </div>
         )}
+        <div className="w-fit flex flex-col">
+          {!isLoadingUser && usersData && (
+            <Fade triggerOnce={true}>
+              <CustomTable
+                onRowClick={onRowClick}
+                headers={headers}
+                data={usersData.data.data.map((user) => {
+                  return {
+                    id: user.id,
+                    fullName: user.fullName || "-",
+                    userName: user.userName,
+                    email: user.email,
+                    address: user.address || "-",
+                    country: user.country || "-",
+                    city: user.city || "-",
+                    profileImageLink:
+                      user.profileImageLink || CustomerImgPlaceholder,
+                  };
+                })}
+              />
+            </Fade>
+          )}
+        </div>
       </div>
       <Pagination
-        className="m-auto"
+        className="mx-auto"
         currentPage={pageIndex}
         onPageChange={handlePageChange}
         totalPages={Math.ceil(totalItems / pageSize)}

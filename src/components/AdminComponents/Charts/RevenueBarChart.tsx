@@ -1,8 +1,8 @@
 import Chart from 'react-apexcharts'
-import { orderingApi } from '../../../apis/ordering.api';
+import { orderingApi } from '@/apis/ordering.api';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import AdminDropdown from '../Input/AdminDropdown';
+import AdminDropdown from '@/components/AdminComponents/Input/AdminDropdown';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
@@ -103,7 +103,7 @@ const RevenueBarChart = () => {
   };
 
   return (
-    <div id='chart-container' className="w-full justify-self-strech bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 overflow-hidden">
+    <div id='chart-container' className="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 ">
       <div className="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center">
           <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center me-3">
@@ -238,15 +238,15 @@ const RevenueBarChart = () => {
         fill: {
           opacity: 1,
         },
-      }} type="bar" series={series} height={400} />}
+      }} type="bar" series={series} height={200} />}
       <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
         <div className="flex justify-between items-center pt-5">
-          <div className='w-64'>
+          <div className='w-64 py-2'>
             <AdminDropdown title={''} items={[{ key: 0, value: 'Last 7 days' },
             { key: 1, value: 'Last month' }]} onChange={onPeriodChange} name={'period'} />
           </div>
           <button onClick={exportChartToPDF}
-            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
+            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 mt-1 py-2">
             Leads Report
             <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />

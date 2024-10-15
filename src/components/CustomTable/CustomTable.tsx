@@ -28,7 +28,7 @@ export function CustomTable(props: CustomTableProps) {
   };
 
   return (
-    <Table striped hoverable className="table-fixed shadow rounded-lg bg-white w-full self-strech items-stretch basis-full">
+    <Table striped hoverable className="table-fixed shadow-sm rounded-md bg-white w-full self-strech items-stretch basis-full">
       <Table.Head className="border-b">
         {headers.map((header, index) => (
           <Table.HeadCell className="bg-gray-200" key={index}>{header.label}</Table.HeadCell>

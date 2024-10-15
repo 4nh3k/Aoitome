@@ -55,24 +55,31 @@ export default function Homepage() {
 
   return (
     <>
-      <img className="rounded-md w-full object-contain" src="/src/assets/img/banner.png" />
+      <img
+        className="rounded-md w-full object-contain"
+        src="/src/assets/img/banner.png"
+      />
       <div className="flex flex-wrap justify-between items-center mt-8">
         {couponList.map((coupon, index) => (
-          <img className="w-1/2 lg:w-1/4 rounded-md object-contain" key={index} src={coupon.imageURL} />
+          <img
+            className="w-1/2 lg:w-1/4 rounded-md object-contain"
+            key={index}
+            src={coupon.imageURL}
+          />
         ))}
       </div>
       <Container>
         <div className="heading-4 mb-0">Categories</div>
         <div className="flex flex-col w-full self-stretch items-center justify-center">
-        <div className={`w-full flex justify-between mt-[1.25rem]`}>
-          {CategoryList.map((category, index) => (
-            <Category
-              key={index}
-              title={category.title}
-              imageURL={category.imageURL}
-            />
-          ))}
-        </div>
+          <div className={`w-full flex justify-between mt-[1.25rem]`}>
+            {CategoryList.map((category, index) => (
+              <Category
+                key={index}
+                title={category.title}
+                imageURL={category.imageURL}
+              />
+            ))}
+          </div>
         </div>
       </Container>
       <Container>
@@ -83,19 +90,19 @@ export default function Homepage() {
           </div>
         )}
         {!isLoading && (
-          <Slider {...settings}>
-            {data?.data.map((product, index) => (
-              <Product
-                id={product.id}
-                key={product.id}
-                title={product.title}
-                imageURL={product.imageUrl}
-                price={product.price}
-                rating={product.averageRating}
-                discount={product.discountPercentage}
-                totalRating={product.ratingsCount}
-              />
-            ))}
+          <Slider className="appearance-none box-border mx-8 py-2 h-full" {...settings}>
+              {data?.data.map((product, index) => (
+                <Product
+                  id={product.id}
+                  key={product.id}
+                  title={product.title}
+                  imageURL={product.imageUrl}
+                  price={product.price}
+                  rating={product.averageRating}
+                  discount={product.discountPercentage}
+                  totalRating={product.ratingsCount}
+                />
+              ))}
           </Slider>
         )}
       </Container>

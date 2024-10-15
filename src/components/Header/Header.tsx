@@ -5,15 +5,14 @@ import { Dropdown, Navbar } from "flowbite-react";
 import { useState } from "react";
 import { PiList, PiShoppingCart, PiUser } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
-import authApi from "../../apis/auth.api";
-import { useAppContext } from "../../contexts/app.context";
-import { clearLS } from "../../utils/auth";
-import Button from "../Button/Button";
-import ForgotPassModals from "../Modals/ForgotPassModals";
-import LoginModals from "../Modals/LoginModals";
-import { RegisterModals } from "../Modals/RegisterModals/RegisterModals";
-import Notification from "../Notification";
-import { StickyHeader } from "../StickyHeader/StickyHeader";
+import authApi from "@/apis/auth.api";
+import { useAppContext } from "@/contexts/app.context";
+import { clearLS } from "@/utils/auth";
+import Button from "@/components/Button/Button";
+import ForgotPassModals from "@/components/Modals/ForgotPassModals";
+import LoginModals from "@/components/Modals/LoginModals";
+import { RegisterModals } from "@/components/Modals/RegisterModals/RegisterModals";
+import Notification from "@/components/Notification";
 
 interface HeaderProps {
   className?: string;
@@ -68,7 +67,7 @@ export default function Header(props: HeaderProps) {
             throw new Error("Function not implemented.");
           }}
         />
-        <div className="flex space-x-4">
+        <div className="flex space-x-3">
           <Notification />
           <Link to="/cart">
             <Button textClassName="hidden lg:inline-block" icon={PiShoppingCart} text={"Cart"} onClick={() => {}} />
@@ -86,8 +85,8 @@ export default function Header(props: HeaderProps) {
             <Dropdown
               label=""
               renderTrigger={() => (
-                <span className="small font-medium flex  hidden lg:inline-block">
-                  <PiUser className="mr-1" size={18} /> Account
+                <span className="small font-medium lg:inline-block min-w-fit">
+                  <PiUser className="mr-1 inline" size={18} /> <span className="hidden lg:inline-block">Account</span>
                 </span>
               )}
             >

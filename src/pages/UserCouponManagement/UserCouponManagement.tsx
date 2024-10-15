@@ -9,7 +9,7 @@ export function UserCouponManagement() {
     <Container>
       <Tabs aria-label="Tabs with underline" style="underline">
         <Tabs.Item active title="Unused coupons">
-          <div className="grid grid-cols-3 justify-items-center w-full gap-[2rem] ">
+          <div className="grid grid-cols-3 lg:grid-cols-6 justify-items-center w-full gap-[2rem] p-4 ">
             {index.map((index) => (
               <Coupon key={index} />
             ))}

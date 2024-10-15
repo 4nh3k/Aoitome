@@ -6,7 +6,7 @@ import {
 } from "@/constants/endpoint";
 import axios, { AxiosError, HttpStatusCode, type AxiosInstance } from "axios";
 import { toast } from "react-toastify";
-import { AuthResponse } from "../types/Models/Identity/AuthResponse.type";
+import { AuthResponse } from "@/types/Models/Identity/AuthResponse.type";
 import { clearLS, getAccessTokenFromLS } from "./auth";
 class Http {
   private accessToken: string;

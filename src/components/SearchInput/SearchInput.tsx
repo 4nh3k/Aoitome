@@ -8,7 +8,7 @@ interface SearchInputProps {
   enableSizing?: boolean; // New prop to enable resizing of the select element
   onSubmit: (searchValue: string) => void; // Function to handle form submission
   onChange: (searchValue: string) => void; // Function to handle input change
-  onDropdownChange: (type: string) => void;
+  onDropdownChange?: (type: string) => void;
 }
 
 export default function SearchInput({

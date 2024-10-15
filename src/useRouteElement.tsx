@@ -100,7 +100,7 @@ export default function useRouteElement() {
         },
         {
           element: <PaymentSuccess />,
-          path: path.payment_success,
+          path: path.paymentSuccess,
         },
         {
           element: <OrderManagement />,

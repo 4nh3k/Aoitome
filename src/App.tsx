@@ -67,7 +67,7 @@ export default function App() {
       <div className="overflow-x-hidden overflow-y-hidden">
         {routeElement}
         <ToastContainer position="top-right" />
-        <ChatBot flow={flow} />
+        {/* <ChatBot flow={flow} /> */}
       </div>
     </AppProvider>
   );

@@ -10,7 +10,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { Button, Pagination, Rating } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import {
   PiCaretLeft,
@@ -224,9 +224,10 @@ export function ProductDetails() {
 
   const [toggler, setToggler] = useState(false);
   const [toggleDescr, setToggleDescr] = useState(true);
-  const productDescrElementHeight = document.getElementById(
-    "product-description-text"
-  )?.offsetHeight;
+
+  useEffect(() => {
+    document.title = "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 8";
+  }, []);
 
   return (
     // <Fade triggerOnce={true}>
@@ -604,8 +605,7 @@ export function ProductDetails() {
             className="bg-white flex flex-col p-4 content-border gap-2"
           >
             <span className="break-words text-2xl font-semibold">
-              デート・ア・ライブ フラグメント デート・ア・バレット - Date A
-              Barrette Date A Live Fragment 8
+              デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 8
             </span>
             <div id="product-sa" className="flex flex-col text-sm gap-2">
               <div className="flex flex-1 flex-row">

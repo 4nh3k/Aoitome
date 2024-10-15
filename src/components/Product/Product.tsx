@@ -15,8 +15,8 @@ interface ProductProps {
 export function Product(props: ProductProps) {
   return (
     <div
-      className="w-52 h-fit pb-1 bg-white 
-    rounded-md border-none border-gray-200 flex-col justify-start items-center gap-2.5 hover:shadow-lg hover:shadow-slate-300 inline-flex"
+      className="w-52 p-4 h-fit bg-white 
+    rounded-md border-none border-gray-200 flex-col justify-start items-center gap-2.5 hover:shadow-custom-lg hover:shadow-slate-300 inline-flex box-border"
     >
       <Link
         to={

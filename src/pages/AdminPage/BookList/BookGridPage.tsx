@@ -5,11 +5,9 @@ import { bookApi } from "@/apis/book.api";
 import Product from "@/components/Product";
 import SearchInput from "@/components/SearchInput/SearchInput";
 import { Fade } from "react-awesome-reveal";
-import { ClipLoader } from 'react-spinners';
-
+import { ClipLoader } from "react-spinners";
 
 const BookGridPage = () => {
-
   const queryClient = useQueryClient();
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
@@ -20,21 +18,25 @@ const BookGridPage = () => {
   const [isFirstRun, setIsFirstRun] = useState(true);
 
   const { data: booksData, isLoading: isLoadingBook } = useQuery({
-    queryKey: ['books', { pageIndex, pageSize }],
+    queryKey: ["books", { pageIndex, pageSize }],
     queryFn: ({ signal }) => {
       return bookApi.getBookByPage(pageIndex - 1, pageSize);
-    }
+    },
   });
 
   const { data: searchBook, isLoading: isSearchBookLoading } = useQuery({
-    queryKey: ['search_book', { pageIndex, pageSize }],
+    queryKey: ["search_book", { pageIndex, pageSize }],
     queryFn: () => {
       return bookApi.getSearchBookByPage(searchTerm, pageIndex - 1, pageSize);
-    }
+    },
   });
 
   useEffect(() => {
-    if ((isFirstRun || (!isFirstRun && !isSearching)) && !isLoadingBook && booksData) {
+    if (
+      (isFirstRun || (!isFirstRun && !isSearching)) &&
+      !isLoadingBook &&
+      booksData
+    ) {
       console.log("First run to mount data");
       const data = booksData?.data.data;
       const totalItems = booksData?.data.totalItems;
@@ -45,12 +47,11 @@ const BookGridPage = () => {
       console.log("First time");
       setIsFirstRun(false);
     }
-    
   }, [isFirstRun, isLoadingBook, booksData, pageIndex]);
 
   useEffect(() => {
-     if (!isSearchBookLoading && isSearching && searchBook) {
-      const booksInPage = searchBook?.data.data
+    if (!isSearchBookLoading && isSearching && searchBook) {
+      const booksInPage = searchBook?.data.data;
       setBooksInPage(booksInPage);
       const totalItems = searchBook?.data.totalItems;
       setTotalItems(totalItems);
@@ -75,22 +76,30 @@ const BookGridPage = () => {
 
   useEffect(() => {
     if (isFirstRun) return;
-    console.log("Began sorting....")
-    let sortedValues = isSearching ? [...searchBook?.data.data] : [...booksData?.data.data];
-    console.log(sortedValues)
+    console.log("Began sorting....");
+    let sortedValues = isSearching
+      ? [...searchBook?.data.data]
+      : [...booksData?.data.data];
+    console.log(sortedValues);
 
     switch (selectedSort) {
       case "Price (Low to High)":
-        sortedValues?.sort((a, b) => a.price * a.discountPercentage - b.price * b.discountPercentage)
+        sortedValues?.sort(
+          (a, b) =>
+            a.price * a.discountPercentage - b.price * b.discountPercentage
+        );
         break;
       case "Price (High to Low)":
-        sortedValues?.sort((a, b) => b.price * b.discountPercentage - a.price * a.discountPercentage)
+        sortedValues?.sort(
+          (a, b) =>
+            b.price * b.discountPercentage - a.price * a.discountPercentage
+        );
         break;
       case "Avg Reviews":
-        sortedValues?.sort((a, b) => a.averageRating - b.averageRating)
+        sortedValues?.sort((a, b) => a.averageRating - b.averageRating);
         break;
     }
-    console.log("Sorted values:")
+    console.log("Sorted values:");
     console.log(sortedValues);
     setBooksInPage(sortedValues);
   }, [selectedSort]);
@@ -100,9 +109,9 @@ const BookGridPage = () => {
     setIsSearching(!isSearchTermNull);
     if (!isSearchTermNull) {
       setSearchTerm(searchTerm);
-      console.log("Search term set: " + searchTerm)
+      console.log("Search term set: " + searchTerm);
     }
-  }
+  };
 
   const onSearchSubmit = () => {
     conditionalInvalidateSearchBookQuery();
@@ -115,12 +124,15 @@ const BookGridPage = () => {
       console.log("Total items: " + totalItems);
       console.log(searchBook.data.data);
     }
-  }
+  };
 
   const conditionalInvalidateSearchBookQuery = () => {
-    const cachedData = queryClient.getQueryData(['search_book', { pageIndex, pageSize }]);
+    const cachedData = queryClient.getQueryData([
+      "search_book",
+      { pageIndex, pageSize },
+    ]);
     if (cachedData) {
-      queryClient.invalidateQueries(['search_book', { pageIndex, pageSize }]);
+      queryClient.invalidateQueries(["search_book", { pageIndex, pageSize }]);
     }
   };
 
@@ -128,20 +140,21 @@ const BookGridPage = () => {
     const currentPage = e;
     console.log("Current page: " + currentPage);
     setPageIndex(currentPage);
-  }
+  };
 
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
       <span className="text-[1.5rem] font-bold">Book</span>
       <div className="flex justify-between items-center self-stretch">
         <SearchInput
-          className={"min-w-64"}
-          placeholder={"Search book"}
-          dropdownList={[]}
-          enableDropdown={false}
+          className="min-w-64 border-1 border-gray-300 border-sm rounded-l-sm rounded-r-lg p-0 focus-within:[&:has(input:focus)]:border-blue-500 overflow-hidden"
           onChange={onChangeSearchTerm}
           onSubmit={onSearchSubmit}
-        ></SearchInput>
+          enableSizing={true}
+          placeholder={"Enter a search term"}
+          dropdownList={["By name", "By author", "By Elysia & Mei"]}
+          enableDropdown={false}
+        />
         <div className="flex justify-end items-center gap-3">
           <span className="text-[1rem] font-normal">Sort by</span>
           <Select required value={selectedSort} onChange={handleSortChange}>
@@ -153,28 +166,37 @@ const BookGridPage = () => {
           </Select>
         </div>
       </div>
-      {isLoadingBook &&
+      {isLoadingBook && (
         <div className="flex flex-col items-center">
-          <ClipLoader color="#8FA8DE" className="items-center justify-center flex" size={100} aria-label="Loading Spinner">
-          </ClipLoader>
+          <ClipLoader
+            color="#8FA8DE"
+            className="items-center justify-center flex"
+            size={100}
+            aria-label="Loading Spinner"
+          ></ClipLoader>
           <p className="text-primary">Loading...</p>
-        </div>}
-      <div className="grid grid-cols-4 justify-items-center w-full gap-[4.5rem] ">
-        {!isLoadingBook && booksInPage && booksInPage.map((product) => {
-          return (
-            <Fade triggerOnce={true}>
-              <Product key={product.id}
-                id={product.id}
-                title={product.title}
-                imageURL={product.imageUrl}
-                price={product.price}
-                rating={product.averageRating}
-                discount={product.discountPercentage}
-                totalRating={product.ratingsCount}
-                isAdmin={true} />
-            </Fade>
-          );
-        })}
+        </div>
+      )}
+      <div className="grid grid-cols-5 items-center justify-items-center w-full gap-4 px-4">
+        {!isLoadingBook &&
+          booksInPage &&
+          booksInPage.map((product) => {
+            return (
+              <Fade triggerOnce={true}>
+                <Product
+                  key={product.id}
+                  id={product.id}
+                  title={product.title}
+                  imageURL={product.imageUrl}
+                  price={product.price}
+                  rating={product.averageRating}
+                  discount={product.discountPercentage}
+                  totalRating={product.ratingsCount}
+                  isAdmin={true}
+                />
+              </Fade>
+            );
+          })}
       </div>
       <Pagination
         className="m-auto"

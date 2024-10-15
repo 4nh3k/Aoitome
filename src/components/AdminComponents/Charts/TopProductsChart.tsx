@@ -1,12 +1,10 @@
 import Chart from 'react-apexcharts'
-import { orderingApi } from '../../../apis/ordering.api';
+import { orderingApi } from '@/apis/ordering.api';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import AdminDropdown from '../Input/AdminDropdown';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { saveAs } from 'file-saver';
-import { TopProduct } from '../../../types/Models/Ordering/TopProduct.type';
 import { ClipLoader } from 'react-spinners';
 
 const TopProductCharts = () => {
@@ -55,13 +53,12 @@ const TopProductCharts = () => {
   };
 
   return (
-    <div id='chart-container' className="w-full justify-self-strech bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 overflow-hidden">
+    <div id='chart-container' className="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
       <div className="flex justify-between pb-4 mb-4">
         <div className="flex items-center">
-
         </div>
         <div>
-          <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">Top ten books bought of all time</h5>
+          <span className="leading-none heading-6 font-bold text-gray-900 dark:text-white pb-1">Top ten books bought of all time</span>
         </div>
         <div>
         </div>
@@ -72,7 +69,7 @@ const TopProductCharts = () => {
           </ClipLoader>
           <p className="text-primary">Loading...</p>
         </div>}
-      {series !== undefined && <Chart id='chart2' class='w-full' options={{
+      {series !== undefined && <Chart id='chart2' class='w-full' height="240" width={"100%"} options={{
         title: {
           text: '',
           align: 'center',
@@ -90,7 +87,6 @@ const TopProductCharts = () => {
         colors: ["#27c263", "#FDBA8C"],
         chart: {
           type: "bar",
-          height: "320px",
           fontFamily: "Inter, sans-serif",
           toolbar: {
             show: false,
@@ -180,7 +176,7 @@ const TopProductCharts = () => {
         fill: {
           opacity: 1,
         },
-      }} type="bar" series={series} height={400} />}
+      }} type="bar" series={series} />}
       <div className="grid grid-cols-1 items-end border-gray-200 border-t dark:border-gray-700 justify-between">
         <div className="flex flex-1 ml-auto items-end pt-5">
           <button onClick={exportChartToPDF}
