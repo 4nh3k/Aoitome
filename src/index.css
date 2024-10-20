@@ -6,6 +6,28 @@ body {
   min-width: 640px;
 }
 
+/* Customize the toast container */
+.Toastify__toast-container {
+  width: 400px;
+}
+
+/* Customize each toast */
+.Toastify__toast {
+  background-color: white;
+  color: rgb(91, 96, 107);
+  border-width: 1px;
+  font-size: 16px;
+}
+
+/* Customize different types of toasts (success, error, etc.) */
+/* .Toastify__toast--success {
+  background-color: green;
+}
+
+.Toastify__toast--error {
+  background-color: red;
+} */
+
 .content-border {
   @apply border-1 border-gray-200 rounded-lg pb-4;
 }

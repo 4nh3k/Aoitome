@@ -1,10 +1,11 @@
-import Bag from "../../../assets/icon/bag.svg";
-import Book from "../../../assets/icon/book-outline.svg";
-import PieChart from "../../../assets/icon/chart-pie-outline.svg";
-import User from "../../../assets/icon/user.svg";
-import { path } from "../../../constants/path";
+import Bag from "@/assets/icon/bag.svg";
+import Book from "@/assets/icon/book-outline.svg";
+import PieChart from "@/assets/icon/chart-pie-outline.svg";
+import User from "@/assets/icon/user.svg";
+import { path } from "@/constants/path";
 import SidebarCollapse from "./SidebarCollapse";
 import SidebarItem from "./SidebarItem";
+import Voucher from "@/assets/icon/shop.svg"
 
 interface AdminSidebarProps {
   className?: string;
@@ -26,10 +27,10 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
   const customerServiceSidebarItems = [{ label: "Chat log", link: "" }];
   return (
     <div
-      className={`${className} flex w-[15.625rem] items-start bg-white border-1 border-solid border-gray-200 overflow-y-scroll no-scrollbar`}
+      className={`${className} flex w-[15.625rem] items-start bg-white border-1 border-solid border-gray-200 overflow-y-scroll no-scrollbar pb-16`}
     >
       <div className="flex flex-col items-start gap-6 flex-1">
-        <div className="flex flex-col items-stretch gap-1 px-4 py-3 font-medium flex-wrap">
+        <div className="flex flex-col items-strech gap-1 px-4 py-3 font-medium flex-wrap">
           <SidebarItem
             imageSrc={PieChart}
             label={"Dashboard"}
@@ -55,11 +56,12 @@ const Sidebar: React.FC<AdminSidebarProps> = ({ className }) => {
             label={"Order Management"}
             items={orderSidebarItems}
           ></SidebarCollapse>
-          {/* <SidebarItem
+          <SidebarItem
             imageSrc={Voucher}
             label={"Voucher Management"}
             link={path.adminVoucherManagement}
-          ></SidebarItem> */}
+          ></SidebarItem>
+          
           {/* <SidebarCollapse
             imageSrc={Message}
             label={"Customer Service"}

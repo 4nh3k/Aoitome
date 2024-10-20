@@ -5,13 +5,14 @@ import Slider from "react-slick";
 import { BeatLoader } from "react-spinners";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { bookApi } from "../../apis/book.api";
-import { CategoryList, couponList } from "../../assets/mockdata";
-import Category from "../../components/Category";
-import Container from "../../components/Container";
-import Product from "../../components/Product";
+import { bookApi } from "@/apis/book.api";
+import { CategoryList, couponList } from "@/assets/mockdata";
+import Category from "@/components/Category";
+import Container from "@/components/Container";
+import Product from "@/components/Product";
+import { useNavigate } from "react-router-dom";
 
-function NextArrow(props) {
+function NextArrow(props: any) {
   const { className, onClick } = props;
   return (
     <PiCaretRight
@@ -23,8 +24,8 @@ function NextArrow(props) {
   );
 }
 
-function PrevArrow(props) {
-  const { className, style, onClick } = props;
+function PrevArrow(props: any) {
+  const { className, onClick } = props;
   return (
     <PiCaretLeft
       className={className}
@@ -52,6 +53,11 @@ export default function Homepage() {
       return res.data;
     },
   });
+
+  const navigate = useNavigate();
+  const handleSeeMore = () => {
+    navigate(`../search?q=a`);
+  };
 
   return (
     <>
@@ -95,12 +101,12 @@ export default function Homepage() {
                 <Product
                   id={product.id}
                   key={product.id}
-                  title={product.title}
-                  imageURL={product.imageUrl}
-                  price={product.price}
-                  rating={product.averageRating}
+                  title={product.title ?? "N/A"}
+                  imageURL={product.imageUrl ?? "N/A"}
+                  price={product.price ?? 0}
+                  rating={product.averageRating ?? 0}
                   discount={product.discountPercentage}
-                  totalRating={product.ratingsCount}
+                  totalRating={product.ratingsCount ?? 0}
                 />
               ))}
           </Slider>
@@ -117,21 +123,22 @@ export default function Homepage() {
           {!isLoading &&
             data?.data.map((product, index) => (
               <Product
-                id={product.id}
-                key={product.id}
-                title={product.title}
-                imageURL={product.imageUrl}
-                price={product.price}
-                rating={product.averageRating}
-                discount={product.discountPercentage}
-                totalRating={product.ratingsCount}
-              />
+                  id={product.id}
+                  key={product.id}
+                  title={product.title ?? "N/A"}
+                  imageURL={product.imageUrl ?? "N/A"}
+                  price={product.price ?? 0}
+                  rating={product.averageRating ?? 0}
+                  discount={product.discountPercentage}
+                  totalRating={product.ratingsCount ?? 0}
+                />
             ))}
         </div>
         <Button
           className="mt-5 border-blue-600 border-1 mx-auto"
           outline
           color="cyan"
+          onClick={handleSeeMore}
         >
           <span className="text-blue-600">View More</span>
         </Button>

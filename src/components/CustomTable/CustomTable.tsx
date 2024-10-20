@@ -31,7 +31,7 @@ export function CustomTable(props: CustomTableProps) {
     <Table striped hoverable className="table-fixed shadow-sm rounded-md bg-white w-full self-strech items-stretch basis-full">
       <Table.Head className="border-b">
         {headers.map((header, index) => (
-          <Table.HeadCell className="bg-gray-200" key={index}>{header.label}</Table.HeadCell>
+          <Table.HeadCell className="bg-gray-100 font-semibold" key={index}>{header.label}</Table.HeadCell>
         ))}
       </Table.Head>
       <Table.Body className="divide-y">
@@ -40,7 +40,7 @@ export function CustomTable(props: CustomTableProps) {
             {headers.map((header, indexCell) => (
               <Table.Cell className={header.className} key={indexCell}>
                 {header.isImage ? (
-                  <img alt='profileimg' className="w-auto h-auto flex aspect-square rounded-lg bg-gray-50 object-cover" src={item[header.prop]} style={{ maxWidth: 64, height: 64 }} />
+                  <img alt='profileimg' className="w-auto h-auto flex aspect-square rounded-lg bg-gray-50 object-cover mx-auto" src={item[header.prop]} style={{ maxWidth: 64, height: 64 }} />
                 ) : (
                   item[header.prop]
                 )}

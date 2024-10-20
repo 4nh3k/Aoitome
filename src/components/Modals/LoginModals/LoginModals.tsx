@@ -15,9 +15,9 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import authApi from "../../../apis/auth.api";
-import { useAppContext } from "../../../contexts/app.context";
-import { setAccessTokenToLS } from "../../../utils/auth";
+import authApi from "@/apis/auth.api";
+import { useAppContext } from "@/contexts/app.context";
+import { setAccessTokenToLS } from "@/utils/auth";
 
 const ADMIN_ROLE = "Admin";
 const CUSTOMER_ROLE = "Customer";
@@ -57,7 +57,7 @@ export function LoginModals({
     e.preventDefault();
     // Perform form validation here
     if (!username || !password) {
-      toast.error("Please enter username and password");
+       toast.error("Please enter username and password");
       return;
     }
 

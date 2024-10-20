@@ -17,6 +17,7 @@ import { Fade } from "react-awesome-reveal";
 import CustomTable from "@/components/CustomTable";
 import { addressApi } from "@/apis/address.api";
 import { paymentMethodApi } from "@/apis/paymentMethod.api";
+import BooleanIcon from "@/components/BooleanIcon/BooleanIcon";
 
 const UserAccountInAdmin = () => {
   const addressHeaders = [
@@ -56,14 +57,25 @@ const UserAccountInAdmin = () => {
   const { customerId } = useParams();
   console.log("CustomerId: " + customerId);
   const [currentPassword, setCurrentPassword] = useState<string>();
-  const [newPassword, setNewPassword] = useState<string>();
+  const [newPassword, setNewPassword] = useState<string>("");
   const [repeatNewPassword, setRepeatNewPassword] = useState<string>();
-
   const [userProfile, setUserProfile] = useState<User>();
   const [currentImg, setCurrentImg] = useState(ElysiaImg);
   const [oldImg, setOldImg] = useState();
   const [file, setFile] = useState<File>();
   const inputRef = useRef(null);
+
+  const [passLengthValid, setPassLengthValid] = useState(false);
+  const [passHaveUppercase, setPassHaveUppercase] = useState(false);
+  const [passContainSpecialChar, setPassContainSpecialChar] = useState(false);
+  const [isNewPass, setIsNewPass] = useState(false);
+
+  useEffect(() => {
+    setPassLengthValid(newPassword.length < 8 ? false : true);
+    setPassHaveUppercase(!/[A-Z]/.test(newPassword) ? false : true);
+    setPassContainSpecialChar(!/[!@#$%^&*]/.test(newPassword) ? false : true);
+    setIsNewPass(newPassword === currentPassword ? false : true);
+  }, [newPassword]);
 
   const handleLoadImage = () => {
     if (inputRef.current) {
@@ -444,38 +456,52 @@ const UserAccountInAdmin = () => {
               </div>
             </div>
 
-            <div className="flex p-4 flex-col items-start gap-2 self-strech bg-gray-50">
-              <span className="text-lg font-medium">
+            <div className="flex p-4 flex-col items-start gap-2 self-strech bg-gray-50 content-border">
+              <span className="text-md font-medium">
                 Password requirements:
               </span>
-              <span className="text-lg font-normal text-gray-500">
-                Ensure that these requirements are met:
-              </span>
               <div className="flex flex-end gap-3">
-                <img src={CheckCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
+                <BooleanIcon isSuccess={passLengthValid} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    passLengthValid ? "text-success" : "text-red-500"
+                  }`}
+                >
                   At least 8 characters (and up to 50 characters)
                 </span>
               </div>
               <div className="flex flex-end gap-3">
-                <img src={CheckCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
-                  At least one lowercase character
+                <BooleanIcon isSuccess={passHaveUppercase} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    passHaveUppercase ? "text-success" : "text-red-500"
+                  }`}
+                >
+                  At least one uppercase character
                 </span>
               </div>
               <div className="flex flex-end gap-3">
-                <img src={XCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
+                <BooleanIcon isSuccess={passContainSpecialChar} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    passContainSpecialChar ? "text-success" : "text-red-500"
+                  }`}
+                >
                   Inclusion of at least one special character, e.g.,! @ # ?
                 </span>
               </div>
               <div className="flex flex-end gap-3">
-                <img src={XCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
+                <BooleanIcon isSuccess={isNewPass} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    isNewPass ? "text-success" : "text-red-500"
+                  }`}
+                >
                   Different from your previous passwords
                 </span>
               </div>
             </div>
+
             <div className="flex items-start justify-end gap-3 self-stretch w-full">
               <CustomButton
                 label={"Save changes"}

@@ -7,23 +7,41 @@ import { toast } from "react-toastify";
 interface ForgotPassModalsProps {
   openModal: boolean;
   onCloseModal: () => void;
+  onTokenReceived: () => void;
+  handleStoreEmail: (email: string) => void;
 }
 
 export function ForgotPassModals({
   openModal,
   onCloseModal,
+  onTokenReceived,
+  handleStoreEmail
 }: ForgotPassModalsProps) {
   const [email, setEmail] = useState("");
 
   const forgotPassMutation = useMutation({
     mutationKey: ["forgotPass", email],
     mutationFn: async (body: { email: string }) => {
-      var res = await authApi.getResetPassToken(email);
-      if (res.status === 200) {
-        toast.success("Email sent successfully");
-        onCloseModal();
-      } else {
-        toast.error("Something went wrong, please try again later");
+      try {
+        const res = await authApi.getResetPassToken(email);
+        
+        if (res.status === 200) {
+          toast.success("Email sent successfully");
+          handleStoreEmail(email);
+          onTokenReceived();
+        } else {
+          toast.error("Something went wrong, please try again later");
+        }
+      } catch (error: any) {
+        // Accessing the response from the error object
+        if (error.response) {
+          const res = error.response;
+          console.log(res);
+          toast.error(`${res.data || "Please try again later"}`);
+        } else {
+          // Handle cases where no response was received (network errors)
+          toast.error("Something went wrong, please try again later");
+        }
       }
     },
   });
@@ -55,7 +73,9 @@ export function ForgotPassModals({
             variant="outlined"
             label="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
           <Button className="w-full" onClick={handleSubmit}>
             {!forgotPassMutation.isPending ? "Confirm" : <Spinner />}

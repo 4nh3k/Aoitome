@@ -8,22 +8,21 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Select } from "flowbite-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import CheckCircle from "../../assets/icon/check-circle.svg";
-import InfoOutline from "../../assets/icon/info-outline.svg";
-import UploadIcon from "../../assets/icon/upload.svg";
-import XCircle from "../../assets/icon/x-circle.svg";
-import ElysiaImg from "../../assets/img/elysia.jpg";
-import CustomButton from "../../components/AdminComponents/CustomButton/CustomButton";
-import AdminDropdown from "../../components/AdminComponents/Input/AdminDropdown";
-import AdminInput from "../../components/AdminComponents/Input/AdminInput";
-import AdminTextArea from "../../components/AdminComponents/Input/AdminTextArea";
+import InfoOutline from "@/assets/icon/info-outline.svg";
+import UploadIcon from "@/assets/icon/upload.svg";
+import ElysiaImg from "@/assets/img/elysia.jpg";
+import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton";
+import AdminDropdown from "@/components/AdminComponents/Input/AdminDropdown";
+import AdminInput from "@/components/AdminComponents/Input/AdminInput";
+import AdminTextArea from "@/components/AdminComponents/Input/AdminTextArea";
+import BooleanIcon from "@/components/BooleanIcon/BooleanIcon";
 
 const UserAccount = () => {
-  const userId = getUIDFromLS();
+  const userId = getUIDFromLS() ?? "";
 
-  const [currentPassword, setCurrentPassword] = useState<string>();
-  const [newPassword, setNewPassword] = useState<string>();
-  const [repeatNewPassword, setRepeatNewPassword] = useState<string>();
+  const [currentPassword, setCurrentPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [repeatNewPassword, setRepeatNewPassword] = useState<string>("");
 
   const [addressId, setAddressId] = useState<number | undefined>(undefined);
 
@@ -34,6 +33,17 @@ const UserAccount = () => {
 
   const [address, setAddress] = useState<Address>();
 
+  const [passLengthValid, setPassLengthValid] = useState(false);
+  const [passHaveUppercase, setPassHaveUppercase] = useState(false);
+  const [passContainSpecialChar, setPassContainSpecialChar] = useState(false);
+  const [isNewPass, setIsNewPass] = useState(false);
+  useEffect(() => {
+    setPassLengthValid(newPassword.length < 8 ? false : true);
+    setPassHaveUppercase(!/[A-Z]/.test(newPassword) ? false : true);
+    setPassContainSpecialChar(!/[!@#$%^&*]/.test(newPassword) ? false : true);
+    setIsNewPass(newPassword === currentPassword ? false : true);
+  }, [newPassword]);
+
   const inputRef = useRef(null);
   const client = useQueryClient();
 
@@ -43,7 +53,7 @@ const UserAccount = () => {
     }
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: any) => {
     const file = event.target.files[0];
 
     if (file) {
@@ -397,7 +407,7 @@ const UserAccount = () => {
             <AdminDropdown
               title={"Save address"}
               items={
-                addressData?.data.data.map((address, index) => {
+                addressData?.data.data.map((address) => {
                   return {
                     key: address.id,
                     value: address.street,
@@ -504,6 +514,7 @@ const UserAccount = () => {
               textColor={"black"}
               btnColor={"white"}
               borderColor={"gray-300"}
+              onClick={() => {}}
             />
           </div>
         </div>
@@ -548,33 +559,45 @@ const UserAccount = () => {
             />
           </div>
         </div>
-
-        <div className="flex p-4 flex-col items-start gap-2 self-strech bg-gray-50">
-          <span className="text-lg font-medium">Password requirements:</span>
-          <span className="text-lg font-normal text-gray-500">
-            Ensure that these requirements are met:
-          </span>
+        <div className="flex p-4 flex-col items-start gap-2 self-strech bg-gray-50 content-border">
+          <span className="text-md font-medium">Password requirements:</span>
           <div className="flex flex-end gap-3">
-            <img src={CheckCircle} width={20} height={20} />
-            <span className="text-sm font-normal">
+            <BooleanIcon isSuccess={passLengthValid} />
+            <span
+              className={`text-sm font-semibold transition-colors ${
+                passLengthValid ? "text-success" : "text-red-500"
+              }`}
+            >
               At least 8 characters (and up to 50 characters)
             </span>
           </div>
           <div className="flex flex-end gap-3">
-            <img src={CheckCircle} width={20} height={20} />
-            <span className="text-sm font-normal">
-              At least one lowercase character
+            <BooleanIcon isSuccess={passHaveUppercase} />
+            <span
+              className={`text-sm font-semibold transition-colors ${
+                passHaveUppercase ? "text-success" : "text-red-500"
+              }`}
+            >
+              At least one uppercase character
             </span>
           </div>
           <div className="flex flex-end gap-3">
-            <img src={XCircle} width={20} height={20} />
-            <span className="text-sm font-normal">
+            <BooleanIcon isSuccess={passContainSpecialChar} />
+            <span
+              className={`text-sm font-semibold transition-colors ${
+                passContainSpecialChar ? "text-success" : "text-red-500"
+              }`}
+            >
               Inclusion of at least one special character, e.g.,! @ # ?
             </span>
           </div>
           <div className="flex flex-end gap-3">
-            <img src={XCircle} width={20} height={20} />
-            <span className="text-sm font-normal">
+            <BooleanIcon isSuccess={isNewPass} />
+            <span
+              className={`text-sm font-semibold transition-colors ${
+                isNewPass ? "text-success" : "text-red-500"
+              }`}
+            >
               Different from your previous passwords
             </span>
           </div>

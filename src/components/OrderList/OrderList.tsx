@@ -26,6 +26,11 @@ export function OrderList({ data }: OrderListProps) {
       className: "text-gray-500 text-sm",
     },
     {
+      label: "Order Date",
+      prop: "order_date",
+      className: "text-gray-500 text-sm",
+    },
+    {
       label: "Total",
       prop: "total",
       className: "text-gray-900 font-semibold text-sm",

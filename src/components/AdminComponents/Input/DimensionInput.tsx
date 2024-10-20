@@ -1,6 +1,6 @@
-import InfoOutline from "../../../assets/icon/info-outline.svg"
-import MinusOutline from "../../../assets/icon/minus-outline.svg"
-import PlusOutline from "../../../assets/icon/plus-outline.svg"
+import InfoOutline from "@/assets/icon/info-outline.svg"
+import MinusOutline from "@/assets/icon/minus-outline.svg"
+import PlusOutline from "@/assets/icon/plus-outline.svg"
 const DimensionInput = () => {
     return (
         <div className="flex flex-col items-start gap-2 flex-1 self-strech flex-grow">

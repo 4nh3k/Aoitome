@@ -13,6 +13,8 @@ import ForgotPassModals from "@/components/Modals/ForgotPassModals";
 import LoginModals from "@/components/Modals/LoginModals";
 import { RegisterModals } from "@/components/Modals/RegisterModals/RegisterModals";
 import Notification from "@/components/Notification";
+import { toast } from "react-toastify";
+import ResetPassModals from "@/components/Modals/ResetPassModals/ResetPassModals";
 
 interface HeaderProps {
   className?: string;
@@ -22,6 +24,8 @@ export default function Header(props: HeaderProps) {
   const [toggleLoginModal, setToggleLoginModal] = useState(false);
   const [toggleRegisterModal, setToggleRegisterModal] = useState(false);
   const [toggleForgotPassModal, setToggleForgotPassModal] = useState(false);
+  const [toggleResetPassModal, setToggleResetPassModal] = useState(false);
+
   const { isAuthenticated, setIsAuthenticated } = useAppContext();
   const [searchValue, setSearchValue] = useState("");
 
@@ -30,11 +34,19 @@ export default function Header(props: HeaderProps) {
   const handleSubmit = (search: string) => {
     navigate(`/search?q=${searchValue}`);
   };
+  const [email, setEmail] = useState("");
+
+  const handleStoreEmail = (email: string) => {
+    console.log("email", email);
+    setEmail(email);
+  }
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
       clearLS();
       setIsAuthenticated(false);
+      toast.success("Logout successfully");
+      navigate("/");
       await authApi.logout();
     },
   });
@@ -70,7 +82,12 @@ export default function Header(props: HeaderProps) {
         <div className="flex space-x-3">
           <Notification />
           <Link to="/cart">
-            <Button textClassName="hidden lg:inline-block" icon={PiShoppingCart} text={"Cart"} onClick={() => {}} />
+            <Button
+              textClassName="hidden lg:inline-block"
+              icon={PiShoppingCart}
+              text={"Cart"}
+              onClick={() => {}}
+            />
           </Link>
           {!isAuthenticated ? (
             <Button
@@ -86,7 +103,8 @@ export default function Header(props: HeaderProps) {
               label=""
               renderTrigger={() => (
                 <span className="small font-medium lg:inline-block min-w-fit">
-                  <PiUser className="mr-1 inline" size={18} /> <span className="hidden lg:inline-block">Account</span>
+                  <PiUser className="mr-1 inline" size={18} />{" "}
+                  <span className="hidden lg:inline-block">Account</span>
                 </span>
               )}
             >
@@ -131,7 +149,14 @@ export default function Header(props: HeaderProps) {
             onCloseModal={() => {
               setToggleForgotPassModal(false);
             }}
+            onTokenReceived={() => {
+              setToggleForgotPassModal(false);
+              setToggleResetPassModal(true);
+              console.log("Open reset pass modal");
+            }}
+            handleStoreEmail={handleStoreEmail}
           />
+          <ResetPassModals openModal={toggleResetPassModal} onCloseModal={() => {setToggleResetPassModal(false); setToggleForgotPassModal(true);}} email={email} />
         </div>
       </Navbar>
       <div className="border-b-1 border-gray-200 py-0 px-2 lg:px-[6rem] text-black text-sm font-medium flex ">

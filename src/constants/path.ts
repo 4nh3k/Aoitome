@@ -16,14 +16,14 @@ export const path = {
   adminCustomers: "customers",
   adminCustomerAccount: "customers/:customerId", 
   customerAccount: "my-account",
- 
-  // OK
-  customerOrder: "my-orders",
-  customerCoupon: "my-coupons",
 
   adminProducts: "products",
-  adminAddProduct: "products/add",
+  adminAddProduct: "add-product",
   adminProduct: "products/:id",
+
+  customerOrder: "my-orders",
+  customerCoupon: "my-coupons",
+  // OK
   adminBookReviews: "products/reviews",
 
   adminOrderManagement: "orders",

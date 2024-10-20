@@ -21,9 +21,10 @@ export function Product(props: ProductProps) {
       <Link
         to={
           props.isAdmin === true
-            ? `product/${props.id}`
+            ? `${props.id}`
             : `/product/${props.id}`
         }
+        replace={true}
       >
         <img
           className="w-48 h-52 rounded-xl cursor-pointer object-contain	"
@@ -34,9 +35,10 @@ export function Product(props: ProductProps) {
         <Link
           to={
             props.isAdmin === true
-              ? `admin/product/${props.id}`
+              ? `${props.id}`
               : `/product/${props.id}`
           }
+          replace={true}
         >
           <div className="line-clamp-2 cursor-pointer h-12 text-black text-md font-normal leading-normal">
             {props.title}

@@ -76,128 +76,128 @@ const settings = {
 };
 
 export function ProductDetails() {
-  // const { id } = useParams();
-  // const uid = getUIDFromLS();
-  // const { getBookDetails } = useBookDetails(id || "");
-  // const { data: bookData, isLoading } = getBookDetails;
-  // const [reviewPage, setReviewPage] = useState(1);
-  // const queryClient = useQueryClient();
-  // const [quantity, setQuantity] = useState(1);
-  // const { data: reviewData, isLoading: reviewIsLoading } = useQuery({
-  //   queryKey: ["reviews", id],
-  //   queryFn: async () => {
-  //     if (!id || id === "") {
-  //       toast.error("Book not found");
-  //       return;
-  //     }
-  //     console.log("bookId", id);
-  //     const data = await bookReviewApi.getBookReviewByBook(
-  //       parseInt(id),
-  //       reviewPage - 1,
-  //       10
-  //     );
-  //     console.log("data", data);
+  const { id } = useParams();
+  const uid = getUIDFromLS();
+  const { getBookDetails } = useBookDetails(id || "");
+  const { data: bookData, isLoading } = getBookDetails;
+  const [reviewPage, setReviewPage] = useState(1);
+  const queryClient = useQueryClient();
+  const [quantity, setQuantity] = useState(1);
+  const { data: reviewData, isLoading: reviewIsLoading } = useQuery({
+    queryKey: ["reviews", id],
+    queryFn: async () => {
+      if (!id || id === "") {
+        toast.error("Book not found");
+        return;
+      }
+      console.log("bookId", id);
+      const data = await bookReviewApi.getBookReviewByBook(
+        parseInt(id),
+        reviewPage - 1,
+        10
+      );
+      console.log("data", data);
 
-  //     return data.data;
-  //   },
-  // });
+      return data.data;
+    },
+  });
 
-  // const { data: recommendedBooks, isLoading: recommendedBooksIsLoading } =
-  //   useQuery({
-  //     queryKey: ["recommendedBooks", id],
-  //     queryFn: async () => {
-  //       if (!id || id === "") {
-  //         toast.error("Book not found");
-  //         return;
-  //       }
-  //       console.log("bookId", id);
-  //       const data = await recsysApi.getRecommendations(id);
-  //       console.log("data", data);
+  const { data: recommendedBooks, isLoading: recommendedBooksIsLoading } =
+    useQuery({
+      queryKey: ["recommendedBooks", id],
+      queryFn: async () => {
+        if (!id || id === "") {
+          toast.error("Book not found");
+          return;
+        }
+        console.log("bookId", id);
+        const data = await recsysApi.getRecommendations(id);
+        console.log("data", data);
 
-  //       return data.data;
-  //     },
-  //   });
+        return data.data;
+      },
+    });
 
-  // const similarBooksQueries = useQueries({
-  //   queries: recommendedBooks
-  //     ? recommendedBooks.map((movieId: number) => {
-  //         return {
-  //           queryKey: ["movie", movieId],
-  //           queryFn: () => bookApi.getBook(movieId.toString()),
-  //         };
-  //       })
-  //     : [],
-  // });
+  const similarBooksQueries = useQueries({
+    queries: recommendedBooks
+      ? recommendedBooks.map((movieId: number) => {
+          return {
+            queryKey: ["movie", movieId],
+            queryFn: () => bookApi.getBook(movieId.toString()),
+          };
+        })
+      : [],
+  });
 
-  // const isSimilarLoading = similarBooksQueries.some(
-  //   (result) => result.isLoading
-  // );
+  const isSimilarLoading = similarBooksQueries.some(
+    (result) => result.isLoading
+  );
 
-  // const { data: cartData, isLoading: cartIsLoading } = useQuery({
-  //   queryKey: ["cart", uid],
-  //   queryFn: async () => {
-  //     if (!uid || uid === "") {
-  //       toast.error("User not found");
-  //       return;
-  //     }
-  //     console.log("userId", uid);
-  //     const data = await cartApi.getCart(uid);
-  //     console.log("data", data);
+  const { data: cartData, isLoading: cartIsLoading } = useQuery({
+    queryKey: ["cart", uid],
+    queryFn: async () => {
+      if (!uid || uid === "") {
+        toast.error("User not found");
+        return;
+      }
+      console.log("userId", uid);
+      const data = await cartApi.getCart(uid);
+      console.log("data", data);
 
-  //     return data.data;
-  //   },
-  // });
-  // const addToCartMutation = useMutation({
-  //   mutationKey: ["addToCart", id],
-  //   mutationFn: async (id: string) => {
-  //     console.log("Add to cart", id);
-  //     if (!bookData) {
-  //       toast.error("Book not found");
-  //       return;
-  //     }
-  //     var items = cartData?.items ?? [];
-  //     if (items.find((item) => item.bookId === bookData.id)) {
-  //       console.log("test");
-  //       items = items.map((item) => {
-  //         if (item.bookId === bookData.id) {
-  //           item.quantity += quantity;
-  //           item.totalUnitPrice = item.unitPrice * item.quantity;
-  //         }
-  //         return item;
-  //       });
-  //     } else {
-  //       console.log("test2");
-  //       items.push({
-  //         imageUrl: bookData?.imageUrl ?? "",
-  //         title: bookData?.title ?? "",
-  //         unitPrice: bookData?.price ?? 0,
-  //         quantity: quantity,
-  //         bookId: bookData?.id,
-  //         oldUnitPrice: bookData?.price ?? 0,
-  //         totalUnitPrice:
-  //           bookData?.price ?? 0 * (1 - (bookData.discountPercentage ?? 0)),
-  //       });
-  //       console.log("cartData", cartData);
-  //     }
-  //     console.log("cartData", cartData);
-  //     await cartApi.updateCart(uid, items);
-  //     toast.success("Add to cart successfully");
-  //     queryClient.invalidateQueries(["cart", uid]);
-  //   },
-  // });
+      return data.data;
+    },
+  });
+  const addToCartMutation = useMutation({
+    mutationKey: ["addToCart", id],
+    mutationFn: async (id: string) => {
+      console.log("Add to cart", id);
+      if (!bookData) {
+        toast.error("Book not found");
+        return;
+      }
+      var items = cartData?.items ?? [];
+      if (items.find((item) => item.bookId === bookData.id)) {
+        console.log("test");
+        items = items.map((item) => {
+          if (item.bookId === bookData.id) {
+            item.quantity += quantity;
+            item.totalUnitPrice = item.unitPrice * item.quantity;
+          }
+          return item;
+        });
+      } else {
+        console.log("test2");
+        items.push({
+          imageUrl: bookData?.imageUrl ?? "",
+          title: bookData?.title ?? "",
+          unitPrice: bookData?.price ?? 0,
+          quantity: quantity,
+          bookId: bookData?.id,
+          oldUnitPrice: bookData?.price ?? 0,
+          totalUnitPrice:
+            bookData?.price ?? 0 * (1 - (bookData.discountPercentage ?? 0)),
+        });
+        console.log("cartData", cartData);
+      }
+      console.log("cartData", cartData);
+      await cartApi.updateCart(uid, items);
+      toast.success("Add to cart successfully");
+      queryClient.invalidateQueries(["cart", uid]);
+    },
+  });
   const MAX_DISPLAY_NUM_IMAGE_GALLERY = 4;
-  const bookData = {
-    productCode: "9784040743639",
-    supplier: "Kinokuniya Book Stores",
-    author: "東出 祐一郎, 橘 公司, NOCO",
-    publisher: "Kadokawa",
-    publishYear: 2022,
-    language: "Tiếng Nhật",
-    weight: 200,
-    size: "14.9 x 10.6 x 1.6 cm",
-    quantityOfPage: 280,
-    bookLayout: "Paperback",
-  };
+  // const bookDescrData = {
+  //   productCode: "9784040743639",
+  //   supplier: "Kinokuniya Book Stores",
+  //   author: "東出 祐一郎, 橘 公司, NOCO",
+  //   publisher: "Kadokawa",
+  //   publishYear: 2022,
+  //   language: "Tiếng Nhật",
+  //   weight: 200,
+  //   size: "14.9 x 10.6 x 1.6 cm",
+  //   quantityOfPage: 280,
+  //   bookLayout: "Paperback",
+  // };
 
   // Create Title and Description Lists
   const titles = [
@@ -224,10 +224,6 @@ export function ProductDetails() {
 
   const [toggler, setToggler] = useState(false);
   const [toggleDescr, setToggleDescr] = useState(true);
-
-  useEffect(() => {
-    document.title = "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 8";
-  }, []);
 
   return (
     // <Fade triggerOnce={true}>

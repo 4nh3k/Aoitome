@@ -1,13 +1,13 @@
-import HorizontalSeparator from "../../../assets/icon/horizontal-separator.svg";
-import CustomButton from "../../../components/AdminComponents/CustomButton/CustomButton";
-import FileLoadProgressBar from "../../../components/AdminComponents/FileLoadProgressBar/FileLoadProgressBar";
-import AdminDropdown from "../../../components/AdminComponents/Input/AdminDropdown";
-import AdminInput from "../../../components/AdminComponents/Input/AdminInput";
-import AdminTextArea from "../../../components/AdminComponents/Input/AdminTextArea";
-import DatepickerInput from "../../../components/AdminComponents/Input/DatepickerInput";
-import DimensionInput from "../../../components/AdminComponents/Input/DimensionInput";
-import DropzoneFileInput from "../../../components/AdminComponents/Input/DropzoneFileInput";
-import GenresInput from "../../../components/AdminComponents/Input/GenresInput";
+import HorizontalSeparator from "@/assets/icon/horizontal-separator.svg";
+import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton";
+import FileLoadProgressBar from "@/components/AdminComponents/FileLoadProgressBar/FileLoadProgressBar";
+import AdminDropdown from "@/components/AdminComponents/Input/AdminDropdown";
+import AdminInput from "@/components/AdminComponents/Input/AdminInput";
+import AdminTextArea from "@/components/AdminComponents/Input/AdminTextArea";
+import DatepickerInput from "@/components/AdminComponents/Input/DatepickerInput";
+import DimensionInput from "@/components/AdminComponents/Input/DimensionInput";
+import DropzoneFileInput from "@/components/AdminComponents/Input/DropzoneFileInput";
+import GenresInput from "@/components/AdminComponents/Input/GenresInput";
 
 const BookDetail = () => {
   const languageCodes = ["en", "jpn", "vn"];
@@ -16,7 +16,7 @@ const BookDetail = () => {
 
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
-      <div className="flex items-stretch basis-full gap-4">
+      <div className="flex items-stretch justify-between gap-4">
         <div className="flex flex-col pt-4 pb-5 px-4 justify-between items-start gap-5 rounded-2xl border-1 border-solid border-gray-300 bg-white">
           <span className="heading-4">Book detail</span>
           <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
@@ -52,7 +52,7 @@ const BookDetail = () => {
             <AdminInput title={"Availability"} placeholder={"100"} />
           </div>
 
-          <div className="flex w-full flex-wrap items-stretch justify-between gap-8">
+          <div className="flex w-full flex-wrap items-stretch basis-1/2 justify-between gap-4">
             <DimensionInput />
             <AdminInput title={"Item weight"} placeholder={"2.41"} />
           </div>

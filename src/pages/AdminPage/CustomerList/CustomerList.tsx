@@ -24,14 +24,14 @@ const CustomerList = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const headers = [
-    { label: "ID", prop: "id", className: "w-fit" },
-    { label: "Profile Image", prop: "profileImageLink", isImage: true },
-    { label: "Full Name", prop: "fullName" },
-    { label: "Username", prop: "userName" },
-    { label: "Email", prop: "email" },
-    { label: "Address", prop: "address" },
-    { label: "Country", prop: "country" },
-    { label: "City", prop: "city" },
+    { label: "ID", prop: "id", className: "w-fit break-words" },
+    { label: "Profile Image", prop: "profileImageLink", isImage: true, className: "break-words text-center" },
+    { label: "Full Name", prop: "fullName", className: "break-words	" },
+    { label: "Username", prop: "userName", className: "break-words	" },
+    { label: "Email", prop: "email", className: "break-words	" },
+    { label: "Address", prop: "address" , className: "break-words	"},
+    { label: "Country", prop: "country", className: "break-words	" },
+    { label: "City", prop: "city", className: "break-words	" },
   ];
 
   const { data: usersData, isLoading: isLoadingUser } = useQuery({
@@ -81,7 +81,7 @@ const CustomerList = () => {
 
   const onRowClick = (item: Data, index: number) => {
     console.log("Row is clicked");
-    navigate(`../admin-customer-account/${item.id}`);
+    navigate(`../customers/${item.id}`);
   };
 
   return (

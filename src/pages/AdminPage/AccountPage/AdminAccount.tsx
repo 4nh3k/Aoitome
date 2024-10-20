@@ -4,9 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import authApi from "@/apis/auth.api";
 import CheckCircle from "@/assets/icon/check-circle.svg";
+import XCircle from "@/assets/icon/x-circle.svg";
 import InfoOutline from "@/assets/icon/info-outline.svg";
 import UploadIcon from "@/assets/icon/upload.svg";
-import XCircle from "@/assets/icon/x-circle.svg";
 import ElysiaImg from "@/assets/img/elysia.jpg";
 import CustomButton from "@/components/AdminComponents/CustomButton/CustomButton";
 import AdminInput from "@/components/AdminComponents/Input/AdminInput";
@@ -14,20 +14,35 @@ import AdminPassword from "@/components/AdminComponents/Input/AdminPassword";
 import { User } from "@/types/Models/Identity/User.type";
 import { getUIDFromLS } from "@/utils/auth";
 import { Fade } from "react-awesome-reveal";
+import BooleanIcon from "@/components/BooleanIcon/BooleanIcon";
 
 const AdminAccount = () => {
   const userId = getUIDFromLS();
   const accountTypes = ["Admin", "Customer"];
 
-  const [currentPassword, setCurrentPassword] = useState<string>();
-  const [newPassword, setNewPassword] = useState<string>();
-  const [repeatNewPassword, setRepeatNewPassword] = useState<string>();
+  const [currentPassword, setCurrentPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [repeatNewPassword, setRepeatNewPassword] = useState<string>("");
 
   const [adminProfile, setAdminProfile] = useState<User>();
   const [currentImg, setCurrentImg] = useState(ElysiaImg);
-  const [oldImg, setOldImg] = useState();
   const [file, setFile] = useState<File>();
   const inputRef = useRef(null);
+
+  const [passLengthValid, setPassLengthValid] = useState(false);
+  const [passHaveUppercase, setPassHaveUppercase] = useState(false);
+  const [passContainSpecialChar, setPassContainSpecialChar] = useState(false);
+  const [isNewPass, setIsNewPass] = useState(false);
+
+  useEffect(() => {
+    setPassLengthValid(
+      newPassword.length < 8 ? false : true);
+    setPassHaveUppercase(
+      !/[A-Z]/.test(newPassword) ? false : true)
+    setPassContainSpecialChar(!/[!@#$%^&*]/.test(newPassword) ? false : true)
+    setIsNewPass(
+      newPassword === currentPassword ? false : true)
+  }, [newPassword]);
 
   const handleLoadImage = () => {
     if (inputRef.current) {
@@ -188,7 +203,6 @@ const AdminAccount = () => {
   return (
     <div className="bg-white flex flex-col mt-5 px-4 py-4 flex-start flex-shrink-0 min-h-screen gap-6 rounded-lg shadow-sm">
       <Fade triggerOnce={true}>
-
         <div className="flex items-start basis-full gap-4 h-full ">
           <div className="flex flex-col pt-4 pb-5 px-4 justify-between w-3/4 gap-8 rounded-2xl border-1 border-solid border-gray-300 bg-white h-screen">
             <div className="flex items-center gap-4">
@@ -295,7 +309,9 @@ const AdminAccount = () => {
                 onChange={handleChange}
                 name={"country"}
                 value={
-                  adminProfile?.country !== undefined ? adminProfile?.country : ""
+                  adminProfile?.country !== undefined
+                    ? adminProfile?.country
+                    : ""
                 }
                 type={"text"}
               />
@@ -304,7 +320,9 @@ const AdminAccount = () => {
                 placeholder={"Enter city"}
                 onChange={handleChange}
                 name={"city"}
-                value={adminProfile?.city !== undefined ? adminProfile?.city : ""}
+                value={
+                  adminProfile?.city !== undefined ? adminProfile?.city : ""
+                }
                 type={"text"}
               />
             </div>
@@ -327,15 +345,6 @@ const AdminAccount = () => {
                 </Select>
               </div>
             </div>
-
-            {/* <div className="flex w-full self-strech flex-col items-start gap-4">
-            <div className="flex flex-col self-strech flex-start gap-1">
-              <span className="heading-6">Linked accounts</span>
-              <span className="font-normal text-base leading-6">We use this to help you sign in and populate your profile information</span>
-            </div>
-            <LinkingAccount logo={GoogleLogo} />
-            <LinkingAccount logo={GithubLogo} />
-          </div> */}
 
             <div className="flex items-end justify-end gap-3 self-stretch w-full">
               <CustomButton
@@ -395,32 +404,47 @@ const AdminAccount = () => {
               </div>
             </div>
 
-            <div className="flex p-4 flex-col items-start gap-2 self-strech bg-gray-50">
-              <span className="text-lg font-medium">Password requirements:</span>
-              <span className="text-lg font-normal text-gray-500">
-                Ensure that these requirements are met:
+            <div className="flex p-4 flex-col items-start gap-2 self-strech bg-gray-50 content-border">
+              <span className="text-md font-medium">
+                Password requirements:
               </span>
               <div className="flex flex-end gap-3">
-                <img src={CheckCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
+                <BooleanIcon isSuccess={passLengthValid} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    passLengthValid ? "text-success" : "text-red-500"
+                  }`}
+                >
                   At least 8 characters (and up to 50 characters)
                 </span>
               </div>
               <div className="flex flex-end gap-3">
-                <img src={CheckCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
-                  At least one lowercase character
+                <BooleanIcon isSuccess={passHaveUppercase} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    passHaveUppercase ? "text-success" : "text-red-500"
+                  }`}
+                >
+                  At least one uppercase character
                 </span>
               </div>
               <div className="flex flex-end gap-3">
-                <img src={XCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
+                <BooleanIcon isSuccess={passContainSpecialChar} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    passContainSpecialChar ? "text-success" : "text-red-500"
+                  }`}
+                >
                   Inclusion of at least one special character, e.g.,! @ # ?
                 </span>
               </div>
               <div className="flex flex-end gap-3">
-                <img src={XCircle} width={20} height={20} />
-                <span className="text-sm font-normal">
+                <BooleanIcon isSuccess={isNewPass} />
+                <span
+                  className={`text-sm font-semibold transition-colors ${
+                    isNewPass ? "text-success" : "text-red-500"
+                  }`}
+                >
                   Different from your previous passwords
                 </span>
               </div>
@@ -443,7 +467,6 @@ const AdminAccount = () => {
           </div>
         </div>
       </Fade>
-
     </div>
   );
 };

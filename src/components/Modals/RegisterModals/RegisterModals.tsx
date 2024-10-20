@@ -51,8 +51,8 @@ export function RegisterModals({
     },
   });
   const handleSubmit = async () => {
-    if (registerData.password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+    if (registerData.password.length < 8) {
+      toast.error("Password must be at least 8 characters");
       return;
     }
     if (!/[A-Z]/.test(registerData.password)) {
