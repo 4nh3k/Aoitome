@@ -71,7 +71,7 @@ export default function Header(props: HeaderProps) {
           onSubmit={handleSubmit}
           enableSizing={true}
           placeholder={"Enter a search term"}
-          dropdownList={["By name", "By author", "By Elysia & Mei"]}
+          dropdownList={["By name", "By author"]}
           onChange={function (searchValue: string): void {
             setSearchValue(searchValue);
           }}

@@ -1,4 +1,4 @@
-interface BookReview {
+export default interface BookReview {
   userId: string;
   bookId: number;
   username?: string | null;

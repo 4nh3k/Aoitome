@@ -27,6 +27,19 @@ export const bookApi = {
 
     return http.get<PaginatedResponse<BookGeneralInfoDTO>>(route);
   },
+
+  getFilterBookByPage(pageIndex: number, pageSize: number, genreIds: number[], authorName: string) {
+    let route = `${CATALOG_PREFIX}${URL_BOOKS}/filter?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+    
+    if (authorName != "") route += `&authorName=${authorName}`
+
+    genreIds.forEach((genre) => {
+      route += `&GenreIds=${genre}`;
+    });
+
+    return http.get<PaginatedResponse<BookGeneralInfoDTO>>(route);
+  },
+
   createBook(body: CreateBookDTO) {
     return http.post<Book>(`${CATALOG_PREFIX}${URL_BOOKS}`, body);
   },
