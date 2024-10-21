@@ -7,6 +7,21 @@ body {
   font-family: "Figtree", sans-serif;
 }
 
+/*Input style*/
+input {
+  @apply bg-gray-50 flex flex-1 text-sm font-normal leading-5 outline-none focus:outline-none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Customize the toast container */
 .Toastify__toast-container {
   width: 400px;
@@ -20,29 +35,69 @@ body {
   font-size: 16px;
 }
 
-/* Customize different types of toasts (success, error, etc.) */
-/* .Toastify__toast--success {
-  background-color: green;
-}
-
-.Toastify__toast--error {
-  background-color: red;
-} */
-
+/* Custom border */
 .content-border {
   @apply border-1 border-gray-200 rounded-lg pb-4;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+/* Custom style */
+.text-primary {
+  @apply text-[#1A56DB];
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+.bg-primary {
+  @apply bg-[#1A56DB];
 }
 
+.text-secondary {
+  @apply text-[#8FA8DE];
+}
+
+.bg-secondary {
+  @apply bg-[#8FA8DE];
+}
+
+.heading-1 {
+  @apply text-5xl font-extrabold leading-10;
+}
+
+.heading-2 {
+  @apply text-4xl font-bold leading-9;
+}
+
+.heading-3 {
+  @apply text-3xl font-bold leading-loose;
+}
+
+.heading-4 {
+  @apply text-2xl font-bold leading-normal;
+}
+
+.heading-5 {
+  @apply text-xl font-bold leading-tight;
+}
+
+.heading-6 {
+  @apply text-lg font-bold leading-none;
+}
+
+.normal {
+  @apply text-lg font-normal leading-relaxed;
+}
+
+.small {
+  @apply text-sm font-normal;
+}
+
+.very-small {
+  @apply text-xs font-normal;
+}
+
+.sidebar-hover {
+  @apply hover:bg-gray-100 hover:rounded-xl px-2 py-2;
+}
+
+/* Page spinner */
 .spinner-loader {
   /* HTML: <div class="loader"></div> */
   width: 50px;
@@ -67,6 +122,7 @@ input[type="number"]::-webkit-inner-spin-button {
   position: -webkit-sticky;
 }
 
+/* Max height transition */
 .grid-rows-transition {
   position: relative;
   line-height: 32px;
@@ -88,6 +144,16 @@ input[type="number"]::-webkit-inner-spin-button {
   transition-property: grid-template-rows;
   transition-timing-function: ease;
 }
+
+.white-gradient {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgb(255, 255, 255)
+  );
+}
+
+/* Styling for img icon whose source is svg*/
 
 .svg-icon {
   mask-size: 100%;
@@ -120,36 +186,7 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-mask-image: url("./assets/icon/shop.svg");
 }
 
-.white-gradient {
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0),
-    rgb(255, 255, 255)
-  );
-}
-
-@font-face {
-  font-family: Regular;
-  src: local("Amazon Ember");
-  src: url("./assets/font/Amazon\ Ember.ttf");
-}
-
-@font-face {
-  font-family: Medium;
-  src: local("Amazon Ember");
-  src: url("./assets/font/Amazon\ Ember\ Medium.ttf");
-}
-
-@font-face {
-  font-family: Bold;
-  src: local("Amazon Ember");
-  src: url("./assets/font/Amazon\ Ember\ Bold.ttf");
-}
-
-input {
-  @apply bg-gray-50 flex flex-1 text-sm font-normal leading-5 outline-none focus:outline-none;
-}
-
+/* Coupon style */
 .rounded-invert-right {
   margin-top: auto;
   margin-bottom: auto;
@@ -209,62 +246,7 @@ input {
   mask: var(--mask);
 }
 
-.text-primary {
-  @apply text-[#1A56DB];
-}
-
-.bg-primary {
-  @apply bg-[#1A56DB];
-}
-
-.text-secondary {
-  @apply text-[#8FA8DE];
-}
-
-.bg-secondary {
-  @apply bg-[#8FA8DE];
-}
-
-.heading-1 {
-  @apply text-5xl font-extrabold leading-10;
-}
-
-.heading-2 {
-  @apply text-4xl font-bold leading-9;
-}
-
-.heading-3 {
-  @apply text-3xl font-bold leading-loose;
-}
-
-.heading-4 {
-  @apply text-2xl font-bold leading-normal;
-}
-
-.heading-5 {
-  @apply text-xl font-bold leading-tight;
-}
-
-.heading-6 {
-  @apply text-lg font-bold leading-none;
-}
-
-.normal {
-  @apply text-lg font-normal leading-relaxed;
-}
-
-.small {
-  @apply text-sm font-normal;
-}
-
-.very-small {
-  @apply text-xs font-normal;
-}
-
-.sidebar-hover {
-  @apply hover:bg-gray-100 hover:rounded-xl px-2 py-2;
-}
-
+/* Sidebar style */
 .sidebar-content {
   opacity: 1;
   max-height: 500px;
