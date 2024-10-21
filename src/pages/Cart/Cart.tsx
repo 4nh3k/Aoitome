@@ -1,11 +1,11 @@
 import { cartApi } from "@/apis/cart.api";
 import Trash from "@/assets/icon/trash_icon.svg";
-import { ProductList } from "@/assets/mockdata";
+import { KurumiList, ProductList } from "@/assets/mockdata";
 import OrderPriceSummary from "@/components/OrderPriceSummary";
 import Product from "@/components/Product";
 import CartProduct from "@/components/Product/CartProduct";
 import { path } from "@/constants/path";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { Button, Checkbox, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { getUIDFromLS } from "../../utils/auth";
@@ -76,7 +76,7 @@ export function Cart() {
           <div className="flex flex-col bg-white px-5 py-3 rounded-md border-1 justify-between pb-0">
             <div className="heading-5">People also bought</div>
             <div className="flex w-full bg-white justify-between space-x-4 mt-2 rounded-md">
-              {ProductList.slice(0, 4).map((product, index) => (
+              {KurumiList.slice(0, 4).map((product, index) => (
                 <Product
                   key={index}
                   title={product.title}

@@ -561,7 +561,7 @@ export function ProductDetails() {
                       toggleDescr
                         ? "h-0"
                         : `bottom-0 left-0 w-full h-[200px] white-gradient`
-                    } absolute transition-height duration-1000 ease z-5 `}
+                    } absolute transition-height duration-1000 ease `}
                   ></div>
                 </div>
                 <div className="text-center pt-2">

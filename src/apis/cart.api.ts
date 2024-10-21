@@ -4,12 +4,7 @@ import http from "../utils/http";
 
 export const cartApi = {
   getCart(userId: string) {
-    // return http.get<Cart>(`${CART_PREFIX}${URL_CART}/${userId}`);
-
-    return new Promise<{ data: Cart }>((resolve) => {
-      console.log(`Returning mock data for userId: ${userId}`);
-      resolve({ data: mockCart });
-    });
+    return http.get<Cart>(`${CART_PREFIX}${URL_CART}/${userId}`);
   },
   updateCart(userId: string, item: Item[]) {
     return http.post<Cart>(`${CART_PREFIX}${URL_CART}/${userId}`, item);

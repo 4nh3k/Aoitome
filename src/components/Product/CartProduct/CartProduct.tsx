@@ -105,7 +105,7 @@ export function CartProduct({
         ${(price * quantity).toFixed(2)}
       </div>
       {/* <img src={Trash} className="w-5 h-5 transition-colors duration-300 ease-in-out cursor-pointer"/> */}
-      <div className="bg-black w-5 h-5 icon-trash svg-icon hover:bg-red-500 hover:text-red-500 select-none cursor-pointer">
+      <div className="bg-black w-5 h-5 icon-trash svg-icon hover:bg-red-500 hover:text-red-500 select-none cursor-pointer" onClick={() => removeProductMutation.mutate()}>
         abcxyz
       </div>
     </div>
