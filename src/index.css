@@ -4,6 +4,7 @@
 
 body {
   min-width: 640px;
+  font-family: "Figtree", sans-serif;
 }
 
 /* Customize the toast container */
@@ -128,19 +129,19 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @font-face {
-  font-family: "Regular";
+  font-family: Regular;
   src: local("Amazon Ember");
   src: url("./assets/font/Amazon\ Ember.ttf");
 }
 
 @font-face {
-  font-family: "Medium";
+  font-family: Medium;
   src: local("Amazon Ember");
   src: url("./assets/font/Amazon\ Ember\ Medium.ttf");
 }
 
 @font-face {
-  font-family: "Bold";
+  font-family: Bold;
   src: local("Amazon Ember");
   src: url("./assets/font/Amazon\ Ember\ Bold.ttf");
 }
