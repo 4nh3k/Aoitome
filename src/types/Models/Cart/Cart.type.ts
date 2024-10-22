@@ -7,6 +7,7 @@ export interface Item {
   totalUnitPrice: number;
   quantity: number;
   imageUrl: string;
+  selected: boolean // Default value // Frontend-only property
 }
 
 export interface Cart {

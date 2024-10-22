@@ -1,27 +1,61 @@
 import { cartApi } from "@/apis/cart.api";
 import Trash from "@/assets/icon/trash_icon.svg";
-import { KurumiList, ProductList } from "@/assets/mockdata";
+import { KurumiList } from "@/assets/mockdata";
 import OrderPriceSummary from "@/components/OrderPriceSummary";
 import Product from "@/components/Product";
-import CartProduct from "@/components/Product/CartProduct";
+import CartProduct from "@/components/Product/CartProduct/CartProduct";
 import { path } from "@/constants/path";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Checkbox, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { getUIDFromLS } from "../../utils/auth";
+import { getUIDFromLS } from "@/utils/auth";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export function Cart() {
   const userId = getUIDFromLS();
-  const { data, isLoading } = useQuery({
+  const queryClient = useQueryClient();
+
+  const { data: cartData, isLoading } = useQuery({
     queryKey: ["cart", userId],
     queryFn: async () => {
       console.log("userId", userId);
       const data = await cartApi.getCart(userId);
       console.log("data", data);
-
       return data.data;
     },
   });
+
+  const updateAllCartItemSelection = useMutation({
+    mutationKey: ["update-cart", userId],
+    mutationFn: async () => {
+      console.log("updateCartMutation", userId);
+      if (!cartData) {
+        return;
+      }
+      const data = cartData.items.map((item) => {
+          return {
+            ...item,
+            selected: selectAllChecked,
+        }
+      });
+      await cartApi.updateCart(userId ?? "", data);
+    },
+    onSuccess: () =>{
+      console.log("Successfully updated selection")
+      queryClient.invalidateQueries(["cart", userId]);
+    }
+  });
+
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const handleSelectAll = (e) => {
+    console.log("Select all status: ", e.target.checked);
+    setSelectAllChecked(e.target.checked);
+  }
+
+  useEffect(() => {
+    updateAllCartItemSelection.mutate();
+  }, [selectAllChecked])
 
   const navigate = useNavigate();
 
@@ -33,8 +67,8 @@ export function Cart() {
       {/* <p className="text-gray-500">Your cart is empty</p> */}
       <div className="flex w-full space-x-8 mt-4">
         <div className="w-full space-y-4">
-          {!data?.items ||
-            (data.items.length === 0 && (
+          {!cartData?.items ||
+            (cartData.items.length === 0 && (
               <div className="w-full px-5 pt-5 pb-6 space-y-4 bg-white rounded border border-gray-200 flex-col justify-start items-start inline-flex">
                 <span className="w-80 text-black text-sm">
                   Your cart is empty
@@ -43,7 +77,7 @@ export function Cart() {
             ))}
           <div className="h-fit w-full px-5 py-3 bg-white rounded-lg border border-gray-200 justify-between items-center inline-flex">
             <div className="flex justify-start items-center gap-2.5 w-[21rem] text-md font-semibold">
-              <Checkbox className="max-w-4 max-h-4 basis-1/12 cursor-pointer" />
+              <Checkbox checked={selectAllChecked} onChange={handleSelectAll} className="max-w-4 max-h-4 basis-1/12 cursor-pointer" />
               <span>Select all products (x products)</span>
             </div>
             <div className="ml-1 text-center w-20 text-black text-md font-semibold">
@@ -57,7 +91,7 @@ export function Cart() {
             </button>
           </div>
           <div className="w-full px-5 pt-2 pb-2 bg-white rounded-lg border border-gray-200 flex-col justify-start items-start inline-flex">
-            {data?.items?.map((product, index) => (
+            {!isLoading && cartData?.items?.map((product, index) => (
               <>
                 {index > 0 && (
                   <hr className="w-full border-t border-gray-200" />
@@ -68,7 +102,8 @@ export function Cart() {
                   imageURL={product.imageUrl}
                   price={product.unitPrice}
                   title={product.title}
-                  defaultValue={product.quantity}
+                  defaultValue={product.quantity} 
+                  selected={product.selected}                  
                 />
               </>
             ))}
@@ -103,16 +138,19 @@ export function Cart() {
           </div>
           <OrderPriceSummary
             originalPrice={
-              data?.items?.reduce(
+              cartData?.items?.reduce(
                 (acc, item) =>
-                  acc + parseFloat(item.unitPrice.toFixed(2)) * item.quantity,
+                  item.selected
+                    ? acc +
+                      parseFloat(item.unitPrice.toFixed(2)) * item.quantity
+                    : acc,
                 0
               ) || 0
             }
             savings={0}
             tax={0}
             storePickup={0}
-            onClick={() => navigate(path.checkout)}
+            onClick={() => navigate(`../${path.checkout}`)}
           />
         </div>
       </div>

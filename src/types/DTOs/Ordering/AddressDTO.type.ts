@@ -1,5 +1,5 @@
 export interface AddressDTO{
-  id: number;
+  id?: number;
   street: string;
   ward?: string;
   district?: string;

@@ -1,7 +1,6 @@
 import { Rating } from "flowbite-react";
 import NewRating from "./NewRating/NewRating";
 import { useQuery } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { bookReviewApi } from "@/apis/bookReview.api";
 import { Fade } from "react-awesome-reveal";
 

@@ -3,16 +3,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Label, Radio } from "flowbite-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { cartApi } from "../../apis/cart.api";
-import { orderingApi } from "../../apis/ordering.api";
-import DeliveryAddressForm from "../../components/DeliveryAddressFrom";
-import OrderPriceSummary from "../../components/OrderPriceSummary";
-import CartProduct from "../../components/Product/CartProduct";
-import { AddressDTO } from "../../types/DTOs/Ordering/AddressDTO.type";
-import { CreateOrderDTO } from "../../types/DTOs/Ordering/CreateOrderDTO.type";
-import { CardType } from "../../types/Models/Ordering/BuyerModel/CardType.type";
-import { OrderItem } from "../../types/Models/Ordering/OrderModel/OrderItem.type";
-import { getUIDFromLS } from "../../utils/auth";
+import { cartApi } from "@/apis/cart.api";
+import { orderingApi } from "@/apis/ordering.api";
+import DeliveryAddressForm from "@/components/DeliveryAddressFrom";
+import OrderPriceSummary from "@/components/OrderPriceSummary";
+import CartProduct from "@/components/Product/CartProduct/CartProduct";
+import { AddressDTO } from "@/types/DTOs/Ordering/AddressDTO.type";
+import { CreateOrderDTO } from "@/types/DTOs/Ordering/CreateOrderDTO.type";
+import { CardType } from "@/types/Models/Ordering/BuyerModel/CardType.type";
+import { OrderItem } from "@/types/Models/Ordering/OrderModel/OrderItem.type";
+import { getUIDFromLS } from "@/utils/auth";
 
 export function Checkout() {
   const userId = getUIDFromLS();
@@ -35,7 +35,7 @@ export function Checkout() {
     queryKey: ["cart", userId],
     queryFn: async () => {
       console.log("userId", userId);
-      const data = await cartApi.getCart(userId);
+      const data = await cartApi.getCart(userId ?? "N/A");
       console.log("data", data);
       return data.data;
     },
@@ -60,15 +60,17 @@ export function Checkout() {
           toast.error("Cart is empty");
           return;
         }
-        const orderItems: OrderItem[] = cartData.items.map((item) => ({
-          bookId: item.bookId,
-          title: item.title,
-          unitPrice: item.unitPrice,
-          oldUnitPrice: item.oldUnitPrice,
-          totalUnitPrice: item.totalUnitPrice,
-          imageUrl: item.imageUrl,
-          quantity: item.quantity,
-        }));
+        const orderItems: OrderItem[] = cartData.items
+          .filter((item) => item.selected)
+          .map((item) => ({
+            bookId: item.bookId,
+            title: item.title,
+            unitPrice: item.unitPrice,
+            oldUnitPrice: item.oldUnitPrice,
+            totalUnitPrice: item.totalUnitPrice,
+            imageUrl: item.imageUrl,
+            quantity: item.quantity,
+          }));
         const data = await paymentApi.createCheckoutSession(orderItems);
         if (data.status === 200) {
           const checkoutUrl = data.data; // Assuming the URL is returned in `checkoutUrl`
@@ -99,15 +101,17 @@ export function Checkout() {
         toast.error("Cart is empty");
         return;
       }
-      const orderItems: OrderItem[] = cartData.items.map((item) => ({
-        bookId: item.bookId,
-        title: item.title,
-        unitPrice: item.unitPrice,
-        oldUnitPrice: item.oldUnitPrice,
-        totalUnitPrice: item.totalUnitPrice,
-        imageUrl: item.imageUrl,
-        quantity: item.quantity,
-      }));
+      const orderItems: OrderItem[] = cartData.items
+        .filter((item) => item.selected)
+        .map((item) => ({
+          bookId: item.bookId,
+          title: item.title,
+          unitPrice: item.unitPrice,
+          oldUnitPrice: item.oldUnitPrice,
+          totalUnitPrice: item.totalUnitPrice,
+          imageUrl: item.imageUrl,
+          quantity: item.quantity,
+        }));
       const order: CreateOrderDTO = {
         userId: userId,
         orderItems: orderItems,
@@ -117,8 +121,9 @@ export function Checkout() {
           cardNumber: "string",
           securityNumber: "string",
           cardHoldername: "string",
-          expiration: formatDate(new Date()), // Convert string to Date object
+          expiration: formatDate(new Date()),
           cardTypeId: 1,
+          buyerId: userId,
         },
         userName: "",
         description: "",
@@ -131,11 +136,11 @@ export function Checkout() {
     },
   });
 
-  // if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
-  // if (isPaymentLoading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (isPaymentLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedCardType = paymentMethodsData?.find(
@@ -179,22 +184,27 @@ export function Checkout() {
           </div>
         </div>
         <div className="w-full flex flex-col gap-4">
-        <div className="w-full px-5 pt-2 pb-2 bg-white rounded-lg border border-gray-200 flex-col justify-start items-start inline-flex">
-            {cartData?.items?.map((product, index) => (
-              <>
-                {index > 0 && (
-                  <hr className="w-full border-t border-gray-200" />
-                )}
-                <CartProduct
-                  id={product.id ?? 0}
-                  key={product.id}
-                  imageURL={product.imageUrl}
-                  price={product.unitPrice}
-                  title={product.title}
-                  defaultValue={product.quantity}
-                />
-              </>
-            ))}
+          <div className="w-full px-5 pt-2 pb-2 bg-white rounded-lg border border-gray-200 flex-col justify-start items-start inline-flex">
+            {cartData?.items?.map((product, index) => {
+              if (product.selected)
+                return (
+                  <>
+                    {index > 0 && (
+                      <hr className="w-full border-t border-gray-200" />
+                    )}
+                    <CartProduct
+                      id={product.id ?? 0}
+                      key={product.id}
+                      imageURL={product.imageUrl}
+                      price={product.unitPrice}
+                      title={product.title}
+                      defaultValue={product.quantity}
+                      selected={product.selected}
+                      canEdit={false}
+                    />
+                  </>
+                );
+            })}
           </div>
           <OrderPriceSummary
             isLoading={

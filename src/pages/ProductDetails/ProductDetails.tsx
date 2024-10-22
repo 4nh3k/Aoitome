@@ -2,14 +2,14 @@ import { bookApi } from "@/apis/book.api";
 import { bookReviewApi } from "@/apis/bookReview.api";
 import { recsysApi } from "@/apis/recsys.api";
 import { Product } from "@/components/Product/Product";
-import { ReviewForm } from "@/components/ReviewForm/ReviewForm";
+import ReviewForm from "@/pages/UserReview/ReviewForm";
 import {
   useMutation,
   useQueries,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Button, Pagination, Rating } from "flowbite-react";
+import { Button, Modal, Pagination, Rating } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import {
@@ -34,6 +34,7 @@ import {} from "react-icons/pi";
 import Policy from "@/components/Policy/Policy";
 import TabSlider from "@/components/TabSlider/TabSlider";
 import Comment from "@/components/Comment/Comment";
+import EditReviewForm from "../UserReview/EditReviewForm";
 
 function NextArrow(props: any) {
   const { className, onClick } = props;
@@ -171,6 +172,7 @@ export function ProductDetails() {
           oldUnitPrice: bookData?.price ?? 0,
           totalUnitPrice:
             bookData?.price ?? 0 * (1 - (bookData.discountPercentage ?? 0)),
+          selected: false,
         });
         console.log("cartData", cartData);
       }
@@ -222,8 +224,52 @@ export function ProductDetails() {
 
   const handleBuyNow = (e) => {
     addToCartMutation.mutate(bookData?.id);
-    console.log("Buy now clicked !")
+    console.log("Buy now clicked !");
     navigate(`/cart`);
+  };
+
+  const { data: userReview, isLoading: isLoadingUserReview } = useQuery({
+    queryKey: ["user-review", id, uid],
+    queryFn: async () => {
+      const res = await bookReviewApi.getBookReviews(
+        id,
+        uid,
+        params.pageIndex,
+        params.pageSize
+      );
+      return res.data;
+    },
+  });
+
+  const [isUserReviewExist, setIsUserReviewExist] = useState(false);
+
+  useEffect(() => {
+    if (
+      userReview?.totalItems !== undefined &&
+      userReview?.totalItems !== null &&
+      userReview.totalItems > 0
+    ) {
+      setIsUserReviewExist(true);
+    }
+  }, [isLoadingUserReview]);
+
+  const [isAddReviewModalOn, setIsReviewModalOn] = useState(false);
+  const [isEditReviewModalOn, setIsEditReviewModalOn] = useState(false);
+
+  const toggleReviewModal = () => {
+    if (isUserReviewExist) {
+      toggleEditReviewModal(!isAddReviewModalOn);
+    } else {
+      toggleAddReviewModal(!isEditReviewModalOn);
+    }
+  };
+
+  const toggleAddReviewModal = (value: boolean) => {
+    setIsReviewModalOn(value);
+  };
+
+  const toggleEditReviewModal = (value: boolean) => {
+    setIsEditReviewModalOn(value);
   };
 
   const lstImg = [
@@ -307,8 +353,9 @@ export function ProductDetails() {
                     Add to cart
                   </div>
                 </button>
-                <button className="w-full rounded-md py-2 font-semibold text-white bg-primary active:scale-95 transition duration-150 ease-in-out"
-                onClick={handleBuyNow}
+                <button
+                  className="w-full rounded-md py-2 font-semibold text-white bg-primary active:scale-95 transition duration-150 ease-in-out"
+                  onClick={handleBuyNow}
                 >
                   <div className="flex w-fit gap-2 items-center mx-auto">
                     Buy now
@@ -402,8 +449,8 @@ export function ProductDetails() {
                   <div className="line-clamp-2 cursor-pointer h-fit text-primary text-md leading-normal text-3xl font-semibold">
                     {/* 8.24$ */}
                     {(
-                      (bookData?.price ??
-                      0) * (1 - (bookData?.discountPercentage ?? 0))
+                      (bookData?.price ?? 0) *
+                      (1 - (bookData?.discountPercentage ?? 0))
                     ).toFixed(2)}
                     $
                   </div>
@@ -412,7 +459,8 @@ export function ProductDetails() {
                     {bookData?.price ?? 0}$
                   </div>
                   <span className="bg-blue-700  text-white text-lg px-2 py-1 font-bold rounded-md">
-                    {/* -25% */}-{(bookData?.discountPercentage ?? 0) * 100}%
+                    {/* -25% */}-
+                    {((bookData?.discountPercentage ?? 0) * 100).toFixed(0)}%
                   </span>
                 </div>
               </div>
@@ -611,7 +659,7 @@ export function ProductDetails() {
             <span className="heading-6 font-bold">Recommendations</span>
             <Fade triggerOnce={true}>
               <div className="tag-products-view flex flex-row gap-4">
-                {similarBooksQueries.slice(0,6).map((product, index) => (
+                {similarBooksQueries.slice(0, 6).map((product, index) => (
                   <Product
                     key={index}
                     title={product.data?.data.title ?? "N/A"}
@@ -685,10 +733,43 @@ export function ProductDetails() {
                   <button
                     id="btn-comment"
                     className="h-fit mx-auto my-auto p-2 flex  items-center gap-2 w-fit bg-white border-2 rounded-md py-2 font-semibold text-primary border-primary active:scale-95 transition duration-150 ease-in-out"
+                    onClick={toggleReviewModal}
                   >
                     <PiNotePencilBold />
-                    Write comment
+                    {isUserReviewExist ? "Edit comment" : "Write comment"}
                   </button>
+                  <Modal
+                    size={"6xl"}
+                    dismissible
+                    show={isAddReviewModalOn}
+                    onClose={() => toggleAddReviewModal(false)}
+                  >
+                    <Modal.Header>Add review</Modal.Header>
+                    <Modal.Body>
+                      <ReviewForm
+                        userId={uid ?? ""}
+                        bookId={parseInt(id) ?? 0}
+                      />
+                    </Modal.Body>
+                  </Modal>
+                  <Modal
+                    size={"6xl"}
+                    dismissible
+                    show={isEditReviewModalOn}
+                    onClose={() => toggleEditReviewModal(false)}
+                  >
+                    <Modal.Header>Edit review</Modal.Header>
+                    <Modal.Body>
+                      <EditReviewForm
+                        userId={uid ?? ""}
+                        bookId={parseInt(id) ?? 0}
+                        username={userReview?.data[0].username}
+                        userProfileImage={userReview?.data[0].userProfileImage}
+                        comment={userReview?.data[0].comment}
+                        ratingPoint={userReview?.data[0].ratingPoint}
+                      />
+                    </Modal.Body>
+                  </Modal>
                 </div>
                 <TabSlider items={["Newest"]} setSelectedItem={() => {}} />
                 <hr className="w-full mb-4 border-t border-gray-200" />

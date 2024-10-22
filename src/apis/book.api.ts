@@ -31,7 +31,7 @@ export const bookApi = {
   getFilterBookByPage(pageIndex: number, pageSize: number, genreIds: number[], authorName: string) {
     let route = `${CATALOG_PREFIX}${URL_BOOKS}/filter?pageIndex=${pageIndex}&pageSize=${pageSize}`;
     
-    if (authorName != "") route += `&authorName=${authorName}`
+    if (authorName !== "" && authorName !== undefined) route += `&authorName=${authorName}`
 
     genreIds.forEach((genre) => {
       route += `&GenreIds=${genre}`;

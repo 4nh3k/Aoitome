@@ -3,7 +3,7 @@ import QuantityInput from "@/components/QuantityInput";
 import { getUIDFromLS } from "@/utils/auth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Checkbox } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 interface CartProductProps {
@@ -13,19 +13,33 @@ interface CartProductProps {
   price: number;
   defaultValue: number;
   canEdit?: boolean;
+  selected: boolean;
 }
 
-export function CartProduct({
+const CartProduct: React.FC<CartProductProps> = ({
   id,
   imageURL,
   title,
   price,
   defaultValue,
   canEdit = true,
-}: CartProductProps) {
+  selected,
+}) => {
   // TODO: Add checkbox for selecting product
   const uid = getUIDFromLS();
-  const [quantity, setQuantity] = useState(defaultValue);
+
+  const [cartAttr, setCartAttr] = useState({
+    quantity: defaultValue,
+    selected: selected,
+  });
+
+  useEffect(() => {
+    setCartAttr({
+      ...cartAttr,
+      selected: selected,
+    });
+  }, [selected])
+
   const queryClient = useQueryClient();
   const { data: cartData } = useQuery({
     queryKey: ["cart", uid],
@@ -51,7 +65,8 @@ export function CartProduct({
       queryClient.invalidateQueries({ queryKey: ["cart", uid ?? ""] });
     },
   });
-  const updateQuantityMutation = useMutation({
+
+  const updateCartItem = useMutation({
     mutationKey: ["updateQuantity", uid],
     mutationFn: async () => {
       console.log("updateCartMutation", id);
@@ -61,7 +76,11 @@ export function CartProduct({
       }
       const data = cartData.items.map((item) => {
         if (item.id === id) {
-          return { ...item, quantity };
+          return {
+            ...item,
+            quantity: cartAttr.quantity,
+            selected: cartAttr.selected,
+          };
         }
         return item;
       });
@@ -69,15 +88,43 @@ export function CartProduct({
       queryClient.invalidateQueries({ queryKey: ["cart", uid ?? ""] });
     },
   });
+
   const onQuantityChange = (quantity: number) => {
     console.log("quantity", quantity);
-    setQuantity(quantity);
-    updateQuantityMutation.mutate();
+    setCartAttr({
+      ...cartAttr,
+      quantity: quantity,
+    });
   };
+
+  const onSelectedChange = (e) => {
+    const selectedValue = e.target.checked;
+    console.log("Current value: ", cartAttr.selected);
+    console.log("New value: ", selectedValue);
+    setCartAttr({
+      ...cartAttr,
+      selected: selectedValue,
+    });
+  };
+
+  useEffect(() => {
+    updateCartItem.mutate();
+  }, [cartAttr]);
+
   return (
-    <div className="h-32 w-full pr-5 py-3.5 bg-white justify-between items-center inline-flex">
+    <div
+      className={`h-32 w-full py-3.5 bg-white justify-between items-center inline-flex ${
+        canEdit ? "pr-5" : ""
+      }`}
+    >
       <div className="items-center gap-2.5 flex flex-row">
-        <Checkbox className="max-w-4 max-h-4 basis-1/12 cursor-pointer" />
+        {canEdit && (
+          <Checkbox
+            checked={cartAttr.selected}
+            onChange={onSelectedChange}
+            className="max-w-4 max-h-4 basis-1/12 cursor-pointer"
+          />
+        )}
         <div className="basis-3/12">
           <img
             className="min-w-16 cursor-pointer h-24 object-cover"
@@ -92,22 +139,29 @@ export function CartProduct({
       </div>
       {canEdit && (
         <QuantityInput
-          quantity={quantity}
+          quantity={cartAttr.quantity}
           onQuantityChange={onQuantityChange}
         />
       )}
       {!canEdit && (
         <div className="text-center w-20 text-black text-lg font-bold">
-          x{quantity}
+          x{cartAttr.quantity}
         </div>
       )}
-      <div className="text-left w-20 text-black text-md font-semibold">
-        ${(price * quantity).toFixed(2)}
+      <div className="text-right w-20 text-black text-md font-semibold">
+        ${(price * cartAttr.quantity).toFixed(2)}
       </div>
       {/* <img src={Trash} className="w-5 h-5 transition-colors duration-300 ease-in-out cursor-pointer"/> */}
-      <div className="bg-black w-5 h-5 icon-trash svg-icon hover:bg-red-500 hover:text-red-500 select-none cursor-pointer" onClick={() => removeProductMutation.mutate()}>
-        abcxyz
-      </div>
+      {canEdit && (
+        <div
+          className="bg-black w-5 h-5 icon-trash svg-icon hover:bg-red-500 hover:text-red-500 select-none cursor-pointer"
+          onClick={() => removeProductMutation.mutate()}
+        >
+          abcxyz
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default CartProduct;
