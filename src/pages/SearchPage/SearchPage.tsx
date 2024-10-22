@@ -36,6 +36,12 @@ export function SearchPage() {
     setEndPrice(e.target.value !== "" ? e.target.value : 0);
   };
 
+  const handleSelectRadioPriceRange = (start: number, end: number) => {
+    setStartPrice(start);
+    setEndPrice(end);
+  }
+
+
   const handleCheckboxChange = (genreId: number) => {
     setCheckedGenres((prev) => {
       if (prev.includes(genreId)) {
@@ -92,11 +98,10 @@ export function SearchPage() {
 
   const priceRanges = [
     { id: "ALL", name: "Any price", startValue: 0, endValue: 0 },
-    { id: "U10", name: "Under $10", startValue: 0, endValue: 9.99999999 },
+    { id: "U10", name: "Under $10", startValue: 0, endValue: 10 },
     { id: "R10-20", name: "$10 - $20", startValue: 10, endValue: 20 },
     { id: "R20-30", name: "$20 - $30", startValue: 20, endValue: 30 },
-    { id: "R30-40", name: "$30 - $40", startValue: 30, endValue: 40 },
-    { id: "O40", name: "Over $40", startValue: 40, endValue: 999 },
+    { id: "R30-40", name: "$30 - $40", startValue: 30, endValue: 40 }
   ];
 
   const handleSortChange = (event: any) => {
@@ -169,6 +174,7 @@ export function SearchPage() {
                   id={priceRange.id}
                   name="Price"
                   value={priceRange.name}
+                  onChange={() => handleSelectRadioPriceRange(priceRange.startValue, priceRange.endValue)}
                 />
                 <Label htmlFor={priceRange.name}>{priceRange.name}</Label>
               </div>
@@ -259,6 +265,7 @@ export function SearchPage() {
                       title={book.title ?? "N/A"}
                       rating={book.averageRating ?? 0}
                       totalRating={book.ratingsCount ?? 0}
+                      discount={book.discountPercentage ?? 0}
                     />
                   ))}
                 </div>

@@ -89,9 +89,20 @@ export const TrackingList = [
   },
 ];
 
+export const KurumiImages = [
+  "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_6/2024_06_19_13_49_26_2-390x510.png",
+  "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg",
+  "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_2-390x510.png",
+  "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
+  "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
+  "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_6/2024_06_19_13_49_26_1-390x510.png",
+  "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_1-390x510.png",
+];
+
 export const KurumiList = [
   {
-    title: "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 7",
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 7",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040737799.jpg",
     price: 50,
@@ -100,7 +111,8 @@ export const KurumiList = [
     totalRating: 27,
   },
   {
-    title: "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 6",
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 6",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
     price: 22,
@@ -109,7 +121,8 @@ export const KurumiList = [
     totalRating: 20,
   },
   {
-    title: "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 5",
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 5",
     imageURL:
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040731056.jpg",
     price: 65,
@@ -180,4 +193,5 @@ export const ProductList = [
     price: 25,
     rating: 4.1,
     totalRating: 20,
-  }];
+  },
+];

@@ -48,12 +48,12 @@ export function Product(props: ProductProps) {
           <div className=" text-blue-700 text-md font-bold leading-loose">
             {!props.discount
               ? props.price
-              : ((props.price * props.discount) / 100).toFixed(2)}{" "}
+              : ((props.price * (1- props.discount))).toFixed(2)}{" "}
             $
           </div>
           {props.discount && (
             <span className="bg-blue-700  text-white text-xs px-1 py-1 font-bold rounded-md">
-              -{props.discount.toFixed()}%
+              -{(props.discount * 100).toFixed(0)}%
             </span>
           )}
         </div>

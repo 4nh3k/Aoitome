@@ -27,7 +27,7 @@ import { cartApi } from "@/apis/cart.api";
 import RatingStar from "@/components/RatingStar";
 import useBookDetails from "@/hooks/useBookDetails";
 import { getUIDFromLS } from "@/utils/auth";
-import { KurumiList } from "@/assets/mockdata";
+import { KurumiImages, KurumiList } from "@/assets/mockdata";
 import { PiNotePencilBold, PiShoppingCart } from "react-icons/pi";
 import FsLightbox from "fslightbox-react";
 import {} from "react-icons/pi";
@@ -199,7 +199,7 @@ export function ProductDetails() {
   ];
 
   // const filters = ["Same author", "Same genres"];
-  const filters = ["Same author"];
+  const filters = ["Same author", "Same genres"];
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [params, setParams] = useState({
     pageIndex: 0,
@@ -207,6 +207,24 @@ export function ProductDetails() {
     genreIds: [],
     authorName: bookData?.authorName,
   });
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (selectedFilter == filters[0]) {
+        setParams({
+          ...params,
+          authorName: bookData?.authorName,
+          genreIds: [],
+        });
+      } else if (selectedFilter == filters[1]) {
+        setParams({
+          ...params,
+          authorName: "",
+          genreIds: bookData?.bookGenres.map((genre) => genre.id),
+        });
+      }
+    }
+  }, [bookData, selectedFilter]);
 
   const { data: searchBook, isLoading: isLoadingSearchBook } = useQuery({
     queryKey: ["filter", params],
@@ -217,6 +235,8 @@ export function ProductDetails() {
         params.genreIds,
         params.authorName
       );
+
+      console.log("Same author book data: ", res.data);
       return res.data;
     },
   });
@@ -272,14 +292,7 @@ export function ProductDetails() {
     setIsEditReviewModalOn(value);
   };
 
-  const lstImg = [
-    "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg",
-    "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_2-390x510.png",
-    "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_1-390x510.png",
-    "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
-    "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
-    "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
-  ];
+  const lstImg = KurumiImages;
 
   const [toggler, setToggler] = useState(false);
   const [toggleDescr, setToggleDescr] = useState(true);
@@ -296,18 +309,7 @@ export function ProductDetails() {
           id="product-detail-body"
           className="flex flex-col gap-3 bg-background"
         >
-          <FsLightbox
-            type={"image"}
-            toggler={toggler}
-            sources={[
-              "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg",
-              "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_2-390x510.png",
-              "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_1-390x510.png",
-              "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
-              "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
-              "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
-            ]}
-          />
+          <FsLightbox type={"image"} toggler={toggler} sources={lstImg} />
           <div
             id="product-essential"
             className="flex gap-3 bg-background items-start"
@@ -633,13 +635,18 @@ export function ProductDetails() {
               defaultActive={selectedFilter}
               setSelectedItem={(value) => setSelectedFilter(value)}
             />
+            {isLoadingSearchBook && (
+              <div className="w-full flex item-centers py-8 justify-center">
+                <BeatLoader color="#3F83F8" />
+              </div>
+            )}
             {!isLoadingSearchBook && (
               <Fade triggerOnce={true}>
                 <div className="tag-products-view flex flex-row gap-4">
                   {searchBook?.data.map((product) => (
                     <Product
                       id={product.id}
-                      key={product.title}
+                      key={product.id}
                       title={product.title ?? "N/A"}
                       imageURL={product.imageUrl ?? "N/A"}
                       price={product.price ?? 0}
