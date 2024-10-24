@@ -203,7 +203,7 @@ export function ProductDetails() {
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [params, setParams] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 6,
     genreIds: [],
     authorName: bookData?.authorName,
   });
@@ -292,9 +292,21 @@ export function ProductDetails() {
     setIsEditReviewModalOn(value);
   };
 
-  const lstImg = KurumiImages;
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [lstImg, setLstImg] = useState(KurumiImages);
+  useEffect(() => {
+    if (!isLoading){
+      const newListImg = structuredClone(KurumiImages);
+      newListImg.unshift(bookData?.imageUrl ?? "");
+      setLstImg(newListImg);
+    }
+  }, [bookData])
 
   const [toggler, setToggler] = useState(false);
+  const openLightbox = (index) => {
+    setCurrentImgIndex(index);
+    setToggler(!toggler);
+  }
   const [toggleDescr, setToggleDescr] = useState(true);
 
   return (
@@ -309,7 +321,7 @@ export function ProductDetails() {
           id="product-detail-body"
           className="flex flex-col gap-3 bg-background"
         >
-          <FsLightbox type={"image"} toggler={toggler} sources={lstImg} />
+          <FsLightbox type={"image"} toggler={toggler} sources={lstImg} slide={currentImgIndex + 1}/>
           <div
             id="product-essential"
             className="flex gap-3 bg-background items-start"
@@ -321,17 +333,17 @@ export function ProductDetails() {
               <img
                 // src="https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg"
                 src={bookData?.imageUrl}
-                className="w-[450px] h-[450px] object-cover mx-auto cursor-pointer"
-                onClick={() => setToggler(!toggler)}
+                className="w-[450px] h-[375px] object-contain mx-auto cursor-pointer"
+                onClick={() => openLightbox(0)}
               />
 
               <div className="flex justify-between px-4">
-                {lstImg.slice(0, MAX_DISPLAY_NUM_IMAGE_GALLERY).map((img) => (
+                {lstImg.slice(0, MAX_DISPLAY_NUM_IMAGE_GALLERY).map((img, index) => (
                   <img
-                    key={img}
+                    key={index + 1}
                     src={img}
                     className="w-[82.4px] h-[82.4px] p-1 hover:border-blue-500 hover:border-1 cursor-pointer rounded-md object-contain"
-                    onClick={() => setToggler(!toggler)}
+                    onClick={() => openLightbox(index)}
                   />
                 ))}
                 <div
@@ -576,9 +588,6 @@ export function ProductDetails() {
                   class={`grid-rows-transition ${
                     toggleDescr ? "grid-rows-transition-open" : ""
                   }`}
-                  // className={`leading-8 grid overflow-hidden relative transition-height duration-300 ease-in-out ${
-                  //   toggleDescr ? "max-h-auto" : "max-h-[200px]"
-                  // }`}
                 >
                   <div id="product-description-text">
                     <strong>
@@ -610,7 +619,7 @@ export function ProductDetails() {
                     className={`${
                       toggleDescr
                         ? "h-0"
-                        : `bottom-0 left-0 w-full h-[200px] white-gradient`
+                        : `bottom-0 left-0 w-full h-2/3 white-gradient`
                     } absolute transition-height duration-1000 ease `}
                   ></div>
                 </div>
@@ -666,7 +675,7 @@ export function ProductDetails() {
             <span className="heading-6 font-bold">Recommendations</span>
             <Fade triggerOnce={true}>
               <div className="tag-products-view flex flex-row gap-4">
-                {similarBooksQueries.slice(0, 6).map((product, index) => (
+                {similarBooksQueries.slice(1, 7).map((product, index) => (
                   <Product
                     key={index}
                     title={product.data?.data.title ?? "N/A"}
@@ -675,7 +684,7 @@ export function ProductDetails() {
                     rating={product.data?.data.averageRating ?? 0}
                     discount={product.data?.data.discountPercentage ?? 0}
                     totalRating={product.data?.data.ratingsCount ?? 0}
-                    id={0}
+                    id={product.data?.data.id ?? 0}
                   />
                 ))}
               </div>

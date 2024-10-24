@@ -91,10 +91,9 @@ export const TrackingList = [
 
 export const KurumiImages = [
   "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_6/2024_06_19_13_49_26_2-390x510.png",
-  "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040743639.jpg",
   "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_2-390x510.png",
   "https://cdn0.fahasa.com/media/catalog/product/_/_/__date_a_barrette_date_a_live_fragment_8_1_2024_06_19_14_51_08.jpg",
-  "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
+  "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_2/2024_06_19_13_49_26_5-390x510.png",
   "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_6/2024_06_19_13_49_26_1-390x510.png",
   "https://cdn0.fahasa.com/media/flashmagazine/images/page_images/__date_a_barrette_date_a_live_fragment_8/2024_06_19_14_51_08_1-390x510.png",
 ];
