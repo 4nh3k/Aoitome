@@ -1,4 +1,4 @@
-export const URL_BASE = "http://localhost:6001";
+export const URL_BASE = "https://localhost:6002";
 // Identity api
 export const IDENTITY_PREFIX = "/identity.api/v1";
 export const URL_REGISTER = "/users/register";
