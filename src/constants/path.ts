@@ -10,11 +10,11 @@ export const path = {
   notificationPage: "notification",
   customerOrderTracking: "order",
   adminAccount: "admin-account",
-  search: "search", 
+  search: "search",
 
   adminDashboard: "dashboard",
   adminCustomers: "customers",
-  adminCustomerAccount: "customers/:customerId", 
+  adminCustomerAccount: "customers/:customerId",
   customerAccount: "my-account",
 
   adminProducts: "products",

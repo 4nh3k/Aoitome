@@ -54,6 +54,7 @@ export function OrderManagement({ isAdmin }: OrderManagementProps) {
       order_id: item.id,
       customer_name: item.buyerName,
       total: item.totalAmount,
+      order_date: item.orderDate,
       status: (
         <Badge className="w-fit" color={getColor(item.orderStatusId)}>
           {item.orderStatusName}

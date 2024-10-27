@@ -1,12 +1,13 @@
+import SearchInput from "@/components/SearchInput/SearchInput";
 import { Button, Datepicker } from "flowbite-react";
 import CustomTable from "../CustomTable";
-import SearchInput from "@/components/SearchInput/SearchInput";
 
 export interface RowData {
   order_id: number;
   customer_name: string;
   total: number;
   status: JSX.Element;
+  order_date: string;
   action: string;
 }
 interface OrderListProps {
