@@ -127,7 +127,7 @@ const CartProduct: React.FC<CartProductProps> = ({
         )}
         <div className="basis-3/12">
           <img
-            className="min-w-16 cursor-pointer h-24 object-cover"
+            className="min-w-16 w-16 cursor-pointer h-24 object-cover"
             src={imageURL}
           />
         </div>

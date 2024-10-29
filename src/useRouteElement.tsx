@@ -28,10 +28,25 @@ import SearchPage from "@/pages/SearchPage";
 import UserAccount from "@/pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "@/pages/UserCouponManagement/UserCouponManagement";
 import Shimmer from "@/components/TestShimmer/Shimmer";
+import Ecommerce from "@/pages/Ecommerce/Ecommerce";
+import { EcommerceProductDetails } from "./pages/Ecommerce/EcommerceProductDetail";
+import EcommerceAdmin from "./pages/Ecommerce/EcommerceAdmin";
 
 export default function useRouteElement() {
   const navigate = useNavigate();
   const routeElement = useRoutes([
+    {
+      element: <Ecommerce />,
+      path: '/landing-page'
+    },
+    {
+      element: <EcommerceProductDetails />,
+      path: '/product-detail'
+    },
+    {
+      element: <EcommerceAdmin />,
+      path: '/admin-list'
+    },
     {
       element: (
         <LoginModals

@@ -106,7 +106,7 @@ export const KurumiList = [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040737799.jpg",
     price: 50,
     rating: 5.0,
-    discount: 27,
+    discount: 0.27,
     totalRating: 27,
   },
   {
@@ -116,7 +116,7 @@ export const KurumiList = [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
     price: 22,
     rating: 4.0,
-    discount: 20,
+    discount: 0.20,
     totalRating: 20,
   },
   {
@@ -126,6 +126,7 @@ export const KurumiList = [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040731056.jpg",
     price: 65,
     rating: 4.6,
+    discount: 0.20,
     totalRating: 2,
   },
   {
@@ -135,7 +136,38 @@ export const KurumiList = [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040728728.jpg",
     price: 25,
     rating: 4.1,
+    discount: 0.20,
     totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 7",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040737799.jpg",
+    price: 50,
+    rating: 5.0,
+    discount: 0.27,
+    totalRating: 27,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 6",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
+    price: 22,
+    rating: 4.0,
+    discount: 0.20,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 5",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040731056.jpg",
+    price: 65,
+    rating: 4.6,
+    discount: 0.20,
+    totalRating: 2,
   },
   {
     title:
@@ -144,6 +176,127 @@ export const KurumiList = [
       "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040728728.jpg",
     price: 25,
     rating: 4.1,
+    discount: 0.20,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 7",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040737799.jpg",
+    price: 50,
+    rating: 5.0,
+    discount: 0.27,
+    totalRating: 27,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 6",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
+    price: 22,
+    rating: 4.0,
+    discount: 0.20,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 5",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040731056.jpg",
+    price: 65,
+    rating: 4.6,
+    discount: 0.20,
+    totalRating: 2,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 4",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040728728.jpg",
+    price: 25,
+    rating: 4.1,
+    discount: 0.20,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 7",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040737799.jpg",
+    price: 50,
+    rating: 5.0,
+    discount: 0.27,
+    totalRating: 27,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 6",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
+    price: 22,
+    rating: 4.0,
+    discount: 0.20,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 5",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040731056.jpg",
+    price: 65,
+    rating: 4.6,
+    discount: 0.20,
+    totalRating: 2,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 4",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040728728.jpg",
+    price: 25,
+    rating: 4.1,
+    discount: 0.20,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 7",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040737799.jpg",
+    price: 50,
+    rating: 5.0,
+    discount: 0.27,
+    totalRating: 27,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 6",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040733722.jpg",
+    price: 22,
+    rating: 4.0,
+    discount: 0.20,
+    totalRating: 20,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 5",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040731056.jpg",
+    price: 65,
+    rating: 4.6,
+    discount: 0.20,
+    totalRating: 2,
+  },
+  {
+    title:
+      "デート・ア・ライブ フラグメント デート・ア・バレット - Date A Barrette Date A Live Fragment 4",
+    imageURL:
+      "https://cdn0.fahasa.com/media/catalog/product/9/7/9784040728728.jpg",
+    price: 25,
+    rating: 4.1,
+    discount: 0.20,
     totalRating: 20,
   },
 ];
@@ -155,7 +308,7 @@ export const ProductList = [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_187162.jpg",
     price: 50,
     rating: 5.0,
-    discount: 27,
+    discount: 0.20,
     totalRating: 27,
   },
   {
@@ -164,7 +317,7 @@ export const ProductList = [
       "https://cdn0.fahasa.com/media/catalog/product/b/_/b_a-1-tr_n-l_n-m_i-nh_-_-kh_c-2.jpg",
     price: 34,
     rating: 0,
-    discount: 24,
+    discount: 0.20,
     totalRating: 0,
   },
   {
@@ -173,7 +326,7 @@ export const ProductList = [
       "https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_50143.jpg",
     price: 22,
     rating: 4.0,
-    discount: 20,
+    discount: 0.20,
     totalRating: 20,
   },
   {
@@ -182,6 +335,7 @@ export const ProductList = [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936214270262.jpg",
     price: 65,
     rating: 4.6,
+    discount: 0.20,
     totalRating: 2,
   },
   {
@@ -191,6 +345,7 @@ export const ProductList = [
       "https://cdn0.fahasa.com/media/catalog/product/8/9/8936066694469.jpg",
     price: 25,
     rating: 4.1,
+    discount: 0.20,
     totalRating: 20,
   },
 ];

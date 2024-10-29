@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Badge, Pagination, Tabs } from "flowbite-react";
 import { useState } from "react";
-import { orderingApi } from "../../apis/ordering.api";
-import Container from "../../components/Container";
-import OrderList from "../../components/OrderList";
-import { RowData } from "../../components/OrderList/OrderList";
-import { getUIDFromLS } from "../../utils/auth";
+import { orderingApi } from "@/apis/ordering.api";
+import Container from "@/components/Container";
+import OrderList, { RowData } from "@/components/OrderList/OrderList";
+import { getUIDFromLS } from "@/utils/auth";
+import { Fade } from "react-awesome-reveal";
 
 const getColor = (status: number) => {
   switch (status) {
@@ -30,16 +30,18 @@ interface OrderManagementProps {
 
 export function OrderManagement({ isAdmin }: OrderManagementProps) {
   const userId = getUIDFromLS();
+  console.log('UserId', userId);
   const [page, setPage] = useState(1);
-
   const { data, isLoading } = useQuery({
     queryKey: isAdmin ? ["order", page - 1] : ["order", userId, page - 1],
     queryFn: async () => {
       if (!isAdmin) {
-        const data = await orderingApi.getOrderByUser(userId, page - 1, 10);
+        console.log("Beginning fetching user orders");
+        const data = await orderingApi.getOrderByUser(userId, page - 1, 1000);
 
         return data.data;
       } else {
+        console.log("Beginning fetching admin orders");
         const data = await orderingApi.getOrderingByPage(page - 1, 10);
 
         return data.data;
@@ -54,16 +56,18 @@ export function OrderManagement({ isAdmin }: OrderManagementProps) {
       order_id: item.id,
       customer_name: item.buyerName,
       total: item.totalAmount,
+      order_date: item.orderDate,
       status: (
-        <Badge className="w-fit" color={getColor(item.orderStatusId)}>
-          {item.orderStatusName}
+        <Badge
+          className="py-3 content-box w-24 text-center flex justify-center"
+          color={getColor(item.orderStatusId)}
+        >
+          {item.orderStatusName}{" "}
         </Badge>
       ),
       action: "View",
     };
   });
-
-  const totalPages = Math.ceil((data?.totalItems ?? 0) / (data?.pageSize ?? 1));
 
   return (
     <Container>
@@ -71,18 +75,9 @@ export function OrderManagement({ isAdmin }: OrderManagementProps) {
         <Tabs.Item active title="All">
           {!res && <div>No data</div>}
           {res && (
-            <>
-              <OrderList data={res} />
-              {totalPages >= 1 && (
-                <Pagination
-                  currentPage={page}
-                  onPageChange={function (page: number): void {
-                    setPage(page);
-                  }}
-                  totalPages={totalPages}
-                />
-              )}
-            </>
+            <Fade triggerOnce={true}>
+              <OrderList data={res}/>
+            </Fade>
           )}
         </Tabs.Item>
         <Tabs.Item title="Pending"></Tabs.Item>

@@ -28,10 +28,10 @@ export function CustomTable(props: CustomTableProps) {
   };
 
   return (
-    <Table striped hoverable className="table-fixed shadow-sm rounded-md bg-white w-full self-strech items-stretch basis-full">
+    <Table striped hoverable className="table-fixed shadow-sm rounded-md bg-white w-full self-strech items-stretch basis-full focus:none">
       <Table.Head className="border-b">
         {headers.map((header, index) => (
-          <Table.HeadCell className="bg-gray-100 font-semibold" key={index}>{header.label}</Table.HeadCell>
+          <Table.HeadCell className={` ${header.className} appearance-none bg-gray-100 font-semibold text-black`} key={index}>{header.label}</Table.HeadCell>
         ))}
       </Table.Head>
       <Table.Body className="divide-y">
