@@ -1,5 +1,8 @@
+import authApi from "@/apis/auth.api";
 import { path } from "@/constants/path";
+import { useAppContext } from "@/contexts/app.context";
 import { AuthResponse } from "@/types/Models/Identity/AuthResponse.type";
+import { setAccessTokenToLS } from "@/utils/auth";
 import { useMutation } from "@tanstack/react-query";
 import {
   Button,
@@ -12,12 +15,9 @@ import {
 import { useState } from "react";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import authApi from "@/apis/auth.api";
-import { useAppContext } from "@/contexts/app.context";
-import { setAccessTokenToLS } from "@/utils/auth";
 
 const ADMIN_ROLE = "Admin";
 const CUSTOMER_ROLE = "Customer";
@@ -40,7 +40,9 @@ export function LoginModals({
   const { setIsAuthenticated } = useAppContext();
   const navigate = useNavigate();
 
-  const { redirect } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirect = searchParams.get("redirect");
 
   const loginMutation = useMutation({
     mutationFn: async (body: { username: string; password: string }) => {
@@ -57,7 +59,7 @@ export function LoginModals({
     e.preventDefault();
     // Perform form validation here
     if (!username || !password) {
-       toast.error("Please enter username and password");
+      toast.error("Please enter username and password");
       return;
     }
 
@@ -76,6 +78,7 @@ export function LoginModals({
         if (data.role === ADMIN_ROLE) {
           navigate("../" + path.adminDashboard, { replace: true });
         } else {
+          console.log("redirect", redirect);
           if (redirect) navigate(redirect, { replace: true });
           else navigate("/");
         }
