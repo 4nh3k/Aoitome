@@ -104,7 +104,7 @@ export function Cart() {
                 <div className="ml-1 text-center w-20 text-black text-md font-semibold">
                   Quantity
                 </div>
-                <div className="text-left mr-3 w-fit text-black text-md font-semibold">
+                <div className="text-left ml-1 w-fit text-black text-md font-semibold">
                   Amount
                 </div>
                 <button className="border-none bg-transparent appearance-none, p-0 cursor-pointer">
