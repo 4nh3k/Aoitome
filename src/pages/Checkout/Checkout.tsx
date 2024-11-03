@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Label, Radio } from "flowbite-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 export function Checkout() {
@@ -141,8 +142,6 @@ export function Checkout() {
     },
   });
 
-  if (isLoading) return <div>Loading...</div>;
-
   if (isPaymentLoading) {
     return <div>Loading...</div>;
   }
@@ -190,26 +189,35 @@ export function Checkout() {
         </div>
         <div className="w-full flex flex-col gap-4">
           <div className="w-full px-5 pt-2 pb-2 bg-white rounded-lg border border-gray-200 flex-col justify-start items-start inline-flex">
-            {cartData?.items?.map((product, index) => {
-              if (product.selected)
-                return (
-                  <>
-                    {index > 0 && (
-                      <hr className="w-full border-t border-gray-200" />
-                    )}
-                    <CartProduct
-                      id={product.id ?? 0}
-                      key={product.id}
-                      imageURL={product.imageUrl}
-                      price={product.unitPrice}
-                      title={product.title}
-                      defaultValue={product.quantity}
-                      selected={product.selected}
-                      canEdit={false}
-                    />
-                  </>
-                );
-            })}
+            {isLoading && (
+              <div className="w-full flex items-center justify-center">
+                <BeatLoader color="#2563eb" />
+              </div>
+            )}
+            {!isLoading && (
+              <>
+                {cartData?.items?.map((product, index) => {
+                  if (product.selected)
+                    return (
+                      <>
+                        {index > 0 && (
+                          <hr className="w-full border-t border-gray-200" />
+                        )}
+                        <CartProduct
+                          id={product.id ?? 0}
+                          key={product.id}
+                          imageURL={product.imageUrl}
+                          price={product.unitPrice}
+                          title={product.title}
+                          defaultValue={product.quantity}
+                          selected={product.selected}
+                          canEdit={false}
+                        />
+                      </>
+                    );
+                })}
+              </>
+            )}
           </div>
           <OrderPriceSummary
             isLoading={

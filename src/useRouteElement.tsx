@@ -17,6 +17,7 @@ import AddVoucher from "@/pages/AdminPage/VoucherManagement/AddVoucher";
 import { VoucherManagement } from "@/pages/AdminPage/VoucherManagement/VoucherManagement";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
+import Ecommerce from "@/pages/Ecommerce/Ecommerce";
 import Homepage from "@/pages/Homepage";
 import { NotificationPage } from "@/pages/NotificationPage/NotificationPage";
 import OrderManagement from "@/pages/OrderManagement";
@@ -28,10 +29,24 @@ import SearchPage from "@/pages/SearchPage";
 import UserAccount from "@/pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "@/pages/UserCouponManagement/UserCouponManagement";
 import { useNavigate, useRoutes } from "react-router-dom";
+import EcommerceAdmin from "./pages/Ecommerce/EcommerceAdmin";
+import { EcommerceProductDetails } from "./pages/Ecommerce/EcommerceProductDetail";
 
 export default function useRouteElement() {
   const navigate = useNavigate();
   const routeElement = useRoutes([
+    {
+      element: <Ecommerce />,
+      path: "/landing-page",
+    },
+    {
+      element: <EcommerceProductDetails />,
+      path: "/product-detail",
+    },
+    {
+      element: <EcommerceAdmin />,
+      path: "/admin-list",
+    },
     {
       element: (
         <LoginModals

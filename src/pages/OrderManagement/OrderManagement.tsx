@@ -1,30 +1,14 @@
+import { orderingApi } from "@/apis/ordering.api";
 import Badge from "@/components/Badge";
+import Container from "@/components/Container";
+import OrderList, { RowData } from "@/components/OrderList/OrderList";
+import { getUIDFromLS } from "@/utils/auth";
 import { useQuery } from "@tanstack/react-query";
-import { Pagination, Tabs } from "flowbite-react";
+import { Tabs } from "flowbite-react";
 import { useState } from "react";
+import { Fade } from "react-awesome-reveal";
 import { Link } from "react-router-dom";
-import { orderingApi } from "../../apis/ordering.api";
-import Container from "../../components/Container";
-import OrderList from "../../components/OrderList";
-import { RowData } from "../../components/OrderList/OrderList";
-import { getUIDFromLS } from "../../utils/auth";
-
-const getColor = (status: number) => {
-  switch (status) {
-    case 1:
-      return "info";
-    case 2:
-      return "purple";
-    case 3:
-      return "primary";
-    case 4:
-      return "success";
-    case 5:
-      return "failure";
-    default:
-      return "success";
-  }
-};
+import { BeatLoader } from "react-spinners";
 
 interface OrderManagementProps {
   isAdmin?: boolean;
@@ -40,11 +24,13 @@ export function OrderManagement({ isAdmin }: OrderManagementProps) {
     queryKey: isAdmin ? ["order", page - 1] : ["order", userId, page - 1],
     queryFn: async () => {
       if (!isAdmin) {
-        const data = await orderingApi.getOrderByUser(userId, page - 1, 10);
+        console.log("Beginning fetching user orders");
+        const data = await orderingApi.getOrderByUser(userId, page - 1, 1000);
         console.log("user data", data);
 
         return data.data;
       } else {
+        console.log("Beginning fetching admin orders");
         const data = await orderingApi.getOrderingByPage(page - 1, 10);
 
         console.log("data", data);
@@ -52,8 +38,6 @@ export function OrderManagement({ isAdmin }: OrderManagementProps) {
       }
     },
   });
-
-  if (isLoading) return <div>Loading...</div>;
 
   const res: RowData[] | undefined = data?.data.map((item) => {
     return {
@@ -74,28 +58,20 @@ export function OrderManagement({ isAdmin }: OrderManagementProps) {
     };
   });
 
-  const totalPages = Math.ceil((data?.totalItems ?? 0) / (data?.pageSize ?? 1));
-
   return (
     <Container>
       <Tabs aria-label="Tabs with underline" style="underline">
-        <Tabs.Item active title="All">
-          {!res && <div>No data</div>}
-          {res && (
-            <>
-              <OrderList data={res} />
-              {totalPages >= 1 && (
-                <Pagination
-                  currentPage={page}
-                  onPageChange={function (page: number): void {
-                    setPage(page);
-                  }}
-                  totalPages={totalPages}
-                />
-              )}
-            </>
-          )}
-        </Tabs.Item>
+        {isLoading && <BeatLoader color="#2563eb" />}
+        {!isLoading && (
+          <Tabs.Item active title="All">
+            {!res && <div>No data</div>}
+            {res && (
+              <Fade triggerOnce={true}>
+                <OrderList data={res} />
+              </Fade>
+            )}
+          </Tabs.Item>
+        )}
         <Tabs.Item title="Pending"></Tabs.Item>
         <Tabs.Item title="Awaiting pickup"></Tabs.Item>
         <Tabs.Item title="Out for delivery"></Tabs.Item>
