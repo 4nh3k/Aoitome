@@ -10,35 +10,43 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function OrderSummary() {
+interface OrderSummaryProps {
+  isDetail?: boolean;
+}
+
+export function OrderSummary(props: OrderSummaryProps) {
   const { id } = useParams();
+
+  // Fetch order data
   const { data: orderData, isLoading } = useQuery({
     queryKey: ["order", id],
     queryFn: async () => {
-      var res = await orderingApi.getOrderDetail(id);
+      const res = await orderingApi.getOrderDetail(id);
       return res.data;
     },
   });
 
+  // Fetch address data based on buyerId, but call useQuery unconditionally
   const { data: addressData, isLoading: isLoadingAddress } = useQuery({
     queryKey: ["address", orderData?.buyerId],
     queryFn: async () => {
-      if (!orderData?.buyerId) return null;
-      var res = await addressApi.getAddressByBuyer(orderData.buyerId, 0, 1000);
+      const res = await addressApi.getAddressByBuyer(
+        orderData?.buyerId,
+        0,
+        1000
+      );
       return res.data;
     },
     enabled: !!orderData?.buyerId,
   });
 
-  if (isLoading || isLoadingAddress) return <div>Loading...</div>;
-  const address = getAddressesFromList(addressData?.data, orderData?.addressId);
+  // Define checkout mutation outside of any conditionals
   const createCheckoutMutation = useMutation({
     mutationKey: ["createCheckout", orderData?.id],
     mutationFn: async () => {
       try {
-        const orderItems: OrderItem[] = (orderData?.orderItems ?? [])
-          .filter((item) => item)
-          .map((item) => ({
+        const orderItems: OrderItem[] = (orderData?.orderItems ?? []).map(
+          (item) => ({
             bookId: item.bookId,
             title: item.title,
             unitPrice: item.unitPrice,
@@ -46,25 +54,31 @@ export function OrderSummary() {
             totalUnitPrice: item.totalUnitPrice,
             imageUrl: item.imageUrl,
             quantity: item.quantity,
-          }));
+          })
+        );
 
         const data = await paymentApi.createCheckoutSession(orderItems);
         if (data.status === 200) {
-          const checkoutUrl = data.data; // Assuming the URL is returned in `checkoutUrl`
-          window.location.href = checkoutUrl; // Redirect to the checkout page
+          window.location.href = data.data;
         } else {
-          // Handle non-200 status codes
-          toast.error("Failed to create checkout session:" + data);
+          toast.error("Failed to create checkout session: " + data);
         }
       } catch (error) {
-        // Handle errors from the API call
-        toast.error("Error creating checkout session:" + error);
+        toast.error("Error creating checkout session: " + error);
       }
     },
   });
+
+  if (isLoading || isLoadingAddress) return <div>Loading...</div>;
+
+  // Get the address after data has loaded
+  const address = getAddressesFromList(addressData?.data, orderData?.addressId);
+
   return (
     <>
-      <div className="heading-4">Order Summary</div>
+      <div className="heading-4">
+        {props.isDetail ? "Order Details" : "Order Summary"}
+      </div>
       <div className="flex space-x-8 w-full">
         <OrderDetailsCard
           title="Delivery information"
@@ -101,12 +115,11 @@ export function OrderSummary() {
           tax={0}
           storePickup={0}
           continuteShopping={false}
+          textOnly={props.isDetail ?? false}
           onClick={() => {
-            console.log(address);
             createCheckoutMutation.mutate();
-            //handleCheckout();
           }}
-        />{" "}
+        />
       </div>
     </>
   );

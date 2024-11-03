@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Badge, Pagination, Tabs } from "flowbite-react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { orderingApi } from "../../apis/ordering.api";
 import Container from "../../components/Container";
 import OrderList from "../../components/OrderList";
@@ -30,18 +31,22 @@ interface OrderManagementProps {
 
 export function OrderManagement({ isAdmin }: OrderManagementProps) {
   const userId = getUIDFromLS();
+  console.log("userId", userId);
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
     queryKey: isAdmin ? ["order", page - 1] : ["order", userId, page - 1],
     queryFn: async () => {
       if (!isAdmin) {
         const data = await orderingApi.getOrderByUser(userId, page - 1, 10);
+        console.log("user data", data);
 
         return data.data;
       } else {
         const data = await orderingApi.getOrderingByPage(page - 1, 10);
 
+        console.log("data", data);
         return data.data;
       }
     },
@@ -60,7 +65,7 @@ export function OrderManagement({ isAdmin }: OrderManagementProps) {
           {item.orderStatusName}
         </Badge>
       ),
-      action: "View",
+      action: <Link to={`/order-details/${item.id}`}>View</Link>,
     };
   });
 

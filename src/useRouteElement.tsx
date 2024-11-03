@@ -1,7 +1,7 @@
-import { useNavigate, useRoutes } from "react-router-dom";
 import ForgotPassModals from "@/components/Modals/ForgotPassModals";
 import LoginModals from "@/components/Modals/LoginModals";
 import { RegisterModals } from "@/components/Modals/RegisterModals/RegisterModals";
+import Shimmer from "@/components/TestShimmer/Shimmer";
 import { path } from "@/constants/path";
 import AdminLayout from "@/layouts/AdminLayout";
 import MainLayout from "@/layouts/MainLayout";
@@ -27,7 +27,7 @@ import ProductDetails from "@/pages/ProductDetails";
 import SearchPage from "@/pages/SearchPage";
 import UserAccount from "@/pages/UserAccount/UserAccount";
 import { UserCouponManagement } from "@/pages/UserCouponManagement/UserCouponManagement";
-import Shimmer from "@/components/TestShimmer/Shimmer";
+import { useNavigate, useRoutes } from "react-router-dom";
 
 export default function useRouteElement() {
   const navigate = useNavigate();
@@ -78,11 +78,15 @@ export default function useRouteElement() {
     {
       element: <MainLayout />,
       children: [
-        {element: <Shimmer />, path: "/shimmer"},
+        { element: <Shimmer />, path: "/shimmer" },
         { element: <Homepage />, path: "/" },
         {
           element: <ProductDetails />,
           path: path.product,
+        },
+        {
+          element: <OrderSummary isDetail={true} />,
+          path: path.orderDetails,
         },
         {
           element: <Cart />,
