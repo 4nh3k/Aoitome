@@ -1,10 +1,6 @@
-import { paymentApi } from "@/apis/payment.api";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Label, Radio } from "flowbite-react";
-import { useState } from "react";
-import { toast } from "react-toastify";
 import { cartApi } from "@/apis/cart.api";
 import { orderingApi } from "@/apis/ordering.api";
+import { paymentApi } from "@/apis/payment.api";
 import DeliveryAddressForm from "@/components/DeliveryAddressFrom";
 import OrderPriceSummary from "@/components/OrderPriceSummary";
 import CartProduct from "@/components/Product/CartProduct/CartProduct";
@@ -13,6 +9,11 @@ import { CreateOrderDTO } from "@/types/DTOs/Ordering/CreateOrderDTO.type";
 import { CardType } from "@/types/Models/Ordering/BuyerModel/CardType.type";
 import { OrderItem } from "@/types/Models/Ordering/OrderModel/OrderItem.type";
 import { getUIDFromLS } from "@/utils/auth";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Label, Radio } from "flowbite-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function Checkout() {
   const userId = getUIDFromLS();
@@ -23,6 +24,8 @@ export function Checkout() {
     zipCode: "ab",
     country: "United States",
   } as AddressDTO);
+  const navigate = useNavigate();
+
   function formatDate(date: Date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed, so we add 1
@@ -131,7 +134,9 @@ export function Checkout() {
       console.log("order", order);
       var data = await orderingApi.createOrdering(order);
       if (data.status === 200) {
-        createCheckoutMutation.mutate();
+        const orderId = data.data.id;
+        navigate(`/order-summary/${orderId}`);
+        //createCheckoutMutation.mutate();
       }
     },
   });

@@ -1,4 +1,6 @@
-export interface Order{
+import { OrderItem } from "./OrderItem.type";
+
+export interface Order {
   id: number;
   addressId: number;
   buyerId?: string;
@@ -7,4 +9,5 @@ export interface Order{
   paymentMethodId?: number;
   orderDate: Date;
   totalAmount: number;
+  orderItems: OrderItem[];
 }

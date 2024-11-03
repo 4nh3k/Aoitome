@@ -6,7 +6,7 @@ export const path = {
   product: "product/:id",
   paymentSuccess: "payment-success",
   checkout: "checkout",
-  orderSummary: "order-summary",
+  orderSummary: "order-summary/:id",
   notificationPage: "notification",
   customerOrderTracking: "order",
   adminAccount: "admin-account",

@@ -8,6 +8,7 @@ interface OrderPriceSummaryProps {
   tax?: number;
   storePickup?: number;
   isLoading?: boolean;
+  continuteShopping?: boolean;
   onClick?: () => void;
 }
 
@@ -18,6 +19,7 @@ export function OrderPriceSummary({
   tax = 799,
   isLoading = false,
   storePickup = 99,
+  continuteShopping = true,
   onClick,
 }: OrderPriceSummaryProps) {
   return (
@@ -69,16 +71,20 @@ export function OrderPriceSummary({
               {!isLoading && "Proceed to checkout"}
               {isLoading && "Processing..."}
             </Button>
-            <div className="text-center">
-              <span className="text-black text-xs font-medium">or </span>
-              <Link
-                to="/"
-                className="text-blue-700 text-xs font-medium underline"
-              >
-                Continue Shopping
-              </Link>
-              <span className="text-blue-700 text-xs font-medium">&rarr;</span>
-            </div>
+            {continuteShopping && (
+              <div className="text-center">
+                <span className="text-black text-xs font-medium">or </span>
+                <Link
+                  to="/"
+                  className="text-blue-700 text-xs font-medium underline"
+                >
+                  Continue Shopping
+                </Link>
+                <span className="text-blue-700 text-xs font-medium">
+                  &rarr;
+                </span>
+              </div>
+            )}
           </>
         )}
       </div>
