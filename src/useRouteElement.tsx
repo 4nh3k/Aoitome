@@ -138,7 +138,7 @@ export default function useRouteElement() {
           path: path.adminDashboard,
         },
         {
-          element: <OrderManagement />,
+          element: <OrderManagement isAdmin={true} />,
           path: path.adminOrderManagement,
         },
         {
