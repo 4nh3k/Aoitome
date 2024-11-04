@@ -31,7 +31,7 @@ export function SearchPage() {
     setStartPrice(e.target.value !== "" ? e.target.value : 0);
   };
 
-  const [endPrice, setEndPrice] = useState(1);
+  const [endPrice, setEndPrice] = useState(0);
   const handleEndPrice = (e) => {
     setEndPrice(e.target.value !== "" ? e.target.value : 0);
   };
@@ -78,7 +78,10 @@ export function SearchPage() {
       endPrice,
     ],
     queryFn: async () => {
-      const res = await bookApi.getSearchBookByPage(
+      if (q === ""){
+        return (await bookApi.getFilterBookByPage(page - 1, pageSize, checkedGenres, "", startPrice, endPrice)).data;
+      }
+      return (await bookApi.getSearchBookByPage(
         q ?? "",
         page - 1,
         pageSize,
@@ -86,8 +89,7 @@ export function SearchPage() {
         checkedGenres,
         startPrice < endPrice ? startPrice : 0,
         startPrice < endPrice ? endPrice : 0
-      );
-      return res.data;
+      )).data;
     },
   });
 

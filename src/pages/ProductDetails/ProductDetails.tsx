@@ -233,7 +233,9 @@ export function ProductDetails() {
         params.pageIndex,
         params.pageSize,
         params.genreIds,
-        params.authorName
+        params.authorName,
+        0,
+        0
       );
 
       console.log("Same author book data: ", res.data);

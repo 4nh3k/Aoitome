@@ -28,10 +28,14 @@ export const bookApi = {
     return http.get<PaginatedResponse<BookGeneralInfoDTO>>(route);
   },
 
-  getFilterBookByPage(pageIndex: number, pageSize: number, genreIds: number[], authorName: string) {
+  getFilterBookByPage(pageIndex: number, pageSize: number, genreIds: number[], authorName: string, startPrice: number, endPrice: number) {
     let route = `${CATALOG_PREFIX}${URL_BOOKS}/filter?pageIndex=${pageIndex}&pageSize=${pageSize}`;
     
     if (authorName !== "" && authorName !== undefined) route += `&authorName=${authorName}`
+
+    if (startPrice >= 0 && endPrice > 0){
+      route += `&startPrice=${startPrice}&endPrice=${endPrice}`
+    }
 
     genreIds.forEach((genre) => {
       route += `&GenreIds=${genre}`;
