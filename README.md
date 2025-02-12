@@ -1,6 +1,6 @@
 # Aoitome Bookstore Frontend 
 
-### To view the repo containing the backend of this project, please follow this [link](https://github.com/4nh3k/BookStore).
+### To view the repo containing the backend of this project, please follow this [link](https://github.com/SurgeousJP/Bookstore).
 ### To view the site containing the Figma design of this project, please follow this [link](https://www.figma.com/design/2N3wxN1YrpDtdI1ZeBlBfx/Bookstore-(Copy)?node-id=916-5781&p=f&t=CZqeAmRJOa4A6tw7-0).
 
 ## Preview
